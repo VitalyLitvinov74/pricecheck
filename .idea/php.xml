@@ -99,6 +99,8 @@
       <path value="$PROJECT_DIR$/src/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/src/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/src/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/src/vendor/yiisoft/yii2-mongodb" />
     </include_path>
   </component>
