@@ -51,6 +51,15 @@ services:
       '--collation-server=utf8mb4_unicode_ci'
     ]
 
+  mongo:
+    image: mongo:3.6
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+
+
+
   ### тут происходит подгрузка зависимостей для бека и фронта
   php-cli:
     container_name: "php-cli-pricecheck"

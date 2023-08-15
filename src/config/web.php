@@ -1,7 +1,7 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic',
@@ -41,7 +41,6 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -53,7 +52,7 @@ $config = [
     ],
     'params' => $params,
 ];
-
+$config['components'] = array_merge($config['components'], $components);
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
