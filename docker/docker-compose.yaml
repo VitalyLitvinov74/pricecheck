@@ -1,0 +1,62 @@
+version: '3.2'
+
+services:
+  reverse-proxy:
+    image: 'jwilder/nginx-proxy'
+    container_name: 'reverse-proxy-pricecheck'
+    ports:
+      - '${PORT}:80'
+    volumes:
+      - './proxy/vhosts:/etc/nginx/vhost.d'
+      - './proxy/config:/etc/nginx/conf.d'
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+      - './proxy/certs:/etc/nginx/certs'
+
+
+  # прокси для пхп
+  php-proxy:
+    image: nginx
+    container_name: "php-proxy-pricecheck"
+    volumes:
+      - './php/proxy:/etc/nginx/conf.d'
+    environment:
+      VIRTUAL_HOST: "${BACKEND}"
+    links:
+      - php
+    volumes_from:
+      - php
+
+  php:
+    container_name: "php-pricecheck"
+    build:
+      context: ./php/
+    volumes:
+      - '../backend:/var/www/html'
+    environment:
+      EXTERNAL_IP: "${EXTERNAL_IP}"
+
+  mysql:
+    image: mysql:5.7
+    container_name: "mysql-pricecheck"
+    env_file:
+      - .env
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+    command: [
+      'mysqld',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci'
+    ]
+
+  ### тут происходит подгрузка зависимостей для бека и фронта
+  php-cli:
+    container_name: "php-cli-pricecheck"
+    build:
+      context: ./php/
+    volumes:
+      - "../backend:/var/www/html"
+    command: bash -c  "${BACKEND_DEPLOY_SCRIPT}"
+    depends_on:
+      - mysql
