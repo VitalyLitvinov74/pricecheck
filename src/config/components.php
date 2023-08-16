@@ -1,7 +1,10 @@
 <?php
+
+use yii\mongodb\Connection;
+
 return [
     'mongodb' => [
-        'class' => '\yii\mongodb\Connection',
+        'class' => Connection::class,
         'dsn' => 'mongodb://mongo:27017/pricecheck',
         'options' => [
             "username" => "root",

@@ -1,2 +1,3 @@
 docker/.env
 .idea/*
+/docker/mongo/data/

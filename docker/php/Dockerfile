@@ -9,6 +9,8 @@ RUN apt-get -y install nodejs \
     git \
     unzip
 
+RUN apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev
+
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -31,7 +33,6 @@ RUN docker-php-ext-install \
 
 RUN pecl install xdebug \
    && docker-php-ext-enable xdebug
-
 RUN pecl install mongodb apcu libmongoc && docker-php-ext-enable mongodb apcu opcache
 
 RUN curl -sS https://getcomposer.org/installer | \

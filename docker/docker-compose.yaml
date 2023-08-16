@@ -55,8 +55,9 @@ services:
     image: mongo:latest
     env_file:
       - .env
+    command: [--auth]
     volumes:
-      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./mongo/data:/data/db
     ports:
       - "27017:27017"
 
