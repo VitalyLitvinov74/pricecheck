@@ -106,12 +106,14 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="41b5d560-4ded-43c8-9fa4-62b0a38ef745" name="pricecheck-php:latest" home="docker://DATA" false="false" debugger_id="php.debugger.XDebug">
+      <interpreter id="41b5d560-4ded-43c8-9fa4-62b0a38ef745" name="pricecheck-php:latest" home="docker://DATA" auto="false" debugger_id="php.debugger.XDebug">
         <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_IMAGE_NAME="pricecheck-php:latest" DOCKER_REMOTE_PROJECT_PATH="/opt/project" />
       </interpreter>
     </interpreters>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
