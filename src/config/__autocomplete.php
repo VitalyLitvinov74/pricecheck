@@ -1,5 +1,7 @@
 <?php
 
+use app\components\cycle\CycleComponent;
+
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.
  * This file is never included anywhere.
@@ -10,6 +12,7 @@
  * class __Rollbar {
  * }
  * ```
+ *
  */
 class Yii {
     /**
@@ -21,7 +24,7 @@ class Yii {
 /**
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
- * 
+ * @property CycleComponent $cycle
  */
 class __Application {
 }
