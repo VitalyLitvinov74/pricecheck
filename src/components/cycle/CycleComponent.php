@@ -8,6 +8,8 @@ use Cycle\Annotated\MergeColumns;
 use Cycle\Annotated\MergeIndexes;
 use Cycle\Annotated\TableInheritance;
 use Cycle\Database\Config\DatabaseConfig;
+use Cycle\Database\Config\MySQL\DsnConnectionConfig;
+use Cycle\Database\Config\MySQLDriverConfig;
 use Cycle\Database\Config\SQLite\MemoryConnectionConfig;
 use Cycle\Database\Config\SQLiteDriverConfig;
 use Cycle\Database\DatabaseManager;
@@ -29,6 +31,7 @@ use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
 use Spiral\Tokenizer\Config\TokenizerConfig;
 use Spiral\Tokenizer\Tokenizer;
+use Yii;
 use yii\base\Component;
 
 class CycleComponent extends Component
@@ -39,7 +42,7 @@ class CycleComponent extends Component
     {
         $classLocator = (new Tokenizer(
             new TokenizerConfig([
-                'directories' => ['src/domain'],
+                'directories' => [Yii::getAlias('@app/domain')],
             ])
         ))->classLocator();
 
@@ -47,16 +50,28 @@ class CycleComponent extends Component
             new DatabaseConfig([
                 'default' => 'default',
                 'databases' => [
-                    'default' => ['connection' => 'sqlite']
+                    'default' => ['connection' => 'db'],
+                    'db2' => ['connection' => 'db2']
                 ],
                 'connections' => [
-                    'sqlite' => new SQLiteDriverConfig(
-                        connection: new MemoryConnectionConfig(),
-                        queryCache: true,
+                    'db' => new MySQLDriverConfig(
+                        new DsnConnectionConfig(
+                            dsn: Yii::$app->db->dsn,
+                            user: Yii::$app->db->username,
+                            password: Yii::$app->db->password
+                        )
                     ),
+                    'db2' => new MySQLDriverConfig(
+                        new DsnConnectionConfig(
+                            dsn: Yii::$app->db2->dsn,
+                            user: Yii::$app->db2->username,
+                            password: Yii::$app->db2->password
+                        )
+                    )
                 ]
             ])
         );
+        $dbal->setLogger(new StdoutQueryLogger());
 
         $schema = (new Compiler())->compile(new Registry($dbal), [
             new ResetTables(),             // re-declared table schemas (remove columns)
@@ -78,11 +93,13 @@ class CycleComponent extends Component
         parent::init();
     }
 
-    public function entityManager(): EntityManager{
+    public function entityManager(): EntityManager
+    {
         return new EntityManager($this->orm);
     }
 
-    public function repository(string|object $entity): RepositoryInterface{
+    public function repository(string|object $entity): RepositoryInterface
+    {
         return $this->orm->getRepository($entity);
     }
 }

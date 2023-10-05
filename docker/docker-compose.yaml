@@ -37,7 +37,7 @@ services:
       PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: "mysql-pricecheck"
     env_file:
       - .env
@@ -50,6 +50,24 @@ services:
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci'
     ]
+
+  mysql2:
+      image: mysql:8.0
+      container_name: "mysql-pricecheck2"
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: price2check
+        MYSQL_PORT: 3308
+
+      ports:
+        - "3308:3306"
+      volumes:
+        - ./mysql:/docker-entrypoint-initdb.d
+      command: [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci'
+      ]
 
   ### тут происходит подгрузка зависимостей для бека и фронта
   php-cli:

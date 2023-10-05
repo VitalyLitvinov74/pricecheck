@@ -7,6 +7,8 @@
 
 namespace app\commands;
 
+use app\domain\ParseDocument\Document;
+use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -18,17 +20,12 @@ use yii\console\ExitCode;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class HelloController extends Controller
+class TestController extends Controller
 {
-    /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
-     * @return int Exit code
-     */
-    public function actionIndex($message = 'hello world')
+    public function actionSearch()
     {
-        echo $message . "\n";
-
-        return ExitCode::OK;
+        $repo = Yii::$app->cycle->repository(Document::class);
+        $document =  $repo->findOne();
+        $tt = $document;
     }
 }
