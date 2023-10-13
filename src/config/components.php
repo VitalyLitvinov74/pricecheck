@@ -11,14 +11,13 @@ return [
         'password' => 'root',
         'charset' => 'utf8',
     ],
-    'db2'=>[
-        'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=mysql2;dbname=price2check',
-        'username' => 'root',
-        'password' => 'root',
-        'charset' => 'utf8',
+
+    'mongodb' => [
+        'class' => Connection::class,
+        'dsn' => 'mongodb://mongo:27017/pricecheck',
+        'options' => [
+            "username" => "root",
+            "password" => "root"
+        ]
     ],
-    'cycle'=>[
-        'class'=> CycleComponent::class,
-    ]
 ];

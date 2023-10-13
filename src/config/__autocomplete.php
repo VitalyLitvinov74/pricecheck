@@ -24,8 +24,7 @@ class Yii {
 /**
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
- * @property CycleComponent $cycle
- * @property \yii\db\Connection $db2
+ * @property \yii\mongodb\Connection $mongodb
  */
 class __Application {
 }

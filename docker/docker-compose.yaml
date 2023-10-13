@@ -26,6 +26,17 @@ services:
     volumes_from:
       - php
 
+  mongo:
+    image: mongo:latest
+    env_file:
+      - .env
+    command: [ --auth ]
+    volumes:
+      - ./mongo/data:/data/db
+      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - "27017:27017"
+
   php:
     container_name: "php-pricecheck"
     build:
@@ -50,24 +61,6 @@ services:
       '--character-set-server=utf8mb4',
       '--collation-server=utf8mb4_unicode_ci'
     ]
-
-  mysql2:
-      image: mysql:8.0
-      container_name: "mysql-pricecheck2"
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: price2check
-        MYSQL_PORT: 3308
-
-      ports:
-        - "3308:3306"
-      volumes:
-        - ./mysql:/docker-entrypoint-initdb.d
-      command: [
-        'mysqld',
-        '--character-set-server=utf8mb4',
-        '--collation-server=utf8mb4_unicode_ci'
-      ]
 
   ### тут происходит подгрузка зависимостей для бека и фронта
   php-cli:
