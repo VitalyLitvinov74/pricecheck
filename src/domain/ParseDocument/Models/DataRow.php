@@ -11,6 +11,8 @@ class DataRow
 
     public function convertToProduct(MappingSchema $mappingSchema): Product
     {
-
+        foreach ($this->rowData as $columnName => $value){
+            if($mappingSchema->hasColumnName)
+        }
     }
 }

@@ -14,9 +14,10 @@ class Document
     private int $version;
 
     public function __construct(
-        private string $path,
+        private string        $path,
         private MappingSchema $mappingSchema
-    ) {
+    )
+    {
         $this->products = new ArrayCollection();
         $this->version = time();
     }
@@ -24,10 +25,11 @@ class Document
     public function parse(): void
     {
         $file = new XlsxFile($this->path);
-        foreach ($file->rows() as $row){
-            $this->products = $row->converToProduct(
+        foreach ($file->rows() as $row) {
+            $product = $row->convertToProduct(
                 $this->mappingSchema
             );
+            $this->products->add($product);
         }
     }
 }
