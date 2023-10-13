@@ -4,7 +4,13 @@ namespace app\domain\ParseDocument\Models;
 
 class DataRow
 {
-    public function loadToSchema(MappingSchema $parseSchema): void{
+    public function __construct(private array $rowData)
+    {
+
+    }
+
+    public function convertToProduct(MappingSchema $mappingSchema): Product
+    {
 
     }
 }

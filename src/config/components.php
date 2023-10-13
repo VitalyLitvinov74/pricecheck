@@ -1,16 +1,15 @@
 <?php
 
-use app\components\cycle\CycleComponent;
 use yii\mongodb\Connection;
 
 return [
-    'db'=>[
-        'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=mysql;dbname=pricecheck',
-        'username' => 'root',
-        'password' => 'root',
-        'charset' => 'utf8',
-    ],
+//    'db'=>[
+//        'class' => 'yii\db\Connection',
+//        'dsn' => 'mysql:host=mysql;dbname=pricecheck',
+//        'username' => 'root',
+//        'password' => 'root',
+//        'charset' => 'utf8',
+//    ],
 
     'mongodb' => [
         'class' => Connection::class,

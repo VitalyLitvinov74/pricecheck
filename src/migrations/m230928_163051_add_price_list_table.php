@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Expression;
-use yii\db\Migration;
+use yii\mongodb\Migration;
+
 
 /**
  * Class m230928_163051_add_price_list_table
