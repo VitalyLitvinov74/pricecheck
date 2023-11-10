@@ -2,10 +2,15 @@
 
 namespace app\domain\ParseDocument\Models;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
+use app\domain\ParseDocument\Snapshots\ProductSnapshot;
 
 class Product
 {
+    public function __construct()
+    {
+    }
 
+    public function makeSnapshot(): ProductSnapshot{
+
+    }
 }

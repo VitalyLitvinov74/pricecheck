@@ -14,11 +14,12 @@ class XlsxFile
     /**
      * @return ArrayCollection<int, DataRow>
      */
-    public function rows(): ArrayCollection{
+    public function rows(): ArrayCollection
+    {
         /** @var SimpleXLSX $xlsx */
         $xlsx = SimpleXLSX::parseFile($this->path);
         $collection = new ArrayCollection();
-        foreach ($xlsx->readRows() as $row){
+        foreach ($xlsx->readRows() as $row) {
             $collection->add(
                 new DataRow($row)
             );

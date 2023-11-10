@@ -5,6 +5,7 @@ namespace app\domain\ParseDocument;
 use app\domain\ParseDocument\Models\MappingSchema;
 use app\domain\ParseDocument\Models\Product;
 use app\domain\ParseDocument\Models\XlsxFile;
+use app\domain\ParseDocument\Snapshots\DocumentSnapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Document
@@ -26,10 +27,19 @@ class Document
     {
         $file = new XlsxFile($this->path);
         foreach ($file->rows() as $row) {
-            $product = $row->convertToProduct(
-                $this->mappingSchema
-            );
+            $product = $row->convertToProduct($this->mappingSchema);
             $this->products->add($product);
         }
+    }
+
+    public function makeSnapshot(): DocumentSnapshot
+    {
+        $snapshot =  new DocumentSnapshot(
+            $this->version,
+            $this->path
+        );
+        return $snapshot
+            ->snapProducts($this->products)
+            ->snapMappingSchema($this->mappingSchema);
     }
 }

@@ -2,17 +2,29 @@
 
 namespace app\domain\ParseDocument\Models;
 
+use app\domain\ParseDocument\Snapshots\MappingSchemaSnapshot;
+use Doctrine\Common\Collections\ArrayCollection;
+
 class MappingSchema
 {
-    public function loadValue(string $key, string|float $value): void{
+    private ArrayCollection $loadedValues;
 
+    private function __construct()
+    {
     }
 
-    public function convertToProduct(): Product{
+    public function loadValue(string $key, string|float $value): void
+    {
+        $this->loadedValues->set($key, $value);
+    }
+
+    public function buildProduct(): Product
+    {
+        $this->loadedValues->clear();
         return new Product();
     }
 
-    public function extractData(DataRow $row): void{
-        $row->loadToSchema($this);
+    public function makeSnapshot(): MappingSchemaSnapshot
+    {
     }
 }
