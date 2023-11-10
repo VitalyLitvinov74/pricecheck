@@ -103,6 +103,7 @@
       <path value="$PROJECT_DIR$/src/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <path value="$PROJECT_DIR$/src/vendor/shuchkin/simplexlsx" />
+      <path value="$PROJECT_DIR$/src/vendor/elisdn/yii2-composite-form" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

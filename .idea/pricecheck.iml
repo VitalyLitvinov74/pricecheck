@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/doctrine/deprecations" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/shuchkin/simplexlsx" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/elisdn/yii2-composite-form" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
