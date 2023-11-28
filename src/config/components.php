@@ -15,8 +15,8 @@ return [
         'class' => Connection::class,
         'dsn' => 'mongodb://mongo:27017/pricecheck',
         'options' => [
-            "username" => "root",
-            "password" => "root"
+            "username" => "admin",
+            "password" => "admin"
         ]
     ],
 ];

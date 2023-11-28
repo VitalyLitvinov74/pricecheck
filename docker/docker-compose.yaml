@@ -30,19 +30,12 @@ services:
     image: mongo:latest
     env_file:
       - .env
+    command: mongod
     volumes:
       - ./mongo/data:/data/db
+      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - "27017:27017"
-
-  mongoClientTemp:
-    image: mongo:latest
-    container_name: mongoClientTemp
-    links:
-      - mongo:mongo
-    command: mongo --host mongo --eval  "db.getSiblingDB('dashboard').createUser({user:'db', pwd:'dbpass', roles:[{role:'readWrite',db:'dashboard'}]});"
-    depends_on:
-      - mongo
 
   php:
     container_name: "php-pricecheck"
