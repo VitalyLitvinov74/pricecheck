@@ -2,7 +2,6 @@
 
 namespace app\libs;
 
-use app\libs\PbxException;
 use yii\db\ActiveRecord;
 use yii\db\Connection;
 use yii\db\Expression;
@@ -48,7 +47,7 @@ class UpsertBuilder
      * @param array $data
      *
      * @return void
-     * @throws PbxException
+     * @throws LibsException
      */
     public function upsertOneRecord(array $data): void
     {
@@ -59,7 +58,7 @@ class UpsertBuilder
      * @param array $data
      *
      * @return void
-     * @throws PbxException
+     * @throws LibsException
      */
     public function upsertManyRecords(array $data): void
     {
@@ -70,7 +69,7 @@ class UpsertBuilder
         }
         $firstKey = array_key_first($data);
         if (is_array($data[$firstKey]) === false) {
-            throw new PbxException('upsertManyRecords используется для обновления только одной записи, а не всех');
+            throw new LibsException('upsertManyRecords используется для обновления только одной записи, а не всех');
         }
         $this->dataForInsert = $data;
         $this->execute();
