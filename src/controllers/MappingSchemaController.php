@@ -9,17 +9,17 @@ use yii\web\Controller;
 
 class MappingSchemaController extends Controller
 {
-    public function behaviors(): array
-    {
-        $behaviors = parent::behaviors();
-        $behaviors['verbs'] = [
-            'class' => VerbFilter::class,
-            'actions' => [
-                'logout' => ['post'],
-            ],
-        ];
-        return $behaviors;
-    }
+    //public function behaviors(): array
+    //{
+    //    $behaviors = parent::behaviors();
+    //    $behaviors['verbs'] = [
+    //        'class' => VerbFilter::class,
+    //        'actions' => [
+    //            'logout' => ['post'],
+    //        ],
+    //    ];
+    //    return $behaviors;
+    //}
 
     public function actionIndex(): string
     {
