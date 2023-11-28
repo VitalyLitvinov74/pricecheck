@@ -21,7 +21,8 @@
         "doctrine/collections": "^2.1",
         "yiisoft/yii2-mongodb": "^3.0",
         "shuchkin/simplexlsx": "^1.0",
-        "elisdn/yii2-composite-form": "^1.1"
+        "elisdn/yii2-composite-form": "^1.1",
+        "wbraganca/yii2-dynamicform": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

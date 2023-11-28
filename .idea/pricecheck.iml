@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/shuchkin/simplexlsx" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/elisdn/yii2-composite-form" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/wbraganca/yii2-dynamicform" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

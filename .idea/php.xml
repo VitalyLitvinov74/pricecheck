@@ -104,6 +104,7 @@
       <path value="$PROJECT_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <path value="$PROJECT_DIR$/src/vendor/shuchkin/simplexlsx" />
       <path value="$PROJECT_DIR$/src/vendor/elisdn/yii2-composite-form" />
+      <path value="$PROJECT_DIR$/src/vendor/wbraganca/yii2-dynamicform" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
