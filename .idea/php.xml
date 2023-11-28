@@ -104,11 +104,25 @@
       <path value="$PROJECT_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <path value="$PROJECT_DIR$/src/vendor/shuchkin/simplexlsx" />
       <path value="$PROJECT_DIR$/src/vendor/elisdn/yii2-composite-form" />
+      <path value="$PROJECT_DIR$/src/vendor/cycle/orm" />
+      <path value="$PROJECT_DIR$/src/vendor/cycle/database" />
+      <path value="$PROJECT_DIR$/src/vendor/spiral/core" />
+      <path value="$PROJECT_DIR$/src/vendor/spiral/pagination" />
+      <path value="$PROJECT_DIR$/src/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/src/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/src/vendor/spiral/logger" />
+      <path value="$PROJECT_DIR$/src/vendor/spiral/attributes" />
+      <path value="$PROJECT_DIR$/src/vendor/spiral/tokenizer" />
+      <path value="$PROJECT_DIR$/src/vendor/yiisoft/friendly-exception" />
+      <path value="$PROJECT_DIR$/src/vendor/cycle/schema-builder" />
+      <path value="$PROJECT_DIR$/src/vendor/cycle/annotated" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/annotations" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="5429de88-1297-4b5b-b38a-82326a495e53" name="pricecheck-php:latest" home="docker://DATA" auto="false" debugger_id="php.debugger.XDebug">
+      <interpreter id="5429de88-1297-4b5b-b38a-82326a495e53" name="pricecheck-php:latest" home="docker://DATA" false="false" debugger_id="php.debugger.XDebug">
         <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_IMAGE_NAME="pricecheck-php:latest" DOCKER_REMOTE_PROJECT_PATH="/opt/project" />
       </interpreter>
     </interpreters>
@@ -179,7 +193,7 @@
       </interpreter>
     </phpInfoCache>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpStanOptionsConfiguration">
