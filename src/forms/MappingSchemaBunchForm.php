@@ -4,7 +4,7 @@ namespace app\forms;
 
 use yii\base\Model;
 
-class MappingSchemaBunch extends Model
+class MappingSchemaBunchForm extends Model
 {
     public $productPropertyName;
     public $fileColumnName;
@@ -14,5 +14,10 @@ class MappingSchemaBunch extends Model
         return [
             [['productPropertyName', 'fileColumnName'], 'required']
         ];
+    }
+
+    public function formName(): string
+    {
+        return '';
     }
 }

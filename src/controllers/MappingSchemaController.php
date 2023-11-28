@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\forms\MappingSchemaForm;
 use app\records\MappingSchemaRecord;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -34,7 +36,14 @@ class MappingSchemaController extends Controller
 
     public function actionCreate()
     {
-
+        $form = new MappingSchemaForm();
+        $form->load(Yii::$app->request->post());
+        if($form->validate()){
+            ///
+        }
+        return $this->render('create', [
+            'form' => $form
+        ]);
     }
 
     public function actionUpdate()
