@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\forms\ProductTypeForm;
+use app\forms\ProductForm;
 use yii\filters\VerbFilter;
 
 class ProductController extends BaseApiController
@@ -21,7 +21,7 @@ class ProductController extends BaseApiController
 
     public function actionProductType(): array
     {
-        $productTypeForm = new ProductTypeForm();
+        $productTypeForm = new ProductForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
             return ['hello'];

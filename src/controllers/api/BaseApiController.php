@@ -6,8 +6,13 @@ use app\exceptions\BaseException;
 use app\libs\JsonApi;
 use Yii;
 use yii\rest\Controller;
+use yii\web\JsonParser;
+use yii\web\Request;
 use yii\web\Response;
 
+/**
+ * @property Request $request
+ */
 abstract class BaseApiController extends Controller
 {
     protected JsonApi $jsonApi;
@@ -16,6 +21,7 @@ abstract class BaseApiController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->jsonApi = new JsonApi();
+        $this->request->parsers['application/json'] = JsonParser::class;
     }
 
     public function runAction($id, $params = [])

@@ -2,3 +2,5 @@ docker/.env
 .idea/*
 /docker/mongo/data/
 /docker/proxy/config/*
+.idea
+/docker/proxy/config

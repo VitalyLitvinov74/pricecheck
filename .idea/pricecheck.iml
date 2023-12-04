@@ -10,11 +10,11 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/doctrine/deprecations" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/yiisoft/yii2-mongodb" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/shuchkin/simplexlsx" />
-      <excludeFolder url="file://$MODULE_DIR$/src/vendor/elisdn/yii2-composite-form" />
-      <excludeFolder url="file://$MODULE_DIR$/src/vendor/wbraganca/yii2-dynamicform" />
-      <excludeFolder url="file://$MODULE_DIR$/src/vendor/codeception/phpunit-wrapper" />
-      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-php73" />
-      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/codeception/lib-web" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/vloop/yii2-custom-validators" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
