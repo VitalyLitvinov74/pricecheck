@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageProductType\Persistence;
 
-use app\domain\ProductMetadata\ProductType;
+use app\domain\ManageProductType\ProductType;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ProductMetadata;
+namespace app\domain\ManageProductType\Models;
 
 class ParsingMap
 {

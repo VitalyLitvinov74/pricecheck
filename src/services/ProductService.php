@@ -1,9 +1,9 @@
 <?php
 
-namespace services;
+namespace app\services;
 
 use app\domain\ManageProductType\Persistence\ProductTypeRepository;
-use app\domain\ProductMetadata\ProductType;
+use app\domain\ManageProductType\ProductType;
 use app\forms\ProductForm;
 
 class ProductService
@@ -17,8 +17,8 @@ class ProductService
     public function createProductType(ProductForm $form): void
     {
         $productType = new ProductType($form->name);
-        foreach ($form->fields as $productFieldForm){
-            $productType->addField($productFieldForm->name, $productFieldForm->type);
+        foreach ($form->fields as $field){
+            $productType->addField($field['name'], $field['type']);
         }
         $this->productTypeRepository->save($productType);
     }

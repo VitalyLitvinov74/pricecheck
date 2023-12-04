@@ -1,7 +1,7 @@
 <?php
 
-namespace app\domain\ProductMetadata;
-
+namespace app\domain\ManageProductType;
+use app\domain\ManageProductType\Models\ProductField;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductType
