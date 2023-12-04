@@ -12,6 +12,9 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/shuchkin/simplexlsx" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/elisdn/yii2-composite-form" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/wbraganca/yii2-dynamicform" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/codeception/phpunit-wrapper" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-php73" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-php80" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
