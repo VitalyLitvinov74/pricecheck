@@ -1,7 +1,7 @@
 <?php
 
 namespace app\domain\ManageProductType;
-use app\domain\ManageProductType\Models\ProductField;
+use app\domain\ManageProductType\Models\CardField;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductCard
@@ -24,7 +24,7 @@ class ProductCard
     public function addField(string $name, string $type): void
     {
         $this->fields->add(
-            new ProductField($name, $type)
+            new CardField($name, $type)
         );
     }
 }

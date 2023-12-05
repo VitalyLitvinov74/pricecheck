@@ -2,14 +2,14 @@
 
 namespace app\services;
 
-use app\domain\ManageProductType\Persistence\ProductTypeRepository;
+use app\domain\ManageProductType\Persistence\ProductCardRepository;
 use app\domain\ManageProductType\ProductCard;
 use app\forms\CardForm;
 
 class ProductService
 {
     public function __construct(
-        private ProductTypeRepository $productTypeRepository = new ProductTypeRepository()
+        private ProductCardRepository $productCardRepository = new ProductCardRepository()
     )
     {
     }
@@ -20,6 +20,6 @@ class ProductService
         foreach ($form->fields as $field){
             $productCard->addField($field->name, $field->type);
         }
-        $this->productTypeRepository->save($productCard);
+        $this->productCardRepository->save($productCard);
     }
 }

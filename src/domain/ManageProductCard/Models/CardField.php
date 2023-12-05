@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageProductType\Models;
 
-class ProductField
+class CardField
 {
     public function __construct(
         private string $name,

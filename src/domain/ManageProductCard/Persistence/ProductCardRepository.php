@@ -6,7 +6,7 @@ use app\domain\ManageProductType\ProductCard;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 
-class ProductTypeRepository
+class ProductCardRepository
 {
     public function __construct(
         private UpsertBuilder $upsertBuilder = new UpsertBuilder(),
