@@ -7,6 +7,7 @@ use app\libs\ObjectMapper\Mapping\MappingModes\ArrayToModelMode;
 use app\libs\ObjectMapper\Mapping\MappingModes\ArrayToModelStringMode;
 use app\libs\ObjectMapper\Mapping\MappingModes\DefaultModeStrategyMode;
 use app\libs\ObjectMapper\Mapping\MappingModes\MappingModeStrategyInterface;
+use app\libs\ObjectMapper\Mapping\MappingModes\ModelToArrayMode;
 use app\libs\ObjectMapper\Mapping\MappingModes\ModelToObjectMode;
 use app\libs\ObjectMapper\Mapping\MappingModes\ModelToStringMode;
 
@@ -72,6 +73,9 @@ class ObjectMapper
         }
         if (is_object($from) && is_string($to)) {
             return new ModelToStringMode();
+        }
+        if (is_object($from) && is_array($to)) {
+            return new ModelToArrayMode();
         }
         if (is_array($from) && is_array($to)) {
             return new DefaultModeStrategyMode();

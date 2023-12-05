@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageProductType\Models;
+namespace app\domain\ManageProductCard\Models;
 
 class ParsingMap
 {

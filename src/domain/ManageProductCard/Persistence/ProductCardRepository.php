@@ -1,15 +1,16 @@
 <?php
 
-namespace app\domain\ManageProductType\Persistence;
+namespace app\domain\ManageProductCard\Persistence;
 
-use app\domain\ManageProductType\ProductCard;
+use app\domain\ManageProductCard\ProductCard;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
+use app\records\ProductCardsCollection;
+use Yii;
 
 class ProductCardRepository
 {
     public function __construct(
-        private UpsertBuilder $upsertBuilder = new UpsertBuilder(),
         private ObjectMapper $objectMapper = new ObjectMapper()
     )
     {
@@ -17,7 +18,8 @@ class ProductCardRepository
 
     public function save(ProductCard $productType): void
     {
-
+        $data = $this->objectMapper->map($productType, []);
+        ProductCardsCollection::getCollection()->insert($data);
     }
 
 

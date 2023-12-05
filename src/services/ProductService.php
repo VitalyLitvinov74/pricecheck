@@ -2,8 +2,8 @@
 
 namespace app\services;
 
-use app\domain\ManageProductType\Persistence\ProductCardRepository;
-use app\domain\ManageProductType\ProductCard;
+use app\domain\ManageProductCard\Persistence\ProductCardRepository;
+use app\domain\ManageProductCard\ProductCard;
 use app\forms\CardForm;
 
 class ProductService
