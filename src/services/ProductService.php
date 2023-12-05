@@ -3,8 +3,8 @@
 namespace app\services;
 
 use app\domain\ManageProductType\Persistence\ProductTypeRepository;
-use app\domain\ManageProductType\ProductType;
-use app\forms\ProductForm;
+use app\domain\ManageProductType\ProductCard;
+use app\forms\CardForm;
 
 class ProductService
 {
@@ -14,12 +14,12 @@ class ProductService
     {
     }
 
-    public function createProductType(ProductForm $form): void
+    public function createProductCard(CardForm $form): void
     {
-        $productType = new ProductType($form->name);
+        $productCard = new ProductCard($form->name);
         foreach ($form->fields as $field){
-            $productType->addField($field['name'], $field['type']);
+            $productCard->addField($field->name, $field->type);
         }
-        $this->productTypeRepository->save($productType);
+        $this->productTypeRepository->save($productCard);
     }
 }

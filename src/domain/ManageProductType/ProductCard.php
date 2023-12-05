@@ -4,7 +4,7 @@ namespace app\domain\ManageProductType;
 use app\domain\ManageProductType\Models\ProductField;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ProductType
+class ProductCard
 {
     private string $name;
     private ArrayCollection $fields;

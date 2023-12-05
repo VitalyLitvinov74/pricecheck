@@ -4,7 +4,7 @@ namespace app\forms;
 
 use yii\base\Model;
 
-class ProductFieldForm extends AbstractForm
+class CardFieldForm extends Model
 {
     public $name;
     public $type;

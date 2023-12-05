@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\forms\ProductForm;
+use app\forms\CardForm;
 use app\services\ProductService;
 use yii\filters\VerbFilter;
 
@@ -29,10 +29,10 @@ class ProductController extends BaseApiController
 
     public function actionProductType(): array
     {
-        $productTypeForm = new ProductForm();
+        $productTypeForm = new CardForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
-            $this->service->createProductType($productTypeForm);
+            $this->service->createProductCard($productTypeForm);
             $this->jsonApi->setupCode(204);
             return [];
         }

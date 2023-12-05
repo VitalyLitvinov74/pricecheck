@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageProductType\Persistence;
 
-use app\domain\ManageProductType\ProductType;
+use app\domain\ManageProductType\ProductCard;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 
@@ -15,8 +15,9 @@ class ProductTypeRepository
     {
     }
 
-    public function save(ProductType $productType): void
+    public function save(ProductCard $productType): void
     {
+
     }
 
 
