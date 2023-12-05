@@ -35,8 +35,7 @@ RUN pecl install xdebug \
    && docker-php-ext-enable xdebug
 RUN pecl install mongodb apcu libmongoc && docker-php-ext-enable mongodb apcu opcache
 
-RUN curl -sS https://getcomposer.org/installer | \
-            php -- --install-dir /usr/local/bin --filename composer --version ${COMPOSER_VER} \
+COPY --from=composer:latest  /usr/bin/composer /usr/bin/composer
 
 ARG EXTERNAL_IP
 
