@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\forms\MappingSchemaForm;
-use app\records\MappingSchemaRecord;
+use app\records\MappingSchemaCollection;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -28,7 +28,7 @@ class MappingSchemaController extends Controller
         return $this->render('index',
             [
                 'dataProvider' => new ActiveDataProvider([
-                    'query' => MappingSchemaRecord::find()
+                    'query' => MappingSchemaCollection::find()
                 ])
             ]
         );

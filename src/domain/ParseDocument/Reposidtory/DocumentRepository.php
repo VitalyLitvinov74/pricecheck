@@ -3,7 +3,7 @@
 namespace app\domain\ParseDocument\Reposidtory;
 
 use app\domain\ParseDocument\Document;
-use app\records\ProductRecord;
+use app\records\ProductCollection;
 use Yii;
 
 class DocumentRepository
@@ -21,7 +21,7 @@ class DocumentRepository
         Yii::$app->mongodb
             ->createCommand()
             ->batchInsert(
-                ProductRecord::collectionName(),
+                ProductCollection::collectionName(),
                 $dataForInsert,
             );
     }

@@ -4,7 +4,7 @@ namespace app\records;
 
 use yii\mongodb\ActiveRecord;
 
-class MappingSchemaRecord extends ActiveRecord
+class MappingSchemaCollection extends ActiveRecord
 {
     public static function collectionName(): string
     {
