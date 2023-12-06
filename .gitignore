@@ -4,3 +4,4 @@ docker/.env
 /docker/proxy/config/*
 .idea
 docker/proxy/config/*
+admin/node_modules

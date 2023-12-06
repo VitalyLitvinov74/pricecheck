@@ -68,47 +68,47 @@ services:
     build:
       context: ./php/
     volumes:
-      - "../src:/var/www/html"
+      - "../backend:/var/www/html"
     command: bash -c  "${BACKEND_DEPLOY_SCRIPT}"
     depends_on:
       - mysql
 
   ## статика панели пользователя
-  nginx-user-panel:
-    image: nginx
-    container_name: "nginx-user-panel"
-    volumes:
-      - './nuxt/proxy/panel:/etc/nginx/conf.d'
-    environment:
-      VIRTUAL_HOST: "${USER_PANEL}"
-    links:
-      - user-panel
-    volumes_from:
-      - user-panel
-
-  user-panel:
-    container_name: "user-panel"
-    image: node:latest
-    working_dir: "/app"
-    environment:
-      NODE_OPTIONS: --openssl-legacy-provider
-      HOST: 0.0.0.0
-      PORT: 4001
-      CHOKIDAR_USEPOLLING: 1
-    volumes:
-      - '../frontend.user.panel:/app'
-    ports:
-      - "4001:4001"
-    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
+#  nginx-user-panel:
+#    image: nginx
+#    container_name: "nginx-user-panel"
+#    volumes:
+#      - './nuxt/proxy/panel:/etc/nginx/conf.d'
+#    environment:
+#      VIRTUAL_HOST: "${USER_PANEL}"
+#    links:
+#      - user-panel
+#    volumes_from:
+#      - user-panel
+#
+#  user-panel:
+#    container_name: "user-panel"
+#    image: node:latest
+#    working_dir: "/app"
+#    environment:
+#      NODE_OPTIONS: --openssl-legacy-provider
+#      HOST: 0.0.0.0
+#      PORT: 4001
+#      CHOKIDAR_USEPOLLING: 1
+#    volumes:
+#      - '../frontend.user.panel:/app'
+#    ports:
+#      - "4001:4001"
+#    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
 
   ## статика
   nginx-admin-panel:
     image: nginx
     container_name: "nginx-admin-panel"
     volumes:
-      - './nuxt/proxy/conf:/etc/nginx/conf.d'
+      - './nuxt/proxy/admin:/etc/nginx/conf.d'
     environment:
-      VIRTUAL_HOST: "${FRONTEND}"
+      VIRTUAL_HOST: "${ADMIN_PANEL}"
     links:
       - admin-panel
     volumes_from:
@@ -128,3 +128,4 @@ services:
     ports:
       - "4000:4000"
     command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
+#    command: bash -c  "npm start"
