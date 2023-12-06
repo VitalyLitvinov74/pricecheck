@@ -5,3 +5,4 @@ docker/.env
 .idea
 docker/proxy/config/*
 admin/node_modules
+admin/.nuxt
