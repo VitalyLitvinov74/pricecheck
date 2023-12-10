@@ -4,23 +4,23 @@ useHead({
     class: 'horizontal-layout'
   },
   script: [
-    {src: "/js/jquery.min.js", body: true},
-    {src: "/js/popper.min.js", body: true},
-    {src: "/js/bootstrap.min.js", body: true},
-    {src: "/js/modernizr.min.js", body: true},
-    {src: "/js/detect.js", body: true},
-    {src: "/js/jquery.slimscroll.js", body: true},
-    {src: "/js/horizontal-menu.js", body: true},
-    {src: "/plugins/switchery/switchery.min.js", body: true},
-    {src: "/js/core.js", body: true},
+    {src: "/assets/js/jquery.min.js", body: true},
+    {src: "/assets/js/popper.min.js", body: true},
+    {src: "/assets/js/bootstrap.min.js", body: true},
+    {src: "/assets/js/modernizr.min.js", body: true},
+    {src: "/assets/js/detect.js", body: true},
+    {src: "/assets/js/jquery.slimscroll.js", body: true},
+    {src: "/assets/js/horizontal-menu.js", body: true},
+    {src: "/assets/plugins/switchery/switchery.min.js", body: true},
+    {src: "/assets/js/core.js", body: true},
   ],
 
   link: [
-    {rel: 'stylesheet', href: '/plugins/switchery/switchery.min.css'},
-    {rel: 'stylesheet', href: '/css/bootstrap.min.css'},
-    {rel: 'stylesheet', href: '/css/icons.css'},
-    {rel: 'stylesheet', href: '/css/flag-icon.min.css'},
-    {rel: 'stylesheet', href: '/css/style.css'},
+    {rel: 'stylesheet', href: '/assets/plugins/switchery/switchery.min.css'},
+    {rel: 'stylesheet', href: '/assets/css/bootstrap.min.css'},
+    {rel: 'stylesheet', href: '/assets/css/icons.css'},
+    {rel: 'stylesheet', href: '/assets/css/flag-icon.min.css'},
+    {rel: 'stylesheet', href: '/assets/css/style.css'},
   ]
 })
 
@@ -69,7 +69,7 @@ useHead({
         </div>
       </div>
     </div>
-    <MenuComponent/>
+    <Menu/>
     <div id="containerbar" class="container-fluid">
 
       <div class="breadcrumbbar">
