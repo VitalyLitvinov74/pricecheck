@@ -47,21 +47,6 @@ services:
       EXTERNAL_IP: "${EXTERNAL_IP}"
       PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
 
-  mysql:
-    image: mysql:8.0
-    container_name: "mysql-pricecheck"
-    env_file:
-      - .env
-    ports:
-      - "${MYSQL_PORT}:3306"
-    volumes:
-      - ./mysql:/docker-entrypoint-initdb.d
-    command: [
-      'mysqld',
-      '--character-set-server=utf8mb4',
-      '--collation-server=utf8mb4_unicode_ci'
-    ]
-
   ### тут происходит подгрузка зависимостей для бека и фронта
   php-cli:
     container_name: "php-cli-pricecheck"
@@ -71,7 +56,7 @@ services:
       - "../backend:/var/www/html"
     command: bash -c  "${BACKEND_DEPLOY_SCRIPT}"
     depends_on:
-      - mysql
+      - mongo
 
   ## статика панели пользователя
 #  nginx-user-panel:

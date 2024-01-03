@@ -6,3 +6,4 @@ docker/.env
 docker/proxy/config/*
 admin/node_modules
 admin/.nuxt
+docker/proxy/config
