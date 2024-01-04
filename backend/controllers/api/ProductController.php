@@ -4,6 +4,7 @@ namespace app\controllers\api;
 
 use app\forms\CardForm;
 use app\services\ProductService;
+use yii\filters\Cors;
 use yii\filters\VerbFilter;
 
 class ProductController extends BaseApiController
@@ -11,14 +12,14 @@ class ProductController extends BaseApiController
     private ProductService $service;
     public function behaviors(): array
     {
-        return [
+        return array_merge(parent::behaviors(), [
             [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'product-type' => ['POST'],
+                    'product-type' => ['post'],
                 ],
             ]
-        ];
+        ]);
     }
 
     public function init(): void
@@ -34,7 +35,7 @@ class ProductController extends BaseApiController
         if ($productTypeForm->validate()) {
             $this->service->createProductCard($productTypeForm);
             $this->jsonApi->setupCode(204);
-            return [];
+            return $this->jsonApi->asArray();
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
     }

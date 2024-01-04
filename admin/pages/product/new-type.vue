@@ -52,8 +52,8 @@ async function save() {
     console.log(validateResult.error?.message, validateResult)
     return;
   }
-  const save = await $fetch(
-      config.public.baseURL + '/api/product/product-type',
+  await $fetch(
+      'http://api.pricecheck.my:82/api/product/product-type',
       {
         method: 'POST',
         body: productType

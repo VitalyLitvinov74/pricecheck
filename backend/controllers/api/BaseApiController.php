@@ -5,6 +5,7 @@ namespace app\controllers\api;
 use app\exceptions\BaseException;
 use app\libs\JsonApi;
 use Yii;
+use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\JsonParser;
 use yii\web\Request;
@@ -32,5 +33,14 @@ abstract class BaseApiController extends Controller
         } catch (BaseException $exception) {
             return $this->jsonApi->addException($exception)->asArray();
         }
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => Cors::class,
+            ]
+        ];
     }
 }
