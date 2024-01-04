@@ -10,10 +10,7 @@ class CardField
 {
     public function __construct(
         #[Property(mapWithArrayKey: 'name')]
-        private string $name,
-
-        #[Property(mapWithArrayKey: 'type')]
-        private string $type
+        private string $name
     ) {
     }
 }

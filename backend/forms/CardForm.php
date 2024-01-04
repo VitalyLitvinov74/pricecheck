@@ -7,10 +7,10 @@ use yii\base\DynamicModel;
 
 class CardForm extends CompositeForm
 {
-    public $name;
+    public $title;
 
-    /** @var CardFieldForm[] $fields */
-    public $fields;
+    /** @var CardFieldForm[] $properties */
+    public $properties;
 
     public function init(): void
     {
@@ -20,7 +20,7 @@ class CardForm extends CompositeForm
     public function rules(): array
     {
         return [
-            ['name', 'required'],
+            ['title', 'required'],
         ];
     }
 
@@ -31,19 +31,19 @@ class CardForm extends CompositeForm
 
     public function load($data, $formName = null): bool
     {
-        $fields = [];
-        if (isset($data['fields'])) {
-            foreach ($data['fields'] as $field) {
-                $fields[] = new CardFieldForm();
+        $properties = [];
+        if (isset($data['properties'])) {
+            foreach ($data['properties'] as $property) {
+                $properties[] = new CardFieldForm();
             }
-            DynamicModel::loadMultiple($fields, $data['fields']);
+            DynamicModel::loadMultiple($properties, $data['properties']);
         }
-        $this->fields = $fields;
+        $this->properties = $properties;
         return parent::load($data, $formName);
     }
 
     protected function internalForms(): array
     {
-        return ['fields'];
+        return ['properties'];
     }
 }

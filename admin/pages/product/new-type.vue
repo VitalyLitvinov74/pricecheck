@@ -45,7 +45,7 @@ function updateProperty(key) {
     refs.value['property-' + key].focus();
   });
 }
-
+const config = useRuntimeConfig();
 async function save() {
   const validateResult = schema.validate(productType);
   if(validateResult.hasOwnProperty('error')){
@@ -53,7 +53,7 @@ async function save() {
     return;
   }
   const save = await $fetch(
-      '/api/todos',
+      config.public.baseURL + '/api/product/product-type',
       {
         method: 'POST',
         body: productType

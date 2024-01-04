@@ -16,9 +16,9 @@ class ProductService
 
     public function createProductCard(CardForm $form): void
     {
-        $productCard = new ProductCard($form->name);
-        foreach ($form->fields as $field){
-            $productCard->addField($field->name, $field->type);
+        $productCard = new ProductCard($form->title);
+        foreach ($form->properties as $field){
+            $productCard->addField($field->name);
         }
         $this->productCardRepository->save($productCard);
     }

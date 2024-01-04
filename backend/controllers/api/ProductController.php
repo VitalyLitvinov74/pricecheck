@@ -15,7 +15,7 @@ class ProductController extends BaseApiController
             [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'product-type' => ['post'],
+                    'product-type' => ['POST'],
                 ],
             ]
         ];

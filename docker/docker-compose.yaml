@@ -42,7 +42,7 @@ services:
     build:
       context: ./php/
     volumes:
-      - '../src:/var/www/html'
+      - '../backend:/var/www/html'
     environment:
       EXTERNAL_IP: "${EXTERNAL_IP}"
       PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
