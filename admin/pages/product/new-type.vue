@@ -9,10 +9,15 @@ const productType = reactive({
   properties: []
 })
 const schema = Joi.object({
-  title: Joi.string().min(1),
+  title: Joi.string().required().messages({
+    'string.empty': `"Имя типа товара" не может быть пустым`,
+  }),
   properties: Joi.array().items(
       Joi.object(
-      { name: Joi.string().min(1)}
+      { name: Joi.string().required().messages({
+          'string.empty': 'Название свойства не может быть пустым'
+        })
+      }
   ))
 })
 const refs = ref({})
@@ -44,7 +49,7 @@ function updateProperty(key) {
 async function save() {
   const validateResult = schema.validate(productType);
   if(validateResult.hasOwnProperty('error')){
-    console.log(validateResult.error?.message)
+    console.log(validateResult.error?.message, validateResult)
     return;
   }
   const save = await $fetch(
