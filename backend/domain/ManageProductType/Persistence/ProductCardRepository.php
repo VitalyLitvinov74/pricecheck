@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageProductCard\Persistence;
+namespace app\domain\ManageProductType\Persistence;
 
-use app\domain\ManageProductCard\ProductCard;
+use app\domain\ManageProductType\ProductType;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductCardsCollection;
@@ -16,7 +16,7 @@ class ProductCardRepository
     {
     }
 
-    public function save(ProductCard $productType): void
+    public function save(ProductType $productType): void
     {
         $data = $this->objectMapper->map($productType, []);
         ProductCardsCollection::getCollection()->insert($data);

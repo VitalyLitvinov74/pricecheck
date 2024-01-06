@@ -2,9 +2,9 @@
 
 namespace app\services;
 
-use app\domain\ManageProductCard\Persistence\ProductCardRepository;
-use app\domain\ManageProductCard\ProductCard;
-use app\forms\CardForm;
+use app\domain\ManageProductType\Persistence\ProductCardRepository;
+use app\domain\ManageProductType\ProductType;
+use app\forms\ProductTypeForm;
 
 class ProductService
 {
@@ -14,9 +14,9 @@ class ProductService
     {
     }
 
-    public function createProductCard(CardForm $form): void
+    public function createProductType(ProductTypeForm $form): void
     {
-        $productCard = new ProductCard($form->title);
+        $productCard = new ProductType($form->title);
         foreach ($form->properties as $field){
             $productCard->addField($field->name);
         }

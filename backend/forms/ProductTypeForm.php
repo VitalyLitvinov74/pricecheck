@@ -5,7 +5,7 @@ namespace app\forms;
 use elisdn\compositeForm\CompositeForm;
 use yii\base\DynamicModel;
 
-class CardForm extends CompositeForm
+class ProductTypeForm extends CompositeForm
 {
     public $title;
 

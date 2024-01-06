@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageProductCard\Models;
+namespace app\domain\ManageProductType\Models;
 
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property;

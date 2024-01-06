@@ -1,12 +1,12 @@
 <?php
 
-namespace app\domain\ManageProductCard;
-use app\domain\ManageProductCard\Models\CardField;
+namespace app\domain\ManageProductType;
+use app\domain\ManageProductType\Models\CardField;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ProductCard
+class ProductType
 {
     #[Property(
         mapWithArrayKey: 'name'
