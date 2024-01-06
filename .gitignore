@@ -8,3 +8,4 @@ admin/node_modules
 admin/.nuxt
 docker/proxy/config
 admin/.env
+admin/.nuxt/*
