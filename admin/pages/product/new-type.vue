@@ -4,15 +4,9 @@ import {nextTick} from "vue";
 import Joi from "joi";
 
 const title = "Создать новый тип товаров"
-const productType = reactive({
-  title: "",
-  properties: []
-})
+const props = reactive([])
 const schema = Joi.object({
-  title: Joi.string().required().messages({
-    'string.empty': `"Имя типа товара" не может быть пустым`,
-  }),
-  properties: Joi.array().items(
+  props: Joi.array().items(
       Joi.object(
       { name: Joi.string().required().messages({
           'string.empty': 'Название свойства не может быть пустым'
@@ -28,13 +22,13 @@ function nowIsUpdating(key){
 }
 
 function addProperty() {
-  productType.properties.push({name: ""})
-  currentUpdatingPropertyKey.value = productType.properties.length - 1
-  updateProperty(productType.properties.length - 1)
+  props.push({name: ""})
+  currentUpdatingPropertyKey.value = props.length - 1
+  updateProperty(props.length - 1)
 }
 
 function removeProperty(key) {
-  productType.properties.splice(key, 1)
+  props.splice(key, 1)
 }
 
 function updateProperty(key) {
@@ -47,7 +41,7 @@ function updateProperty(key) {
 }
 const config = useRuntimeConfig();
 async function save() {
-  const validateResult = schema.validate(productType);
+  const validateResult = schema.validate(props);
   if(validateResult.hasOwnProperty('error')){
     console.log(validateResult.error?.message, validateResult)
     return;
@@ -56,7 +50,7 @@ async function save() {
       'http://api.pricecheck.my:82/api/product/product-type',
       {
         method: 'POST',
-        body: productType
+        body: props
       }
   )
 }
@@ -70,18 +64,6 @@ async function save() {
         осуществлять поиск</code></h6>
     </div>
     <div class="col-lg-12">
-      <div class="card m-b-30">
-        <div class="card-header">
-          <h5 class="card-title">Имя типа товара (для удобства использования)</h5>
-        </div>
-        <div class="card-body">
-          <div class="form-group mb-0">
-            <input type="text" class="form-control" :placeholder="faker.commerce.product()" v-model="productType.title">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12">
       <table class="table table-striped table-bordered" id="edit-btn">
         <thead>
         <tr>
@@ -91,7 +73,7 @@ async function save() {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(val, key, index) in productType.properties">
+        <tr v-for="(val, key, index) in props">
           <td>
             <span
                 class="tabledit-span tabledit-identifier"
