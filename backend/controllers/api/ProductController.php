@@ -2,9 +2,9 @@
 
 namespace app\controllers\api;
 
+use app\domain\ManageProductType\UseCases\ProductService;
+use app\forms\ParsingSchemaForm;
 use app\forms\ProductTypeForm;
-use app\services\ProductService;
-use yii\filters\Cors;
 use yii\filters\VerbFilter;
 
 class ProductController extends BaseApiController
@@ -38,5 +38,16 @@ class ProductController extends BaseApiController
             return $this->jsonApi->asArray();
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
+    }
+
+    public function actionCreateParsingSchema(): array{
+        $schemaForm = new ParsingSchemaForm();
+        $schemaForm->load($this->request->post());
+        if($schemaForm->validate()){
+            return $this->jsonApi->asArray();
+        }
+        return $this->jsonApi
+            ->addModelErrors($schemaForm)
+            ->asArray();
     }
 }

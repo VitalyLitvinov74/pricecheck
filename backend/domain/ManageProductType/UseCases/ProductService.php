@@ -1,6 +1,6 @@
 <?php
 
-namespace app\services;
+namespace app\domain\ManageProductType\UseCases;
 
 use app\domain\ManageProductType\Persistence\ProductCardRepository;
 use app\domain\ManageProductType\ProductType;

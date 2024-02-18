@@ -8,6 +8,6 @@ class ProductCardsCollection extends ActiveRecord
 {
     public static function collectionName(): string
     {
-        return 'product_cards';
+        return 'products_types';
     }
 }

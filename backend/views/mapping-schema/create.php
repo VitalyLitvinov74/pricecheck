@@ -2,11 +2,11 @@
 
 /**
  * @var View $this
- * @var MappingSchemaForm $form
+ * @var ParsingSchemaForm $form
  */
 
 use app\forms\MappingSchemaBunchForm;
-use app\forms\MappingSchemaForm;
+use app\forms\ParsingSchemaForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\web\View;
 use yii\widgets\ActiveForm;
