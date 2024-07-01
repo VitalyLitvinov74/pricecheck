@@ -1,11 +1,9 @@
 <?php
-
 namespace app\forms;
 
-use elisdn\compositeForm\CompositeForm;
 use yii\base\DynamicModel;
 
-class ProductTypeForm extends CompositeForm
+class ProductTypeForm
 {
     public $title;
 
@@ -27,23 +25,5 @@ class ProductTypeForm extends CompositeForm
     public function formName(): string
     {
         return '';
-    }
-
-    public function load($data, $formName = null): bool
-    {
-        $properties = [];
-        if (isset($data['properties'])) {
-            foreach ($data['properties'] as $property) {
-                $properties[] = new CardFieldForm();
-            }
-            DynamicModel::loadMultiple($properties, $data['properties']);
-        }
-        $this->properties = $properties;
-        return parent::load($data, $formName);
-    }
-
-    protected function internalForms(): array
-    {
-        return ['properties'];
     }
 }

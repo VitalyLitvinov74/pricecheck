@@ -2,6 +2,7 @@
 
 namespace app\domain\ManageProductType;
 use app\domain\ManageProductType\Models\CardField;
+use app\domain\ManageProductType\Models\ParsingMap;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,17 +19,19 @@ class ProductType
         mapWithArrayKey: 'fields'
     )]
     private ArrayCollection $fields;
-    private ArrayCollection $parsingMap;
+    private ArrayCollection $parsingMaps;
 
     public function __construct(string $name, ArrayCollection $fields = new ArrayCollection())
     {
         $this->fields = $fields;
-        $this->parsingMap = new ArrayCollection();
+        $this->parsingMaps = new ArrayCollection();
         $this->name = $name;
     }
 
-    public function addParsingMap(){
-
+    public function addParsingMap(string $name, array $map){
+        $this->parsingMaps->add(
+            new ParsingMap($name,)
+        );
     }
 
     public function addField(string $name): void
