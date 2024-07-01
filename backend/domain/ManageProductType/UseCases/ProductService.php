@@ -5,6 +5,7 @@ namespace app\domain\ManageProductType\UseCases;
 use app\domain\ManageProductType\Persistence\ProductCardRepository;
 use app\domain\ManageProductType\ProductType;
 use app\forms\ProductTypeForm;
+use yii\mongodb\Exception;
 
 class ProductService
 {
@@ -14,7 +15,12 @@ class ProductService
     {
     }
 
-    public function createProductType(ProductTypeForm $form): void
+    /**
+     * @param  ProductTypeForm  $form
+     * @return string - id
+     * @throws Exception
+     */
+    public function createProductType(ProductTypeForm $form): string
     {
         $productCard = new ProductType($form->title);
         foreach ($form->cardFields as $field){
@@ -23,6 +29,6 @@ class ProductService
                 $field->type
             );
         }
-        $this->productCardRepository->save($productCard);
+        return $this->productCardRepository->save($productCard);
     }
 }

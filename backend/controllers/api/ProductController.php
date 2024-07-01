@@ -33,14 +33,15 @@ class ProductController extends BaseApiController
         $productTypeForm = new ProductTypeForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
-            $this->service->createProductType($productTypeForm);
-            $this->jsonApi->setupCode(204);
+            $id = $this->service->createProductType($productTypeForm);
+            $this->jsonApi->addField('id', $id);
+            $this->jsonApi->setupCode(200);
             return $this->jsonApi->asArray();
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
     }
 
-    public function actionCreateParsingSchema(): array{
+    public function actionCreateSchema(): array{
         $schemaForm = new ParsingSchemaForm();
         $schemaForm->load($this->request->post());
         if($schemaForm->validate()){

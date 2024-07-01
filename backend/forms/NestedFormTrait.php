@@ -26,10 +26,10 @@ trait NestedFormTrait
         return true;
     }
 
-    private function validateNestedForm(string $propertyForErrors, string $propertyNameForNestedValidate): bool
+    private function validateNestedForm(string $propertyForErrors, string $nestedForms): bool
     {
         $propertiesErrors = [];
-        foreach ($this->$propertyNameForNestedValidate as $formNum => $form) {
+        foreach ($this->$nestedForms as $formNum => $form) {
             if ($form->validate() === false) {
                 foreach ($form->getErrors() as $errorName => $error) {
                     $propertiesErrors[$formNum][$errorName] = $error;

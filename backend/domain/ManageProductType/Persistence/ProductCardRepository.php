@@ -7,6 +7,7 @@ use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductCardsCollection;
 use Yii;
+use yii\mongodb\Exception;
 
 class ProductCardRepository
 {
@@ -16,10 +17,15 @@ class ProductCardRepository
     {
     }
 
-    public function save(ProductType $productType): void
+    /**
+     * @param  ProductType  $productType
+     * @return string - id сохраненной записи
+     * @throws Exception
+     */
+    public function save(ProductType $productType): string
     {
         $data = $this->objectMapper->map($productType, []);
-        ProductCardsCollection::getCollection()->insert($data);
+        return ProductCardsCollection::getCollection()->insert($data);
     }
 
 
