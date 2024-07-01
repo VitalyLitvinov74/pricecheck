@@ -34,10 +34,10 @@ class ProductType
         );
     }
 
-    public function addField(string $name): void
+    public function addField(string $name, string $type): void
     {
         $this->fields->add(
-            new CardField($name)
+            new CardField($name, $type)
         );
     }
 }

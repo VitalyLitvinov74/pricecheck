@@ -17,8 +17,11 @@ class ProductService
     public function createProductType(ProductTypeForm $form): void
     {
         $productCard = new ProductType($form->title);
-        foreach ($form->properties as $field){
-            $productCard->addField($field->name);
+        foreach ($form->cardFields as $field){
+            $productCard->addField(
+                $field->name,
+                $field->type
+            );
         }
         $this->productCardRepository->save($productCard);
     }

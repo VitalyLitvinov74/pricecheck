@@ -34,7 +34,7 @@ class JsonApi
         return $this;
     }
 
-    public function addError(string $detail, string|null $title = null): self
+    public function addError(string|array $detail, string|null $title = null): self
     {
         $error = [
             'detail' => $detail
