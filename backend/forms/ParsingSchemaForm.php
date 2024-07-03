@@ -2,15 +2,15 @@
 
 namespace app\forms;
 
+use app\domain\ManageProductType\Models\RelationshipPair;
 use yii\base\Model;
 
-class ParsingSchemaForm extends Model
+class ParsingSchemaForm extends NestedForm
 {
-    use NestedFormTrait;
     public $name;
+    /** @var RelationPairForm */
     public $map;
     public $productTypeId;
-    public $relationsPairs;
 
     public function rules(): array
     {
@@ -21,28 +21,15 @@ class ParsingSchemaForm extends Model
         ];
     }
 
-    public function load($data, $formName = null): bool
-    {
-        if(!parent::load($data, $formName)){
-            return false;
-        }
-        return $this->loadNestedForm(
-            'map',
-            'relationsPairs',
-            RelationPairForm::class
-        );
-    }
-
-    public function validate($attributeNames = null, $clearErrors = true): bool
-    {
-        if(!parent::validate($attributeNames, $clearErrors)){
-            return false;
-        }
-        return $this->validateNestedForm('map', 'relationsPairs');
-    }
-
     public function formName(): string
     {
         return '';
+    }
+
+    protected function nestedFormsMap(): array
+    {
+        return [
+            'map' => RelationPairForm::class
+        ];
     }
 }

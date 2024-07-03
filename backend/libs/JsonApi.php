@@ -27,9 +27,7 @@ class JsonApi
     {
         $errors = $model->getErrors();
         foreach ($errors as $title => $nestedErrors) {
-            foreach ($nestedErrors as $nestedError) {
-                $this->addError($nestedError, $title);
-            }
+            $this->errors->set($title, $nestedErrors);
         }
         return $this;
     }
@@ -73,9 +71,10 @@ class JsonApi
         if ($this->errors->isEmpty()) {
             return $this->fields->toArray();
         }
-        return [
-            'errors' => $this->errors->toArray()
-        ];
+        if($this->code === 200){
+            $this->setupCode(422);
+        }
+        return $this->errors->toArray();
     }
 
     public function addBody(array|null $body): self

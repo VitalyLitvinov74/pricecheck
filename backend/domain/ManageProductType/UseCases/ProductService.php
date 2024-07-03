@@ -23,7 +23,7 @@ class ProductService
     public function createProductType(ProductTypeForm $form): string
     {
         $productCard = new ProductType($form->title);
-        foreach ($form->cardFields as $field){
+        foreach ($form->properties as $field){
             $productCard->addField(
                 $field->name,
                 $field->type
