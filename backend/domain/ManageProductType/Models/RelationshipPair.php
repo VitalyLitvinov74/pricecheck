@@ -4,7 +4,7 @@ namespace app\domain\ManageProductType\Models;
 
 class RelationshipPair
 {
-    public function __construct(private string $productPropertyName, private string $externalProductName)
+    public function __construct(private string $productPropertyName, private string $externalName, private string $externalColumnName)
     {
     }
 
@@ -15,6 +15,6 @@ class RelationshipPair
 
     public function changeRelation(string $externalName): void
     {
-        $this->externalProductName = $externalName;
+        $this->externalName = $externalName;
     }
 }

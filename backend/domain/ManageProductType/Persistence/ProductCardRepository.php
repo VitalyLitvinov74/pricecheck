@@ -28,5 +28,10 @@ class ProductCardRepository
         return ProductCardsCollection::getCollection()->insert($data);
     }
 
+    public function findById(string $productTypeId): ProductType
+    {
+
+    }
+
 
 }

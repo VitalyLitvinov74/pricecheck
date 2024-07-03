@@ -8,16 +8,18 @@ use yii\base\Model;
 class ParsingSchemaForm extends NestedForm
 {
     public $name;
-    /** @var RelationPairForm */
+    /** @var RelationPairForm[] */
     public $map;
     public $productTypeId;
+
+    public $startWithRowNum;
 
     public function rules(): array
     {
         return [
-            [['name', 'productTypeId', 'map'], 'required'],
-            ['name', 'string'],
-            ['productTypeId', 'string']
+            [['name', 'productTypeId', 'map', 'startWithRowNum'], 'required'],
+            [['name', 'productTypeId'], 'string'],
+            ['startWithRowNum', 'integer']
         ];
     }
 

@@ -12,9 +12,9 @@ class ParsingMap
      */
     public function __construct(
         private string $name,
-        private ArrayCollection $relationshipPairs = new ArrayCollection()
-    )
-    {
+        private int $startWithRowNum = 2,
+        private ArrayCollection $relationshipPairs = new ArrayCollection(),
+    ) {
     }
 
     public function addRelationshipPair(string $name, string $externalName): void
@@ -32,5 +32,10 @@ class ParsingMap
                 new RelationshipPair($name, $externalName)
             );
         }
+    }
+
+    public function hasName(string $name): bool
+    {
+        return $this->name === $name;
     }
 }
