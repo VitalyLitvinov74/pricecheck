@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageProductType;
 
-use app\domain\ManageProductType\Models\CardField;
+use app\domain\ManageProductType\Models\CategoryField;
 use app\domain\ManageProductType\Models\ParsingMap;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
@@ -16,7 +16,7 @@ class Category
     private string $name;
 
     #[HasManyModels(
-        nestedType: CardField::class,
+        nestedType: CategoryField::class,
         mapWithArrayKey: 'fields'
     )]
     private ArrayCollection $fields;
@@ -53,12 +53,24 @@ class Category
     public function addField(string $name, string $type): void
     {
         $this->fields->add(
-            new CardField($name, $type)
+            new CategoryField($name, $type)
         );
     }
 
     public function change(): void
     {
+    }
 
+    public function switchFieldInSearch(string $fieldName): void
+    {
+        $field = $this->fields->findFirst(
+            function($key, CategoryField $field) use($fieldName){
+                return $field->hasName($fieldName);
+            }
+        );
+        if($field === null){
+            return;
+        }
+        $field->switch();
     }
 }
