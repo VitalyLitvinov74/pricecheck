@@ -15,9 +15,9 @@ class XlsxCell
         return $value;
     }
 
-    public function hasName(string $comparedName): bool
+    public function hasColumnName(string $comparedName): bool
     {
-
+        return strtolower($this->columnName) == strtolower($comparedName);
     }
 
 }

@@ -14,7 +14,9 @@ class ProductCard
         private string $categoryId,
         private ArrayCollection $properties = new ArrayCollection()) { }
 
-    public function add(CardProperty $property): void{
-        $this->properties->add($property);
+    public function addProperty(string $name, mixed $value): void{
+        $this->properties->add(
+            new CardProperty($name, $value)
+        );
     }
 }

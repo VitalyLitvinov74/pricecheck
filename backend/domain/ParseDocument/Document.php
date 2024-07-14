@@ -2,10 +2,9 @@
 
 namespace app\domain\ParseDocument;
 
-use app\domain\ParseDocument\Models\XlsxRow;
+use app\domain\ParseDocument\Models\Category;
 use app\domain\ParseDocument\Models\MappingSchema;
 use app\domain\ParseDocument\Models\ProductCard;
-use app\domain\ParseDocument\Models\Category;
 use app\domain\ParseDocument\Models\XlsxFile;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -14,9 +13,8 @@ class Document
     private int $version;
 
     public function __construct(
-        private string        $path,
-    )
-    {
+        private string $path,
+    ) {
         $this->version = time();
     }
 
@@ -28,9 +26,11 @@ class Document
     {
         $xlsx = new XlsxFile($this->path);
         $products = new ArrayCollection();
-        foreach ($xlsx->rows() as $row){
+        foreach ($xlsx->rows() as $row) {
             $product = $mappingSchema->convertRowToProductCard($row);
-            $products->add($product);
+            if ($product !== null) {
+                $products->add($product);
+            }
         }
         return $products;
     }

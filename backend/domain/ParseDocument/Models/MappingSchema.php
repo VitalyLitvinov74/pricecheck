@@ -22,26 +22,25 @@ class MappingSchema
 
     /**
      * @param  XlsxRow  $row
-     * @return ProductCard
+     * @return ProductCard|null
      */
     public function convertRowToProductCard(XlsxRow $row): ProductCard|null
     {
-        if($row->numMoreThan($this->startWithRowNum - 1)){
+        if ($row->numMoreThan($this->startWithRowNum - 1)) {
             return null;
         }
         $productCard = new ProductCard($this->categoryId);
-        foreach ($this->mappingPairs as $pair){
+        foreach ($this->mappingPairs as $pair) {
             foreach ($row->cells() as $cell) {
-               if($cell->hasName($pair->name())){
-                   $productCard->add(
-                       new CardProperty(
-                           $pair->name(),
-                           $cell->value(
-                               $pair->type()
-                           )
-                       )
-                   );
-               }
+                if (!$cell->hasColumnName($pair->externalName())) {
+                    continue;
+                }
+                $productCard->addProperty(
+                    $pair->name(),
+                    $cell->value(
+                        $pair->type()
+                    )
+                );
             }
         }
         return $productCard;
