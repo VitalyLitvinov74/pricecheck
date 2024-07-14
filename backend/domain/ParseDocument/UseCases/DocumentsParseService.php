@@ -10,14 +10,14 @@ class DocumentsParseService
 {
     public function __construct(
         private MappingSchemasRepository $mappingSchemasRepository = new MappingSchemasRepository(),
-        private ProductCardsRepository $productCardsRepository = new ProductCardsRepository()
+        private ProductCardsRepository $DocumentRepository = new ProductCardsRepository()
     ) { }
 
-    public function parse(string $documentPath, string $categoryId, string $parsingMap): void
+    public function parse(string $filePath, $filePassedName, string $categoryId, string $parsingMap): void
     {
-        $document = new Document($documentPath);
+        $document = new Document($filePath, $filePassedName);
         $mappingSchema = $this->mappingSchemasRepository->findBy($categoryId, $parsingMap);
-        $productCards = $document->parseUse($mappingSchema);
-        $this->productCardsRepository->save($productCards);
+        $document->parseUse($mappingSchema);
+        $this->DocumentRepository->save($document);
     }
 }

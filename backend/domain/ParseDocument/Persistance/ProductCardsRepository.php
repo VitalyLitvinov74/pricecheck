@@ -2,11 +2,11 @@
 
 namespace app\domain\ParseDocument\Persistance;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use app\domain\ParseDocument\Document;
 
 class ProductCardsRepository
 {
-    public function save(ArrayCollection $productCards): void{
+    public function save(Document $document): void{
 
     }
 }
