@@ -2,10 +2,10 @@
 
 namespace app\domain\ManageProductType\UseCases;
 
-use app\domain\ManageProductType\ManageProductTypeException;
+use app\domain\ManageProductType\CategoryException;
 use app\domain\ManageProductType\Models\ParsingMap;
 use app\domain\ManageProductType\Persistence\ProductCardRepository;
-use app\domain\ManageProductType\ProductType;
+use app\domain\ManageProductType\Category;
 use app\forms\ProductTypeForm;
 use app\forms\RelationPairForm;
 use yii\mongodb\Exception;
@@ -24,7 +24,7 @@ class ProductTypeService
      */
     public function createProductType(ProductTypeForm $form): string
     {
-        $productType = new ProductType($form->title);
+        $productType = new Category($form->title);
         foreach ($form->properties as $field) {
             $productType->addField(
                 $field->name,
@@ -40,7 +40,7 @@ class ProductTypeService
      * @param  RelationPairForm[]  $map
      * @param  string  $productTypeId
      * @return void
-     * @throws ManageProductTypeException
+     * @throws CategoryException
      */
     public function addParsingSchemaTo(string $name, int $startParseFromRowNum, array $map, string $productTypeId): void
     {

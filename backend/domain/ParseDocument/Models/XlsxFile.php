@@ -12,7 +12,7 @@ class XlsxFile
     }
 
     /**
-     * @return ArrayCollection<int, DataRow>
+     * @return ArrayCollection<int, XlsxCell>
      */
     public function rows(): ArrayCollection
     {
@@ -21,7 +21,7 @@ class XlsxFile
         $collection = new ArrayCollection();
         foreach ($xlsx->readRows() as $row) {
             $collection->add(
-                new DataRow($row)
+                new XlsxRow($row)
             );
         }
         return $collection;

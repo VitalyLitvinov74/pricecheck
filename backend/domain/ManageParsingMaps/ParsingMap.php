@@ -2,12 +2,19 @@
 
 namespace app\domain\ManageParsingMaps;
 
-use app\domain\ManageProductType\Models\RelationshipPair;
+use app\domain\ManageParsingMaps\Models\RelationshipPair;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ParsingMap
 {
     private ArrayCollection $productLinkedMaps;
+
+    /**
+     * @param  string  $productTypeId
+     * @param  string  $name
+     * @param  int  $startWithRowNum
+     * @param  ArrayCollection<int, RelationshipPair>  $relationshipPairs
+     */
     public function __construct(
         private string $productTypeId,
         private string $name,
@@ -16,7 +23,7 @@ class ParsingMap
     ) {
     }
 
-    public function changeName(string $newName): void
+    public function rename(string $newName): void
     {
         $this->name = $newName;
     }
@@ -26,13 +33,14 @@ class ParsingMap
         $this->startWithRowNum = $rowNum;
     }
 
-    public function replaceRelationshipsPairs(ArrayCollection $relationshipsPairs): void
+    public function changeRelationPairLink(string $pairName, string $newName, string $newFieldName): void
     {
-        $this->relationshipPairs = $relationshipsPairs;
-    }
-
-    public function addRelationshipsPair(RelationshipPair $relationshipPair): void
-    {
-        $this->relationshipPairs->add($relationshipPair);
+        $pair = $this->relationshipPairs->findFirst(function ($key, RelationshipPair $relationshipPair) use ($pairName) {
+            return $relationshipPair->hasNameProperty($pairName);
+        });
+        if (is_null($pair)) {
+            return;
+        }
+        $pair->changeRelation($newName, $newFieldName);
     }
 }

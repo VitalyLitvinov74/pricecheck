@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageProductType\Persistence;
 
-use app\domain\ManageProductType\ProductType;
+use app\domain\ManageProductType\Category;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductCardsCollection;
@@ -18,17 +18,17 @@ class ProductCardRepository
     }
 
     /**
-     * @param  ProductType  $productType
+     * @param  Category  $productType
      * @return string - id сохраненной записи
      * @throws Exception
      */
-    public function save(ProductType $productType): string
+    public function save(Category $productType): string
     {
         $data = $this->objectMapper->map($productType, []);
         return ProductCardsCollection::getCollection()->insert($data);
     }
 
-    public function findById(string $productTypeId): ProductType
+    public function findById(string $productTypeId): Category
     {
 
     }

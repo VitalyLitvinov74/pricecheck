@@ -8,7 +8,7 @@ use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ProductType
+class Category
 {
     #[Property(
         mapWithArrayKey: 'name'
@@ -36,13 +36,13 @@ class ProductType
      * @param  string  $name
      * @param  ParsingMap  $map
      * @return void
-     * @throws ManageProductTypeException
+     * @throws CategoryException
      */
     public function addParsingMap(string $name, ParsingMap $map): void
     {
         foreach ($this->parsingMaps as $map) {
             if ($map->hasName($name)) {
-                throw new ManageProductTypeException(
+                throw new CategoryException(
                     'Уже существует карта соотношений с таким именем'
                 );
             }

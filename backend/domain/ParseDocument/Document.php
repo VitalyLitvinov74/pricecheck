@@ -2,44 +2,36 @@
 
 namespace app\domain\ParseDocument;
 
+use app\domain\ParseDocument\Models\XlsxRow;
 use app\domain\ParseDocument\Models\MappingSchema;
-use app\domain\ParseDocument\Models\Product;
+use app\domain\ParseDocument\Models\ProductCard;
+use app\domain\ParseDocument\Models\Category;
 use app\domain\ParseDocument\Models\XlsxFile;
-use app\domain\ParseDocument\Snapshots\DocumentSnapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Document
 {
-    /** @var ArrayCollection<int, Product> $products */
-    private ArrayCollection $products;
     private int $version;
 
     public function __construct(
         private string        $path,
-        private MappingSchema $mappingSchema
     )
     {
-        $this->products = new ArrayCollection();
         $this->version = time();
     }
 
-    public function parse(): void
+    /**
+     * @param  MappingSchema  $mappingSchema
+     * @return ArrayCollection<int, ProductCard>
+     */
+    public function parseUse(MappingSchema $mappingSchema): ArrayCollection
     {
-        $file = new XlsxFile($this->path);
-        foreach ($file->rows() as $row) {
-            $product = $row->convertToProduct($this->mappingSchema);
-            $this->products->add($product);
+        $xlsx = new XlsxFile($this->path);
+        $products = new ArrayCollection();
+        foreach ($xlsx->rows() as $row){
+            $product = $mappingSchema->convertRowToProductCard($row);
+            $products->add($product);
         }
-    }
-
-    public function makeSnapshot(): DocumentSnapshot
-    {
-        $snapshot =  new DocumentSnapshot(
-            $this->version,
-            $this->path
-        );
-        return $snapshot
-            ->snapProducts($this->products)
-            ->snapMappingSchema($this->mappingSchema);
+        return $products;
     }
 }
