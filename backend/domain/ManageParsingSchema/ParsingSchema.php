@@ -3,12 +3,13 @@
 namespace app\domain\ManageParsingSchema;
 
 use app\domain\ManageParsingSchema\Models\RelationshipPair;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
+#[DomainModel]
 class ParsingSchema
 {
-    private ArrayCollection $productLinkedMaps;
-
     /**
      * @param string $categoryId
      * @param string $name
@@ -16,9 +17,13 @@ class ParsingSchema
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
      */
     public function __construct(
+        #[Property(mapWithArrayKey: "categoryId")]
         private string          $categoryId,
+        #[Property(mapWithArrayKey: 'name')]
         private string          $name,
+        #[Property(mapWithArrayKey: 'startWithRowNum')]
         private int             $startWithRowNum = 2,
+        #[Property(mapWithArrayKey: 'relationshipPairs')]
         private ArrayCollection $relationshipPairs = new ArrayCollection(),
     )
     {
@@ -36,6 +41,7 @@ class ParsingSchema
 
     public function add(RelationshipPair $pair): void
     {
+        $this->relationshipPairs->add($pair);
     }
 
     public function changeRelationPairLink(string $pairName, string $newName, string $newFieldName): void

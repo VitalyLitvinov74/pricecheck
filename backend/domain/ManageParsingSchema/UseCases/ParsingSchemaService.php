@@ -21,7 +21,7 @@ class ParsingSchemaService
      * @param RelationPairForm[] $relationshipPairsForms
      * @return void
      */
-    public function create(string $categoryId, string $name, $startFromRow, array $relationshipPairsForms): void
+    public function create(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
     {
         $schema = new ParsingSchema(
             $categoryId,

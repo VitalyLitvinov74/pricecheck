@@ -10,15 +10,15 @@ class ParsingSchemaForm extends NestedForm
     public $name;
     /** @var RelationPairForm[] */
     public $map;
-    public $productTypeId;
+    public $categoryId;
 
     public $startWithRowNum;
 
     public function rules(): array
     {
         return [
-            [['name', 'productTypeId', 'map', 'startWithRowNum'], 'required'],
-            [['name', 'productTypeId'], 'string'],
+            [['name', 'categoryId', 'map', 'startWithRowNum'], 'required'],
+            [['name', 'categoryId'], 'string'],
             ['startWithRowNum', 'integer']
         ];
     }

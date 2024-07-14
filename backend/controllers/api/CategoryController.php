@@ -49,10 +49,11 @@ class CategoryController extends BaseApiController
         $schemaForm->load($this->request->post());
         if($schemaForm->validate()){
             $this->parsingSchemaService->create(
+                $schemaForm->categoryId,
                 $schemaForm->name,
                 $schemaForm->startWithRowNum,
                 $schemaForm->map,
-                $schemaForm->productTypeId
+
             );
             return $this->jsonApi->asArray();
         }
