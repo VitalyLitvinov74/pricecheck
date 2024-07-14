@@ -1,9 +1,9 @@
 <?php
 
-namespace app\domain\ManageCategories\Persistence;
+namespace app\domain\ManageCategory\Persistence;
 
-use app\domain\ManageCategories\Category;
-use app\domain\ManageCategories\CategoryException;
+use app\domain\ManageCategory\Category;
+use app\domain\ManageCategory\CategoryException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\records\CategoriesCollection;
 use yii\mongodb\Exception;

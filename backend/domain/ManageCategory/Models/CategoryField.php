@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageCategories\Models;
+namespace app\domain\ManageCategory\Models;
 
-use app\domain\ManageCategories\Models\FieldState;
+use app\domain\ManageCategory\Models\FieldState;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property;
 
@@ -14,6 +14,7 @@ class CategoryField
         private string $name,
         #[Property(mapWithArrayKey: 'type')]
         private string $type,
+        #[Property(mapWithArrayKey: 'state')]
         private FieldState $state = FieldState::On
     ) {
     }

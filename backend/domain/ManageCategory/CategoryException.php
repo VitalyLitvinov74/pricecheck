@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageCategories;
+namespace app\domain\ManageCategory;
 
 class CategoryException extends \Exception
 {

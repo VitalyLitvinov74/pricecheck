@@ -2,21 +2,20 @@
 
 namespace app\domain\ManageParsingSchema\Models;
 
-use app\domain\ManageParsingSchema\ManagerParsingPair\Models\NeighboringPair;
-use app\domain\ManageCategories\CategoryException;
+use app\domain\ManageCategory\CategoryException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class RelationshipPair
 {
-    private string $productPropertyName;
-    private string $externalFieldName;
-
     /**
      * @var ArrayCollection<int, RelationshipPair>
      */
     private ArrayCollection $neighboringPairs;
 
-    private function __construct() { }
+    public function __construct(
+        private string $productPropertyName,
+        private string $externalFieldName,
+    ) { }
 
     public function changeRelation(string $newName, string $newFieldName): void
     {

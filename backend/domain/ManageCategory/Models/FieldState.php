@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageCategories\Models;
+namespace app\domain\ManageCategory\Models;
 
 enum FieldState: string
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace app\domain\ManageCategories\UseCases;
+namespace app\domain\ManageCategory\UseCases;
 
-use app\domain\ManageCategories\CategoryException;
-use app\domain\ManageCategories\Models\Schema;
-use app\domain\ManageCategories\Persistence\CategoryRepository;
-use app\domain\ManageCategories\Category;
+use app\domain\ManageCategory\CategoryException;
+use app\domain\ManageCategory\Models\Schema;
+use app\domain\ManageCategory\Persistence\CategoryRepository;
+use app\domain\ManageCategory\Category;
 use app\forms\CategoryForm;
 use app\forms\RelationPairForm;
 use yii\mongodb\Exception;
@@ -32,28 +32,6 @@ class CategoryService
             );
         }
         return $this->categoryRepository->save($productType);
-    }
-
-    /**
-     * @param  string  $schemaName
-     * @param  int  $startParseFromRowNum
-     * @param  RelationPairForm[]  $map
-     * @param  string  $categoryId
-     * @return void
-     * @throws CategoryException
-     */
-    public function addParsingSchemaTo(string $schemaName, int $startParseFromRowNum, array $map, string $categoryId): void
-    {
-        $category = $this->categoryRepository->findById($categoryId);
-        $schema = new Schema($schemaName, $startParseFromRowNum);
-        foreach ($map as $pairForm) {
-            $schema->addRelationshipPair(
-                $pairForm->productPropertyName,
-                $pairForm->externalFieldName
-            );
-        }
-        $category->addParsingSchema($schema);
-        $this->categoryRepository->save($category);
     }
 
     public function change(): void

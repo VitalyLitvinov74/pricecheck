@@ -2,7 +2,8 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageCategories\UseCases\CategoryService;
+use app\domain\ManageCategory\UseCases\CategoryService;
+use app\domain\ManageParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
 use app\forms\CategoryForm;
 use yii\filters\VerbFilter;
@@ -10,6 +11,7 @@ use yii\filters\VerbFilter;
 class CategoryController extends BaseApiController
 {
     private CategoryService $service;
+    private ParsingSchemaService $parsingSchemaService;
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
@@ -25,6 +27,7 @@ class CategoryController extends BaseApiController
     public function init(): void
     {
         $this->service = new CategoryService();
+        $this->parsingSchemaService = new ParsingSchemaService();
         parent::init();
     }
 
@@ -45,7 +48,7 @@ class CategoryController extends BaseApiController
         $schemaForm = new ParsingSchemaForm();
         $schemaForm->load($this->request->post());
         if($schemaForm->validate()){
-            $this->->addParsingSchemaTo(
+            $this->parsingSchemaService->create(
                 $schemaForm->name,
                 $schemaForm->startWithRowNum,
                 $schemaForm->map,

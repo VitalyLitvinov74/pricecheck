@@ -1,9 +1,8 @@
 <?php
 
-namespace app\domain\ManageCategories;
+namespace app\domain\ManageCategory;
 
-use app\domain\ManageCategories\Models\CategoryField;
-use app\domain\ManageCategories\Models\Schema;
+use app\domain\ManageCategory\Models\CategoryField;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,33 +19,11 @@ class Category
         mapWithArrayKey: 'fields'
     )]
     private ArrayCollection $fields;
-    /**
-     * @var ArrayCollection<int, Schema>
-     */
-    private ArrayCollection $parsingSchemas;
 
     public function __construct(string $name, ArrayCollection $fields = new ArrayCollection())
     {
         $this->fields = $fields;
-        $this->parsingSchemas = new ArrayCollection();
         $this->name = $name;
-    }
-
-    /**
-     * @param  Schema  $schema
-     * @return void
-     * @throws CategoryException
-     */
-    public function addParsingSchema(Schema $schema): void
-    {
-        foreach ($this->parsingSchemas as $existedSchema) {
-            if ($existedSchema->compareWith($schema)) {
-                throw new CategoryException(
-                    'Уже существует карта соотношений с таким именем'
-                );
-            }
-        }
-        $this->parsingSchemas->add($schema);
     }
 
     public function addField(string $name, string $type): void
