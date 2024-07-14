@@ -3,26 +3,26 @@
 namespace app\domain\ManageCategories\UseCases;
 
 use app\domain\ManageCategories\CategoryException;
-use app\domain\ManageCategories\Models\ParsingMap;
-use app\domain\ManageCategories\Persistence\ProductCardRepository;
+use app\domain\ManageCategories\Models\Schema;
+use app\domain\ManageCategories\Persistence\CategoryRepository;
 use app\domain\ManageCategories\Category;
-use app\forms\ProductTypeForm;
+use app\forms\CategoryForm;
 use app\forms\RelationPairForm;
 use yii\mongodb\Exception;
 
-class ProductTypeService
+class CategoryService
 {
     public function __construct(
-        private ProductCardRepository $productTypeRepository = new ProductCardRepository()
+        private CategoryRepository $categoryRepository = new CategoryRepository()
     ) {
     }
 
     /**
-     * @param  ProductTypeForm  $form
+     * @param  CategoryForm  $form
      * @return string - id
      * @throws Exception
      */
-    public function createProductType(ProductTypeForm $form): string
+    public function create(CategoryForm $form): string
     {
         $productType = new Category($form->title);
         foreach ($form->properties as $field) {
@@ -31,28 +31,29 @@ class ProductTypeService
                 $field->type
             );
         }
-        return $this->productTypeRepository->save($productType);
+        return $this->categoryRepository->save($productType);
     }
 
     /**
-     * @param  string  $name
+     * @param  string  $schemaName
      * @param  int  $startParseFromRowNum
      * @param  RelationPairForm[]  $map
-     * @param  string  $productTypeId
+     * @param  string  $categoryId
      * @return void
      * @throws CategoryException
      */
-    public function addParsingSchemaTo(string $name, int $startParseFromRowNum, array $map, string $productTypeId): void
+    public function addParsingSchemaTo(string $schemaName, int $startParseFromRowNum, array $map, string $categoryId): void
     {
-        $productType = $this->productTypeRepository->findById($productTypeId);
-        $parsingMap = new ParsingMap($name, $startParseFromRowNum);
+        $category = $this->categoryRepository->findById($categoryId);
+        $schema = new Schema($schemaName, $startParseFromRowNum);
         foreach ($map as $pairForm) {
-            $parsingMap->addRelationshipPair(
+            $schema->addRelationshipPair(
                 $pairForm->productPropertyName,
                 $pairForm->externalFieldName
             );
         }
-        $productType->addParsingMap($name, $parsingMap);
+        $category->addParsingSchema($schema);
+        $this->categoryRepository->save($category);
     }
 
     public function change(): void

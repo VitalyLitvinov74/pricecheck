@@ -2,14 +2,14 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageCategories\UseCases\ProductTypeService;
+use app\domain\ManageCategories\UseCases\CategoryService;
 use app\forms\ParsingSchemaForm;
-use app\forms\ProductTypeForm;
+use app\forms\CategoryForm;
 use yii\filters\VerbFilter;
 
 class CategoryController extends BaseApiController
 {
-    private ProductTypeService $service;
+    private CategoryService $service;
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
@@ -24,16 +24,16 @@ class CategoryController extends BaseApiController
 
     public function init(): void
     {
-        $this->service = new ProductTypeService();
+        $this->service = new CategoryService();
         parent::init();
     }
 
     public function actionCreate(): array
     {
-        $productTypeForm = new ProductTypeForm();
+        $productTypeForm = new CategoryForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
-            $id = $this->service->createProductType($productTypeForm);
+            $id = $this->service->create($productTypeForm);
             $this->jsonApi->addField('id', $id);
             $this->jsonApi->setupCode(200);
             return $this->jsonApi->asArray();

@@ -3,7 +3,7 @@
 namespace app\domain\ManageCategories;
 
 use app\domain\ManageCategories\Models\CategoryField;
-use app\domain\ManageCategories\Models\ParsingMap;
+use app\domain\ManageCategories\Models\Schema;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,33 +21,32 @@ class Category
     )]
     private ArrayCollection $fields;
     /**
-     * @var ArrayCollection<int, ParsingMap>
+     * @var ArrayCollection<int, Schema>
      */
-    private ArrayCollection $parsingMaps;
+    private ArrayCollection $parsingSchemas;
 
     public function __construct(string $name, ArrayCollection $fields = new ArrayCollection())
     {
         $this->fields = $fields;
-        $this->parsingMaps = new ArrayCollection();
+        $this->parsingSchemas = new ArrayCollection();
         $this->name = $name;
     }
 
     /**
-     * @param  string  $name
-     * @param  ParsingMap  $map
+     * @param  Schema  $schema
      * @return void
      * @throws CategoryException
      */
-    public function addParsingMap(string $name, ParsingMap $map): void
+    public function addParsingSchema(Schema $schema): void
     {
-        foreach ($this->parsingMaps as $map) {
-            if ($map->hasName($name)) {
+        foreach ($this->parsingSchemas as $existedSchema) {
+            if ($existedSchema->compareWith($schema)) {
                 throw new CategoryException(
                     'Уже существует карта соотношений с таким именем'
                 );
             }
         }
-        $this->parsingMaps->add($map);
+        $this->parsingSchemas->add($schema);
     }
 
     public function addField(string $name, string $type): void

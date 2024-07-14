@@ -4,7 +4,7 @@ namespace app\domain\ManageCategories\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ParsingMap
+class Schema
 {
     /**
      * @param  string  $name
@@ -17,7 +17,7 @@ class ParsingMap
     ) {
     }
 
-    public function addRelationshipPair(string $name, string $externalName): void
+    public function addRelationshipPair(string $name, string $externalName, string $productExternalName = ''): void
     {
         $relationChanged = false;
         foreach ($this->relationshipPairs as $relationshipPair) {
@@ -29,7 +29,7 @@ class ParsingMap
         }
         if ($relationChanged === false) {
             $this->relationshipPairs->add(
-                new RelationshipPair($name, $externalName)
+                new RelationshipPair($name, $externalName, $productExternalName)
             );
         }
     }
@@ -37,5 +37,9 @@ class ParsingMap
     public function hasName(string $name): bool
     {
         return $this->name === $name;
+    }
+
+    public function compareWith(Schema $schema): bool {
+        return $schema->hasName($this->name);
     }
 }

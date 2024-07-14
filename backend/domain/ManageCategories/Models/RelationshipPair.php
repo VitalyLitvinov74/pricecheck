@@ -4,7 +4,7 @@ namespace app\domain\ManageCategories\Models;
 
 class RelationshipPair
 {
-    public function __construct(private string $productPropertyName, private string $externalName, private string $externalColumnName)
+    public function __construct(private string $productPropertyName, private string $externalName, private string $externalColumnName = '')
     {
     }
 

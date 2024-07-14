@@ -1,7 +1,7 @@
 <?php
 namespace app\forms;
 
-class ProductTypeForm extends NestedForm
+class CategoryForm extends NestedForm
 {
     public $title;
 
