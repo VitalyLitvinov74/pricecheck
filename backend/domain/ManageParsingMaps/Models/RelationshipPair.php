@@ -3,7 +3,7 @@
 namespace app\domain\ManageParsingMaps\Models;
 
 use app\domain\ManageParsingMaps\ManagerParsingPair\Models\NeighboringPair;
-use app\domain\ManageProductType\CategoryException;
+use app\domain\ManageCategories\CategoryException;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class RelationshipPair

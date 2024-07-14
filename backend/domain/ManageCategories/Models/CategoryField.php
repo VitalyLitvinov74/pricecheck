@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageProductType\Models;
+namespace app\domain\ManageCategories\Models;
 
 use app\domain\ManageCategories\Models\FieldState;
 use app\libs\ObjectMapper\Attributes\DomainModel;

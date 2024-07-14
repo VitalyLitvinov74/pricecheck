@@ -1,9 +1,9 @@
 <?php
 
-namespace app\domain\ManageProductType;
+namespace app\domain\ManageCategories;
 
-use app\domain\ManageProductType\Models\CategoryField;
-use app\domain\ManageProductType\Models\ParsingMap;
+use app\domain\ManageCategories\Models\CategoryField;
+use app\domain\ManageCategories\Models\ParsingMap;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;

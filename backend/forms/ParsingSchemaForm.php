@@ -2,7 +2,7 @@
 
 namespace app\forms;
 
-use app\domain\ManageProductType\Models\RelationshipPair;
+use app\domain\ManageCategories\Models\RelationshipPair;
 use yii\base\Model;
 
 class ParsingSchemaForm extends NestedForm

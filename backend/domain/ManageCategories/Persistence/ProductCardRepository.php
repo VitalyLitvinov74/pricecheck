@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageProductType\Persistence;
+namespace app\domain\ManageCategories\Persistence;
 
-use app\domain\ManageProductType\Category;
+use app\domain\ManageCategories\Category;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductCardsCollection;

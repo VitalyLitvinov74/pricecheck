@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageProductType\UseCases\ProductTypeService;
+use app\domain\ManageCategories\UseCases\ProductTypeService;
 use app\forms\ParsingSchemaForm;
 use app\forms\ProductTypeForm;
 use yii\filters\VerbFilter;

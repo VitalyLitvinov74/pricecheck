@@ -1,11 +1,11 @@
 <?php
 
-namespace app\domain\ManageProductType\UseCases;
+namespace app\domain\ManageCategories\UseCases;
 
-use app\domain\ManageProductType\CategoryException;
-use app\domain\ManageProductType\Models\ParsingMap;
-use app\domain\ManageProductType\Persistence\ProductCardRepository;
-use app\domain\ManageProductType\Category;
+use app\domain\ManageCategories\CategoryException;
+use app\domain\ManageCategories\Models\ParsingMap;
+use app\domain\ManageCategories\Persistence\ProductCardRepository;
+use app\domain\ManageCategories\Category;
 use app\forms\ProductTypeForm;
 use app\forms\RelationPairForm;
 use yii\mongodb\Exception;
