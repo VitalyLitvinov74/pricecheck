@@ -45,7 +45,7 @@ class CategoryController extends BaseApiController
         $schemaForm = new ParsingSchemaForm();
         $schemaForm->load($this->request->post());
         if($schemaForm->validate()){
-            $this->service->addParsingSchemaTo(
+            $this->->addParsingSchemaTo(
                 $schemaForm->name,
                 $schemaForm->startWithRowNum,
                 $schemaForm->map,

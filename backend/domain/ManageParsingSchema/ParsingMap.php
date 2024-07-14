@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageParsingMaps;
+namespace app\domain\ManageParsingSchema;
 
-use app\domain\ManageParsingMaps\Models\RelationshipPair;
+use app\domain\ManageParsingSchema\Models\RelationshipPair;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ParsingMap

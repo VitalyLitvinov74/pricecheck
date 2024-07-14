@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageParsingMaps\Models;
+namespace app\domain\ManageParsingSchema\Models;
 
-use app\domain\ManageParsingMaps\ManagerParsingPair\Models\NeighboringPair;
+use app\domain\ManageParsingSchema\ManagerParsingPair\Models\NeighboringPair;
 use app\domain\ManageCategories\CategoryException;
 use Doctrine\Common\Collections\ArrayCollection;
 
