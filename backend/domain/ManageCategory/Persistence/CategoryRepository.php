@@ -29,7 +29,6 @@ class CategoryRepository
             ->useActiveRecord(CategoryRecord::class)
             ->onUpdateDuplicateKey(['title'])
             ->upsertOneRecord($data);
-        return '';
     }
 
     public function findById(string $id): Category
