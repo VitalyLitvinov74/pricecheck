@@ -114,14 +114,39 @@ class UpsertBuilder
 
     public function onUpdateDuplicateKey(array $duplicateKeys): self
     {
-        $sqlString = '';
+        $mysqlString = '';
+        $pgstring = '';
         foreach ($duplicateKeys as $key => $columnName) {
-            $sqlString .= "$columnName=values($columnName)";
+            $mysqlString .= "$columnName=values($columnName)";
+            $pgstring .= sprintf(
+                '%s = excluded.%s',
+                $columnName,
+                $columnName
+            );
             if ($key !== array_key_last($duplicateKeys)) {
-                $sqlString .= ',';
+                $mysqlString .= ',';
+                $pgstring .= ',';
             }
         }
-        $this->onDuplicateKeysExpression = new Expression(' ON DUPLICATE KEY UPDATE ' . $sqlString);
+
+        if ($this->isPostgreSQLdB($this->db->dsn)) {
+            $this->onDuplicateKeysExpression = new Expression(sprintf(
+                " ON CONFLICT (%s) DO UPDATE SET %s",
+                implode(',', $duplicateKeys),
+                $pgstring
+            ));
+        } else {
+            $this->onDuplicateKeysExpression = new Expression(' ON DUPLICATE KEY UPDATE ' . $mysqlString);
+        }
         return $this;
+    }
+
+    private function isPostgreSQLdB($dsn)
+    {
+        if (preg_match('/(.+):/', $dsn, $match)) {
+            return $match[1] == 'pgsql';
+        } else {
+            return false;
+        }
     }
 }

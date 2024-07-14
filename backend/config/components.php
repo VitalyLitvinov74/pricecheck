@@ -1,22 +1,13 @@
 <?php
 
-use yii\mongodb\Connection;
+use yii\db\Connection;
 
 return [
-//    'db'=>[
-//        'class' => 'yii\db\Connection',
-//        'dsn' => 'mysql:host=mysql;dbname=pricecheck',
-//        'username' => 'root',
-//        'password' => 'root',
-//        'charset' => 'utf8',
-//    ],
-
-    'mongodb' => [
+    'db'=>[
         'class' => Connection::class,
-        'dsn' => 'mongodb://mongo:27017/pricecheck',
-        'options' => [
-            "username" => "admin",
-            "password" => "admin"
-        ]
+        'dsn' => 'pgsql:host=postgres;dbname=pricecheck',
+        'username' => 'admin',
+        'password' => 'admin',
+        'charset' => 'utf8',
     ],
 ];

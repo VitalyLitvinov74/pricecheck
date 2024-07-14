@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libzip-dev \
         libxml2-dev \
+        libpq-dev\
         curl
 
 RUN docker-php-ext-install \
@@ -29,7 +30,9 @@ RUN docker-php-ext-install \
         intl \
         opcache \
         pdo_mysql \
-        sockets
+        sockets \
+        pgsql \
+        pdo_pgsql
 
 RUN pecl install xdebug \
    && docker-php-ext-enable xdebug

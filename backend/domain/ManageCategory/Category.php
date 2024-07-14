@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Category
 {
     #[Property(
-        mapWithArrayKey: 'name'
+        mapWithArrayKey: 'title'
     )]
     private string $name;
 
