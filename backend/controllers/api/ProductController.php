@@ -2,14 +2,14 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageProductType\UseCases\ProductService;
+use app\domain\ManageProductType\UseCases\ProductTypeService;
 use app\forms\ParsingSchemaForm;
 use app\forms\ProductTypeForm;
 use yii\filters\VerbFilter;
 
 class ProductController extends BaseApiController
 {
-    private ProductService $service;
+    private ProductTypeService $service;
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
@@ -24,7 +24,7 @@ class ProductController extends BaseApiController
 
     public function init(): void
     {
-        $this->service = new ProductService();
+        $this->service = new ProductTypeService();
         parent::init();
     }
 

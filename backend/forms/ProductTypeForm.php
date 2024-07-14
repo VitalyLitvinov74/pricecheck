@@ -7,11 +7,12 @@ class ProductTypeForm extends NestedForm
 
     /** @var CardFieldForm[] $properties */
     public $properties;
+    private const properties = 'properties';
 
     public function rules(): array
     {
         return [
-            [['title', 'properties'], 'required', 'skipOnEmpty' => false, 'skipOnError' => false],
+            [['title', self::properties], 'required', 'skipOnEmpty' => false, 'skipOnError' => false],
             ['title', 'string'],
         ];
     }
@@ -24,7 +25,7 @@ class ProductTypeForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            'properties' => CardFieldForm::class
+            self::properties => CardFieldForm::class
         ];
     }
 }
