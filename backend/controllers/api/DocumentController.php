@@ -4,6 +4,7 @@ namespace app\controllers\api;
 
 use app\domain\ParseDocument\UseCases\DocumentsParseService;
 use app\forms\DocumentForm;
+use Throwable;
 
 class DocumentController extends BaseApiController
 {
@@ -25,7 +26,7 @@ class DocumentController extends BaseApiController
                     $form->useParsingSchema
                 );
                 return $this->jsonApi->setupCode(204)->asArray();
-            }catch (\Throwable $exception){
+            }catch (Throwable $exception){
                 return $this->jsonApi->addException($exception)->asArray();
             }
         }
