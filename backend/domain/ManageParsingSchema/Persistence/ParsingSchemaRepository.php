@@ -16,7 +16,6 @@ class ParsingSchemaRepository
 
     public function save(ParsingSchema $schema): void
     {
-        $schemaData = $this->objectMapper->map($schema, []);
-        $tt = '';
+        $schemaRecord = $this->objectMapper->map($schema, []);
     }
 }

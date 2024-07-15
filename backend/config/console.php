@@ -27,6 +27,9 @@ $config = [
         ],
     ],
     'params' => $params,
+    'controllerMap' => [
+        'mongodb-migrate' => 'yii\mongodb\console\controllers\MigrateController'
+    ],
 
 ];
 $config['components'] = array_merge($config['components'], $components);
