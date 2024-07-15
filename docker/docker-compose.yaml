@@ -36,8 +36,23 @@ services:
       - .env
     ports:
       - "5432:5432"
+    volumes:
+      - ./pg/data:/data/db
     networks:
       - pricecheck
+
+  mongo:
+    image: mongo:latest
+    env_file:
+      - .env
+    command: mongod
+    volumes:
+      - ./mongo/data:/data/db
+      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+        - "27017:27017"
+    networks:
+       - pricecheck
 
   php:
     container_name: "php-pricecheck"

@@ -25,6 +25,7 @@ class CategoryRepository
     public function save(Category $category): string
     {
         $data = $this->objectMapper->map($category, []);
+        $data['fields'] = json_encode($data['fields']);
         $this->upsertBuilder
             ->useActiveRecord(CategoryRecord::class)
             ->onUpdateDuplicateKey(['title'])
