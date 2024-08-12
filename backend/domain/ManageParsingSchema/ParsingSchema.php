@@ -4,6 +4,8 @@ namespace app\domain\ManageParsingSchema;
 
 use app\domain\ManageParsingSchema\Models\RelationshipPair;
 use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
+use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -23,7 +25,10 @@ class ParsingSchema
         private string          $name,
         #[Property(mapWithArrayKey: 'startWithRowNum')]
         private int             $startWithRowNum = 2,
-        #[Property(mapWithArrayKey: 'relationshipPairs')]
+        #[HasManyModels(
+            nestedType: RelationshipPair::class,
+            mapWithArrayKey: 'relationshipPairs'
+        )]
         private ArrayCollection $relationshipPairs = new ArrayCollection(),
     )
     {

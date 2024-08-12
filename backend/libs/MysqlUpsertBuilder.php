@@ -10,7 +10,7 @@ use yii\db\Expression;
  * Билдер который помогает быстро построить запрос upsert для одной или нескольких записей.
  * см. функцию upsert (во фреймворке yii2).
  */
-class UpsertBuilder
+class MysqlUpsertBuilder
 {
     private Connection|null $db = null;
 

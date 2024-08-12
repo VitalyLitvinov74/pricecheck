@@ -3,8 +3,10 @@
 namespace app\domain\ManageParsingSchema\Models;
 
 use app\domain\ManageCategory\CategoryException;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
-
+#[DomainModel]
 class RelationshipPair
 {
     /**
@@ -13,7 +15,9 @@ class RelationshipPair
     private ArrayCollection $neighboringPairs;
 
     public function __construct(
+        #[Property(mapWithArrayKey: 'productPropertyName')]
         private string $productPropertyName,
+        #[Property(mapWithArrayKey: 'externalFieldName')]
         private string $externalFieldName,
     ) { }
 

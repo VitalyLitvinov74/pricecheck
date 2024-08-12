@@ -1,5 +1,7 @@
 <?php
 
+use yii\mongodb\console\controllers\MigrateController;
+
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
 
@@ -27,6 +29,9 @@ $config = [
         ],
     ],
     'params' => $params,
+    'controllerMap' => [
+        'mongodb-migrate' => MigrateController::class,
+    ],
 
 ];
 $config['components'] = array_merge($config['components'], $components);

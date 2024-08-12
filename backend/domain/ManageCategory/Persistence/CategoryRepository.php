@@ -2,18 +2,19 @@
 
 namespace app\domain\ManageCategory\Persistence;
 
+use app\collections\CategoryCollection;
 use app\domain\ManageCategory\Category;
 use app\domain\ManageCategory\CategoryException;
+use app\libs\MongoUpsertBuilder;
 use app\libs\ObjectMapper\ObjectMapper;
-use app\libs\UpsertBuilder;
-use app\records\CategoryRecord;
+use app\libs\MysqlUpsertBuilder;
 use Yii;
 
 class CategoryRepository
 {
     public function __construct(
         private ObjectMapper  $objectMapper = new ObjectMapper(),
-        private UpsertBuilder $upsertBuilder = new UpsertBuilder()
+        private MongoUpsertBuilder $upsertBuilder = new MongoUpsertBuilder()
     )
     {
     }
@@ -25,12 +26,10 @@ class CategoryRepository
     public function save(Category $category): string
     {
         $data = $this->objectMapper->map($category, []);
-        $data['fields'] = json_encode($data['fields']);
         $this->upsertBuilder
-            ->useActiveRecord(CategoryRecord::class)
-            ->onUpdateDuplicateKey(['title'])
-            ->upsertOneRecord($data);
-        return CategoryRecord::find()->select('id')->where(['title'=>$data['title']])->scalar();
+            ->useActiveRecord(CategoryCollection::collectionName())
+            ->upsertOneRecord($data, []);
+        return CategoryCollection::find()->select('id')->where(['title'=>$data['title']])->scalar();
     }
 
     public function findById(string $id): Category

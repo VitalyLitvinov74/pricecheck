@@ -21,7 +21,8 @@
         "doctrine/collections": "^2.1",
         "shuchkin/simplexlsx": "^1.0",
         "vloop/yii2-custom-validators": "^1.0",
-        "ext-pgsql": "*"
+        "ext-pgsql": "*",
+        "yiisoft/yii2-mongodb": "^3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
