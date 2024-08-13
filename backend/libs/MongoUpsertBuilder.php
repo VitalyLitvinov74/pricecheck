@@ -22,9 +22,9 @@ class MongoUpsertBuilder
 
     public function upsertOneRecord(array $data, array $where, array $primaryKeysForNestedCollections = []): void
     {
-        $set = [];
+        $dataForInsert = [];
         foreach ($data as $propertyName => $value) {
-            $set[$propertyName] = $this->buildQueryForProperty(
+            $dataForInsert[$propertyName] = $this->buildQueryForProperty(
                 $propertyName,
                 $value,
                 $primaryKeysForNestedCollections
@@ -34,12 +34,8 @@ class MongoUpsertBuilder
         Yii::$app->mongodb->createCommand()
             ->addUpdate(
                 $where,
-                ['$set' => [
-                    'parsingSchemas' => json_encode($set, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)]
-                ],
-                ['upsert' => true]
-            )
-            ->executeBatch($this->collectionName);
+                ['$set' => $dataForInsert]
+            )->executeBatch($this->collectionName);
     }
 
     public function upsertManyRecords(): void
@@ -51,11 +47,12 @@ class MongoUpsertBuilder
     {
         if (is_array($value)) {
             $nestedPrimaryKey = $primaryKeysForNestedCollections[$propertyName] ?? "name";
-            return $this->queryForNestedCollectionOfObjects(
-                $value,
-                $propertyName,
-                $nestedPrimaryKey
-            );
+            return
+                $this->queryForNestedCollectionOfObjects(
+                    $value,
+                    $propertyName,
+                    $nestedPrimaryKey
+                );
         }
         return $value;
     }
@@ -69,7 +66,7 @@ class MongoUpsertBuilder
         array  $nestedCollectionOfObjects,
         string $titleOfCollection,
         string $primaryKeyName
-    ): array
+    ): mixed
     {
         return [
             '$map' => [

@@ -6,13 +6,14 @@ use app\collections\CategoryCollection;
 use app\domain\ManageParsingSchema\ParsingSchema;
 use app\domain\ManageParsingSchema\Persistence\Snapshots\SchemaSnapshot;
 use app\libs\MongoUpsertBuilder;
+use app\libs\MysqlUpsertBuilder;
 use app\libs\ObjectMapper\ObjectMapper;
 
 class ParsingSchemaRepository
 {
     public function __construct(
         private ObjectMapper       $objectMapper = new ObjectMapper(),
-        private MongoUpsertBuilder $upsertBuilder = new MongoUpsertBuilder()
+        private MysqlUpsertBuilder $upsertBuilder = new MysqlUpsertBuilder()
     )
     {
     }
@@ -20,14 +21,11 @@ class ParsingSchemaRepository
     public function save(ParsingSchema $schema): void
     {
         $data = $this->objectMapper->map($schema, []);
-        $categoryId = $data['categoryId'];
         unset($data['categoryId']);
         $this->upsertBuilder
             ->useActiveRecord(CategoryCollection::class)
             ->upsertOneRecord(
-                $data,
-                ['_id' => $categoryId],
-                ['relationshipPairs' => 'productPropertyName']
+                ['parsingSchemas' => [$data]],
             );
     }
 
