@@ -4,41 +4,74 @@ namespace app\domain\ManageParsingSchema\Persistence;
 
 use app\collections\CategoryCollection;
 use app\domain\ManageParsingSchema\ParsingSchema;
-use app\domain\ManageParsingSchema\Persistence\Snapshots\SchemaSnapshot;
-use app\libs\MongoUpsertBuilder;
-use app\libs\MysqlUpsertBuilder;
 use app\libs\ObjectMapper\ObjectMapper;
+use MongoDB\BSON\ObjectId;
 
 class ParsingSchemaRepository
 {
     public function __construct(
-        private ObjectMapper       $objectMapper = new ObjectMapper(),
-        private MysqlUpsertBuilder $upsertBuilder = new MysqlUpsertBuilder()
+        private ObjectMapper $objectMapper = new ObjectMapper()
     )
     {
     }
 
-    public function save(ParsingSchema $schema): void
+    public function findByNameAndCategoryId(string $schemaName, string $categoryID,): ParsingSchema
     {
-        $data = $this->objectMapper->map($schema, []);
-        unset($data['categoryId']);
-        $this->upsertBuilder
-            ->useActiveRecord(CategoryCollection::class)
-            ->upsertOneRecord(
-                ['parsingSchemas' => [$data]],
-            );
+        $parsingSchemaData = CategoryCollection::find()
+            ->asArray()
+            ->select(['parsingSchemas' => [
+                '$mergeObjects' => [
+                    [
+                        '$arrayElemAt' => [
+                            '$parsingSchemas',
+                            [
+                                '$indexOfArray' => [
+                                    '$parsingSchemas',
+                                    [
+                                        '$eq' => [
+                                            '$parsingSchemas.name',
+                                            $schemaName
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'categoryId' => $categoryID
+                    ]
+                ]
+            ]])
+            ->where(['_id' => $categoryID])
+            ->limit(1)
+            ->one();
+        return $this->objectMapper->map($parsingSchemaData['parsingSchemas'], ParsingSchema::class);
     }
 
-    private function savePairs(SchemaSnapshot $schemaSnapshot): array
+    public function update(ParsingSchema $schema): void
     {
-        $data = [];
-        foreach ($schemaSnapshot->relationshipPairs as $relationshipPair) {
-            $data[] = [
-                'category_id' => $schemaSnapshot->categoryId,
-                'external_field_name' => $relationshipPair->externalFieldName,
-                'product_property_name' => $relationshipPair->productPropertyName
-            ];
-        }
-        $this->upsertBuilder->useActiveRecord()->upsertManyRecords($data);
+        $data = $this->objectMapper->map($schema, []);
+        $categoryId = $data['categoryId'];
+        unset($data['categoryId']);
+        CategoryCollection::getCollection()->update(
+            ['_id' => $categoryId],
+            ["parsingSchemas.$[elem]" => $data],
+            [
+                'arrayFilters' => [
+                    ["elem.name" => $data['name']]
+                ]
+            ]
+        );
+    }
+
+    public function push(ParsingSchema $schema): void
+    {
+        $data = $this->objectMapper->map($schema, []);
+        $categoryId = $data['categoryId'];
+        unset($data['categoryId']);
+        CategoryCollection::getCollection()->update(
+            ['_id' => new ObjectId($categoryId)],
+            ['$push' => ["parsingSchemas" => $data]],
+        );
     }
 }

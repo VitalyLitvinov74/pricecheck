@@ -17,7 +17,7 @@ class ParsingSchemaService
     /**
      * @param string $categoryId
      * @param string $name
-     * @param $startFromRow
+     * @param int $startFromRow
      * @param RelationPairForm[] $relationshipPairsForms
      * @return void
      */
@@ -36,6 +36,21 @@ class ParsingSchemaService
                 )
             );
         }
-        $this->repository->save($schema);
+        $this->repository->push($schema);
+    }
+
+    /**
+     * @param string $categoryId
+     * @param string $name
+     * @param int $startFromRow
+     * @param RelationPairForm[] $relationshipPairsForms
+     * @return void
+     */
+    public function update(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
+    {
+        $schema = $this->repository->findByNameAndCategoryId($name, $categoryId);
+        $schema->rename($name);
+        $schema->changeStartingRowNum($startFromRow);
+        $this->repository->update($schema);
     }
 }

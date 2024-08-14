@@ -1,13 +1,13 @@
 <?php
 
-namespace app\records;
+namespace app\collections;
 
 use yii\mongodb\ActiveRecord;
 
-class ProductCollection extends ActiveRecord
+class CategoryCollection extends ActiveRecord
 {
     public static function collectionName(): string
     {
-        return 'products';
+        return 'categories';
     }
 }

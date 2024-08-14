@@ -5,16 +5,13 @@ namespace app\domain\ManageCategory\Persistence;
 use app\collections\CategoryCollection;
 use app\domain\ManageCategory\Category;
 use app\domain\ManageCategory\CategoryException;
-use app\libs\MongoUpsertBuilder;
 use app\libs\ObjectMapper\ObjectMapper;
-use app\libs\MysqlUpsertBuilder;
 use Yii;
 
 class CategoryRepository
 {
     public function __construct(
         private ObjectMapper  $objectMapper = new ObjectMapper(),
-        private MongoUpsertBuilder $upsertBuilder = new MongoUpsertBuilder()
     )
     {
     }
@@ -23,13 +20,17 @@ class CategoryRepository
      * @param Category $category
      * @return string - id сохраненной записи
      */
-    public function save(Category $category): string
+    public function create(Category $category): string
     {
         $data = $this->objectMapper->map($category, []);
-        $this->upsertBuilder
-            ->useActiveRecord(CategoryCollection::collectionName())
-            ->upsertOneRecord($data, []);
-        return CategoryCollection::find()->select('id')->where(['title'=>$data['title']])->scalar();
+        $result = Yii::$app->mongodb
+            ->createCommand()
+            ->insert(
+                CategoryCollection::collectionName(),
+                $data,
+                ['upsert' => true]
+            );
+        return $result->jsonSerialize()['$oid'];
     }
 
     public function findById(string $id): Category

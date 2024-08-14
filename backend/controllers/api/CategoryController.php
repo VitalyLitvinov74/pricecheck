@@ -61,4 +61,21 @@ class CategoryController extends BaseApiController
             ->addModelErrors($schemaForm)
             ->asArray();
     }
+
+    public function actionUpdateParsingSchema(): array{
+        $schemaForm = new ParsingSchemaForm();
+        $schemaForm->load($this->request->post());
+        if($schemaForm->validate()){
+            $this->parsingSchemaService->update(
+                $schemaForm->categoryId,
+                $schemaForm->name,
+                $schemaForm->startWithRowNum,
+                $schemaForm->map,
+            );
+            return $this->jsonApi->asArray();
+        }
+        return $this->jsonApi
+            ->addModelErrors($schemaForm)
+            ->asArray();
+    }
 }

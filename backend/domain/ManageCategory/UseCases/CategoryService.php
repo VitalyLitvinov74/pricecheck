@@ -31,7 +31,7 @@ class CategoryService
                 $field->type
             );
         }
-        return $this->categoryRepository->save($productType);
+        return $this->categoryRepository->create($productType);
     }
 
     public function change(): void
