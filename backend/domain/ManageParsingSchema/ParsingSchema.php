@@ -2,10 +2,10 @@
 
 namespace app\domain\ManageParsingSchema;
 
+use app\domain\ManageCategory\CategoryException;
 use app\domain\ManageParsingSchema\Models\RelationshipPair;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -13,14 +13,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ParsingSchema
 {
     /**
-     * @param string $categoryId
      * @param string $name
      * @param int $startWithRowNum
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
      */
     public function __construct(
-        #[Property(mapWithArrayKey: "categoryId")]
-        private string          $categoryId,
         #[Property(mapWithArrayKey: 'name')]
         private string          $name,
         #[Property(mapWithArrayKey: 'startWithRowNum')]
@@ -44,20 +41,35 @@ class ParsingSchema
         $this->startWithRowNum = $rowNum;
     }
 
-    public function add(RelationshipPair $pair): void
+    public function changeRelationPairLink(string|null $oldName, string $newProductPropertyName, string $newFieldName): void
     {
-        $this->relationshipPairs->add($pair);
-    }
+        if($oldName !== null && ){
 
-    public function changeRelationPairLink(string $pairName, string $newName, string $newFieldName): void
-    {
-        $pair = $this->relationshipPairs->findFirst(function ($key, RelationshipPair $relationshipPair) use ($pairName
-        ) {
-            return $relationshipPair->hasNameProperty($pairName);
-        });
-        if (is_null($pair)) {
+        }
+
+
+        if ($oldName) {
+            $pair = $this->relationshipPairs->findFirst(function ($key, RelationshipPair $relationshipPair) use ($oldName
+            ) {
+                return $relationshipPair->hasNameProperty($oldName);
+            });
+        }
+        if (is_null($pair) || is_null($oldName)) {
+            $pair = new RelationshipPair(
+                $newProductPropertyName,
+                $newFieldName
+            );
+            $this->relationshipPairs->add($pair);
             return;
         }
-        $pair->changeRelation($newName, $newFieldName);
+        $pair->changeRelation($newProductPropertyName, $newFieldName);
+    }
+
+    private function pairByName(string $productPropertyName): null|RelationshipPair
+    {
+        return $this->relationshipPairs->findFirst(
+            function (int $key, RelationshipPair $pair) use ($productPropertyName) {
+                return $pair->hasNameProperty($productPropertyName);
+            });
     }
 }

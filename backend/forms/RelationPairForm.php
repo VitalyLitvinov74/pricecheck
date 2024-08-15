@@ -8,12 +8,13 @@ class RelationPairForm extends Model
 {
     public $productPropertyName;
     public $externalFieldName;
+    public $oldName;
 
     public function rules(): array
     {
         return [
             [['productPropertyName', 'externalFieldName'],'required'],
-            [['productPropertyName', 'externalFieldName'], 'string']
+            [['productPropertyName', 'externalFieldName', 'oldName'], 'string']
         ];
     }
 

@@ -24,33 +24,37 @@ class ParsingSchemaService
     public function create(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
     {
         $schema = new ParsingSchema(
-            $categoryId,
             $name,
             $startFromRow
         );
         foreach ($relationshipPairsForms as $form){
-            $schema->add(
-                new RelationshipPair(
-                    $form->productPropertyName,
-                    $form->externalFieldName,
-                )
+            $schema->addRelationPair(
+                $form->productPropertyName,
+                $form->externalFieldName,
             );
         }
-        $this->repository->push($schema);
+        $this->repository->push($schema, $categoryId);
     }
 
     /**
-     * @param string $categoryId
+     * @param string $categoryID
      * @param string $name
      * @param int $startFromRow
      * @param RelationPairForm[] $relationshipPairsForms
      * @return void
      */
-    public function update(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
+    public function update(string $categoryID, string $name, int $startFromRow, array $relationshipPairsForms): void
     {
-        $schema = $this->repository->findByNameAndCategoryId($name, $categoryId);
+        $schema = $this->repository->findByNameAndCategoryId($name, $categoryID);
         $schema->rename($name);
         $schema->changeStartingRowNum($startFromRow);
-        $this->repository->update($schema);
+        foreach ($relationshipPairsForms as $relationshipPairsForm){
+            $schema->changeRelationPairLink(
+                $relationshipPairsForm->oldName,
+                $relationshipPairsForm->productPropertyName,
+                $relationshipPairsForm->externalFieldName
+            );
+        }
+        $this->repository->update($schema, $categoryID);
     }
 }

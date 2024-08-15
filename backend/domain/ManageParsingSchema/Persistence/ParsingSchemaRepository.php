@@ -37,9 +37,6 @@ class ParsingSchemaRepository
                             ]
                         ]
                     ],
-                    [
-                        'categoryId' => $categoryID
-                    ]
                 ]
             ]])
             ->where(['_id' => $categoryID])
@@ -48,13 +45,11 @@ class ParsingSchemaRepository
         return $this->objectMapper->map($parsingSchemaData['parsingSchemas'], ParsingSchema::class);
     }
 
-    public function update(ParsingSchema $schema): void
+    public function update(ParsingSchema $schema, string $categoryID): void
     {
         $data = $this->objectMapper->map($schema, []);
-        $categoryId = $data['categoryId'];
-        unset($data['categoryId']);
         CategoryCollection::getCollection()->update(
-            ['_id' => $categoryId],
+            ['_id' => $categoryID],
             ["parsingSchemas.$[elem]" => $data],
             [
                 'arrayFilters' => [
@@ -64,13 +59,11 @@ class ParsingSchemaRepository
         );
     }
 
-    public function push(ParsingSchema $schema): void
+    public function push(ParsingSchema $schema, string $categoryID): void
     {
         $data = $this->objectMapper->map($schema, []);
-        $categoryId = $data['categoryId'];
-        unset($data['categoryId']);
         CategoryCollection::getCollection()->update(
-            ['_id' => new ObjectId($categoryId)],
+            ['_id' => new ObjectId($categoryID)],
             ['$push' => ["parsingSchemas" => $data]],
         );
     }
