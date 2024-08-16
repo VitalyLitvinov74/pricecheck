@@ -3,20 +3,25 @@
 namespace app\domain\ManageCategory;
 
 use app\domain\ManageCategory\Models\CategoryField;
+use app\domain\ManageCategory\Persistence\Snapshots\CategorySnapshot;
+use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
+#[DomainModel(mapWith: CategorySnapshot::class)]
 class Category
 {
     #[Property(
-        mapWithArrayKey: 'title'
+        mapWithArrayKey: 'title',
+        mapWithObjectKey: 'title'
     )]
     private string $name;
 
     #[HasManyModels(
         nestedType: CategoryField::class,
-        mapWithArrayKey: 'fields'
+        mapWithArrayKey: 'fields',
+        mapWithObjectKey: 'fieldsSnapshots' /** @see CategorySnapshot::$fieldsSnapshots */
     )]
     private ArrayCollection $fields;
 

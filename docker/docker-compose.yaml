@@ -32,6 +32,7 @@ services:
 
   postgres:
     image: postgres:latest
+    container_name: "pg-pricecheck"
     env_file:
       - .env
     ports:

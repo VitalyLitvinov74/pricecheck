@@ -10,7 +10,7 @@ use yii\db\Expression;
  * Билдер который помогает быстро построить запрос upsert для одной или нескольких записей.
  * см. функцию upsert (во фреймворке yii2).
  */
-class MysqlUpsertBuilder
+class UpsertBuilder
 {
     private const mysql = 1;
     private const pg = 2;
@@ -19,6 +19,7 @@ class MysqlUpsertBuilder
     private string|null $tableName = null;
 
     private array|null $dataForInsert = null;
+    private array $uniqueKeys = ['id'];
 
     /**
      * @param string|ActiveRecord $activeRecord
@@ -76,11 +77,7 @@ class MysqlUpsertBuilder
             $this->dataForInsert
         );
         $duplicateKeysExpression = $this->onUpdateDuplicateKeysExpression();
-        ///
-        if (is_null($duplicateKeysExpression)) {
-            $this->db->createCommand($baseInsertSql)->execute();
-        }
-
+        $this->db->createCommand($baseInsertSql . $duplicateKeysExpression)->execute();
         $this->clean();
     }
 
@@ -98,6 +95,7 @@ class MysqlUpsertBuilder
         $this->db = null;
         $this->dataForInsert = null;
         $this->tableName = null;
+        $this->uniqueKeys = ['id'];
     }
 
     private function onUpdateDuplicateKeysExpression(): Expression
@@ -116,6 +114,12 @@ class MysqlUpsertBuilder
         return self::mysql;
     }
 
+    public function useUniqueKeys(array $pk): self
+    {
+        $this->uniqueKeys = $pk;
+        return $this;
+    }
+
     private function mysqlOnDuplicateKeyExpression(): Expression
     {
         $columnNames = $this->columnNamesForInsert();
@@ -132,7 +136,7 @@ class MysqlUpsertBuilder
     private function pgOnDuplicateKeyExpression(): Expression
     {
         $result = '';
-        $columnNames = $this->columnNamesForInsert();
+        $columnNames = $this->uniqueKeys;
         foreach ($columnNames as $key => $columnName){
             $result .= sprintf(
                 '%s = excluded.%s',
@@ -140,7 +144,7 @@ class MysqlUpsertBuilder
                 $columnName
             );
             if ($key !== array_key_last($columnNames)) {
-                $result .= ',';
+                $result .= ', ';
             }
         }
         return  new Expression(sprintf(
