@@ -12,11 +12,11 @@ use yii\db\Expression;
  */
 class MysqlUpsertBuilder
 {
+    private const mysql = 1;
+    private const pg = 2;
     private Connection|null $db = null;
 
     private string|null $tableName = null;
-
-    private Expression|null $onDuplicateKeysExpression = null;
 
     private array|null $dataForInsert = null;
 
@@ -27,19 +27,8 @@ class MysqlUpsertBuilder
      */
     public function useActiveRecord(string|ActiveRecord $activeRecord): self
     {
-        return $this->useDb($activeRecord::getDb())
-            ->inTable($activeRecord::tableName());
-    }
-
-    public function inTable(string $tableName): self
-    {
-        $this->tableName = $tableName;
-        return $this;
-    }
-
-    public function useDb(Connection $db): self
-    {
-        $this->db = $db;
+        $this->db = $activeRecord::getDb();
+        $this->tableName = $activeRecord::tableName();
         return $this;
     }
 
@@ -81,17 +70,17 @@ class MysqlUpsertBuilder
             $this->clean();
             return;
         }
-        $batchInsertSql = $this->db->queryBuilder->batchInsert(
+        $baseInsertSql = $this->db->queryBuilder->batchInsert(
             $this->tableName,
             $this->columnNamesForInsert(),
             $this->dataForInsert
         );
-        if (is_null($this->onDuplicateKeysExpression)) {
-            $this->onUpdateDuplicateKey(
-                $this->columnNamesForInsert()
-            );
+        $duplicateKeysExpression = $this->onUpdateDuplicateKeysExpression();
+        ///
+        if (is_null($duplicateKeysExpression)) {
+            $this->db->createCommand($baseInsertSql)->execute();
         }
-        $this->db->createCommand($batchInsertSql . $this->onDuplicateKeysExpression)->execute();
+
         $this->clean();
     }
 
@@ -109,44 +98,55 @@ class MysqlUpsertBuilder
         $this->db = null;
         $this->dataForInsert = null;
         $this->tableName = null;
-        $this->onDuplicateKeysExpression = null;
     }
 
-    public function onUpdateDuplicateKey(array $duplicateKeys): self
+    private function onUpdateDuplicateKeysExpression(): Expression
     {
-        $mysqlString = '';
-        $pgstring = '';
-        foreach ($duplicateKeys as $key => $columnName) {
-            $mysqlString .= "$columnName=values($columnName)";
-            $pgstring .= sprintf(
+        return match ($this->dbType()){
+            self::pg => $this->pgOnDuplicateKeyExpression(),
+            self::mysql => $this->mysqlOnDuplicateKeyExpression()
+        };
+    }
+
+    private function dbType(): int
+    {
+        if (preg_match('/(.+):/', $this->db->dsn, $match) && $match[1] == 'pgsql') {
+            return self::pg;
+        }
+        return self::mysql;
+    }
+
+    private function mysqlOnDuplicateKeyExpression(): Expression
+    {
+        $columnNames = $this->columnNamesForInsert();
+        $result = '';
+        foreach ($columnNames as $key => $columnName) {
+            $result .= "$columnName=values($columnName)";
+            if ($key !== array_key_last($columnNames)) {
+                $result .= ',';
+            }
+        }
+        return  new Expression(' ON DUPLICATE KEY UPDATE ' . $result);
+    }
+
+    private function pgOnDuplicateKeyExpression(): Expression
+    {
+        $result = '';
+        $columnNames = $this->columnNamesForInsert();
+        foreach ($columnNames as $key => $columnName){
+            $result .= sprintf(
                 '%s = excluded.%s',
                 $columnName,
                 $columnName
             );
-            if ($key !== array_key_last($duplicateKeys)) {
-                $mysqlString .= ',';
-                $pgstring .= ',';
+            if ($key !== array_key_last($columnNames)) {
+                $result .= ',';
             }
         }
-
-        if ($this->isPostgreSQLdB($this->db->dsn)) {
-            $this->onDuplicateKeysExpression = new Expression(sprintf(
-                " ON CONFLICT (%s) DO UPDATE SET %s",
-                implode(',', $duplicateKeys),
-                $pgstring
-            ));
-        } else {
-            $this->onDuplicateKeysExpression = new Expression(' ON DUPLICATE KEY UPDATE ' . $mysqlString);
-        }
-        return $this;
-    }
-
-    private function isPostgreSQLdB($dsn)
-    {
-        if (preg_match('/(.+):/', $dsn, $match)) {
-            return $match[1] == 'pgsql';
-        } else {
-            return false;
-        }
+        return  new Expression(sprintf(
+            " ON CONFLICT (%s) DO UPDATE SET %s",
+            implode(',', $columnNames),
+            $result
+        ));
     }
 }
