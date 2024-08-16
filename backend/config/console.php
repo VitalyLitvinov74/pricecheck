@@ -30,7 +30,12 @@ $config = [
     ],
     'params' => $params,
     'controllerMap' => [
-        'mongodb-migrate' => MigrateController::class,
+        'mongodb-migrate' => [
+            'class' => MigrateController::class,
+            'migrationPath' => [
+                'migrations/mongo'
+            ]
+        ],
     ],
 
 ];
