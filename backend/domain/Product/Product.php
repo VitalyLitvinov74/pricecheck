@@ -14,4 +14,6 @@ class Product
     public function add(Property $property){
 
     }
+
+    public function associateWith(Category $category): void{}
 }
