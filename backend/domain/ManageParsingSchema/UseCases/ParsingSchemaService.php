@@ -24,7 +24,6 @@ class ParsingSchemaService
     public function create(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
     {
         $schema = new ParsingSchema(
-            $categoryId,
             $name,
             $startFromRow
         );
@@ -36,7 +35,7 @@ class ParsingSchemaService
                 )
             );
         }
-        $this->repository->push($schema);
+        $this->repository->push($schema, $categoryId);
     }
 
     /**
@@ -51,6 +50,6 @@ class ParsingSchemaService
         $schema = $this->repository->findByNameAndCategoryId($name, $categoryId);
         $schema->rename($name);
         $schema->changeStartingRowNum($startFromRow);
-        $this->repository->update($schema);
+        $this->repository->update($schema, $categoryId);
     }
 }

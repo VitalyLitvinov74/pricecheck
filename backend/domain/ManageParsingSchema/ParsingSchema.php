@@ -13,14 +13,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ParsingSchema
 {
     /**
-     * @param string $categoryId
      * @param string $name
      * @param int $startWithRowNum
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
      */
     public function __construct(
-        #[Property(mapWithArrayKey: "categoryId")]
-        private string          $categoryId,
         #[Property(mapWithArrayKey: 'name')]
         private string          $name,
         #[Property(mapWithArrayKey: 'startWithRowNum')]
