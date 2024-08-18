@@ -21,10 +21,11 @@ class MappingSchema
     }
 
     /**
-     * @param  XlsxRow  $row
+     * @param XlsxRow $row
+     * @param int $parsingCersion
      * @return ProductCard|null
      */
-    public function convertRowToProductCard(XlsxRow $row): ProductCard|null
+    public function convertRowToProductCard(XlsxRow $row, int $parsingCersion): ProductCard|null
     {
         if ($row->numMoreThan($this->startWithRowNum - 1)) {
             return null;
@@ -43,7 +44,8 @@ class MappingSchema
                 );
             }
         }
+        $productCard->addProperty('parsingVersion', $parsingCersion);
+        $productCard->addProperty('categoryId', $this->categoryId);
         return $productCard;
     }
-
 }

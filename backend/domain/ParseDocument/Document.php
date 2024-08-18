@@ -25,15 +25,17 @@ class Document
 
     /**
      * @param  MappingSchema  $mappingSchema
+     * @return ArrayCollection<int, ProductCard>
      */
-    public function parseUse(MappingSchema $mappingSchema): void
+    public function parseUse(MappingSchema $mappingSchema): ArrayCollection
     {
         $xlsx = new XlsxFile($this->path);
-        foreach ($xlsx->rows() as $row) {
-            $product = $mappingSchema->convertRowToProductCard($row);
+        foreach ($xlsx->rows() as $key => $row) {
+            $product = $mappingSchema->convertRowToProductCard($row, $this->version);
             if ($product !== null) {
                 $this->productCards->add($product);
             }
         }
+        return $this->productCards;
     }
 }

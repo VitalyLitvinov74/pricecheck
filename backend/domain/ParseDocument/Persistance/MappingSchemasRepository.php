@@ -9,4 +9,6 @@ class MappingSchemasRepository
     public function findBy(string $categoryId, string $parsingMap): MappingSchema
     {
     }
+
+    public function mapProductsToArrays(){}
 }

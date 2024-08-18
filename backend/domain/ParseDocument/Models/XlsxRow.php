@@ -6,9 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class XlsxRow
 {
+    private int $rowNum;
+
     public function numMoreThan(int $num): bool
     {
-
+        return $this->rowNum >= $num;
     }
 
     /**
