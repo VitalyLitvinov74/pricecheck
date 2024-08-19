@@ -14,4 +14,9 @@ class CategoriesRepository
     {
 
     }
+
+    public function find(string $id): Category
+    {
+
+    }
 }

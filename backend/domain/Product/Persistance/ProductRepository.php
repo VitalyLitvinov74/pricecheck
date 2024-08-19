@@ -2,31 +2,60 @@
 
 namespace app\domain\Product\Persistance;
 
+use app\collections\ProductsCollecction;
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\ParseDocument\UseCases\DocumentsParseService;
+use app\domain\Product\Models\Category;
 use app\domain\Product\Models\Property;
-use app\domain\Product\Models\ValueType;
 use app\domain\Product\Product;
 use app\libs\ObjectMapper\ObjectMapper;
 use Doctrine\Common\Collections\ArrayCollection;
+use yii\mongodb\Exception;
 
 class ProductRepository
 {
     public function __construct(
-        private ObjectMapper $objectMapper = new ObjectMapper(),
+        private ObjectMapper         $objectMapper = new ObjectMapper(),
         private CategoriesRepository $categoriesRepository = new CategoriesRepository()
     )
     {
     }
 
+    public function find(string $id): Product
+    {
+        //сложить все свойства в property
+    }
+
+    public function save(Product $product): string
+    {
+        $insertData = $this->objectMapper->map($product, []);
+        $this->extractProperties($insertData);
+        $result = ProductsCollecction::getCollection()->insert($insertData, ['upsert' => true]);
+        return $result;
+    }
+
     /**
      * @param Product[]|ArrayCollection<int, Product> $products
      * @return void
+     * @throws Exception
      */
     public function saveAll(array|ArrayCollection $products): void
     {
+        $insertData = [];
+        foreach ($products as $product) {
+            $data = $this->objectMapper->map($product, []);
+            $this->extractProperties($data);
 
+            //сложить все проперти на уровень выше.
+        }
+        ProductsCollecction::getCollection()->batchInsert($insertData, ['upsert' => true]);
+    }
 
+    private function extractProperties(array &$insertData): void
+    {
+        $properties = $insertData['properties'];
+        unset($insertData['properties']);
+        $insertData = array_merge($insertData, $properties);
     }
 
     /**
@@ -36,16 +65,24 @@ class ProductRepository
      * @param string $parsingSchemaName
      * @return ArrayCollection
      */
-    public function getFromDocument(string $documentPath, string $categoryId, string $parsingSchemaName): ArrayCollection{
+    public function getFromDocument(string $documentPath, string $categoryId, string $parsingSchemaName): ArrayCollection
+    {
         $service = new DocumentsParseService();
         /** @var ProductCard[] $result */
-        $result = $service->parse($documentPath,'', $categoryId, $parsingSchemaName);
+        $result = $service->parse($documentPath, '', $categoryId, $parsingSchemaName);
         $products = new ArrayCollection();
-        foreach ($result as $productCard){
+        $categoriesList = [];
+        foreach ($result as $productCard) {
             $productCardArray = $this->objectMapper->map($productCard, []);
-            $category = $this->categoriesRepository->find($productCardArray['categoryId']);
+            $categoryId = $productCardArray['categoryId'];
+            if(array_key_exists($categoryId, $categoriesList)){
+                $category = $categoriesList[$categoryId];
+            }else{
+                $category = $this->categoriesRepository->find($categoryId);
+                $categoriesList[$productCardArray['categoryId']]= $category;
+            }
             $product = new Product($category);//
-            foreach ($productCardArray['properties'] as $property){
+            foreach ($productCardArray['properties'] as $property) {
                 $product->add(new Property($property['name'], $property['value'], ''));
             }
             $products->add($product);
