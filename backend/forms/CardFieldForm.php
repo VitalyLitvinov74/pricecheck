@@ -7,13 +7,13 @@ use yii\base\Model;
 class CardFieldForm extends Model
 {
     public $name;
-    public $type;
+    public $value;
 
     public static function staticRules(): array
     {
         return [
-            [['name', 'type'], 'required'],
-            [['name', 'type'], 'string', 'skipOnEmpty' => false, 'strict' => true]
+            [['name', 'value'], 'required'],
+            [['name'], 'string', 'skipOnEmpty' => false, 'strict' => true]
         ];
     }
 

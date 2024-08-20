@@ -2,7 +2,7 @@
 
 namespace app\domain\Product\Models;
 
-class ValueType
+enum ValueType: string
 {
-
+    case string = 'string';
 }

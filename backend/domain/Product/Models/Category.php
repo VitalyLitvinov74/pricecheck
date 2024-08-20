@@ -2,8 +2,10 @@
 
 namespace app\domain\Product\Models;
 
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
 use Doctrine\Common\Collections\ArrayCollection;
-
+#[DomainModel]
 class Category
 {
     private string $id;
@@ -11,7 +13,8 @@ class Category
     /**
      * @var ArrayCollection<int, Property>
      */
-    private ArrayCollection $suportProperties;
+    #[HasManyModels(Property::class, defaultMapWith: 'fields')]
+    private ArrayCollection $supportProperties;
 
     private function __construct()
     {

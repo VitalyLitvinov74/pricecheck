@@ -3,9 +3,12 @@
 namespace app\domain\Product\UseCase;
 
 use app\domain\ParseDocument\Models\ProductCard;
+use app\domain\Product\Models\Property;
+use app\domain\Product\Models\ValueType;
 use app\domain\Product\Persistance\CategoriesRepository;
 use app\domain\Product\Persistance\ProductRepository;
 use app\domain\Product\Product;
+use app\forms\CardFieldForm;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductsService
@@ -18,11 +21,25 @@ class ProductsService
     }
 
     /**
+     * @param CardFieldForm[] $productProperties
      * @return string - id созданного продукта
+     *
      */
-    public function createProduct(): string
+    public function createProduct(string $categoryId, array $productProperties): string
     {
-        
+        $category = $this->categoriesRepository->find($categoryId);
+        $product = new Product($category);
+        foreach ($productProperties as $property){
+            $product->add(
+                new Property(
+                    $property->name,
+                    $property->value,
+                    ValueType::string
+                )
+            );
+        }
+        $result = $this->productRepository->save($product);
+        return $result;
     }
 
     /**
