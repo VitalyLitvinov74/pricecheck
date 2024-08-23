@@ -1,19 +1,18 @@
 <?php
 namespace app\forms;
 
-class CategoryForm extends NestedForm
+class ProductsTypesForm extends NestedForm
 {
     public $title;
 
-    /** @var CardFieldForm[] $properties */
+    /** @var ProductTypeForm[] $properties */
     public $properties;
     private const properties = 'properties';
 
     public function rules(): array
     {
         return [
-            [['title', self::properties], 'required', 'skipOnEmpty' => false, 'skipOnError' => false],
-            ['title', 'string'],
+            [[self::properties], 'required', 'skipOnEmpty' => false, 'skipOnError' => false],
         ];
     }
 
@@ -25,7 +24,7 @@ class CategoryForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            self::properties => CardFieldForm::class
+            self::properties => ProductTypeForm::class
         ];
     }
 }

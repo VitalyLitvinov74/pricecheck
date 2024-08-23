@@ -2,7 +2,7 @@
 
 namespace app\domain\Product\Persistance;
 
-use app\collections\CategoryCollection;
+use app\collections\ProductPropertyCollection;
 use app\domain\Product\Models\Category;
 use app\libs\ObjectMapper\ObjectMapper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +23,7 @@ class CategoriesRepository
 
     public function find(string $id): Category
     {
-        $result = CategoryCollection::find()
+        $result = ProductPropertyCollection::find()
             ->select([
                 'supportProperties'
             ])

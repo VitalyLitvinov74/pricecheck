@@ -2,7 +2,7 @@
 
 namespace app\domain\ManageParsingSchema\Persistence;
 
-use app\collections\CategoryCollection;
+use app\collections\ProductPropertyCollection;
 use app\domain\ManageParsingSchema\ParsingSchema;
 use app\libs\ObjectMapper\ObjectMapper;
 use MongoDB\BSON\ObjectId;
@@ -17,7 +17,7 @@ class ParsingSchemaRepository
 
     public function findByNameAndCategoryId(string $schemaName, string $categoryID,): ParsingSchema
     {
-        $parsingSchemaData = CategoryCollection::find()
+        $parsingSchemaData = ProductPropertyCollection::find()
             ->asArray()
             ->select(['parsingSchemas' => [
                 '$mergeObjects' => [
@@ -48,7 +48,7 @@ class ParsingSchemaRepository
     public function update(ParsingSchema $schema, string $categoryID): void
     {
         $data = $this->objectMapper->map($schema, []);
-        CategoryCollection::getCollection()->update(
+        ProductPropertyCollection::getCollection()->update(
             ['_id' => $categoryID],
             ["parsingSchemas.$[elem]" => $data],
             [
@@ -62,7 +62,7 @@ class ParsingSchemaRepository
     public function push(ParsingSchema $schema, string $categoryID): void
     {
         $data = $this->objectMapper->map($schema, []);
-        CategoryCollection::getCollection()->update(
+        ProductPropertyCollection::getCollection()->update(
             ['_id' => new ObjectId($categoryID)],
             ['$push' => ["parsingSchemas" => $data]],
         );

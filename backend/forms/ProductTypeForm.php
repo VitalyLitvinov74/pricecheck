@@ -4,16 +4,16 @@ namespace app\forms;
 
 use yii\base\Model;
 
-class CardFieldForm extends Model
+class ProductTypeForm extends Model
 {
     public $name;
-    public $value;
+    public $type;
 
     public static function staticRules(): array
     {
         return [
-            [['name', 'value'], 'required'],
-            [['name'], 'string', 'skipOnEmpty' => false, 'strict' => true]
+            [['name'], 'required'],
+            [['name', 'type'], 'string', 'skipOnEmpty' => false, 'strict' => true]
         ];
     }
 

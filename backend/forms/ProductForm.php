@@ -6,7 +6,7 @@ use yii\base\Model;
 
 class ProductForm extends NestedForm
 {
-    /** @var CardFieldForm[] */
+    /** @var ProductTypeForm[] */
     public $properties;
     public $categoryId;
 
@@ -21,7 +21,7 @@ class ProductForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            'properties' => CardFieldForm::class
+            'properties' => ProductTypeForm::class
         ];
     }
 }

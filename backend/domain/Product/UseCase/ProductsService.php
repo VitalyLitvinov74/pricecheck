@@ -8,7 +8,7 @@ use app\domain\Product\Models\ValueType;
 use app\domain\Product\Persistance\CategoriesRepository;
 use app\domain\Product\Persistance\ProductRepository;
 use app\domain\Product\Product;
-use app\forms\CardFieldForm;
+use app\forms\ProductTypeForm;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductsService
@@ -21,7 +21,7 @@ class ProductsService
     }
 
     /**
-     * @param CardFieldForm[] $productProperties
+     * @param ProductTypeForm[] $productProperties
      * @return string - id созданного продукта
      *
      */

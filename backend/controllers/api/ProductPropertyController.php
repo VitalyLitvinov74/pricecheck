@@ -2,15 +2,16 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageCategory\UseCases\CategoryService;
 use app\domain\ManageParsingSchema\UseCases\ParsingSchemaService;
+use app\domain\ProductProperty\UseCases\ProductPropertyService;
 use app\forms\ParsingSchemaForm;
-use app\forms\CategoryForm;
+use app\forms\ProductsTypesForm;
+use yii\db\Exception;
 use yii\filters\VerbFilter;
 
-class CategoryController extends BaseApiController
+class ProductPropertyController extends BaseApiController
 {
-    private CategoryService $service;
+    private ProductPropertyService $service;
     private ParsingSchemaService $parsingSchemaService;
     public function behaviors(): array
     {
@@ -26,20 +27,23 @@ class CategoryController extends BaseApiController
 
     public function init(): void
     {
-        $this->service = new CategoryService();
+        $this->service = new ProductPropertyService();
         $this->parsingSchemaService = new ParsingSchemaService();
         parent::init();
     }
 
-    public function actionCreate(): array
+    public function actionCreateList(): array
     {
-        $productTypeForm = new CategoryForm();
+        $productTypeForm = new ProductsTypesForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
-            $id = $this->service->create($productTypeForm);
-            $this->jsonApi->addField('id', $id);
-            $this->jsonApi->setupCode(200);
-            return $this->jsonApi->asArray();
+            try {
+                $this->service->push($productTypeForm->properties);
+                $this->jsonApi->setupCode(204);
+                return $this->jsonApi->asArray();
+            }catch (Exception $exception){
+                return $this->jsonApi->addException($exception)->asArray();
+            }
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
     }

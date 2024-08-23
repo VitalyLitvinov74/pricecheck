@@ -4,10 +4,10 @@ namespace app\collections;
 
 use yii\mongodb\ActiveRecord;
 
-class CategoryCollection extends ActiveRecord
+class ProductPropertyCollection extends ActiveRecord
 {
     public static function collectionName(): string
     {
-        return 'categories';
+        return 'productsTypes';
     }
 }
