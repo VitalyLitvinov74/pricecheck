@@ -8,7 +8,7 @@ abstract class NestedForm extends Model
 {
     abstract protected function nestedFormsMap(): array;
 
-    private function loadNestedForm(string $whereToGetValues, string $formClass): bool
+    private function loadNestedForm(string $whereToGetValues, string $formClass, array $classProperties = []): bool
     {
         if (is_null($this->$whereToGetValues)) {
             return false;
@@ -17,7 +17,7 @@ abstract class NestedForm extends Model
             $nestedForms = [];
             foreach ($this->$whereToGetValues as $propertyKey => $property) {
                 /** @var Model $form */
-                $form = new $formClass();
+                $form = new $formClass($classProperties);
                 if (!$form->load($property)) {
                     return false;
                 }
@@ -25,7 +25,7 @@ abstract class NestedForm extends Model
             }
             $this->$whereToGetValues = $nestedForms;
         } else {
-            $form = new $formClass();
+            $form = new $formClass($classProperties);
             if (!$form->load($this->$whereToGetValues)) {
                 return false;
             }
@@ -36,11 +36,11 @@ abstract class NestedForm extends Model
         return true;
     }
 
-    private function validateNestedForm(string $propertyForErrors): bool
+    private function validateNestedForm(string $propertyName): bool
     {
         $propertiesErrors = [];
-        if (is_array($this->$propertyForErrors)) {
-            foreach ($this->$propertyForErrors as $formNum => $form) {
+        if (is_array($this->$propertyName)) {
+            foreach ($this->$propertyName as $formNum => $form) {
                 if ($form->validate() === false) {
                     foreach ($form->getErrors() as $errorName => $error) {
                         $propertiesErrors[$formNum][$errorName] = $error;
@@ -48,15 +48,15 @@ abstract class NestedForm extends Model
                 }
             }
         } else {
-            if ($this->$propertyForErrors->validate() === false) {
-                foreach ($this->$propertyForErrors->getErrors() as $errorName => $error) {
+            if ($this->$propertyName->validate() === false) {
+                foreach ($this->$propertyName->getErrors() as $errorName => $error) {
                     $propertiesErrors[$errorName] = $error;
                 }
             }
         }
 
         if ($propertiesErrors !== []) {
-            $this->addError($propertyForErrors, $propertiesErrors);
+            $this->addError($propertyName, $propertiesErrors);
             return false;
         }
 
@@ -90,8 +90,19 @@ abstract class NestedForm extends Model
             return false;
         }
         $isLoad = true;
-        foreach ($this->nestedFormsMap() as $property => $nestedFormName) {
-            if ($this->loadNestedForm($property, $nestedFormName) === false) {
+        foreach ($this->nestedFormsMap() as $property => $nestedData) {
+            $nestedClassName = $nestedData;
+            if(is_array($nestedData)){
+                $nestedClassName = $nestedData['class'];
+                unset($nestedData['class']);
+                $classProperties =  $nestedData;
+            }
+            if(is_string($nestedData)){
+                $nestedClassName = $nestedData;
+                $classProperties = [];
+            }
+            $loadedNestedForm = $this->loadNestedForm($property, $nestedClassName, $classProperties);
+            if ($loadedNestedForm === false) {
                 $isLoad = false;
             }
         }

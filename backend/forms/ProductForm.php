@@ -8,20 +8,22 @@ class ProductForm extends NestedForm
 {
     /** @var ProductPropertyForm[] */
     public $properties;
-    public $categoryId;
 
     public function rules(): array
     {
         return [
-            [['categoryId', 'properties'], 'required'],
-            ['categoryId', 'string']
+            [['properties'], 'required'],
+            ['string']
         ];
     }
 
     protected function nestedFormsMap(): array
     {
         return [
-            'properties' => ProductPropertyForm::class
+            'properties' => [
+                'class' => ProductPropertyForm::class,
+                'scenario' => 'create-product'
+            ]
         ];
     }
 }
