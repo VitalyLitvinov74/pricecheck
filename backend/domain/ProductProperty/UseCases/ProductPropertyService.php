@@ -3,7 +3,7 @@
 namespace app\domain\ProductProperty\UseCases;
 
 use app\domain\ProductProperty\Persistence\PropertyRepository;
-use app\forms\ProductTypeForm;
+use app\forms\ProductPropertyForm;
 
 class ProductPropertyService
 {
@@ -13,7 +13,7 @@ class ProductPropertyService
     }
 
     /**
-     * @param ProductTypeForm[] $propertiesData
+     * @param ProductPropertyForm[] $propertiesData
      * @return void - id
      * @throws \yii\base\Exception
      */

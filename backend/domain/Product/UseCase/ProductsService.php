@@ -5,38 +5,32 @@ namespace app\domain\Product\UseCase;
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\Product\Models\Property;
 use app\domain\Product\Models\ValueType;
-use app\domain\Product\Persistance\CategoriesRepository;
+use app\domain\Product\Persistance\PropertyRepository;
 use app\domain\Product\Persistance\ProductRepository;
 use app\domain\Product\Product;
-use app\forms\ProductTypeForm;
+use app\forms\ProductPropertyForm;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductsService
 {
     public function __construct(
-        private CategoriesRepository $categoriesRepository = new CategoriesRepository(),
-        private ProductRepository $productRepository = new ProductRepository()
+        private PropertyRepository $propertyRepository = new PropertyRepository(),
+        private ProductRepository  $productRepository = new ProductRepository()
     )
     {
     }
 
     /**
-     * @param ProductTypeForm[] $productProperties
+     * @param ProductPropertyForm[] $productProperties
      * @return string - id созданного продукта
      *
      */
-    public function createProduct(string $categoryId, array $productProperties): string
+    public function createProduct(, array $productProperties): string
     {
-        $category = $this->categoriesRepository->find($categoryId);
-        $product = new Product($category);
+        $product = new Product();
         foreach ($productProperties as $property){
-            $product->add(
-                new Property(
-                    $property->name,
-                    $property->value,
-                    ValueType::string
-                )
-            );
+            $property = $this->propertyRepository->findBy($property->name);
+            $product->add($property);
         }
         $result = $this->productRepository->save($product);
         return $result;

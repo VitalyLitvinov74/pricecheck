@@ -16,7 +16,7 @@ class ProductRepository
 {
     public function __construct(
         private ObjectMapper         $objectMapper = new ObjectMapper(),
-        private CategoriesRepository $categoriesRepository = new CategoriesRepository()
+        private PropertyRepository $categoriesRepository = new PropertyRepository()
     )
     {
     }
@@ -78,7 +78,7 @@ class ProductRepository
             if(array_key_exists($categoryId, $categoriesList)){
                 $category = $categoriesList[$categoryId];
             }else{
-                $category = $this->categoriesRepository->find($categoryId);
+                $category = $this->categoriesRepository->findBy($categoryId);
                 $categoriesList[$productCardArray['categoryId']]= $category;
             }
             $product = new Product($category);//

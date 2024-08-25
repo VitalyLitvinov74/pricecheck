@@ -5,7 +5,7 @@ namespace app\controllers\api;
 use app\domain\ManageParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\ProductProperty\UseCases\ProductPropertyService;
 use app\forms\ParsingSchemaForm;
-use app\forms\ProductsTypesForm;
+use app\forms\ProductsPropertiesForm;
 use yii\db\Exception;
 use yii\filters\VerbFilter;
 
@@ -34,7 +34,7 @@ class ProductPropertyController extends BaseApiController
 
     public function actionCreateList(): array
     {
-        $productTypeForm = new ProductsTypesForm();
+        $productTypeForm = new ProductsPropertiesForm();
         $productTypeForm->load($this->request->post());
         if ($productTypeForm->validate()) {
             try {

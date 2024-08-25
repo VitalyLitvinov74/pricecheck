@@ -3,31 +3,26 @@
 namespace app\domain\Product\Persistance;
 
 use app\collections\ProductPropertyCollection;
-use app\domain\Product\Models\Category;
+use app\domain\Product\Models\Property;
 use app\libs\ObjectMapper\ObjectMapper;
-use Doctrine\Common\Collections\ArrayCollection;
 
-class CategoriesRepository
+class PropertyRepository
 {
     public function __construct(private ObjectMapper $objectMapper = new ObjectMapper())
     {
     }
 
-    /**
-     * @return ArrayCollection<int, Category>
-     */
-    public function findAll(): ArrayCollection
-    {
-
-    }
-
-    public function find(string $id): Category
+    public function findBy(string $idOrName): Property
     {
         $result = ProductPropertyCollection::find()
             ->select([
                 'supportProperties'
             ])
-            ->where(['id'=>$id])
+            ->where([
+                'or',
+                ['id' => $idOrName],
+                ['name' => $idOrName]
+            ])
             ->asArray()
             ->one();
         return $this->objectMapper->map($result, Category::class);

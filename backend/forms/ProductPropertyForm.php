@@ -4,11 +4,10 @@ namespace app\forms;
 
 use yii\base\Model;
 
-class ProductTypeForm extends Model
+class ProductPropertyForm extends Model
 {
     public $name;
     public $type;
-
     public static function staticRules(): array
     {
         return [

@@ -15,18 +15,14 @@ class Product
     #[\app\libs\ObjectMapper\Attributes\Property(defaultMapWith: 'id')]
     private string|null $id = null; //автоинкримент
 
-    #[HasManyModels(
-        nestedType: Property::class,
-        defaultMapWith: 'properties'
-    )]
-    private ArrayCollection $properties;
+
 
     public function __construct(
-        #[HasOneModel(
-            nestedType: Category::class,
-            defaultMapWith: 'category'
+        #[HasManyModels(
+            nestedType: Property::class,
+            defaultMapWith: 'properties'
         )]
-        private Category $category
+        private ArrayCollection $properties = new ArrayCollection()
     )
     {
     }

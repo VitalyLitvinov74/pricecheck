@@ -1,11 +1,11 @@
 <?php
 namespace app\forms;
 
-class ProductsTypesForm extends NestedForm
+class ProductsPropertiesForm extends NestedForm
 {
     public $title;
 
-    /** @var ProductTypeForm[] $properties */
+    /** @var ProductPropertyForm[] $properties */
     public $properties;
     private const properties = 'properties';
 
@@ -24,7 +24,7 @@ class ProductsTypesForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            self::properties => ProductTypeForm::class
+            self::properties => ProductPropertyForm::class
         ];
     }
 }
