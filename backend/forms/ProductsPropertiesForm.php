@@ -24,7 +24,10 @@ class ProductsPropertiesForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            self::properties => ProductPropertyForm::class
+            self::properties => [
+                'class' => ProductPropertyForm::class,
+                'scenario' => 'create'
+            ]
         ];
     }
 }

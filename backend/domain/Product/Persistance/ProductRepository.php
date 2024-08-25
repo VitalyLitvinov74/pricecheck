@@ -15,7 +15,7 @@ use yii\mongodb\Exception;
 class ProductRepository
 {
     public function __construct(
-        private ObjectMapper         $objectMapper = new ObjectMapper(),
+        private ObjectMapper       $objectMapper = new ObjectMapper(),
         private PropertyRepository $categoriesRepository = new PropertyRepository()
     )
     {
@@ -29,8 +29,10 @@ class ProductRepository
     public function save(Product $product): string
     {
         $insertData = $this->objectMapper->map($product, []);
-        $this->extractProperties($insertData);
-        $result = ProductsCollecction::getCollection()->insert($insertData, ['upsert' => true]);
+        $result = ProductsCollecction::getCollection()->update(
+            ['_id' => $insertData['_id']],
+            $insertData,
+            ['upsert' => true]);
         return $result;
     }
 
@@ -48,7 +50,7 @@ class ProductRepository
 
             //сложить все проперти на уровень выше.
         }
-        ProductsCollecction::getCollection()->batchInsert($insertData, ['upsert' => true]);
+        ProductsCollecction::getCollection()->add($insertData, ['upsert' => true]);
     }
 
     private function extractProperties(array &$insertData): void
@@ -75,11 +77,11 @@ class ProductRepository
         foreach ($result as $productCard) {
             $productCardArray = $this->objectMapper->map($productCard, []);
             $categoryId = $productCardArray['categoryId'];
-            if(array_key_exists($categoryId, $categoriesList)){
+            if (array_key_exists($categoryId, $categoriesList)) {
                 $category = $categoriesList[$categoryId];
-            }else{
+            } else {
                 $category = $this->categoriesRepository->findBy($categoryId);
-                $categoriesList[$productCardArray['categoryId']]= $category;
+                $categoriesList[$productCardArray['categoryId']] = $category;
             }
             $product = new Product($category);//
             foreach ($productCardArray['properties'] as $property) {

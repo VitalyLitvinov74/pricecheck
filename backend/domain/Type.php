@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ProductProperty\Models;
+namespace app\domain;
 
 enum Type: string
 {

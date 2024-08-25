@@ -2,29 +2,32 @@
 
 namespace app\domain\Product\Models;
 
+use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property as PropertyAttribute;
+use MongoDB\BSON\ObjectId;
+
 #[DomainModel]
 class Property
 {
+    #[PropertyAttribute(defaultMapWith: '_id')]
+    private ObjectId $id;
     public function __construct(
-        #[PropertyAttribute(defaultMapWith: 'name')]
-        private string    $name,
+        string    $id,
         #[PropertyAttribute(defaultMapWith: 'value')]
         private mixed     $value,
-        #[PropertyAttribute(defaultMapWith: 'type', typecast: ValueType::class)]
-        private ValueType $valueType
     )
     {
+        $this->id = new ObjectId($id);
     }
 
-    public function hasSameName(Property $property): bool
+    public function compareWith(Property $property): bool
     {
-        return $property->hasName($this->name);
+        return $property->hasId($this->id);
     }
 
-    public function hasName(string $name): bool
+    public function hasId(string $id): bool
     {
-        return $this->name === $name;
+        return $this->id === $id;
     }
 }

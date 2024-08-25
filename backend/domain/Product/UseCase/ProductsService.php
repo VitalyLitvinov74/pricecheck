@@ -25,11 +25,19 @@ class ProductsService
      * @return string - id созданного продукта
      *
      */
-    public function createProduct(, array $productProperties): string
+    public function createProduct(array $productProperties): string
     {
         $product = new Product();
         foreach ($productProperties as $property){
-            $property = $this->propertyRepository->findBy($property->name);
+            if($property->id && $this->propertyRepository->exist($property->id)){
+                $propertyId = $property->id;
+            }
+
+            if($property->name && $property->id === null){
+                $propertyId = $this->propertyRepository->idByName($property->name);
+            }
+
+            $property = new Property($propertyId, $property->value);
             $product->add($property);
         }
         $result = $this->productRepository->save($product);

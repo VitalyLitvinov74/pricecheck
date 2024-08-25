@@ -10,11 +10,18 @@ class ProductPropertyForm extends Model
     public $name;
     public $type;
     public $value;
+
     public static function staticRules(): array
     {
         return [
-            [['name', 'id', 'value'], 'required'],
-            [['name', 'type', 'id'], 'string', 'skipOnEmpty' => false, 'strict' => true]
+            [['value'], 'required'],
+            [['name', 'type', 'id'], 'string', 'strict' => true],
+            ['id', 'required', 'when' => function ($model) {
+                return empty($model->name);
+            }],
+            ['name', 'required', 'when' => function ($model) {
+                return empty($model->id);
+            }],
         ];
     }
 
@@ -22,7 +29,7 @@ class ProductPropertyForm extends Model
     {
         return [
             'create' => ['name', 'type'],
-            'create-product' => ['id', 'value']
+            'create-product' => ['id', 'name', 'value']
         ];
     }
 

@@ -3,11 +3,9 @@
 namespace app\domain\ProductProperty;
 
 use app\domain\ProductProperty\Models\Property;
-use app\domain\ProductProperty\Models\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use Doctrine\Common\Collections\ArrayCollection;
-use yii\base\Exception;
 
 #[DomainModel]
 class Properties

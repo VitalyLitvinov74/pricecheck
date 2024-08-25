@@ -13,7 +13,6 @@ class ProductForm extends NestedForm
     {
         return [
             [['properties'], 'required'],
-            ['string']
         ];
     }
 
