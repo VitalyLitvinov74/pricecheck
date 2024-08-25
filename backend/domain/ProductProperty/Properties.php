@@ -30,10 +30,11 @@ class Properties
            return $existedProperty->hasName($name);
         });
         if($existed){
-            throw new Exception(
-                sprintf('Свойство товара %s, уже существует', $name),
-                422
-            );
+            return $this;
+//            throw new Exception(
+//                sprintf('Свойство товара %s, уже существует', $name),
+//                422
+//            );
         }
         $this->collection->add(
             new Property(

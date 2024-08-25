@@ -6,6 +6,7 @@ use app\collections\ProductPropertyCollection;
 use app\domain\ProductProperty\Properties;
 use app\libs\ObjectMapper\ObjectMapper;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class PropertyRepository
 {
@@ -21,13 +22,18 @@ class PropertyRepository
     public function merge(Properties $properties): void
     {
         $data = $this->objectMapper->map($properties, []);
-        Yii::$app->mongodb
-            ->createCommand()
-            ->batchInsert(
-                ProductPropertyCollection::collectionName(),
-                $data['collection'],
-                ['upsert' => true]
-            );
+        $command = Yii::$app->mongodb
+            ->createCommand();
+        foreach ($data['collection'] as $propertyData){
+            $command->addUpdate(
+                    [
+                        '_id' => $propertyData['_id'],
+                    ],
+                    $propertyData,
+                    ['upsert' => true]
+                );
+        }
+       $command->executeBatch(ProductPropertyCollection::collectionName());
     }
 
     public function findAll(): Properties
