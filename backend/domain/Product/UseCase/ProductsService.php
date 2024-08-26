@@ -25,7 +25,7 @@ class ProductsService
      * @return string - id созданного продукта
      *
      */
-    public function createProduct(array $productProperties): string
+    public function createProduct(array $productProperties): void
     {
         $product = new Product();
         foreach ($productProperties as $property){
@@ -40,8 +40,7 @@ class ProductsService
             $property = new Property($propertyId, $property->value);
             $product->add($property);
         }
-        $result = $this->productRepository->save($product);
-        return $result;
+        $this->productRepository->saveAll([$product]);
     }
 
     /**
