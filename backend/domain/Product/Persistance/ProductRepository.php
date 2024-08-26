@@ -67,7 +67,7 @@ class ProductRepository
     {
         $service = new DocumentsParseService();
         /** @var ProductCard[] $result */
-        $result = $service->parse($documentPath, '', $categoryId, $parsingSchemaName);
+        $result = $service->parse($documentPath, '', $parsingSchemaName);
         $products = new ArrayCollection();
         $categoriesList = [];
         foreach ($result as $productCard) {
