@@ -10,6 +10,7 @@ use app\domain\Product\Models\Property;
 use app\domain\Product\Product;
 use app\libs\ObjectMapper\ObjectMapper;
 use Doctrine\Common\Collections\ArrayCollection;
+use Yii;
 use yii\mongodb\Exception;
 
 class ProductRepository
@@ -43,21 +44,16 @@ class ProductRepository
      */
     public function saveAll(array|ArrayCollection $products): void
     {
-        $insertData = [];
+        $command = Yii::$app->mongodb->createCommand();
         foreach ($products as $product) {
             $data = $this->objectMapper->map($product, []);
-            $this->extractProperties($data);
-
-            //сложить все проперти на уровень выше.
+            $command->addUpdate(
+                ['_id' => $data['_id']],
+                $data,
+                ['upsert'=>true]
+            );
         }
-        ProductsCollecction::getCollection()->add($insertData, ['upsert' => true]);
-    }
-
-    private function extractProperties(array &$insertData): void
-    {
-        $properties = $insertData['properties'];
-        unset($insertData['properties']);
-        $insertData = array_merge($insertData, $properties);
+        $command->executeBatch(ProductsCollecction::collectionName());
     }
 
     /**
