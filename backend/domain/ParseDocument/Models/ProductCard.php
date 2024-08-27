@@ -2,21 +2,29 @@
 
 namespace app\domain\ParseDocument\Models;
 
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
+use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
-
+#[DomainModel]
 class ProductCard
 {
     /**
-     * @param  string  $categoryId
-     * @param  ArrayCollection<int, CardProperty>  $properties
+     * @param string $parsingVersion
+     * @param ArrayCollection<int, CardProperty> $properties
      */
     public function __construct(
-        private string $categoryId,
+        #[Property(mapWithArrayKey: 'parsingVersion')]
+        private string $parsingVersion,
+        #[HasManyModels(
+            nestedType: CardProperty::class,
+            defaultMapWith: 'properties'
+        )]
         private ArrayCollection $properties = new ArrayCollection()) { }
 
-    public function addProperty(string $name, mixed $value): void{
+    public function addProperty(string $id, mixed $value): void{
         $this->properties->add(
-            new CardProperty($name, $value)
+            new CardProperty($id, $value)
         );
     }
 }

@@ -2,19 +2,29 @@
 
 namespace app\domain\ParseDocument\Models;
 
+use app\domain\Product\Models\Property;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
+use MongoDB\BSON\ObjectId;
 
+#[DomainModel]
 class MappingSchema
 {
+    #[Prop(
+        defaultMapWith: 'startWithRowNum'
+    )]
     private int $startWithRowNum;
 
     /**
      * @var ArrayCollection<int, MappingPair>
      */
+    #[HasManyModels(
+        nestedType: MappingPair::class,
+        defaultMapWith: ''
+    )]
     private ArrayCollection $mappingPairs;
-
-    private string $categoryId;
-
 
     private function __construct()
     {
@@ -22,30 +32,38 @@ class MappingSchema
 
     /**
      * @param XlsxRow $row
-     * @param int $parsingCersion
+     * @param int $parsingVersion
      * @return ProductCard|null
      */
-    public function convertRowToProductCard(XlsxRow $row, int $parsingCersion): ProductCard|null
+    public function convertRowToProductCard(XlsxRow $row, int $parsingVersion): ProductCard|null
     {
         if ($row->numMoreThan($this->startWithRowNum - 1)) {
             return null;
         }
-        $productCard = new ProductCard($this->categoryId);
-        foreach ($this->mappingPairs as $pair) {
+        $properties = new ArrayCollection([
+            new Property(
+                '',//parsingVersion
+                ''
+            )
+        ]);
+        foreach ($this->mappingPairs as $schemaPair) {
             foreach ($row->cells() as $cell) {
-                if (!$cell->hasColumnName($pair->externalName())) {
+                if (!$cell->hasColumnName($schemaPair->externalName())) {
                     continue;
                 }
-                $productCard->addProperty(
-                    $pair->name(),
-                    $cell->value(
-                        $pair->type()
+                $properties->add(
+                    new Property(
+                        $schemaPair->propertyId(),
+                        $cell->valueBy(
+                            $schemaPair->type()
+                        )
                     )
                 );
             }
         }
-        $productCard->addProperty('parsingVersion', $parsingCersion);
-        $productCard->addProperty('categoryId', $this->categoryId);
-        return $productCard;
+        return new ProductCard(
+            $parsingVersion,
+            $properties
+        );
     }
 }

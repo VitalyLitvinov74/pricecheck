@@ -2,11 +2,13 @@
 
 namespace app\domain\ParseDocument\Models;
 
+use app\domain\Type;
+
 class MappingPair
 {
     private string $externalName;
-    private string $name;
-    private string $type;
+    private string $propertyId;
+    private Type $type;
 
     private function __construct() { }
 
@@ -15,13 +17,18 @@ class MappingPair
         return strtolower($this->externalName);
     }
 
-    public function name(): string
+    public function propertyId(): string
     {
-        return strtolower($this->name);
+        return strtolower($this->propertyId);
     }
 
-    public function type(): string
+    public function convertCell()
     {
-        return strtolower($this->name);
+        
+    }
+
+    public function type(): Type
+    {
+        return $this->type;
     }
 }

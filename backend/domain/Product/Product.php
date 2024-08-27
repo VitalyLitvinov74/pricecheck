@@ -20,7 +20,9 @@ class Product
         private ArrayCollection $properties = new ArrayCollection(),
 
         #[Prop(defaultMapWith: '_id')]
-        private ObjectId $id = new ObjectId() //втоинкремент
+        private ObjectId $id = new ObjectId(), //втоинкремент
+        #[Prop(defaultMapWith: 'parsingVersion')]
+        private string|null $parsingVersion = null
     )
     {
     }

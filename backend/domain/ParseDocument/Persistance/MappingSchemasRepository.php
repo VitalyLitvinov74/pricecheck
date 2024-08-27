@@ -6,7 +6,7 @@ use app\domain\ParseDocument\Models\MappingSchema;
 
 class MappingSchemasRepository
 {
-    public function findBy(string $categoryId, string $parsingMap): MappingSchema
+    public function findBy(string $parsingSchemaId): MappingSchema
     {
     }
 

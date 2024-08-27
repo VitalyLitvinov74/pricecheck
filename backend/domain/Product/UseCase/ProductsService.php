@@ -10,6 +10,7 @@ use app\domain\Product\Persistance\ProductRepository;
 use app\domain\Product\Product;
 use app\forms\ProductPropertyForm;
 use Doctrine\Common\Collections\ArrayCollection;
+use yii\web\UploadedFile;
 
 class ProductsService
 {
@@ -47,9 +48,10 @@ class ProductsService
      * @param ArrayCollection<int, ProductCard> $productsCards
      * @return void
      */
-    public function createByDocument(): void
+    public function createByDocument(UploadedFile $file, string $parsingSchemaId): void
     {
-        $products = $this->productRepository->getFromDocument('', '', '');
+        $filename = $file->baseName . '.' . $file->extension;
+        $products = $this->productRepository->loadFromDocument($file->tempName,$filename,  $parsingSchemaId);
         $this->productRepository->saveAll($products);
     }
 }

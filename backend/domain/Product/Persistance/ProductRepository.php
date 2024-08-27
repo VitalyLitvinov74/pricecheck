@@ -50,7 +50,7 @@ class ProductRepository
             $command->addUpdate(
                 ['_id' => $data['_id']],
                 $data,
-                ['upsert'=>true]
+                ['upsert' => true]
             );
         }
         $command->executeBatch(ProductsCollecction::collectionName());
@@ -63,15 +63,16 @@ class ProductRepository
      * @param string $parsingSchemaName
      * @return ArrayCollection
      */
-    public function getFromDocument(string $documentPath, string $categoryId, string $parsingSchemaName): ArrayCollection
+    public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
     {
-        $service = new DocumentsParseService();
+        $parseService = new DocumentsParseService();
         /** @var ProductCard[] $result */
-        $result = $service->parse($documentPath, '', $parsingSchemaName);
+        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
         $products = new ArrayCollection();
         $categoriesList = [];
         foreach ($result as $productCard) {
             $productCardArray = $this->objectMapper->map($productCard, []);
+            // Маппинг карточек товара в продукт
             $categoryId = $productCardArray['categoryId'];
             if (array_key_exists($categoryId, $categoriesList)) {
                 $category = $categoriesList[$categoryId];
@@ -79,7 +80,7 @@ class ProductRepository
                 $category = $this->categoriesRepository->findBy($categoryId);
                 $categoriesList[$productCardArray['categoryId']] = $category;
             }
-            $product = new Product($category);//
+            $product = new Product($category);
             foreach ($productCardArray['properties'] as $property) {
                 $product->add(new Property($property['name'], $property['value'], ''));
             }
