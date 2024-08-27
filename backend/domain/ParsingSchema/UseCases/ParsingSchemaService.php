@@ -21,7 +21,7 @@ class ParsingSchemaService
      * @param RelationPairForm[] $relationshipPairsForms
      * @return void
      */
-    public function create(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
+    public function create(string $name, int $startFromRow, array $relationshipPairsForms): void
     {
         $schema = new ParsingSchema(
             $name,
@@ -30,12 +30,12 @@ class ParsingSchemaService
         foreach ($relationshipPairsForms as $form){
             $schema->add(
                 new RelationshipPair(
-                    $form->productPropertyName,
+                    $form->productPropertyId,
                     $form->externalFieldName,
                 )
             );
         }
-        $this->repository->push($schema, $categoryId);
+        $this->repository->save($schema);
     }
 
     /**
@@ -50,6 +50,6 @@ class ParsingSchemaService
         $schema = $this->repository->findByNameAndCategoryId($name, $categoryId);
         $schema->rename($name);
         $schema->changeStartingRowNum($startFromRow);
-        $this->repository->update($schema, $categoryId);
+        $this->repository->save($schema);
     }
 }

@@ -8,6 +8,7 @@ use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
+use MongoDB\BSON\ObjectId;
 
 #[DomainModel]
 class ParsingSchema
@@ -16,6 +17,7 @@ class ParsingSchema
      * @param string $name
      * @param int $startWithRowNum
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
+     * @param ObjectId $id
      */
     public function __construct(
         #[Property(mapWithArrayKey: 'name')]
@@ -27,6 +29,8 @@ class ParsingSchema
             mapWithArrayKey: 'relationshipPairs'
         )]
         private ArrayCollection $relationshipPairs = new ArrayCollection(),
+        #[Property(mapWithArrayKey: '_id')]
+        private ObjectId $id = new ObjectId()
     )
     {
     }

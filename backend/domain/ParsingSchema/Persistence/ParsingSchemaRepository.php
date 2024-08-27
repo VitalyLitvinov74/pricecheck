@@ -2,6 +2,7 @@
 
 namespace app\domain\ParsingSchema\Persistence;
 
+use app\collections\ParsingSchemas;
 use app\collections\ProductPropertyCollection;
 use app\domain\ParsingSchema\ParsingSchema;
 use app\libs\ObjectMapper\ObjectMapper;
@@ -59,12 +60,14 @@ class ParsingSchemaRepository
         );
     }
 
-    public function push(ParsingSchema $schema, string $categoryID): void
+    public function save(ParsingSchema $schema): void
     {
         $data = $this->objectMapper->map($schema, []);
-        ProductPropertyCollection::getCollection()->update(
-            ['_id' => new ObjectId($categoryID)],
-            ['$push' => ["parsingSchemas" => $data]],
+
+        ParsingSchemas::getCollection()->update(
+            ['_id' => $data['_id']],
+            $data,
+            ['upsert' => true]
         );
     }
 }

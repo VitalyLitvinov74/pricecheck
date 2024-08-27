@@ -2,7 +2,6 @@
 
 namespace app\forms;
 
-use app\domain\ManageCategory\Models\RelationshipPair;
 use yii\base\Model;
 
 class ParsingSchemaForm extends NestedForm
@@ -10,15 +9,14 @@ class ParsingSchemaForm extends NestedForm
     public $name;
     /** @var RelationPairForm[] */
     public $map;
-    public $categoryId;
 
     public $startWithRowNum;
 
     public function rules(): array
     {
         return [
-            [['name', 'categoryId', 'map', 'startWithRowNum'], 'required'],
-            [['name', 'categoryId'], 'string'],
+            [['name', 'map', 'startWithRowNum'], 'required'],
+            [['name'], 'string'],
             ['startWithRowNum', 'integer']
         ];
     }
