@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageParsingSchema\Models;
+namespace app\domain\ParsingSchema\Models;
 
 use app\domain\ManageCategory\CategoryException;
 use app\libs\ObjectMapper\Attributes\DomainModel;

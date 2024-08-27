@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ManageParsingSchema\Persistence\Snapshots;
+namespace app\domain\ParsingSchema\Persistence\Snapshots;
 
 readonly class SchemaSnapshot
 {

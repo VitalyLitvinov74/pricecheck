@@ -1,9 +1,9 @@
 <?php
 
-namespace app\domain\ManageParsingSchema\Persistence;
+namespace app\domain\ParsingSchema\Persistence;
 
 use app\collections\ProductPropertyCollection;
-use app\domain\ManageParsingSchema\ParsingSchema;
+use app\domain\ParsingSchema\ParsingSchema;
 use app\libs\ObjectMapper\ObjectMapper;
 use MongoDB\BSON\ObjectId;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ManageParsingSchema;
+namespace app\domain\ParsingSchema;
 
-use app\domain\ManageParsingSchema\Models\RelationshipPair;
+use app\domain\ParsingSchema\Models\RelationshipPair;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\HasOneModel;

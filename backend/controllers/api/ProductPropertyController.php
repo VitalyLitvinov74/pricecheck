@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\domain\ManageParsingSchema\UseCases\ParsingSchemaService;
+use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\ProductProperty\UseCases\ProductPropertyService;
 use app\forms\ParsingSchemaForm;
 use app\forms\ProductsPropertiesForm;
