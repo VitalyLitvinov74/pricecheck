@@ -6,14 +6,14 @@ use yii\base\Model;
 
 class RelationPairForm extends Model
 {
-    public $productPropertyName;
+    public $productPropertyId;
     public $externalFieldName;
 
     public function rules(): array
     {
         return [
-            [['productPropertyName', 'externalFieldName'],'required'],
-            [['productPropertyName', 'externalFieldName'], 'string']
+            [['productPropertyId', 'externalFieldName'],'required'],
+            [['productPropertyId', 'externalFieldName'], 'string']
         ];
     }
 

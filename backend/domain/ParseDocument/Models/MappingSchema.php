@@ -40,12 +40,7 @@ class MappingSchema
         if ($row->numMoreThan($this->startWithRowNum - 1)) {
             return null;
         }
-        $properties = new ArrayCollection([
-            new Property(
-                '',//parsingVersion
-                ''
-            )
-        ]);
+        $properties = new ArrayCollection();
         foreach ($this->mappingPairs as $schemaPair) {
             foreach ($row->cells() as $cell) {
                 if (!$cell->hasColumnName($schemaPair->externalName())) {

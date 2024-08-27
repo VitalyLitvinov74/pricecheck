@@ -2,7 +2,7 @@
 
 namespace app\domain\Product\Persistance;
 
-use app\collections\ProductsCollecction;
+use app\collections\ProductsCollection;
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\ParseDocument\UseCases\DocumentsParseService;
 use app\domain\Product\Models\Category;
@@ -30,7 +30,7 @@ class ProductRepository
     public function save(Product $product): string
     {
         $insertData = $this->objectMapper->map($product, []);
-        $result = ProductsCollecction::getCollection()->update(
+        $result = ProductsCollection::getCollection()->update(
             ['_id' => $insertData['_id']],
             $insertData,
             ['upsert' => true]);
@@ -53,7 +53,7 @@ class ProductRepository
                 ['upsert' => true]
             );
         }
-        $command->executeBatch(ProductsCollecction::collectionName());
+        $command->executeBatch(ProductsCollection::collectionName());
     }
 
     /**
@@ -69,21 +69,9 @@ class ProductRepository
         /** @var ProductCard[] $result */
         $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
         $products = new ArrayCollection();
-        $categoriesList = [];
         foreach ($result as $productCard) {
             $productCardArray = $this->objectMapper->map($productCard, []);
-            // Маппинг карточек товара в продукт
-            $categoryId = $productCardArray['categoryId'];
-            if (array_key_exists($categoryId, $categoriesList)) {
-                $category = $categoriesList[$categoryId];
-            } else {
-                $category = $this->categoriesRepository->findBy($categoryId);
-                $categoriesList[$productCardArray['categoryId']] = $category;
-            }
-            $product = new Product($category);
-            foreach ($productCardArray['properties'] as $property) {
-                $product->add(new Property($property['name'], $property['value'], ''));
-            }
+            $product = $this->objectMapper->map( $productCardArray, Product::class);
             $products->add($product);
         }
         return $products;

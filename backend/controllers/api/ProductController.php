@@ -2,21 +2,24 @@
 
 namespace app\controllers\api;
 
+use app\collections\ProductPropertyCollection;
+use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocument;
 use app\forms\ProductForm;
 use Throwable;
 use Yii;
-use yii\base\Exception;
 
 class ProductController extends BaseApiController
 {
     private ProductsService $service;
+    private ParsingSchemaService $parsingSchemaService;
 
     public function init(): void
     {
         parent::init();
         $this->service = new ProductsService();
+        $this->parsingSchemaService = new ParsingSchemaService();
     }
 
     /**
@@ -37,14 +40,29 @@ class ProductController extends BaseApiController
     {
         $form = new CreateProductsViaDocument();
         $form->load(Yii::$app->request->post(), '');
-        if($form->validate()){
+        if ($form->validate()) {
             $this->service->createByDocument($form->table, $form->parsingSchemaId);
             try {
                 return $this->jsonApi->setupCode(204)->asArray();
-            }catch (Throwable $throwable){
+            } catch (Throwable $throwable) {
                 return $this->jsonApi->addException($throwable)->asArray();
             }
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
+    }
+
+    public function actionAllPropertiesList(): array
+    {
+        return $this->jsonApi
+            ->setupCode(200)
+            ->addBody(
+                ProductPropertyCollection::find()
+                    ->select([
+                        'id',
+                        'name'
+                    ])
+                    ->asArray()->all()
+            )
+            ->asArray();
     }
 }

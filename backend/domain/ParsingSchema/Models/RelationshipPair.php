@@ -2,7 +2,6 @@
 
 namespace app\domain\ParsingSchema\Models;
 
-use app\domain\ManageCategory\CategoryException;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,8 +14,8 @@ class RelationshipPair
     private ArrayCollection $neighboringPairs;
 
     public function __construct(
-        #[Property(mapWithArrayKey: 'productPropertyName')]
-        private string $productPropertyName,
+        #[Property(mapWithArrayKey: 'productPropertyId')]
+        private string $productPropertyId,
         #[Property(mapWithArrayKey: 'externalFieldName')]
         private string $externalFieldName,
     ) { }
@@ -24,7 +23,7 @@ class RelationshipPair
     public function changeRelation(string $newName, string $newFieldName): void
     {
         $existNeighbouringPairWithIdenticalName = $this->neighboringPairs->exists(function ($key, RelationshipPair $pair){
-            return $pair->hasNameProperty($this->productPropertyName);
+            return $pair->hasNameProperty($this->productPropertyId);
         });
         if($existNeighbouringPairWithIdenticalName){
             throw new CategoryException(sprintf(
@@ -33,13 +32,13 @@ class RelationshipPair
 
             ));
         }
-        $this->productPropertyName = $newName;
+        $this->productPropertyId = $newName;
         $this->externalFieldName = $newFieldName;
     }
 
     public function hasNameProperty(string $name): bool
     {
-        return strtolower($this->productPropertyName) === strtolower($name);
+        return strtolower($this->productPropertyId) === strtolower($name);
     }
 
 
