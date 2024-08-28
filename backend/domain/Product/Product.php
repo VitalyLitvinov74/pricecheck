@@ -18,18 +18,15 @@ class Product
     #[Prop(defaultMapWith: 'id')]
     private $id = null;
 
-    #[HasManyModels(
-        nestedType: Property::class,
-        mapWithArrayKey: 'properties'
-
-    )]
-    private ArrayCollection $properties;
-
     public function __construct(
-        ArrayCollection $properties = new ArrayCollection(),
+        #[HasManyModels(
+            nestedType: Property::class,
+            mapWithArrayKey: 'properties'
+
+        )]
+        private ArrayCollection $properties = new ArrayCollection(),
     )
     {
-        $this->properties = $properties;
     }
 
     public function add(Property $property): void

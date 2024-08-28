@@ -2,9 +2,6 @@
 
 namespace app\domain\Product\Persistance;
 
-use app\collections\ProductPropertyCollection;
-use app\domain\Product\Models\Property;
-use app\domain\Type;
 use app\libs\ObjectMapper\ObjectMapper;
 use yii\base\Exception;
 

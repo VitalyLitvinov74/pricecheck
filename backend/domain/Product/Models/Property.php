@@ -3,20 +3,31 @@
 namespace app\domain\Product\Models;
 
 use app\domain\Product\Persistance\Snapshots\PropertySnapshot;
-use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\Property as PropertyAttribute;
-use MongoDB\BSON\ObjectId;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
 
 #[DomainModel(mapWith: PropertySnapshot::class)]
 class Property
 {
-    #[PropertyAttribute(defaultMapWith: '_id')]
-    private $id = null;
+    #[Prop(defaultMapWith: 'id')]
+    private $pk = null;
+
     public function __construct(
-        string    $id,
-        #[PropertyAttribute(defaultMapWith: 'value')]
-        private mixed     $value,
+        #[Prop(
+            mapWithArrayKey: 'property_id',
+            mapWithObjectKey: 'propertyId'
+        )]
+        private int    $id,
+        #[Prop(
+            mapWithArrayKey: 'property_value',
+            mapWithObjectKey: 'propertyValue'
+        )]
+        private mixed  $value,
+        #[Prop(
+            mapWithArrayKey: 'property_name',
+            mapWithObjectKey: 'propertyName'
+        )]
+        private string $propertyName
     )
     {
     }
@@ -26,7 +37,7 @@ class Property
         return $property->hasId($this->id);
     }
 
-    public function hasId(string $id): bool
+    public function hasId(int $id): bool
     {
         return $this->id === $id;
     }

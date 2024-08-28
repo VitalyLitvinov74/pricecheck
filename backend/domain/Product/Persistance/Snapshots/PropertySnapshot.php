@@ -6,7 +6,9 @@ class PropertySnapshot
 {
     public function __construct(
         public $id,
-        public $value
+        public int $propertyId,
+        public mixed $propertyValue,
+        public string $propertyName
     )
     {
     }

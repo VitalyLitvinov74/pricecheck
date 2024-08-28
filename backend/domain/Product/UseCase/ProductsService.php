@@ -41,7 +41,7 @@ class ProductsService
             $property = new Property($propertyId, $property->value);
             $product->add($property);
         }
-        $this->productRepository->saveAll([$product]);
+        $this->productRepository->saveAll(new ArrayCollection([$product]));
     }
 
     /**

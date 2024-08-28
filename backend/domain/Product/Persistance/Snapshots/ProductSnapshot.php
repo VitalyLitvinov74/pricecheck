@@ -8,7 +8,7 @@ class ProductSnapshot
 {
     /**
      * @param $id
-     * @param Property[] $properties
+     * @param PropertySnapshot[] $properties
      */
     public function __construct(
         public $id,

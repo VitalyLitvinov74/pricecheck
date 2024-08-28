@@ -4,6 +4,8 @@ namespace app\domain\Product\Persistance;
 
 use app\collections\ProductsCollection;
 use app\domain\Product\Models\Category;
+use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
+use app\domain\Product\Persistance\Snapshots\PropertySnapshot;
 use app\domain\Product\Product;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
@@ -27,43 +29,53 @@ class ProductRepository
         //сложить все свойства в property
     }
 
-    public function save(Product $product): string
+    /**
+     * @param ArrayCollection $products
+     * @return void
+     */
+    public function saveAll(ArrayCollection $products): void
     {
-        $insertData = $this->objectMapper->map($product, []);
-        $result = ProductRecord::getCollection()->update(
-            ['_id' => $insertData['_id']],
-            $insertData,
-            ['upsert' => true]);
-        return $result;
+        $productsSnapshots = [];
+        foreach ($products as $product){
+            $productsSnapshots[] = $this->objectMapper->map($product, ProductSnapshot::class);
+        }
+        $this->saveProducts($productsSnapshots);
     }
 
     /**
-     * @param Product[]|ArrayCollection<int, Product> $products
+     * @param ProductSnapshot[] $productsSnapshots
      * @return void
-     * @throws Exception
      */
-    public function saveAll(array|ArrayCollection $products): void
+    private function saveProducts(array $productsSnapshots): void
     {
-        $command = Yii::$app->mongodb->createCommand();
-        foreach ($products as $product) {
-            $data = $this->objectMapper->map($product, []);
-            $command->addUpdate(
-                ['_id' => $data['_id']],
-                $data,
-                ['upsert' => true]
-            );
+        foreach ($productsSnapshots as $snapshot){
+            $this->upsertBuilder
+                ->useActiveRecord(ProductRecord::class)
+                ->upsertOneRecord(['id' => $snapshot->id]);
+            $id = ProductRecord::getDb()->getLastInsertID();
+            $snapshot->id = $id;
         }
-        $command->executeBatch(ProductsCollection::collectionName());
+        $this->saveProperties($productsSnapshots);
     }
 
-    private function saveProducts(): void
+    /**
+     * @param ProductSnapshot[] $productsSnapshots
+     * @return void
+     */
+    private function saveProperties(array $productsSnapshots): void
     {
-
-    }
-
-    private function saveProperties(): void
-    {
-
+        $insertData = [];
+        foreach ($productsSnapshots as $productsSnapshot){
+            foreach ($productsSnapshot->properties as $propertySnapshot){
+                $insertData[] = [
+                    'product_id' => $productsSnapshot->id,
+                    'property_id' => $propertySnapshot->propertyId,
+                    'property_name' => $propertySnapshot->propertyName,
+                    'property_value' => $propertySnapshot->propertyValue
+                ];
+            }
+        }
+        $this->upsertBuilder->upsertManyRecords($insertData);
     }
 
 
