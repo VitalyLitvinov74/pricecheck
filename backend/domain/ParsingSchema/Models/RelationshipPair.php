@@ -9,16 +9,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 class RelationshipPair
 {
     /**
-     * @var ArrayCollection<int, RelationshipPair>
+     * @param string $productPropertyName
+     * @param string $externalFieldName
      */
-    private ArrayCollection $neighboringPairs;
-
     public function __construct(
         #[Property(mapWithArrayKey: 'productPropertyId')]
         private string $productPropertyId,
         #[Property(mapWithArrayKey: 'externalFieldName')]
-        private string $externalFieldName,
-    ) { }
+        private string $externalFieldName
+    ) {
+    }
 
     public function changeRelation(string $newName, string $newFieldName): void
     {
@@ -26,11 +26,7 @@ class RelationshipPair
             return $pair->hasNameProperty($this->productPropertyId);
         });
         if($existNeighbouringPairWithIdenticalName){
-            throw new CategoryException(sprintf(
-                'Свойство %s уже завязано на внешнее поле',
-                $newName
 
-            ));
         }
         $this->productPropertyId = $newName;
         $this->externalFieldName = $newFieldName;
