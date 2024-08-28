@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ProductProperty\Models;
+namespace app\domain\Property\Models;
 
 use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
@@ -11,9 +11,9 @@ use MongoDB\BSON\ObjectId;
 class Property
 {
     #[Prop(
-        mapWithArrayKey: '_id'
+        mapWithArrayKey: 'id'
     )]
-    private ObjectId $id; //автоинкремент
+    private int|null $id;
 
     #[Prop(
         mapWithArrayKey: 'type',
@@ -28,7 +28,6 @@ class Property
     )
     {
         $this->type = Type::from($type);
-        $this->id = new ObjectId();
     }
 
     public function change(Type $newType): void

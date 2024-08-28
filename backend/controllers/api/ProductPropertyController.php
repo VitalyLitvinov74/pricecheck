@@ -3,7 +3,7 @@
 namespace app\controllers\api;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
-use app\domain\ProductProperty\UseCases\ProductPropertyService;
+use app\domain\Property\UseCases\ProductPropertyService;
 use app\forms\ParsingSchemaForm;
 use app\forms\ProductsPropertiesForm;
 use yii\db\Exception;

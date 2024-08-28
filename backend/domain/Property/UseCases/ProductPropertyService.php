@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ProductProperty\UseCases;
+namespace app\domain\Property\UseCases;
 
-use app\domain\ProductProperty\Persistence\PropertyRepository;
+use app\domain\Property\Persistence\PropertyRepository;
 use app\forms\ProductPropertyForm;
 
 class ProductPropertyService

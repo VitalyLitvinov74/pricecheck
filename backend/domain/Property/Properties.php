@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ProductProperty;
+namespace app\domain\Property;
 
-use app\domain\ProductProperty\Models\Property;
+use app\domain\Property\Models\Property;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,10 +29,6 @@ class Properties
         });
         if($existed){
             return $this;
-//            throw new Exception(
-//                sprintf('Свойство товара %s, уже существует', $name),
-//                422
-//            );
         }
         $this->collection->add(
             new Property(

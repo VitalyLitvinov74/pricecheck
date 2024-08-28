@@ -1,12 +1,13 @@
 <?php
 
-namespace app\domain\ProductProperty\Persistence;
+namespace app\domain\Property\Persistence;
 
 use app\collections\ProductPropertyCollection;
-use app\domain\ProductProperty\Properties;
+use app\domain\Property\Properties;
 use app\libs\ObjectMapper\ObjectMapper;
 use Yii;
-use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
+use yii\mongodb\Exception;
 
 class PropertyRepository
 {
@@ -17,7 +18,10 @@ class PropertyRepository
     }
 
     /**
-     * @return string - id сохраненной записи
+     * @param Properties $properties
+     * @return void - id сохраненной записи
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function merge(Properties $properties): void
     {
