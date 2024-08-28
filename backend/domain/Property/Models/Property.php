@@ -13,7 +13,7 @@ class Property
     #[Prop(
         mapWithArrayKey: 'id'
     )]
-    private int|null $id;
+    private int|null $id = null;
 
     #[Prop(
         mapWithArrayKey: 'type',
