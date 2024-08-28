@@ -4,10 +4,10 @@ namespace app\records;
 
 use yii\db\ActiveRecord;
 
-class CategoryRecord extends ActiveRecord
+class ProductRecord extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'categories';
+        return 'products';
     }
 }
