@@ -29,14 +29,6 @@ $config = [
         ],
     ],
     'params' => $params,
-    'controllerMap' => [
-        'mongodb-migrate' => [
-            'class' => MigrateController::class,
-            'migrationPath' => [
-                'migrations/mongo'
-            ]
-        ],
-    ],
 
 ];
 $config['components'] = array_merge($config['components'], $components);
