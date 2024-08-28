@@ -13,9 +13,11 @@ class m240828_080607_changeTables extends Migration
      */
     public function safeUp()
     {
-        $this->renameTable('categories', 'properties');
-        $this->renameColumn('properties', 'title', 'name');
-        $this->dropColumn('properties', 'fields');
+        $this->dropTable('categories');
+        $this->createTable('properties', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(100)->notNull(),
+        ]);
         $this->execute(
             sprintf(
                 "CREATE TYPE propertyType AS ENUM ('%s', '%s', '%s', '%s')",
@@ -25,7 +27,7 @@ class m240828_080607_changeTables extends Migration
                 Type::Float->value,
             )
         );
-        $this->addColumn('properties', 'type', 'propertyType');
+        $this->addColumn('properties', 'type', 'propertyType not null');
     }
 
     /**
@@ -33,10 +35,14 @@ class m240828_080607_changeTables extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn('properties', 'type');
-        $this->renameColumn('properties', 'name', 'title');
-        $this->addColumn('properties', 'fields', $this->json());
-        $this->renameTable('properties', 'categories');
+        $this->dropTable('properties');
+        $this->execute('DROP TYPE propertyType');
+        $this->createTable('categories', [
+            'id' => $this->primaryKey(),
+            'title' => $this->string(100)->notNull(),
+            'fields' => $this->json(),
+        ]);
+        $this->createIndex('categories_title','categories', 'title', true);
     }
 
     /*

@@ -74,7 +74,7 @@ class UpsertBuilder
         $baseInsertSql = $this->db->queryBuilder->batchInsert(
             $this->tableName,
             $this->columnNamesForInsert(),
-            $this->dataForInsert
+            $this->dataForInsert()
         );
         $duplicateKeysExpression = $this->onUpdateDuplicateKeysExpression();
         $this->db->createCommand($baseInsertSql . $duplicateKeysExpression)->execute();
@@ -100,7 +100,7 @@ class UpsertBuilder
 
     private function onUpdateDuplicateKeysExpression(): Expression
     {
-        return match ($this->dbType()){
+        return match ($this->dbType()) {
             self::pg => $this->pgOnDuplicateKeyExpression(),
             self::mysql => $this->mysqlOnDuplicateKeyExpression()
         };
@@ -130,14 +130,14 @@ class UpsertBuilder
                 $result .= ',';
             }
         }
-        return  new Expression(' ON DUPLICATE KEY UPDATE ' . $result);
+        return new Expression(' ON DUPLICATE KEY UPDATE ' . $result);
     }
 
     private function pgOnDuplicateKeyExpression(): Expression
     {
         $result = '';
         $columnNames = $this->uniqueKeys;
-        foreach ($columnNames as $key => $columnName){
+        foreach ($columnNames as $key => $columnName) {
             $result .= sprintf(
                 '%s = excluded.%s',
                 $columnName,
@@ -147,10 +147,28 @@ class UpsertBuilder
                 $result .= ', ';
             }
         }
-        return  new Expression(sprintf(
+        return new Expression(sprintf(
             " ON CONFLICT (%s) DO UPDATE SET %s",
             implode(',', $columnNames),
             $result
         ));
+    }
+
+    private function dataForInsert(): array
+    {
+        $data = $this->dataForInsert;
+        if($this->dbType() === self::pg){
+            foreach ($data as $rowNum => $row){
+                foreach ($row as $columnName => $column){
+                    if($column !== null){
+                        continue;
+                    }
+                    $data[$rowNum][$columnName] = new Expression('default');
+                }
+            }
+            return $data;
+        }
+
+        return $data;
     }
 }
