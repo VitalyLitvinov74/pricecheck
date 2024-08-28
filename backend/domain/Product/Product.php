@@ -3,28 +3,33 @@
 namespace app\domain\Product;
 
 use app\domain\Product\Models\Property;
+use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
-use MongoDB\BSON\ObjectId;
 
-#[DomainModel]
+/**
+ * @property ArrayCollection<int, Property> $properties
+ */
+#[DomainModel(mapWith: ProductSnapshot::class)]
 class Product
 {
-    public function __construct(
-        #[HasManyModels(
-            nestedType: Property::class,
-            mapWithArrayKey: 'properties'
-        )]
-        private ArrayCollection $properties = new ArrayCollection(),
+    #[Prop(defaultMapWith: 'id')]
+    private $id = null;
 
-        #[Prop(defaultMapWith: '_id')]
-        private ObjectId $id = new ObjectId(), //втоинкремент
-        #[Prop(defaultMapWith: 'parsingVersion')]
-        private string|null $parsingVersion = null
+    #[HasManyModels(
+        nestedType: Property::class,
+        mapWithArrayKey: 'properties'
+
+    )]
+    private ArrayCollection $properties;
+
+    public function __construct(
+        ArrayCollection $properties = new ArrayCollection(),
     )
     {
+        $this->properties = $properties;
     }
 
     public function add(Property $property): void

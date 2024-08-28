@@ -3,12 +3,11 @@
 namespace app\domain\Product\Persistance;
 
 use app\collections\ProductsCollection;
-use app\domain\ParseDocument\Models\ProductCard;
-use app\domain\ParseDocument\UseCases\DocumentsParseService;
 use app\domain\Product\Models\Category;
-use app\domain\Product\Models\Property;
 use app\domain\Product\Product;
 use app\libs\ObjectMapper\ObjectMapper;
+use app\libs\UpsertBuilder;
+use app\records\ProductRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yii;
 use yii\mongodb\Exception;
@@ -17,7 +16,8 @@ class ProductRepository
 {
     public function __construct(
         private ObjectMapper       $objectMapper = new ObjectMapper(),
-        private PropertyRepository $categoriesRepository = new PropertyRepository()
+        private PropertyRepository $categoriesRepository = new PropertyRepository(),
+        private UpsertBuilder      $upsertBuilder = new UpsertBuilder()
     )
     {
     }
@@ -30,7 +30,7 @@ class ProductRepository
     public function save(Product $product): string
     {
         $insertData = $this->objectMapper->map($product, []);
-        $result = ProductsCollection::getCollection()->update(
+        $result = ProductRecord::getCollection()->update(
             ['_id' => $insertData['_id']],
             $insertData,
             ['upsert' => true]);
@@ -56,24 +56,36 @@ class ProductRepository
         $command->executeBatch(ProductsCollection::collectionName());
     }
 
-    /**
-     * Сам метод это ACL
-     * @param string $documentPath
-     * @param string $categoryId
-     * @param string $parsingSchemaName
-     * @return ArrayCollection
-     */
-    public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
+    private function saveProducts(): void
     {
-        $parseService = new DocumentsParseService();
-        /** @var ProductCard[] $result */
-        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
-        $products = new ArrayCollection();
-        foreach ($result as $productCard) {
-            $productCardArray = $this->objectMapper->map($productCard, []);
-            $product = $this->objectMapper->map( $productCardArray, Product::class);
-            $products->add($product);
-        }
-        return $products;
+
     }
+
+    private function saveProperties(): void
+    {
+
+    }
+
+
+
+//    /**
+//     * Сам метод это ACL
+//     * @param string $documentPath
+//     * @param string $categoryId
+//     * @param string $parsingSchemaName
+//     * @return ArrayCollection
+//     */
+//    public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
+//    {
+//        $parseService = new DocumentsParseService();
+//        /** @var ProductCard[] $result */
+//        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
+//        $products = new ArrayCollection();
+//        foreach ($result as $productCard) {
+//            $productCardArray = $this->objectMapper->map($productCard, []);
+//            $product = $this->objectMapper->map( $productCardArray, Product::class);
+//            $products->add($product);
+//        }
+//        return $products;
+//    }
 }
