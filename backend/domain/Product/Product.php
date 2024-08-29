@@ -2,6 +2,7 @@
 
 namespace app\domain\Product;
 
+use app\domain\Product\Models\Attribute;
 use app\domain\Product\Models\Property;
 use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
@@ -10,17 +11,24 @@ use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @property ArrayCollection<int, Property> $properties
+ * @property ArrayCollection<int, Attribute> $properties
  */
 #[DomainModel(mapWith: ProductSnapshot::class)]
 class Product
 {
+    #[HasManyModels(
+        nestedType: Property::class,
+        mapWithArrayKey: 'property_types',
+        mapWithObjectKey: 'propertyTypes'
+    )]
+    private ArrayCollection $availablePropertyTypes;
+    
     #[Prop(defaultMapWith: 'id')]
     private $id = null;
 
     public function __construct(
         #[HasManyModels(
-            nestedType: Property::class,
+            nestedType: Attribute::class,
             mapWithArrayKey: 'properties'
 
         )]
@@ -29,18 +37,19 @@ class Product
     {
     }
 
-    public function add(Property $property): void
+    public function attachPropertyWith(int $propertyId, mixed $value): void
     {
-        if ($this->has($property)) {
-            return;
-        }
-        $this->properties->add($property);
+        $this->availablePropertyTypes->exists(
+            function (Attribute $property){
+
+            }
+        )
     }
 
-    public function has(Property $property): bool
+    public function has(Attribute $property): bool
     {
         return $this->properties->exists(
-            function ($key, Property $existedProperty) use ($property) {
+            function ($key, Attribute $existedProperty) use ($property) {
                 return $existedProperty->compareWith($property);
             }
         );

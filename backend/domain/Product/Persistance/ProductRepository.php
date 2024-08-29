@@ -5,28 +5,40 @@ namespace app\domain\Product\Persistance;
 use app\collections\ProductsCollection;
 use app\domain\Product\Models\Category;
 use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
-use app\domain\Product\Persistance\Snapshots\PropertySnapshot;
 use app\domain\Product\Product;
+use app\exceptions\BaseException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
-use app\records\ProductRecord;
+use app\records\ProductsRecords;
+use app\records\ProductPropertiesRecord;
 use Doctrine\Common\Collections\ArrayCollection;
-use Yii;
-use yii\mongodb\Exception;
 
 class ProductRepository
 {
     public function __construct(
-        private ObjectMapper       $objectMapper = new ObjectMapper(),
-        private PropertyRepository $categoriesRepository = new PropertyRepository(),
-        private UpsertBuilder      $upsertBuilder = new UpsertBuilder()
+        private ObjectMapper  $objectMapper = new ObjectMapper(),
+        private UpsertBuilder $upsertBuilder = new UpsertBuilder()
     )
     {
     }
 
-    public function find(string $id): Product
+    public function find(int $id): Product
     {
-        //сложить все свойства в property
+        $data = ProductsRecords::find()
+            ->where(['id' => $id])
+            ->with([
+                'properties'
+            ])
+            ->asArray()
+            ->one();
+        if ($data === null) {
+            throw new BaseException(
+                sprintf('не найден товар с id = %s', $id),
+                404
+            );
+        }
+        $data['available'] = ProductPropertiesRecord::find()->asArray()->all();
+        return $this->objectMapper->map($data, Product::class);
     }
 
     /**
@@ -36,7 +48,7 @@ class ProductRepository
     public function saveAll(ArrayCollection $products): void
     {
         $productsSnapshots = [];
-        foreach ($products as $product){
+        foreach ($products as $product) {
             $productsSnapshots[] = $this->objectMapper->map($product, ProductSnapshot::class);
         }
         $this->saveProducts($productsSnapshots);
@@ -48,11 +60,11 @@ class ProductRepository
      */
     private function saveProducts(array $productsSnapshots): void
     {
-        foreach ($productsSnapshots as $snapshot){
+        foreach ($productsSnapshots as $snapshot) {
             $this->upsertBuilder
-                ->useActiveRecord(ProductRecord::class)
+                ->useActiveRecord(ProductsRecords::class)
                 ->upsertOneRecord(['id' => $snapshot->id]);
-            $id = ProductRecord::getDb()->getLastInsertID();
+            $id = ProductsRecords::getDb()->getLastInsertID();
             $snapshot->id = $id;
         }
         $this->saveProperties($productsSnapshots);
@@ -65,8 +77,8 @@ class ProductRepository
     private function saveProperties(array $productsSnapshots): void
     {
         $insertData = [];
-        foreach ($productsSnapshots as $productsSnapshot){
-            foreach ($productsSnapshot->properties as $propertySnapshot){
+        foreach ($productsSnapshots as $productsSnapshot) {
+            foreach ($productsSnapshot->properties as $propertySnapshot) {
                 $insertData[] = [
                     'product_id' => $productsSnapshot->id,
                     'property_id' => $propertySnapshot->propertyId,

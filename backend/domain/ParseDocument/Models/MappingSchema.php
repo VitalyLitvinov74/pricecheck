@@ -2,7 +2,7 @@
 
 namespace app\domain\ParseDocument\Models;
 
-use app\domain\Product\Models\Property;
+use app\domain\Product\Models\Attribute;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
@@ -47,7 +47,7 @@ class MappingSchema
                     continue;
                 }
                 $properties->add(
-                    new Property(
+                    new Attribute(
                         $schemaPair->propertyId(),
                         $cell->valueBy(
                             $schemaPair->type()

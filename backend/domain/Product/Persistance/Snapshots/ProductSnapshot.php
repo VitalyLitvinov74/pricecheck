@@ -2,7 +2,7 @@
 
 namespace app\domain\Product\Persistance\Snapshots;
 
-use app\domain\Product\Models\Property;
+use app\domain\Product\Models\Attribute;
 
 class ProductSnapshot
 {

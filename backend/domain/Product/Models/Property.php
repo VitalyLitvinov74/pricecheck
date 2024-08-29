@@ -2,43 +2,17 @@
 
 namespace app\domain\Product\Models;
 
-use app\domain\Product\Persistance\Snapshots\PropertySnapshot;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\Property as Prop;
-
-#[DomainModel(mapWith: PropertySnapshot::class)]
 class Property
 {
-    #[Prop(defaultMapWith: 'id')]
-    private $pk = null;
+    private string $name;
+    private string $id;
 
-    public function __construct(
-        #[Prop(
-            mapWithArrayKey: 'property_id',
-            mapWithObjectKey: 'propertyId'
-        )]
-        private int    $id,
-        #[Prop(
-            mapWithArrayKey: 'property_value',
-            mapWithObjectKey: 'propertyValue'
-        )]
-        private mixed  $value,
-        #[Prop(
-            mapWithArrayKey: 'property_name',
-            mapWithObjectKey: 'propertyName'
-        )]
-        private string $propertyName
-    )
+    private function __construct()
     {
     }
 
-    public function compareWith(Property $property): bool
+    public function hasName(string $name): bool
     {
-        return $property->hasId($this->id);
-    }
-
-    public function hasId(int $id): bool
-    {
-        return $this->id === $id;
+        return $this->name === $name;
     }
 }

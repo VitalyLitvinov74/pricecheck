@@ -16,7 +16,7 @@ class m240828_193429_addProductTable extends Migration
             'id' => $this->primaryKey()
         ]);
         $this->createIndex('ind1', 'properties', ['id', 'name'], true);
-        $this->createTable('product_properties', [
+        $this->createTable('product_attributes', [
             'id' => $this->primaryKey(),
             'property_id' => $this->integer()->notNull(),
             'property_name' => $this->string(10)->notNull(),
@@ -24,8 +24,8 @@ class m240828_193429_addProductTable extends Migration
             'product_id' => $this->integer()
         ]);
         $this->addForeignKey(
-            'fk_product_properties_properties',
-            'product_properties',
+            'fk_product_attributes_properties',
+            'product_attributes',
             ['property_id', 'property_name'],
             'properties',
             ['id', 'name'],
@@ -33,8 +33,8 @@ class m240828_193429_addProductTable extends Migration
             'cascade'
         );
         $this->addForeignKey(
-            'fk_product_properties_products',
-            'product_properties',
+            'fk_product_attributes_products',
+            'product_attributes',
             'product_id',
             'products',
             'id',
@@ -48,9 +48,9 @@ class m240828_193429_addProductTable extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_product_properties_products', 'product_properties');
-        $this->dropForeignKey('fk_product_properties_properties', 'product_properties');
-        $this->dropTable('product_properties');
+        $this->dropForeignKey('fk_product_attributes_products', 'product_attributes');
+        $this->dropForeignKey('fk_product_attributes_properties', 'product_attributes');
+        $this->dropTable('product_attributes');
         $this->dropIndex('ind1', 'properties');
         $this->dropTable('products');
     }
