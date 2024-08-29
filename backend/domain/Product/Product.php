@@ -4,53 +4,71 @@ namespace app\domain\Product;
 
 use app\domain\Product\Models\Attribute;
 use app\domain\Product\Models\Property;
-use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
+use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @property ArrayCollection<int, Attribute> $properties
- */
 #[DomainModel(mapWith: ProductSnapshot::class)]
 class Product
 {
     #[HasManyModels(
         nestedType: Property::class,
-        mapWithArrayKey: 'property_types',
-        mapWithObjectKey: 'propertyTypes'
+        mapWithArrayKey: 'available_properties',
+        mapWithObjectKey: 'availableProperties'
     )]
-    private ArrayCollection $availablePropertyTypes;
+    /** @var  ArrayCollection<int, Property> $availableProperties */
+    private ArrayCollection $availableProperties;
     
     #[Prop(defaultMapWith: 'id')]
     private $id = null;
 
-    public function __construct(
-        #[HasManyModels(
-            nestedType: Attribute::class,
-            mapWithArrayKey: 'properties'
+    #[HasManyModels(
+        nestedType: Attribute::class,
+        mapWithArrayKey: 'attributes'
+    )]
+    /** @var ArrayCollection<int, Attribute> $attributes */
+    private ArrayCollection $attributes;
 
-        )]
-        private ArrayCollection $properties = new ArrayCollection(),
-    )
+    public function __construct()
     {
+        $this->attributes = new ArrayCollection();
     }
 
-    public function attachPropertyWith(int $propertyId, mixed $value): void
+    public function attachWith(Attribute $attribute): void
     {
-        $this->availablePropertyTypes->exists(
-            function (Attribute $property){
-
+        $existedSameAttribute = $this->attributes->findFirst(
+            function($key, Attribute $existedAttribute) use ($attribute){
+                return $attribute->compareWith($existedAttribute);
             }
-        )
+        );
+        if($existedSameAttribute !== null){
+            $this->attributes->removeElement($existedSameAttribute);
+            $this->attributes->add($attribute);
+            return;
+        }
+        foreach ($this->availableProperties as $availableProperty){
+            if($attribute->belongsTo($availableProperty)){
+                $this->attributes->add($attribute);
+                return;
+            }
+        }
+        $existAvailableProperty = $this->availableProperties->exists(
+            function($key, Property $property) use ($attribute){
+                return $property->canAttachTo($attribute);
+            }
+        );
+        if($existAvailableProperty){
+            $this->attributes->add($attribute);
+        }
     }
 
-    public function has(Attribute $property): bool
+    public function has(Attribute $attribute): bool
     {
-        return $this->properties->exists(
-            function ($key, Attribute $existedProperty) use ($property) {
-                return $existedProperty->compareWith($property);
+        return $this->attributes->exists(
+            function ($key, Attribute $existedAttribute) use ($attribute) {
+                return $existedAttribute->compareWith($attribute);
             }
         );
     }

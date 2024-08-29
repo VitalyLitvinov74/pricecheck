@@ -20,7 +20,7 @@ class m240828_193429_addProductTable extends Migration
             'id' => $this->primaryKey(),
             'property_id' => $this->integer()->notNull(),
             'property_name' => $this->string(10)->notNull(),
-            'property_value' => $this->string()->notNull(),
+            'value' => $this->string()->notNull(),
             'product_id' => $this->integer()
         ]);
         $this->addForeignKey(

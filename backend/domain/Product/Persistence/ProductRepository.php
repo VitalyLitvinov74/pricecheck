@@ -1,10 +1,8 @@
 <?php
 
-namespace app\domain\Product\Persistance;
+namespace app\domain\Product\Persistence;
 
-use app\collections\ProductsCollection;
-use app\domain\Product\Models\Category;
-use app\domain\Product\Persistance\Snapshots\ProductSnapshot;
+use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\domain\Product\Product;
 use app\exceptions\BaseException;
 use app\libs\ObjectMapper\ObjectMapper;
@@ -27,7 +25,7 @@ class ProductRepository
         $data = ProductsRecords::find()
             ->where(['id' => $id])
             ->with([
-                'properties'
+                'productAttributes'
             ])
             ->asArray()
             ->one();
@@ -37,7 +35,7 @@ class ProductRepository
                 404
             );
         }
-        $data['available'] = ProductPropertiesRecord::find()->asArray()->all();
+        $data['available_properties'] = ProductPropertiesRecord::find()->asArray()->all();
         return $this->objectMapper->map($data, Product::class);
     }
 

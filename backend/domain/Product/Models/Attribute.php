@@ -2,28 +2,31 @@
 
 namespace app\domain\Product\Models;
 
-use app\domain\Product\Persistance\Snapshots\PropertySnapshot;
+use app\domain\Product\Persistence\Snapshots\PropertySnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 
+/**
+ * Атрибут - изменяемое значение конкретно указывающее на объект.
+ */
 #[DomainModel(mapWith: PropertySnapshot::class)]
 class Attribute
 {
     #[Prop(defaultMapWith: 'id')]
-    private $pk = null;
+    private $id = null;
 
     public function __construct(
         #[HasOneModel(
             nestedType:  Property::class,
-            defaultMapWith: 'property_type',
-            mapWithObjectKey: 'propertyType'
+            defaultMapWith: 'property',
+            mapWithObjectKey: 'property'
         )]
-        private Property $type,
+        private Property $property,
 
         #[Prop(
-            mapWithArrayKey: 'property_value',
-            mapWithObjectKey: 'propertyValue'
+            mapWithArrayKey: 'value',
+            mapWithObjectKey: 'value'
         )]
         private mixed    $value,
 
@@ -31,13 +34,19 @@ class Attribute
     {
     }
 
-    public function compareWith(Attribute $property): bool
+
+    public function belongsTo(Property $property): bool
     {
-        return $property->hasId($this->id);
+        return $property->compareWith($this->property);
     }
 
-    public function hasId(int $id): bool
+    public function compareWith(Attribute $attribute): bool
     {
-        return $this->type->hasId($id);
+        return $attribute->hasId($this->id);
+    }
+
+    public function hasId(int|null $id): bool
+    {
+        return $this->id === $id;
     }
 }

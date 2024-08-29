@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\Product\Persistance\Snapshots;
+namespace app\domain\Product\Persistence\Snapshots;
 
 class PropertySnapshot
 {
