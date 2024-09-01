@@ -9,33 +9,20 @@ class ProductPropertyForm extends Model
     public $id;
     public $name;
     public $type;
-    public $value;
 
-    public static function staticRules(): array
+    public function rules(): array
     {
         return [
-            [['value'], 'required'],
-            [['name', 'type', 'id'], 'string', 'strict' => true],
-            ['id', 'required', 'when' => function ($model) {
-                return empty($model->name);
-            }],
-            ['name', 'required', 'when' => function ($model) {
-                return empty($model->id);
-            }],
+            [['name', 'type', 'id'], 'required'],
+            [['name', 'type'], 'string', 'strict' => true],
         ];
     }
 
     public function scenarios(): array
     {
         return [
-            'create' => ['name', 'type'],
-            'create-product' => ['id', 'name', 'value']
+            Scenarious::CreateProduct->value => ['id']
         ];
-    }
-
-    public function rules(): array
-    {
-        return self::staticRules();
     }
 
     public function formName(): string

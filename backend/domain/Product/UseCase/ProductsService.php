@@ -4,10 +4,9 @@ namespace app\domain\Product\UseCase;
 
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\Product\Models\Attribute;
-use app\domain\Product\Models\ValueType;
-use app\domain\Product\Persistence\PropertyTemplateRepository;
 use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
+use app\forms\ProductAttributeForm;
 use app\forms\ProductPropertyForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use yii\web\UploadedFile;
@@ -15,22 +14,26 @@ use yii\web\UploadedFile;
 class ProductsService
 {
     public function __construct(
-        private PropertyTemplateRepository $propertyRepository = new PropertyTemplateRepository(),
         private ProductRepository          $productRepository = new ProductRepository()
     )
     {
     }
 
     /**
-     * @param ProductPropertyForm[] $productProperties
-     * @return string - id созданного продукта
+     * @param ProductAttributeForm[] $productAttributes
      *
      */
-    public function createProduct(array $productProperties): void
+    public function createProduct(array $productAttributes): void
     {
         $product = new Product();
-        foreach ($productProperties as $property){
-
+        foreach ($productAttributes as $attribute){
+            $property = $this->productRepository->findPropertyById($attribute->property->id);
+            $product->attachWith(
+                new Attribute(
+                    $property,
+                    $attribute->value
+                )
+            );
         }
         $this->productRepository->saveAll(new ArrayCollection([$product]));
     }

@@ -6,22 +6,22 @@ use yii\base\Model;
 
 class ProductForm extends NestedForm
 {
-    /** @var ProductPropertyForm[] */
-    public $properties;
+    /** @var ProductAttributeForm[] */
+    public $productAttributes;
 
     public function rules(): array
     {
         return [
-            [['properties'], 'required'],
+            [['productAttributes'], 'required'],
         ];
     }
 
     protected function nestedFormsMap(): array
     {
         return [
-            'properties' => [
-                'class' => ProductPropertyForm::class,
-                'scenario' => 'create-product'
+            'productAttributes' => [
+                'class' => ProductAttributeForm::class,
+                'scenario' => Scenarious::CreateProduct->value
             ]
         ];
     }

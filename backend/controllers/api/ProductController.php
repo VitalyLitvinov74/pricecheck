@@ -30,7 +30,7 @@ class ProductController extends BaseApiController
         $form = new ProductForm();
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {
-            $this->service->createProduct($form->properties);
+            $this->service->createProduct($form->productAttributes);
             return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
