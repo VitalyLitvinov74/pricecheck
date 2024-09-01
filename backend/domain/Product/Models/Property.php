@@ -2,21 +2,23 @@
 
 namespace app\domain\Product\Models;
 
+use app\domain\Product\Persistence\Snapshots\PropertySnapshot;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
+
 /**
  * Свойство - значение описывающее объект, но присущее любому колличеству объектов.
  */
+#[DomainModel(mapWith: PropertySnapshot::class)]
 class Property
 {
-    private string $name;
+    #[Prop(
+        defaultMapWith: 'id'
+    )]
     private int $id;
 
     private function __construct()
     {
-    }
-
-    public function hasName(string $name): bool
-    {
-        return $this->name === $name;
     }
 
     public function canAttachTo(Attribute $attribute): bool

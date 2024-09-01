@@ -24,6 +24,7 @@ class ProductRepository
     )
     {
         $this->propertiesData = [];
+        $this->properties = [];
     }
 
     public function find(int $id): Product
@@ -117,6 +118,19 @@ class ProductRepository
             }
         }
         throw new BaseException('Не найдено свойство товара с id=%s', $id);
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function availableProperties(): array{
+        if($this->propertiesData === []){
+            $this->propertiesData = ProductPropertiesRecord::find()->select(['id', 'name'])->asArray()->all();
+        }
+        foreach ($this->propertiesData as $propertyItem){
+            $this->properties[$propertyItem['id']] =  $this->objectMapper->map($propertyItem, Property::class);
+        }
+        return $this->properties;
     }
 
 

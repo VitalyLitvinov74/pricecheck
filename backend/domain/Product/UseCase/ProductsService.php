@@ -25,7 +25,9 @@ class ProductsService
      */
     public function createProduct(array $productAttributes): void
     {
-        $product = new Product();
+        $product = new Product(
+            new ArrayCollection($this->productRepository->availableProperties())
+        );
         foreach ($productAttributes as $attribute){
             $property = $this->productRepository->findPropertyById($attribute->property->id);
             $product->attachWith(
