@@ -73,6 +73,14 @@ class PropertyMappingStrategy implements ModelPropertyMapStrategy
     ): mixed {
         $value = $modelReflectionProperty->getValue($modelInstance);
 
+        if($modelReflectionProperty->getType() === null && is_null($value)){
+            throw new ImpossibleIsNotMapping(sprintf(
+                "Свойство %s в модели %s не может иметь тип null",
+                $modelReflectionProperty->getName(),
+                $modelReflectionProperty->getDeclaringClass()->getName()
+            ));
+        }
+
         if (is_null($value) && $modelReflectionProperty->getType()->allowsNull()) {
             return null;
         }

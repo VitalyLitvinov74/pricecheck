@@ -8,6 +8,7 @@ use app\domain\Product\Product;
 use app\exceptions\BaseException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
+use app\records\ProductAttributesRecord;
 use app\records\ProductPropertiesRecord;
 use app\records\ProductsRecords;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -83,16 +84,19 @@ class ProductRepository
     {
         $insertData = [];
         foreach ($productsSnapshots as $productsSnapshot) {
-            foreach ($productsSnapshot->properties as $propertySnapshot) {
+            foreach ($productsSnapshot->attributesSnapshots as $attributeSnapshot) {
                 $insertData[] = [
                     'product_id' => $productsSnapshot->id,
-                    'property_id' => $propertySnapshot->propertyId,
-                    'property_name' => $propertySnapshot->propertyName,
-                    'property_value' => $propertySnapshot->propertyValue
+                    'id' => $attributeSnapshot->id,
+                    'value' => $attributeSnapshot->value,
+                    'property_id' => $attributeSnapshot->propertySnapshot->id,
+                    'property_name' => $attributeSnapshot->propertySnapshot->name
                 ];
             }
         }
-        $this->upsertBuilder->upsertManyRecords($insertData);
+        $this->upsertBuilder
+            ->useActiveRecord(ProductAttributesRecord::class)
+            ->upsertManyRecords($insertData);
     }
 
     /**

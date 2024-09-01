@@ -17,6 +17,11 @@ class Property
     )]
     private int $id;
 
+    #[Prop(
+        defaultMapWith: 'name'
+    )]
+    private string $name;
+
     private function __construct()
     {
     }

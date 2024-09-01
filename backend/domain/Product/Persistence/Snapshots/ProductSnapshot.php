@@ -2,17 +2,15 @@
 
 namespace app\domain\Product\Persistence\Snapshots;
 
-use app\domain\Product\Models\Attribute;
-
 class ProductSnapshot
 {
     /**
-     * @param $id
-     * @param PropertySnapshot[] $properties
+     * @param int|null $id
+     * @param AttributeSnapshot[] $attributesSnapshots
      */
     public function __construct(
-        public $id,
-        public array $properties
+        public int|null $id,
+        public array $attributesSnapshots
     )
     {
     }

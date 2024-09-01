@@ -14,11 +14,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Product
 {
     #[Prop(defaultMapWith: 'id')]
-    private $id = null;
+    private int|null $id = null;
 
     #[HasManyModels(
         nestedType: Attribute::class,
-        mapWithArrayKey: 'attributes'
+        mapWithArrayKey: 'attributes',
+        mapWithObjectKey: 'attributesSnapshots'
     )]
     /** @var ArrayCollection<int, Attribute> $attributes */
     private ArrayCollection $attributes;
@@ -29,8 +30,7 @@ class Product
     public function __construct(
         #[HasManyModels(
             nestedType: Property::class,
-            mapWithArrayKey: 'available_properties',
-            mapWithObjectKey: 'availableProperties'
+            mapWithArrayKey: 'available_properties'
         )]
         private ArrayCollection $availableProperties
     )

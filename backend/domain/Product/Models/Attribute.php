@@ -2,7 +2,7 @@
 
 namespace app\domain\Product\Models;
 
-use app\domain\Product\Persistence\Snapshots\PropertySnapshot;
+use app\domain\Product\Persistence\Snapshots\AttributeSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
@@ -10,17 +10,17 @@ use app\libs\ObjectMapper\Attributes\Property as Prop;
 /**
  * Атрибут - изменяемое значение конкретно указывающее на объект.
  */
-#[DomainModel(mapWith: PropertySnapshot::class)]
+#[DomainModel(mapWith: AttributeSnapshot::class)]
 class Attribute
 {
     #[Prop(defaultMapWith: 'id')]
-    private $id = null;
+    private int|null $id = null;
 
     public function __construct(
         #[HasOneModel(
             nestedType:  Property::class,
             defaultMapWith: 'property',
-            mapWithObjectKey: 'property'
+            mapWithObjectKey: 'propertySnapshot'
         )]
         private Property $property,
 
@@ -42,7 +42,7 @@ class Attribute
 
     public function compareWith(Attribute $attribute): bool
     {
-        return $attribute->hasId($this->id);
+        return $attribute->belongsTo($this->property);
     }
 
     public function hasId(int|null $id): bool
