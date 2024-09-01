@@ -14,7 +14,7 @@ abstract class NestedForm extends Model
             return false;
         }
         //это указание на то что это массив вложенных форм
-        if (is_array($this->$whereToGetValues) && isset($this->$whereToGetValues[0]) && is_array($this->$whereToGetValues[0])) {
+        if ($this->isNestedArrayForms($this->$whereToGetValues)) {
             $nestedForms = [];
             foreach ($this->$whereToGetValues as $propertyKey => $property) {
                 /** @var Model $form */
@@ -112,5 +112,18 @@ abstract class NestedForm extends Model
             }
         }
         return $isLoad;
+    }
+
+    private function isNestedArrayForms($arrayForCheck): bool
+    {
+        if(empty($arrayForCheck)){
+            return false;
+        }
+        //если это ассоциативный массив, то получится рандомное значение
+        $randomValue = $arrayForCheck[array_key_first($arrayForCheck)];
+        if(is_array($randomValue)){
+            return true;
+        }
+        return false;
     }
 }
