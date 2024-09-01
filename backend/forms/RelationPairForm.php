@@ -2,23 +2,32 @@
 
 namespace app\forms;
 
-use yii\base\Model;
-
-class RelationPairForm extends Model
+class RelationPairForm extends NestedForm
 {
-    public $productPropertyId;
+    public $productProperty;
     public $externalFieldName;
 
     public function rules(): array
     {
         return [
-            [['productPropertyId', 'externalFieldName'],'required'],
-            [['productPropertyId', 'externalFieldName'], 'string']
+            [['productProperty', 'externalFieldName'], 'required'],
+            [['externalFieldName'], 'string'],
+
         ];
     }
 
     public function formName(): string
     {
         return '';
+    }
+
+    protected function nestedFormsMap(): array
+    {
+        return [
+            'productProperty' => [
+                'class' => ProductPropertyForm::class,
+                'scenario' => Scenarious::CreateParsingSchema->value
+            ]
+        ];
     }
 }

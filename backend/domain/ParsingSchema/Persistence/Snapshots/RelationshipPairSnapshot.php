@@ -5,8 +5,9 @@ namespace app\domain\ParsingSchema\Persistence\Snapshots;
 readonly class RelationshipPairSnapshot
 {
     public function __construct(
-        public string $productPropertyName,
-        public string $externalFieldName
+        public int|null $id,
+        public string $propertyId,
+        public string $externalColumnName
     )
     {
     }

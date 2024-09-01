@@ -15,13 +15,16 @@ class ProductPropertyForm extends Model
         return [
             [['name', 'type', 'id'], 'required'],
             [['name', 'type'], 'string', 'strict' => true],
+            ['id', 'integer']
         ];
     }
 
     public function scenarios(): array
     {
         return [
-            Scenarious::CreateProduct->value => ['id']
+            Scenarious::CreateProduct->value => ['id'],
+            Scenarious::CreateParsingSchema->value => ['id'],
+
         ];
     }
 

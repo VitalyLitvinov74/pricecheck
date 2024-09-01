@@ -4,5 +4,6 @@ namespace app\forms;
 
 enum Scenarious: string
 {
-    case CreateProduct = 'create-product';
+    case CreateProduct = 'createProduct';
+    case CreateParsingSchema = 'createParsingSchema';
 }

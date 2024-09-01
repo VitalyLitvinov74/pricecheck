@@ -5,16 +5,16 @@ namespace app\domain\ParsingSchema\Persistence\Snapshots;
 readonly class SchemaSnapshot
 {
     /**
-     * @param int $categoryId
+     * @param int|null $id
      * @param string $name
      * @param int $startWithRowNum
-     * @param RelationshipPairSnapshot[] $relationshipPairs
+     * @param RelationshipPairSnapshot[] $relationshipPairsSnapshots
      */
     public function __construct(
-       public int    $categoryId,
-       public string $name,
-       public int    $startWithRowNum,
-       public array  $relationshipPairs
+        public int|null $id,
+        public string   $name,
+        public int      $startWithRowNum,
+        public array    $relationshipPairsSnapshots
     )
     {
     }

@@ -5,13 +5,18 @@ namespace app\domain\ParsingSchema\Persistence;
 use app\collections\ParsingSchemas;
 use app\collections\ProductPropertyCollection;
 use app\domain\ParsingSchema\ParsingSchema;
+use app\domain\ParsingSchema\Persistence\Snapshots\SchemaSnapshot;
 use app\libs\ObjectMapper\ObjectMapper;
+use app\libs\UpsertBuilder;
+use app\records\ParsingSchemaPropertiesRecord;
+use app\records\ParsingSchemaRecord;
 use MongoDB\BSON\ObjectId;
 
 class ParsingSchemaRepository
 {
     public function __construct(
-        private ObjectMapper $objectMapper = new ObjectMapper()
+        private ObjectMapper $objectMapper = new ObjectMapper(),
+        private UpsertBuilder $upsertBuilder = new UpsertBuilder()
     )
     {
     }
@@ -62,12 +67,26 @@ class ParsingSchemaRepository
 
     public function save(ParsingSchema $schema): void
     {
-        $data = $this->objectMapper->map($schema, []);
-
-        ParsingSchemas::getCollection()->update(
-            ['_id' => $data['_id']],
-            $data,
-            ['upsert' => true]
-        );
+        $snapshot = $this->objectMapper->map($schema, SchemaSnapshot::class);
+        $insertData = [
+            'id' => $snapshot->id,
+            'name'=>$snapshot->name,
+            'start_with_row_num' => $snapshot->startWithRowNum,
+        ];
+        $this->upsertBuilder
+            ->useActiveRecord(ParsingSchemaRecord::class)
+            ->upsertManyRecords($insertData);
+        $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
+        foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
+            $pairs[] = [
+                'id' => $relationshipPairsSnapshot->id,
+                'schema_id' => $schemaId,
+                'property_id' => $relationshipPairsSnapshot->productPropertyId,
+                'external_column_name' => $relationshipPairsSnapshot->externalFieldName
+            ];
+        }
+        $this->upsertBuilder
+            ->useActiveRecord(ParsingSchemaPropertiesRecord::class)
+            ->upsertManyRecords($pairs);
     }
 }

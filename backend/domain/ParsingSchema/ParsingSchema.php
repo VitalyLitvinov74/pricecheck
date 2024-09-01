@@ -3,34 +3,39 @@
 namespace app\domain\ParsingSchema;
 
 use app\domain\ParsingSchema\Models\RelationshipPair;
+use app\domain\ParsingSchema\Persistence\Snapshots\SchemaSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\HasOneModel;
 use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
-use MongoDB\BSON\ObjectId;
 
-#[DomainModel]
+#[DomainModel (mapWith: SchemaSnapshot::class)]
 class ParsingSchema
 {
+    #[Property(defaultMapWith: 'id')]
+    private int|null $id = null;
+
     /**
      * @param string $name
      * @param int $startWithRowNum
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
-     * @param ObjectId $id
      */
     public function __construct(
         #[Property(mapWithArrayKey: 'name')]
         private string          $name,
-        #[Property(mapWithArrayKey: 'startWithRowNum')]
+
+        #[Property(
+            mapWithArrayKey: 'start_with_row_num',
+            mapWithObjectKey: 'startWithRowNum'
+        )]
         private int             $startWithRowNum = 2,
+
         #[HasManyModels(
             nestedType: RelationshipPair::class,
-            mapWithArrayKey: 'relationshipPairs'
+            mapWithArrayKey: 'relationshipPairs',
+            mapWithObjectKey: 'relationshipPairsSnapshots'
         )]
         private ArrayCollection $relationshipPairs = new ArrayCollection(),
-        #[Property(mapWithArrayKey: '_id')]
-        private ObjectId $id = new ObjectId()
     )
     {
     }
