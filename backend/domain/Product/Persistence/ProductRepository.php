@@ -139,24 +139,24 @@ class ProductRepository
 
 
 
-//    /**
-//     * Сам метод это ACL
-//     * @param string $documentPath
-//     * @param string $categoryId
-//     * @param string $parsingSchemaName
-//     * @return ArrayCollection
-//     */
-//    public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
-//    {
-//        $parseService = new DocumentsParseService();
-//        /** @var ProductCard[] $result */
-//        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
-//        $products = new ArrayCollection();
-//        foreach ($result as $productCard) {
-//            $productCardArray = $this->objectMapper->map($productCard, []);
-//            $product = $this->objectMapper->map( $productCardArray, Product::class);
-//            $products->add($product);
-//        }
-//        return $products;
-//    }
+    /**
+     * Сам метод это ACL
+     * @param string $documentPath
+     * @param string $categoryId
+     * @param string $parsingSchemaName
+     * @return ArrayCollection
+     */
+    public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
+    {
+        $parseService = new DocumentsParseService();
+        /** @var ProductCard[] $result */
+        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
+        $products = new ArrayCollection();
+        foreach ($result as $productCard) {
+            $productCardArray = $this->objectMapper->map($productCard, []);
+            $product = $this->objectMapper->map( $productCardArray, Product::class);
+            $products->add($product);
+        }
+        return $products;
+    }
 }

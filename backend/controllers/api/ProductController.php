@@ -7,6 +7,7 @@ use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocument;
 use app\forms\ProductForm;
+use app\records\ProductPropertiesRecord;
 use Throwable;
 use Yii;
 
@@ -56,7 +57,7 @@ class ProductController extends BaseApiController
         return $this->jsonApi
             ->setupCode(200)
             ->addBody(
-                ProductPropertyCollection::find()
+                ProductPropertiesRecord::find()
                     ->select([
                         'id',
                         'name'
