@@ -8,16 +8,17 @@ abstract class NestedForm extends Model
 {
     abstract protected function nestedFormsMap(): array;
 
-    private function loadNestedForm(string $whereToGetValues, string $formClass, array $classProperties = []): bool
+    private function loadNestedForm(string $whereToGetValues, string $formClass, array $loadMapProperties = []): bool
     {
         if (is_null($this->$whereToGetValues)) {
             return false;
         }
-        if (is_array($this->$whereToGetValues)) {
+        //это указание на то что это массив вложенных форм
+        if (is_array($this->$whereToGetValues) && isset($this->$whereToGetValues[0]) && is_array($this->$whereToGetValues[0])) {
             $nestedForms = [];
             foreach ($this->$whereToGetValues as $propertyKey => $property) {
                 /** @var Model $form */
-                $form = new $formClass($classProperties);
+                $form = new $formClass($loadMapProperties);
                 if (!$form->load($property)) {
                     return false;
                 }
@@ -25,7 +26,7 @@ abstract class NestedForm extends Model
             }
             $this->$whereToGetValues = $nestedForms;
         } else {
-            $form = new $formClass($classProperties);
+            $form = new $formClass($loadMapProperties);
             if (!$form->load($this->$whereToGetValues)) {
                 return false;
             }
@@ -41,6 +42,10 @@ abstract class NestedForm extends Model
         $propertiesErrors = [];
         if (is_array($this->$propertyName)) {
             foreach ($this->$propertyName as $formNum => $form) {
+                if (is_object($form) === false) {
+                    $this->addError($propertyName, sprintf("Свойство %s не преобразовано во вложенную форму", $propertyName));
+                    return false;
+                }
                 if ($form->validate() === false) {
                     foreach ($form->getErrors() as $errorName => $error) {
                         $propertiesErrors[$formNum][$errorName] = $error;
@@ -92,12 +97,12 @@ abstract class NestedForm extends Model
         $isLoad = true;
         foreach ($this->nestedFormsMap() as $property => $nestedData) {
             $nestedClassName = $nestedData;
-            if(is_array($nestedData)){
+            if (is_array($nestedData)) {
                 $nestedClassName = $nestedData['class'];
                 unset($nestedData['class']);
-                $classProperties =  $nestedData;
+                $classProperties = $nestedData;
             }
-            if(is_string($nestedData)){
+            if (is_string($nestedData)) {
                 $nestedClassName = $nestedData;
                 $classProperties = [];
             }
