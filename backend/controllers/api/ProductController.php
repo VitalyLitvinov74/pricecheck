@@ -5,11 +5,12 @@ namespace app\controllers\api;
 use app\collections\ProductPropertyCollection;
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Product\UseCase\ProductsService;
-use app\forms\CreateProductsViaDocument;
+use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
 use app\records\ProductPropertiesRecord;
 use Throwable;
 use Yii;
+use yii\web\UploadedFile;
 
 class ProductController extends BaseApiController
 {
@@ -39,7 +40,7 @@ class ProductController extends BaseApiController
 
     public function actionBatchCreateViaDocument(): array
     {
-        $form = new CreateProductsViaDocument();
+        $form = new CreateProductsViaDocumentForm();
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {
             $this->service->createByDocument($form->table, $form->parsingSchemaId);

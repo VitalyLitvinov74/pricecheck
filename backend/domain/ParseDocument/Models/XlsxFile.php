@@ -19,7 +19,7 @@ class XlsxFile
         /** @var SimpleXLSX $xlsx */
         $xlsx = SimpleXLSX::parseFile($this->path);
         $collection = new ArrayCollection();
-        foreach ($xlsx->readRows() as $row) {
+        foreach ($xlsx->readRowsEx() as $row) {
             $collection->add(
                 new XlsxRow($row)
             );

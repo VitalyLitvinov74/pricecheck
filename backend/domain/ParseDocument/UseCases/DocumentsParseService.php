@@ -17,8 +17,7 @@ class DocumentsParseService
 
     /**
      * @param string $filePath
-     * @param $filePassedName
-     * @param string $categoryId
+     * @param string $passedName
      * @param string $parsingSchemaId
      * @return ArrayCollection<int, ProductCard>
      */

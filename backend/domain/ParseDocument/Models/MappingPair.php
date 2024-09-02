@@ -3,18 +3,28 @@
 namespace app\domain\ParseDocument\Models;
 
 use app\domain\Type;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property;
 
+#[DomainModel]
 class MappingPair
 {
+    #[Property(mapWithArrayKey: 'external_column_name')]
     private string $externalName;
-    private string $propertyId;
+
+    #[Property(mapWithArrayKey: 'property_id')]
+    private int $propertyId;
+
+    #[Property(mapWithArrayKey: 'type', typecast: Type::class)]
     private Type $type;
 
     private function __construct() { }
 
     public function externalName(): string
     {
-        return strtolower($this->externalName);
+        return strtolower(
+            preg_replace('/[0-9]/', '', $this->externalName)
+        );
     }
 
     public function propertyId(): string

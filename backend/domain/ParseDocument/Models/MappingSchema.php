@@ -7,13 +7,12 @@ use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
-use MongoDB\BSON\ObjectId;
 
 #[DomainModel]
 class MappingSchema
 {
     #[Prop(
-        defaultMapWith: 'startWithRowNum'
+        defaultMapWith: 'start_with_row_num'
     )]
     private int $startWithRowNum;
 
@@ -22,7 +21,7 @@ class MappingSchema
      */
     #[HasManyModels(
         nestedType: MappingPair::class,
-        defaultMapWith: ''
+        defaultMapWith: 'parsingSchemaProperties'
     )]
     private ArrayCollection $mappingPairs;
 
@@ -37,7 +36,7 @@ class MappingSchema
      */
     public function convertRowToProductCard(XlsxRow $row, int $parsingVersion): ProductCard|null
     {
-        if ($row->numMoreThan($this->startWithRowNum - 1)) {
+        if ($row->numMoreThan($this->startWithRowNum) === false) {
             return null;
         }
         $properties = new ArrayCollection();

@@ -2,6 +2,8 @@
 
 namespace app\domain\Product\Persistence;
 
+use app\domain\ParseDocument\Models\ProductCard;
+use app\domain\ParseDocument\UseCases\DocumentsParseService;
 use app\domain\Product\Models\Property;
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\domain\Product\Product;

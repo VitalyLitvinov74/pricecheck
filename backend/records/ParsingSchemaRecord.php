@@ -10,4 +10,9 @@ class ParsingSchemaRecord extends ActiveRecord
     {
         return 'parsing_schemas';
     }
+
+    public function getParsingSchemaProperties()
+    {
+        return $this->hasMany(ParsingSchemaPropertiesRecord::class, ['schema_id'=>'id']);
+    }
 }

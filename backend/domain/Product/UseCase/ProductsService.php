@@ -41,7 +41,8 @@ class ProductsService
     }
 
     /**
-     * @param ArrayCollection<int, ProductCard> $productsCards
+     * @param UploadedFile $file
+     * @param string $parsingSchemaId
      * @return void
      */
     public function createByDocument(UploadedFile $file, string $parsingSchemaId): void
