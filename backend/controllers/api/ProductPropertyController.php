@@ -4,6 +4,7 @@ namespace app\controllers\api;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Property\UseCases\ProductPropertyService;
+use app\domain\Type;
 use app\forms\ParsingSchemaForm;
 use app\forms\ProductsPropertiesForm;
 use yii\db\Exception;
@@ -46,6 +47,17 @@ class ProductPropertyController extends BaseApiController
             }
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
+    }
+
+    public function actionAvailable(){
+        return $this->jsonApi->addBody([
+            Type::Float->value,
+            Type::String->value,
+            Type::Decimal->value,
+            Type::Int->value,
+        ])
+            ->setupCode(200)
+            ->asArray();
     }
 
     public function actionAddParsingSchema(): array{
