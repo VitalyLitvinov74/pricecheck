@@ -28,6 +28,6 @@ class ParsingSchemaController extends BaseApiController
             );
             return $this->jsonApi->setupCode(204)->asArray();
         }
-        return $this->jsonApi->addModelErrors($form);
+        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }

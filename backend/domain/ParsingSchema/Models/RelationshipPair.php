@@ -5,9 +5,13 @@ namespace app\domain\ParsingSchema\Models;
 use app\domain\ParsingSchema\Persistence\Snapshots\RelationshipPairSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property;
+
 #[DomainModel (mapWith: RelationshipPairSnapshot::class)]
 class RelationshipPair
 {
+    #[Property(
+        defaultMapWith: 'id'
+    )]
     private int|null $id = null;
 
     /**
@@ -20,12 +24,14 @@ class RelationshipPair
             mapWithObjectKey: 'propertyId'
         )]
         private string $productPropertyId,
+
         #[Property(
             mapWithArrayKey: 'external_column_name',
             mapWithObjectKey: 'externalColumnName'
         )]
         private string $externalFieldName
-    ) {
+    )
+    {
     }
 
     public function changeRelation(string $newName, string $newFieldName): void

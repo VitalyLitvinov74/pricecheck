@@ -4,6 +4,7 @@ namespace app\forms;
 
 class RelationPairForm extends NestedForm
 {
+    /** @var ProductPropertyForm */
     public $productProperty;
     public $externalFieldName;
 

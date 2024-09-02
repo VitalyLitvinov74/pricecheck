@@ -75,14 +75,14 @@ class ParsingSchemaRepository
         ];
         $this->upsertBuilder
             ->useActiveRecord(ParsingSchemaRecord::class)
-            ->upsertManyRecords($insertData);
+            ->upsertManyRecords([$insertData]);
         $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
         foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
             $pairs[] = [
                 'id' => $relationshipPairsSnapshot->id,
                 'schema_id' => $schemaId,
-                'property_id' => $relationshipPairsSnapshot->productPropertyId,
-                'external_column_name' => $relationshipPairsSnapshot->externalFieldName
+                'property_id' => $relationshipPairsSnapshot->propertyId,
+                'external_column_name' => $relationshipPairsSnapshot->externalColumnName
             ];
         }
         $this->upsertBuilder

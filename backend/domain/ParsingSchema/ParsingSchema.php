@@ -21,7 +21,9 @@ class ParsingSchema
      * @param ArrayCollection<int, RelationshipPair> $relationshipPairs
      */
     public function __construct(
-        #[Property(mapWithArrayKey: 'name')]
+        #[Property(
+            defaultMapWith: 'name'
+        )]
         private string          $name,
 
         #[Property(

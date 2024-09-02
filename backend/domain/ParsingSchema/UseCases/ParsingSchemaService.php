@@ -30,7 +30,7 @@ class ParsingSchemaService
         foreach ($relationshipPairsForms as $form){
             $schema->add(
                 new RelationshipPair(
-                    $form->productPropertyId,
+                    $form->productProperty->id,
                     $form->externalFieldName,
                 )
             );

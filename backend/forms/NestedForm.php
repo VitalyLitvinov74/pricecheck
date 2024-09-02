@@ -119,6 +119,9 @@ abstract class NestedForm extends Model
         if(empty($arrayForCheck)){
             return false;
         }
+        if(is_array($arrayForCheck) === false){
+            return false;
+        }
         //если это ассоциативный массив, то получится рандомное значение
         $randomValue = $arrayForCheck[array_key_first($arrayForCheck)];
         if(is_array($randomValue)){
