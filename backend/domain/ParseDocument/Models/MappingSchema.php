@@ -2,7 +2,7 @@
 
 namespace app\domain\ParseDocument\Models;
 
-use app\domain\Product\Models\Attribute;
+use app\domain\ParseDocument\Persistance\Snapshots\MappingSchemaSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class MappingSchema
 {
     #[Prop(
-        defaultMapWith: 'start_with_row_num'
+        defaultMapWith: 'start_with_row_num',
     )]
     private int $startWithRowNum;
 
@@ -21,7 +21,7 @@ class MappingSchema
      */
     #[HasManyModels(
         nestedType: MappingPair::class,
-        defaultMapWith: 'parsingSchemaProperties'
+        defaultMapWith: 'parsingSchemaProperties',
     )]
     private ArrayCollection $mappingPairs;
 
@@ -46,7 +46,7 @@ class MappingSchema
                     continue;
                 }
                 $properties->add(
-                    new Attribute(
+                    new CardProperty(
                         $schemaPair->propertyId(),
                         $cell->valueBy(
                             $schemaPair->type()

@@ -13,9 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[DomainModel(mapWith: ProductSnapshot::class)]
 class Product
 {
-    #[Prop(defaultMapWith: 'id')]
-    private int|null $id = null;
-
     #[HasManyModels(
         nestedType: Attribute::class,
         mapWithArrayKey: 'attributes',
@@ -32,7 +29,10 @@ class Product
             nestedType: Property::class,
             mapWithArrayKey: 'available_properties'
         )]
-        private ArrayCollection $availableProperties
+        private ArrayCollection $availableProperties,
+
+        #[Prop(defaultMapWith: 'id')]
+        private int|null $id = null
     )
     {
         $this->attributes = new ArrayCollection();

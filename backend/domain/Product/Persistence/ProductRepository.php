@@ -2,8 +2,11 @@
 
 namespace app\domain\Product\Persistence;
 
+use app\domain\ParseDocument\Document;
 use app\domain\ParseDocument\Models\ProductCard;
+use app\domain\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
 use app\domain\ParseDocument\UseCases\DocumentsParseService;
+use app\domain\Product\Models\Attribute;
 use app\domain\Product\Models\Property;
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\domain\Product\Product;
@@ -140,13 +143,13 @@ class ProductRepository
     }
 
 
-
     /**
      * Сам метод это ACL
      * @param string $documentPath
-     * @param string $categoryId
-     * @param string $parsingSchemaName
+     * @param string $passedName
+     * @param string $parsingSchemaId
      * @return ArrayCollection
+     * @throws BaseException
      */
     public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
     {
@@ -154,9 +157,19 @@ class ProductRepository
         /** @var ProductCard[] $result */
         $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
         $products = new ArrayCollection();
-        foreach ($result as $productCard) {
-            $productCardArray = $this->objectMapper->map($productCard, []);
-            $product = $this->objectMapper->map( $productCardArray, Product::class);
+        $documentSnapshot = $this->objectMapper->map($result, DocumentSnapshot::class);
+        foreach ($documentSnapshot->productsCardsSnapshots as $productCardSnapshot) {
+            $product = new Product(
+                new ArrayCollection($this->availableProperties())
+            );
+            foreach ($productCardSnapshot->productCardPropertiesSnapshots as $propertySnapshot) {
+                $product->attachWith(
+                    new Attribute(
+                        $this->findPropertyById($propertySnapshot->id),
+                        $propertySnapshot->value
+                    )
+                );
+            }
             $products->add($product);
         }
         return $products;

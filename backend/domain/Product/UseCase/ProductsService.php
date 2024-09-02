@@ -6,6 +6,7 @@ use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\Product\Models\Attribute;
 use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
+use app\exceptions\BaseException;
 use app\forms\ProductAttributeForm;
 use app\forms\ProductPropertyForm;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +45,7 @@ class ProductsService
      * @param UploadedFile $file
      * @param string $parsingSchemaId
      * @return void
+     * @throws BaseException
      */
     public function createByDocument(UploadedFile $file, string $parsingSchemaId): void
     {

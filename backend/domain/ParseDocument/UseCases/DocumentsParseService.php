@@ -21,10 +21,11 @@ class DocumentsParseService
      * @param string $parsingSchemaId
      * @return ArrayCollection<int, ProductCard>
      */
-    public function parse(string $filePath, string $passedName, string $parsingSchemaId): ArrayCollection
+    public function parse(string $filePath, string $passedName, string $parsingSchemaId): Document
     {
         $document = new Document($filePath, $passedName);
         $mappingSchema = $this->mappingSchemasRepository->findBy($parsingSchemaId);
-        return $document->parseUse($mappingSchema);
+        $document->parseUse($mappingSchema);
+        return $document;
     }
 }
