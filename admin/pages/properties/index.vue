@@ -1,25 +1,17 @@
 <script setup lang="ts">
 
-import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
-import {useProperties} from "~/composables/properties";
-import {useFetch} from "#app";
-import {da} from "@faker-js/faker";
-import {$fetch} from "ofetch";
-
+// import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
 const title = "Свойства товаров"
 
-const breadcrumbs = useBreadcrumbs();
-breadcrumbs.renameButton('Редактировать')
-breadcrumbs.changePageTitle(title);
-
+// const breadcrumbs = useBreadcrumbs();
+// breadcrumbs.renameButton('Редактировать')
+// breadcrumbs.changePageTitle(title);
 useSeoMeta({
   title: title
 })
-
-const { data:result, error } = await useFetch(
-    'http://api.pricecheck.my:82/api/product/all-properties-list',
-)
-console.log(result)
+const url = 'http://api.pricecheck.my:82/api/product/all-properties-list';
+const { data } = await useAsyncData(() => $fetch(url))
+const result = data.value
 function save() {
 
 }

@@ -17,6 +17,7 @@ use yii\web\Response;
 abstract class BaseApiController extends Controller
 {
     protected JsonApi $jsonApi;
+    public $enableCsrfValidation = false;
 
     public function __construct($id, $module, $config = [])
     {
