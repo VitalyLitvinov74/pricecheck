@@ -9,3 +9,4 @@ admin/.nuxt
 docker/reverse-proxy/config
 admin/.env
 admin/.nuxt/*
+admin/.next/*
