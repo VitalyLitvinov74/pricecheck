@@ -1,0 +1,169 @@
+version: '3.2'
+
+services:
+  reverse-proxy:
+    image: 'jwilder/nginx-proxy'
+    ports:
+      - '${PORT}:80'
+    volumes:
+      - './reverse_proxy/vhosts:/etc/nginx/vhost.d'
+      - './reverse_proxy/config:/etc/nginx/conf.d'
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+      - './reverse_proxy/certs:/etc/nginx/certs'
+    networks:
+      - pricecheck
+
+#  letsencrypt:
+#    image: "jrcs/letsencrypt-nginx-proxy-companion:latest"
+#    container_name: "letsencrypt-helper"
+#    volumes:
+#      - "html:/usr/share/nginx/html"
+#      - "dhparam:/etc/nginx/dhparam"
+#      - "vhost:/etc/nginx/vhost.d"
+#      - "certs:/etc/nginx/certs"
+#      - "/run/docker.sock:/var/run/docker.sock:ro"
+#    environment:
+#      NGINX_PROXY_CONTAINER: reverse-proxy
+#      DEFAULT_EMAIL: user@domain.ru
+#    restart: "always"
+#    depends_on:
+#      - reverse-proxy
+#    networks:
+#      - pricecheck
+
+  php-proxy:
+    image: nginx
+    container_name: "php-proxy"
+    volumes:
+      - './php/config:/etc/nginx/conf.d'
+      - '../backend:/var/www/html'
+    environment:
+      VIRTUAL_HOST: "${BACKEND_HOST}"
+    links:
+      - php
+    networks:
+      - pricecheck
+
+  next-proxy:
+    image: nginx
+    container_name: "next-proxy"
+    volumes:
+      - './next/config:/etc/nginx/conf.d'
+      - '../admin:/var/www/html'
+    environment:
+      VIRTUAL_HOST: "${ADMIN_PANEL_HOST}"
+    links:
+      - admin-panel
+    networks:
+      - pricecheck
+
+  php:
+    container_name: "php-pricecheck"
+    build:
+      context: ./php/
+    volumes:
+      - '../backend:/var/www/html'
+    environment:
+      EXTERNAL_IP: "${EXTERNAL_IP}"
+      PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
+    networks:
+      - pricecheck
+
+  admin-panel:
+    container_name: "admin-panel"
+    image: node:latest
+    working_dir: "/app"
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+      HOST: 0.0.0.0
+      PORT: 4000
+      CHOKIDAR_USEPOLLING: 1
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    volumes:
+      - '../admin:/app'
+    ports:
+      - "4000:4000"
+    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
+#    command: bash -c  "npm start"
+    networks:
+      - pricecheck
+
+  postgres:
+    image: postgres:latest
+    container_name: "pg-pricecheck"
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg/data:/data/db
+    networks:
+      - pricecheck
+
+  ### тут происходит подгрузка зависимостей для бека и фронта
+  php-cli:
+    container_name: "php-cli-pricecheck"
+    build:
+      context: ./php/
+    volumes:
+      - "../backend:/var/www/html"
+    command: bash -c  "${BACKEND_DEPLOY_SCRIPT}"
+    depends_on:
+      - postgres
+    networks:
+      - pricecheck
+
+  ## статика панели пользователя
+#  nginx-user-panel:
+#    image: nginx
+#    container_name: "nginx-user-panel"
+#    volumes:
+#      - './nuxt/proxy/panel:/etc/nginx/conf.d'
+#    environment:
+#      VIRTUAL_HOST: "${USER_PANEL}"
+#    links:
+#      - user-panel
+#    volumes_from:
+#      - user-panel
+#
+#  user-panel:
+#    container_name: "user-panel"
+#    image: node:latest
+#    working_dir: "/app"
+#    environment:
+#      NODE_OPTIONS: --openssl-legacy-provider
+#      HOST: 0.0.0.0
+#      PORT: 4001
+#      CHOKIDAR_USEPOLLING: 1
+#    volumes:
+#      - '../frontend.user.panel:/app'
+#    ports:
+#      - "4001:4001"
+#    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
+
+  ## статика
+#  nginx-admin-panel:
+#    image: nginx
+#    container_name: "nginx-admin-panel"
+#    volumes:
+#      - './nuxt/proxy/admin:/etc/nginx/conf.d'
+#    environment:
+#      VIRTUAL_HOST: "${ADMIN_PANEL}"
+#    links:
+#      - admin-panel
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    volumes_from:
+#      - admin-panel
+#    networks:
+#      - pricecheck
+volumes:
+  certs:
+  html:
+  vhost:
+  dhparam:
+
+networks:
+  pricecheck:
+    name: "pricecheck"
+#    driver: bridge
