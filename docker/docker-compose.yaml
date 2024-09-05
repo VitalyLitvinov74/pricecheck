@@ -50,7 +50,7 @@ services:
     ports:
       - "4000:4000"
     command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
-    #    command: bash -c  "npm start"
+#    command: bash -c  "npm start"
     networks:
       - pricecheck
 
