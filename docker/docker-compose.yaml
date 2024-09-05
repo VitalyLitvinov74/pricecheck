@@ -18,6 +18,8 @@ services:
     links:
       - php
       - admin-panel
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - pricecheck
 
@@ -47,8 +49,6 @@ services:
       - '../admin:/app'
     ports:
       - "4000:4000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
     #    command: bash -c  "npm start"
     networks:
