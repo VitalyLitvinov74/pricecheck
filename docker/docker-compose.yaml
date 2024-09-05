@@ -1,32 +1,56 @@
 version: '3.2'
 
 services:
-  reverse-proxy:
-    image: 'jwilder/nginx-proxy'
-    container_name: 'reverse-proxy-pricecheck'
+    # прокси для пхп
+  proxy:
+    image: nginx
+    container_name: "proxy-pricecheck"
     ports:
       - '${PORT}:80'
     volumes:
-      - './proxy/vhosts:/etc/nginx/vhost.d'
-      - './proxy/config:/etc/nginx/conf.d'
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - './proxy/certs:/etc/nginx/certs'
+      - './proxy:/etc/nginx/conf.d'
+      - '../backend:/var/www/html/backend'
+      - '../admin:/var/www/html/admin'
+    environment:
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      BACKEND_HOST: "${BACKEND_HOST}"
+      ADMIN_PANEL_HOST: "${ADMIN_PANEL_HOST}"
+    links:
+      - php
+      - admin-panel
     networks:
       - pricecheck
 
-
-  # прокси для пхп
-  php-proxy:
-    image: nginx
-    container_name: "php-proxy-pricecheck"
+  php:
+    container_name: "php-pricecheck"
+    build:
+      context: ./php/
     volumes:
-      - './php/proxy:/etc/nginx/conf.d'
+      - '../backend:/var/www/html/backend'
     environment:
-      VIRTUAL_HOST: "${BACKEND}"
-    links:
-      - php
-    volumes_from:
-      - php
+      EXTERNAL_IP: "${EXTERNAL_IP}"
+      PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
+    networks:
+      - pricecheck
+
+  admin-panel:
+    container_name: "admin-panel"
+    image: node:latest
+    working_dir: "/app"
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+      HOST: 0.0.0.0
+      PORT: 4000
+      CHOKIDAR_USEPOLLING: 1
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    volumes:
+      - '../admin:/app'
+    ports:
+      - "4000:4000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
+    #    command: bash -c  "npm start"
     networks:
       - pricecheck
 
@@ -39,18 +63,6 @@ services:
       - "5432:5432"
     volumes:
       - ./pg/data:/data/db
-    networks:
-      - pricecheck
-
-  php:
-    container_name: "php-pricecheck"
-    build:
-      context: ./php/
-    volumes:
-      - '../backend:/var/www/html'
-    environment:
-      EXTERNAL_IP: "${EXTERNAL_IP}"
-      PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
     networks:
       - pricecheck
 
@@ -96,39 +108,23 @@ services:
 #    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
 
   ## статика
-  nginx-admin-panel:
-    image: nginx
-    container_name: "nginx-admin-panel"
-    volumes:
-      - './nuxt/proxy/admin:/etc/nginx/conf.d'
-    environment:
-      VIRTUAL_HOST: "${ADMIN_PANEL}"
-    links:
-      - admin-panel
-    volumes_from:
-      - admin-panel
-    networks:
-      - pricecheck
-
-  admin-panel:
-    container_name: "admin-panel"
-    image: node:latest
-    working_dir: "/app"
-    environment:
-      NODE_OPTIONS: --openssl-legacy-provider
-      HOST: 0.0.0.0
-      PORT: 4000
-      CHOKIDAR_USEPOLLING: 1
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-    volumes:
-      - '../admin:/app'
-    ports:
-      - "4000:4000"
-    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
-#    command: bash -c  "npm start"
-    networks:
-      - pricecheck
+#  nginx-admin-panel:
+#    image: nginx
+#    container_name: "nginx-admin-panel"
+#    volumes:
+#      - './nuxt/proxy/admin:/etc/nginx/conf.d'
+#    environment:
+#      VIRTUAL_HOST: "${ADMIN_PANEL}"
+#    links:
+#      - admin-panel
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    volumes_from:
+#      - admin-panel
+#    networks:
+#      - pricecheck
 
 networks:
   pricecheck:
     name: "pricecheck"
+    driver: bridge

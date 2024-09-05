@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers\api;
+namespace app\controllers;
 
 use app\exceptions\BaseException;
 use app\libs\JsonApi;

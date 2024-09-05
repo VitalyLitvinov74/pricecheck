@@ -14,7 +14,7 @@ export default defineNuxtConfig({
         server: {
             hmr: {
                 clientPort: 4000
-            }
+            },
         }
-    },
+    }
 })
