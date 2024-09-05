@@ -1,11 +1,11 @@
 docker/.env
 .idea/*
 /docker/mongo/data/
-/docker/reverse-proxy/config/*
+/docker/proxy/config/*
 .idea
-docker/reverse-proxy/config/*
+docker/proxy/config/*
 admin/node_modules
 admin/.nuxt
-docker/reverse-proxy/config
+docker/proxy/config
 admin/.env
 admin/.nuxt/*

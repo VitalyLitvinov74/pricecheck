@@ -1,10 +1,6 @@
 <script setup lang="ts">
 
 // import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
-
-import {useFetch} from "#app";
-import {$fetch} from "ofetch";
-
 const title = "Свойства товаров"
 
 // const breadcrumbs = useBreadcrumbs();
@@ -13,16 +9,17 @@ const title = "Свойства товаров"
 useSeoMeta({
   title: title
 })
-
-const url = 'http://api.pricecheck.my:82/product/all-properties-list';
-const {data} = await useFetch(url)
+const url = 'http://api.pricecheck.my:82/api/product/all-properties-list';
+const { data } = await useAsyncData(() => $fetch(url))
 const result = data.value
+function save() {
 
+}
 </script>
 
 <template>
   <div class="row">
-    <!--    <code>Это список свойств на основе которых создаются и обрабатываются товары</code>-->
+<!--    <code>Это список свойств на основе которых создаются и обрабатываются товары</code>-->
 
     <div class="col-lg-12">
       <table class="table table-striped table-bordered" id="edit-btn">
@@ -30,25 +27,12 @@ const result = data.value
         <tr>
           <th>#</th>
           <th>Название свойства</th>
-          <th>Тип данных</th>
           <th class="tabledit-toolbar-column"></th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="(val, key) in result">
-<!--          {{val}}-->
-          <td>
-            <span class="tabledit-span tabledit-identifier">
-              {{ val.id }}
-            </span>
-          </td>
-          <td class="tabledit-view-mode">
-<!--            <span class="tabledit-span" :style="nowIsUpdating(key) ? `display: none;` : ``">{{ val.name }}</span>-->
-            <span class="tabledit-span">{{ val.name }}</span>
-          </td>
-          <td>
-            <span class="tabledit-span tabledit-identifier">{{ val.type }}</span>
-          </td>
+          {{val}}
         </tr>
         <!--        <tr v-for="(val, key, index) in props">-->
         <!--          <td>-->

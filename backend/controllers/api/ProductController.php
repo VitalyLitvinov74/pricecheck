@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\api;
 
 use app\collections\ProductPropertyCollection;
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
@@ -10,6 +10,7 @@ use app\forms\ProductForm;
 use app\records\ProductPropertiesRecord;
 use Throwable;
 use Yii;
+use yii\web\UploadedFile;
 
 class ProductController extends BaseApiController
 {
@@ -60,8 +61,7 @@ class ProductController extends BaseApiController
                 ProductPropertiesRecord::find()
                     ->select([
                         'id',
-                        'name',
-                        'type'
+                        'name'
                     ])
                     ->asArray()->all()
             )

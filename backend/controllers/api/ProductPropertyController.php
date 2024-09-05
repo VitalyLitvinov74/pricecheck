@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\api;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Property\UseCases\ProductPropertyService;
