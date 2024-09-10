@@ -3,36 +3,10 @@ version: '3.2'
 services:
   reverse-proxy:
     image: 'jwilder/nginx-proxy'
-<<<<<<< HEAD
-    container_name: 'reverse-proxy-pricecheck'
-=======
->>>>>>> next
     ports:
       - '${PORT}:80'
       - '443:443'
     volumes:
-<<<<<<< HEAD
-      - './proxy/vhosts:/etc/nginx/vhost.d'
-      - './proxy/config:/etc/nginx/conf.d'
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - './proxy/certs:/etc/nginx/certs'
-    networks:
-      - pricecheck
-
-
-  # прокси для пхп
-  php-proxy:
-    image: nginx
-    container_name: "php-proxy-pricecheck"
-    volumes:
-      - './php/proxy:/etc/nginx/conf.d'
-    environment:
-      VIRTUAL_HOST: "${BACKEND}"
-    links:
-      - php
-    volumes_from:
-      - php
-=======
       - './reverse_proxy/vhosts:/etc/nginx/vhost.d'
       - './reverse_proxy/config:/etc/nginx/conf.d'
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
@@ -110,7 +84,6 @@ services:
       - "4000:4000"
     command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
 #    command: bash -c  "npm start"
->>>>>>> next
     networks:
       - pricecheck
 
@@ -123,18 +96,6 @@ services:
       - "5432:5432"
     volumes:
       - ./pg/data:/data/db
-    networks:
-      - pricecheck
-
-  php:
-    container_name: "php-pricecheck"
-    build:
-      context: ./php/
-    volumes:
-      - '../backend:/var/www/html'
-    environment:
-      EXTERNAL_IP: "${EXTERNAL_IP}"
-      PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
     networks:
       - pricecheck
 
@@ -178,40 +139,6 @@ services:
 #    ports:
 #      - "4001:4001"
 #    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
-
-  ## статика
-  nginx-admin-panel:
-    image: nginx
-    container_name: "nginx-admin-panel"
-    volumes:
-      - './nuxt/proxy/admin:/etc/nginx/conf.d'
-    environment:
-      VIRTUAL_HOST: "${ADMIN_PANEL}"
-    links:
-      - admin-panel
-    volumes_from:
-      - admin-panel
-    networks:
-      - pricecheck
-
-  admin-panel:
-    container_name: "admin-panel"
-    image: node:latest
-    working_dir: "/app"
-    environment:
-      NODE_OPTIONS: --openssl-legacy-provider
-      HOST: 0.0.0.0
-      PORT: 4000
-      CHOKIDAR_USEPOLLING: 1
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-    volumes:
-      - '../admin:/app'
-    ports:
-      - "4000:4000"
-    command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
-#    command: bash -c  "npm start"
-    networks:
-      - pricecheck
 
 
 networks:
