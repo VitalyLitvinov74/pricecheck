@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers\api;
+namespace app\controllers;
 
 use app\collections\ProductPropertyCollection;
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
@@ -10,7 +10,6 @@ use app\forms\ProductForm;
 use app\records\ProductPropertiesRecord;
 use Throwable;
 use Yii;
-use yii\web\UploadedFile;
 
 class ProductController extends BaseApiController
 {
