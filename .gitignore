@@ -1,5 +1,6 @@
 docker/.env
 .idea/*
+<<<<<<< HEAD
 /docker/mongo/data/
 /docker/proxy/config/*
 .idea
@@ -61,3 +62,15 @@ admin/.nuxt/*
 /admin/.next/static/webpack/webpack.1387e3b8a54e5bb2.hot-update.js
 /admin/.next/static/chunks/webpack.js
 /admin/.next/server/webpack-runtime.js
+=======
+/docker/reverse_proxy/config/*
+.idea
+docker/reverse_proxy/config/*
+admin/node_modules
+admin/.nuxt
+docker/reverse_proxy/config
+admin/.env
+admin/.nuxt/*
+admin/.next
+/docker/reverse_proxy/*
+>>>>>>> next
