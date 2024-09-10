@@ -7,7 +7,7 @@ admin/node_modules
 admin/.nuxt
 docker/reverse_proxy/config
 admin/.env
-admin/.nuxt/*
-admin/.next/*
-admin/.next
+/admin/.nuxt/*
+/admin/.next/*
+/admin/.next
 /docker/reverse_proxy/*
