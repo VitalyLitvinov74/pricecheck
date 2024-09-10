@@ -2,7 +2,7 @@ export default function RootLayout({children,}: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
+        <html lang="ru">
         <head>
             <link href= "/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
             <link href= "/assets/css/bootstrap.min.css" rel="stylesheet" />
