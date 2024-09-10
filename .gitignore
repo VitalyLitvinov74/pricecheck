@@ -8,6 +8,5 @@ docker/.env
 /docker/reverse_proxy/config
 /admin/.env
 /admin/.nuxt/*
-/admin/.next/**
 /admin/.next
 /docker/reverse_proxy/*
