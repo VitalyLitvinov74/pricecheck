@@ -1,13 +1,9 @@
 import {loadProperties} from "../../../utils/product-properties";
-import {actionsButton, metadata} from "../../layout";
+import {metadata} from "../../layout";
 
 export default async function ProductProperties() {
     let properties = [];
     metadata.title = 'Свойства товаров'
-    const handleActions = function(){
-        console.log('')
-    }
-    actionsButton.action = function(){}
     await loadProperties().then(
         function (data) {
             properties = data;
