@@ -1,3 +1,12 @@
+import {Metadata} from "next";
+import Link from "next/link";
+import {useState} from "react";
+
+export const metadata: Metadata = {
+    title: '',
+    description: '',
+};
+
 export default function RootLayout({children,}: {
     children: React.ReactNode
 }) {
@@ -13,7 +22,6 @@ export default function RootLayout({children,}: {
         <body className="horizontal-layout">
 
         <div id="containerbar" className="container-fluid">
-            
             <div className="rightbar">
                 
                 <div className="topbar-mobile">
@@ -259,240 +267,13 @@ export default function RootLayout({children,}: {
                             <div className="collapse navbar-collapse active" id="navbar-menu">
                                 <ul className="horizontal-menu in">
                                     <li className="scroll dropdown">
-                                        <a className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/dashboard.svg" className="img-fluid"
-                                            alt="dashboard" /><span>Dashboard</span></a>
-                                        <ul className="dropdown-menu animated">
-                                            <li><a>CRM</a></li>
-                                            <li><a>eCommerce</a></li>
-                                            <li><a>Hospital</a></li>
-                                            <li><a>Crypto</a></li>
-                                            <li><a>School</a></li>
-                                        </ul>
-                                    </li>
-                                    <li className="dropdown">
-                                        <a  className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/apps.svg" className="img-fluid"
-                                            alt="apps" /><span>Apps</span></a>
-                                        <ul className="dropdown-menu animated">
-                                            <li><a >Calender</a></li>
-                                            <li><a >Chat</a></li>
-                                            <li className="dropdown">
-                                                <a  className="dropdown-toggle"
-                                                   data-toggle="dropdown">Email</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a>Inbox</a></li>
-                                                    <li><a>Open</a></li>
-                                                    <li><a>Compose</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a>Kanban Board</a></li>
-                                            <li><a>Onboarding Screens</a></li>
-                                        </ul>
-                                    </li>
-                                    <li className="dropdown active">
-                                        <a className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/components.svg" className="img-fluid"
-                                            alt="components" /><span>Components</span></a>
-                                        <ul className="dropdown-menu animated in">
-                                            <li className="dropdown active">
-                                                <a className="dropdown-toggle"
-                                                   data-toggle="dropdown"><span>Forms</span></a>
-                                                <ul className="dropdown-menu animated in">
-                                                    <li className="active"><a className="active">Basic Elements</a></li>
-                                                    <li><a>Groups</a></li>
-                                                    <li><a>Layouts</a></li>
-                                                    <li><a>Color Pickers</a></li>
-                                                    <li><a>Date Pickers</a></li>
-                                                    <li><a>Editors</a></li>
-                                                    <li><a>File Uploads</a></li>
-                                                    <li><a>Input Mask</a></li>
-                                                    <li><a>MaxLength</a></li>
-                                                    <li><a>Selects</a></li>
-                                                    <li><a>Touchspin</a></li>
-                                                    <li><a>Validations</a></li>
-                                                    <li><a>Wizards</a></li>
-                                                    <li><a>X-editable</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a className="dropdown-toggle"
-                                                   data-toggle="dropdown">Icons</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a>SVG</a></li>
-                                                    <li><a>Dripicons</a></li>
-                                                    <li><a>Feather</a></li>
-                                                    <li><a>Flag</a></li>
-                                                    <li><a>Font Awesome</a></li>
-                                                    <li><a>Ion</a></li>
-                                                    <li><a>Line Awesome</a></li>
-                                                    <li><a>Material Design</a></li>
-                                                    <li><a>Simple Line</a></li>
-                                                    <li><a>Socicon</a></li>
-                                                    <li><a>Themify</a></li>
-                                                    <li><a>Typicons</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a  className="dropdown-toggle"
-                                                   data-toggle="dropdown">Charts</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a>Apex</a></li>
-                                                    <li><a>C3</a></li>
-                                                    <li><a>Chartist</a></li>
-                                                    <li><a>Chartjs</a></li>
-                                                    <li><a>Flot</a></li>
-                                                    <li><a>Knob</a></li>
-                                                    <li><a>Morris</a></li>
-                                                    <li><a>Piety</a></li>
-                                                    <li><a>Sparkline Chart</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a  className="dropdown-toggle"
-                                                   data-toggle="dropdown">Tables</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a >Bootstrap</a></li>
-                                                    <li><a >Datatable</a></li>
-                                                    <li><a >Editable</a></li>
-                                                    <li><a >Foo</a></li>
-                                                    <li><a >RWD</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a className="dropdown-toggle"
-                                                   data-toggle="dropdown">Maps</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a>Google</a></li>
-                                                    <li><a>Vector</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li className="dropdown">
-                                        <a className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/pages.svg" className="img-fluid"
-                                            alt="pages" /><span>Pages</span></a>
-                                        <ul className="dropdown-menu animated">
-                                            <li className="dropdown">
-                                                <a className="dropdown-toggle"
-                                                   data-toggle="dropdown">eCommerce</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a>Product List</a></li>
-                                                    <li><a>Product Detail</a></li>
-                                                    <li><a>Order List</a></li>
-                                                    <li><a>Order Detail</a></li>
-                                                    <li><a>Shop</a></li>
-                                                    <li><a>Single Product</a></li>
-                                                    <li><a>Cart</a></li>
-                                                    <li><a>Checkout</a></li>
-                                                    <li><a>Thank You</a></li>
-                                                    <li><a>My Account</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a className="dropdown-toggle"
-                                                   data-toggle="dropdown">Basic</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a >Starter</a></li>
-                                                    <li><a >Blog</a></li>
-                                                    <li><a >FAQ</a></li>
-                                                    <li><a >Gallery</a></li>
-                                                    <li><a >Invoice</a></li>
-                                                    <li><a >Pricing</a></li>
-                                                    <li><a >Timeline</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a  className="dropdown-toggle"
-                                                   data-toggle="dropdown">User</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a >Login</a></li>
-                                                    <li><a >Register</a></li>
-                                                    <li><a >Forgot Password</a></li>
-                                                    <li><a >Lock Screen</a></li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown">
-                                                <a  className="dropdown-toggle"
-                                                   data-toggle="dropdown">Error</a>
-                                                <ul className="dropdown-menu animated">
-                                                    <li><a >Coming Soon</a></li>
-                                                    <li><a >Maintenance</a></li>
-                                                    <li><a >Error 404</a></li>
-                                                    <li><a >Error 500</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li className="scroll"><a><img
-                                        src="/assets/images/svg-icon/widgets.svg" className="img-fluid"
-                                        alt="widgets" /><span>Widgets</span></a></li>
-                                    <li className="dropdown menu-item-has-mega-menu">
-                                        <a className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/basic.svg" className="img-fluid"
-                                            alt="basic" /><span>Basic UI</span></a>
-                                        <div className="mega-menu dropdown-menu animated">
-                                            <ul className="mega-menu-row" role="menu">
-                                                <li className="mega-menu-col col-md-3">
-                                                    <ul className="sub-menu">
-                                                        <li><a >Alerts</a></li>
-                                                        <li><a >Badges</a></li>
-                                                        <li><a >Buttons</a></li>
-                                                        <li><a >Cards</a></li>
-                                                        <li><a >Carousel</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li className="mega-menu-col col-md-3">
-                                                    <ul className="sub-menu">
-                                                        <li><a>Collapse</a></li>
-                                                        <li><a>Dropdowns</a></li>
-                                                        <li><a>Embeds</a></li>
-                                                        <li><a>Grids</a></li>
-                                                        <li><a>Images</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li className="mega-menu-col col-md-3">
-                                                    <ul className="sub-menu">
-                                                        <li><a >Media</a></li>
-                                                        <li><a >Modals</a></li>
-                                                        <li><a >Paginations</a>
-                                                        </li>
-                                                        <li><a >Popovers</a></li>
-                                                        <li><a >Progress Bars</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li className="mega-menu-col col-md-3">
-                                                    <ul className="sub-menu">
-                                                        <li><a >Spinners</a></li>
-                                                        <li><a >Tabs</a></li>
-                                                        <li><a >Toasts</a></li>
-                                                        <li><a >Tooltips</a></li>
-                                                        <li><a >Typography</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li className="dropdown">
-                                        <a  className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/advanced.svg" className="img-fluid"
-                                            alt="advanced" /><span>Advanced UI</span></a>
-                                        <ul className="dropdown-menu animated">
-                                            <li><a >Image Crop</a></li>
-                                            <li><a >jQuery Confirm</a></li>
-                                            <li><a >Nestable</a></li>
-                                            <li><a >Pnotify</a></li>
-                                            <li><a >Range Slider</a></li>
-                                            <li><a >Ratings</a></li>
-                                            <li><a >Session Timeout</a></li>
-                                            <li><a >Sweet Alerts</a></li>
-                                            <li><a >Switchery</a></li>
-                                            <li><a >Toolbar</a></li>
-                                            <li><a >Tour</a></li>
-                                            <li><a >Tree View</a></li>
-                                        </ul>
+                                        <Link href="/product/properties" className="dropdown-toggle" data-toggle="dropdown"><img
+                                            src="/assets/images/svg-icon/basic.svg" className="img-fluid "
+                                            alt="dashboard" />
+                                            <span>
+                                                Свойства товаров
+                                            </span>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -502,7 +283,7 @@ export default function RootLayout({children,}: {
                 <div className="breadcrumbbar">
                     <div className="row align-items-center">
                         <div className="col-md-8 col-lg-8">
-                            <h4 className="page-title">Basic Elements</h4>
+                            <h4 className="page-title">{metadata.title}</h4>
                             <div className="breadcrumb-list">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item"><a >Home</a></li>
@@ -511,7 +292,7 @@ export default function RootLayout({children,}: {
                                 </ol>
                             </div>
                         </div>
-                        <div className="col-md-4 col-lg-4">
+                        <div className={`col-md-4 col-lg-4`}>
                             <div className="widgetbar">
                                 <button className="btn btn-primary-rgba"><i className="feather icon-plus mr-2"></i>Actions
                                 </button>

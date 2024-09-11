@@ -58,11 +58,8 @@ class ProductController extends BaseApiController
             ->setupCode(200)
             ->addBody(
                 ProductPropertiesRecord::find()
-                    ->select([
-                        'id',
-                        'name'
-                    ])
-                    ->asArray()->all()
+                    ->asArray()
+                    ->all()
             )
             ->asArray();
     }
