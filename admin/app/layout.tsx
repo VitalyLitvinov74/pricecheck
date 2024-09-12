@@ -1,12 +1,13 @@
 import {Metadata} from "next";
 import Link from "next/link";
-import {useState} from "react";
+import {createContext, useState} from "react";
+import Breadcrumbs from "./product/properties/button-component";
+import NestedClientPage from "./nested-client-page";
 
 export const metadata: Metadata = {
     title: '',
     description: '',
 };
-
 export default function RootLayout({children,}: {
     children: React.ReactNode
 }) {
@@ -267,7 +268,7 @@ export default function RootLayout({children,}: {
                             <div className="collapse navbar-collapse active" id="navbar-menu">
                                 <ul className="horizontal-menu in">
                                     <li className="scroll dropdown">
-                                        <Link href="/product/properties" className="dropdown-toggle" data-toggle="dropdown"><img
+                                        <Link href="/product/properties/page" className="dropdown-toggle" data-toggle="dropdown"><img
                                             src="/assets/images/svg-icon/basic.svg" className="img-fluid "
                                             alt="dashboard" />
                                             <span>
@@ -280,29 +281,11 @@ export default function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                <div className="breadcrumbbar">
-                    <div className="row align-items-center">
-                        <div className="col-md-8 col-lg-8">
-                            <h4 className="page-title">{metadata.title}</h4>
-                            <div className="breadcrumb-list">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><a >Home</a></li>
-                                    <li className="breadcrumb-item"><a href="#">Forms</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">Basic Elements</li>
-                                </ol>
-                            </div>
-                        </div>
-                        <div className={`col-md-4 col-lg-4`}>
-                            <div className="widgetbar">
-                                <button className="btn btn-primary-rgba"><i className="feather icon-plus mr-2"></i>Actions
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="contentbar">
+                <NestedClientPage>
                     {children}
-                </div>
+                </NestedClientPage>
+
+
                 <div className="footerbar">
                     <footer className="footer">
                         <p className="mb-0">© 2020 Orbiter - All Rights Reserved.</p>
@@ -318,7 +301,7 @@ export default function RootLayout({children,}: {
         <script type="text/javascript" src="/assets/js/detect.js"/>
         <script type="text/javascript" src="/assets/js/jquery.slimscroll.js"/>
         <script type="text/javascript" src="/assets/js/horizontal-menu.js"/>
-        <script type="text/javascript" src="/assets/plugins/switchery/switchery.min.js"/>
+        {/*<script type="text/javascript" src="/assets/plugins/switchery/switchery.min.js"/>*/}
         <script type="text/javascript" src="/assets/js/core.js"/>
         </body>
         </html>
