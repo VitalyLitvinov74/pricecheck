@@ -1,12 +1,16 @@
 'use client'
 import {func} from "prop-types";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {ClientContext} from "../../nested-client-page";
 
 export default function ProductPropertiesClient({propertiesData}){
-    ClientContext.buttonFunction = function(){
-        console.log('hello1')
-    }
+    const {buttonFunction, setButtonFunction} = useContext(ClientContext);
+    useEffect(
+        function () {
+            setButtonFunction(() => () => console.log('hello1'))
+        },
+        []
+    )
     return (
             <div className="contentbar">
                 <div className="row">

@@ -1,18 +1,17 @@
 'use client'
 
-import {createContext, useContext, useState} from "react";
+import {createContext, useCallback, useContext, useState} from "react";
 import Breadcrumbs from "./product/properties/button-component";
 import {metadata} from "./layout";
 
-export class ClientContext {
-    static buttonFunction: any
-}
+export const ClientContext = createContext({});
 
 export default function NestedClientPage({children}){
     {
-        return <>
-            <Breadcrumbs title='nnn' />
+        const [buttonFunction, setButtonFunction] = useState()
+        return <ClientContext.Provider value={{buttonFunction, setButtonFunction}}>
+            <Breadcrumbs title='nnn'/>
             {children}
-        </>
+        </ClientContext.Provider>
     }
 }
