@@ -1,32 +1,30 @@
 'use client'
 import {func} from "prop-types";
-import {useContext, useEffect, useState} from "react";
-import {ClientContext} from "../../nested-client-page";
+import React, {useContext, useEffect, useState} from "react";
+import {ClientContext} from "../layout";
+import Breadcrumbs from "../breadcrumbs/breadcrumbs";
+import BreadcrumbButton from "../breadcrumbs/breadcrumb-button";
 
-export default function ProductPropertiesClient({propertiesData}){
-    const {buttonFunction, setButtonFunction} = useContext(ClientContext);
-    const [propertiesData1, setPropertiesData] = useState(propertiesData)
-    useEffect(
-        function () {
-            setButtonFunction(function(){
-                return function(){
-                    setPropertiesData(function(prevState){
-                        return [{
-                            id: 222,
-                            name: "Тест",
-                            type: "striing",
-                        }].concat(prevState)
-                    });
-                }
-            })
-        },
-        []
-    )
+export default function ProductPropertiesPage({data, title, path}){
+    const {} = useContext(ClientContext);
+    const [propertiesData, setPropertiesData] = useState(data)
+    function addNewRowToTable(){
+        setPropertiesData(function(prevState){
+            return [{
+                id: 222,
+                name: "Тест",
+                type: "striing",
+            }].concat(prevState)
+        });
+    }
 
     return (
+        <>
+            <Breadcrumbs path={path} title={title}>
+                <BreadcrumbButton title={'Добавить'} onClick={addNewRowToTable}/>
+            </Breadcrumbs>
             <div className="contentbar">
                 <div className="row">
-
                     <div className="col-lg-12">
                         <div className="card m-b-30">
                             <div className="card-body">
@@ -41,9 +39,9 @@ export default function ProductPropertiesClient({propertiesData}){
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {propertiesData1.map(function (property, key) {
+                                        {propertiesData.map(function (property, key) {
                                             return (
-                                                <tr>
+                                                <tr key={key}>
                                                     <td>#{key+1}</td>
                                                     <td>{property.name}</td>
                                                     <td>
@@ -69,5 +67,6 @@ export default function ProductPropertiesClient({propertiesData}){
 
                 </div>
             </div>
+        </>
     )
 }

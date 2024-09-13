@@ -1,8 +1,7 @@
 import {Metadata} from "next";
 import Link from "next/link";
-import {createContext, useState} from "react";
-import Breadcrumbs from "./product/properties/button-component";
-import NestedClientPage from "./nested-client-page";
+import Layout from "../client-components/layout";
+import Breadcrumbs from "../client-components/breadcrumbs/breadcrumbs";
 
 export const metadata: Metadata = {
     title: '',
@@ -275,6 +274,7 @@ export default function RootLayout({children,}: {
                                             <li><Link href="/product">Список товаров</Link></li>
                                             <li><Link href="/product/properties">Свойства</Link></li>
                                             <li><Link href="/product/properties">Импорт</Link></li>
+                                            <li><Link href="/product/properties">Схемы парсинга</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -282,9 +282,9 @@ export default function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                <NestedClientPage>
+                <Layout>
                     {children}
-                </NestedClientPage>
+                </Layout>
 
 
                 <div className="footerbar">

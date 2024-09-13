@@ -1,19 +1,9 @@
 'use client'
 import {useContext, useEffect} from "react";
-import {ClientContext} from "../nested-client-page";
+import {ClientContext} from "../layout";
 
-export default function ProductPageClient(){
-    const {buttonFunction, setButtonFunction} = useContext(ClientContext);
-    useEffect(
-        function () {
-            setButtonFunction(function(){
-                return function(){
-                    console.log('hello')
-                }
-            })
-        },
-        []
-    )
+export default function ProductPage(){
+    const {changeBreadcrumbsSettings} = useContext(ClientContext);
     return (
         <div className="contentbar">
             <div className="row">
