@@ -1,16 +1,28 @@
 'use client'
 import {func} from "prop-types";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ClientContext} from "../../nested-client-page";
 
 export default function ProductPropertiesClient({propertiesData}){
     const {buttonFunction, setButtonFunction} = useContext(ClientContext);
+    const [propertiesData1, setPropertiesData] = useState(propertiesData)
     useEffect(
         function () {
-            setButtonFunction(() => () => console.log('hello1'))
+            setButtonFunction(function(){
+                return function(){
+                    setPropertiesData(function(prevState){
+                        return [{
+                            id: 222,
+                            name: "Тест",
+                            type: "striing",
+                        }].concat(prevState)
+                    });
+                }
+            })
         },
         []
     )
+
     return (
             <div className="contentbar">
                 <div className="row">
@@ -29,7 +41,7 @@ export default function ProductPropertiesClient({propertiesData}){
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {propertiesData.map(function (property, key) {
+                                        {propertiesData1.map(function (property, key) {
                                             return (
                                                 <tr>
                                                     <td>#{key+1}</td>

@@ -267,14 +267,15 @@ export default function RootLayout({children,}: {
                         <nav className="horizontal-nav mobile-navbar fixed-navbar">
                             <div className="collapse navbar-collapse active" id="navbar-menu">
                                 <ul className="horizontal-menu in">
-                                    <li className="scroll dropdown">
-                                        <Link href="/product/properties/page" className="dropdown-toggle" data-toggle="dropdown"><img
-                                            src="/assets/images/svg-icon/basic.svg" className="img-fluid "
-                                            alt="dashboard" />
-                                            <span>
-                                                Свойства товаров
-                                            </span>
-                                        </Link>
+                                    <li className="dropdown">
+                                        <a href="" className="dropdown-toggle" data-toggle="dropdown"><img
+                                            src="/assets/images/svg-icon/basic.svg" className="img-fluid"
+                                            alt="apps"/><span>Товары</span></a>
+                                        <ul className="dropdown-menu animated">
+                                            <li><Link href="/product">Список товаров</Link></li>
+                                            <li><Link href="/product/properties">Свойства</Link></li>
+                                            <li><Link href="/product/properties">Импорт</Link></li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </div>
