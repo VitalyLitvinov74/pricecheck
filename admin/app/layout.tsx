@@ -1,12 +1,11 @@
 import {Metadata} from "next";
 import Link from "next/link";
 import Layout from "../client-components/layout";
-import Breadcrumbs from "../client-components/breadcrumbs/breadcrumbs";
+import React from "react";
+import Breadcrumbs from "../client-components/breadcrumbs/Breadcrumbs";
 
-export const metadata: Metadata = {
-    title: '',
-    description: '',
-};
+export const metadata: Metadata = {};
+
 export default function RootLayout({children,}: {
     children: React.ReactNode
 }) {
@@ -282,7 +281,7 @@ export default function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                <Layout>
+                <Layout serverMetadata={metadata}>
                     {children}
                 </Layout>
 
@@ -302,7 +301,7 @@ export default function RootLayout({children,}: {
         <script type="text/javascript" src="/assets/js/detect.js"/>
         <script type="text/javascript" src="/assets/js/jquery.slimscroll.js"/>
         <script type="text/javascript" src="/assets/js/horizontal-menu.js"/>
-        {/*<script type="text/javascript" src="/assets/plugins/switchery/switchery.min.js"/>*/}
+        <script type="text/javascript" src="/assets/plugins/switchery/switchery.min.js"/>
         <script type="text/javascript" src="/assets/js/core.js"/>
         </body>
         </html>

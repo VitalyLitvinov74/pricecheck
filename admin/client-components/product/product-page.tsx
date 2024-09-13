@@ -1,9 +1,11 @@
 'use client'
 import {useContext, useEffect} from "react";
-import {ClientContext} from "../layout";
+import {ClientContext, updateState} from "../layout";
 
-export default function ProductPage(){
-    const {changeBreadcrumbsSettings} = useContext(ClientContext);
+export default function ProductPage({title}){
+    const {metadata, setMetadata} = useContext(ClientContext);
+    const newMetadata = {title:title};
+    updateState(setMetadata, newMetadata)
     return (
         <div className="contentbar">
             <div className="row">
