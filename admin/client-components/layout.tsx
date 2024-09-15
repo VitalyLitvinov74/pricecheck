@@ -1,27 +1,32 @@
 'use client'
-import React, {createContext, useCallback, useContext, useEffect, useReducer, useState} from "react";
+import React, {Component, createContext, useEffect} from "react";
 import Breadcrumbs from "./breadcrumbs/Breadcrumbs";
 
-export const ClientContext = createContext({});
+export const LayoutContext = createContext({
+    metadata: [],
+    changeData: function(newData){}
+});
 
-export function updateState(handler, newData){
-    useEffect(
-        function () {
-            handler(newData)
-        },
-        []
-    )
-}
-export default function Layout({children, serverMetadata}){
-    {
-        const [metadata, setMetadata] = useState(serverMetadata);
+export default class Layout extends Component<any, any> {
+    static contextType = LayoutContext;
+    private children;
 
-        return <ClientContext.Provider value={{
-            metadata: metadata,
-            setMetadata: setMetadata
+    constructor(props) {
+        super(props);
+        this.children = props.children;
+        this.state = {
+            metadata: props.serverMetadata,
+        }
+        this.setState = this.setState.bind(this)
+    }
+
+    render() {
+        return <LayoutContext.Provider value={{
+            metadata: this.state.metadata,
+            changeData: this.setState
         }}>
             <Breadcrumbs/>
-            {children}
-        </ClientContext.Provider>
+            {this.children}
+        </LayoutContext.Provider>
     }
 }
