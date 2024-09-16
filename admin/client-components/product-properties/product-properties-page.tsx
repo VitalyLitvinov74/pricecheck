@@ -26,7 +26,6 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
 
     addNewRow() {
         const newData = {
-            id: 222,
             name: "Тест",
             type: "striing",
         };
@@ -74,7 +73,7 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
                                             this.state.propertiesData.map(function (property, key) {
                                             return (
                                                 <tr key={key}>
-                                                    <td>#{property.id}</td>
+                                                    <td>#{property.id ? property.id : '#'}</td>
                                                     <td>{property.name}</td>
                                                     <td>
                                                     <span
