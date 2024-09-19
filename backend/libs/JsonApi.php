@@ -44,7 +44,7 @@ class JsonApi
         return $this;
     }
 
-    public function addException(Exception $exception): self
+    public function addException(\Throwable $exception): self
     {
         if ($exception->getCode() < 400) {
             $this->setupCode(500);

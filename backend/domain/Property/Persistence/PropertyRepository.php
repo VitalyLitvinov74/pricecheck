@@ -33,6 +33,11 @@ class PropertyRepository
             ->useActiveRecord(ProductPropertiesRecord::class)
             ->useUniqueKeys(['id'])
             ->upsertManyRecords($insertData);
+        $actualIds = [];
+        foreach ($data['collection'] as $property){
+            $actualIds[] = $property['id'];
+        }
+        ProductPropertiesRecord::deleteAll(['not in', 'id', $actualIds]);
     }
 
     public function findAll(): Properties

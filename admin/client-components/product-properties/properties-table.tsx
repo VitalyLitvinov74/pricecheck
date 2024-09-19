@@ -27,12 +27,25 @@ export default class PropertiesTable extends Component<any, any> {
     }
 
     removeRow(item) {
+        this.setState({
+            data: this.state.data.filter(function (oldProp) {
+                return oldProp.id !== item.id
+            })
+        })
 
-       this.setState({
-           data: this.state.data.filter(function (oldProp) {
-               return oldProp.id !== item.id
-           })
-       })
+        const url = `http://api.pricecheck.my:82/product-property/remove`;
+        let status = 0;
+        fetch(url, {
+            body: JSON.stringify({
+                id: item.id
+            }),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "post",
+        }).then(function (result) {
+            status = result.status;
+        })
     }
 
     update(item) {
@@ -107,7 +120,7 @@ export default class PropertiesTable extends Component<any, any> {
                 properties: [draftItem]
             }),
             headers: {
-              'content-type': "application/json"
+                'content-type': "application/json"
             },
             method: "post",
         }).then(function (result) {
@@ -180,7 +193,7 @@ export default class PropertiesTable extends Component<any, any> {
                         </button>
                         <button type="button"
                                 onClick={
-                                    function(){
+                                    function () {
                                         self.removeRow(item)
                                     }
                                 }

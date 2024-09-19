@@ -38,4 +38,14 @@ class Properties
         );
         return $this;
     }
+
+    public function remove(int $id): void
+    {
+        $property = $this->collection->findFirst(function($key, Property $property) use($id){
+            return $property->hasId($id);
+        });
+        if($property){
+            $this->collection->removeElement($property);
+        }
+    }
 }

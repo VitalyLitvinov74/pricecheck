@@ -6,7 +6,10 @@ use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Property\UseCases\ProductPropertyService;
 use app\domain\Type;
 use app\forms\ParsingSchemaForm;
+use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
+use app\forms\Scenarious;
+use Yii;
 use yii\db\Exception;
 use yii\filters\VerbFilter;
 
@@ -93,5 +96,22 @@ class ProductPropertyController extends BaseApiController
         return $this->jsonApi
             ->addModelErrors($schemaForm)
             ->asArray();
+    }
+
+    public function actionRemove(){
+        $form = new ProductPropertyForm([
+            'scenario' => Scenarious::RemoveProperty->value
+        ]);
+        $form->load(Yii::$app->request->post());
+        if($form->validate()){
+            try{
+                $this->service->remove($form->id);
+                return $this->jsonApi->setupCode(204)->asArray();
+            }catch (\Throwable $exception){
+                return $this->jsonApi->addException($exception)->asArray();
+            }
+
+        }
+        return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
     }
 }

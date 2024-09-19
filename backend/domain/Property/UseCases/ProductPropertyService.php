@@ -33,4 +33,11 @@ class ProductPropertyService
     {
 
     }
+
+    public function remove(int $id): void
+    {
+        $properties = $this->propertiesRepository->findAll();
+        $properties->remove($id);
+        $this->propertiesRepository->merge($properties);
+    }
 }

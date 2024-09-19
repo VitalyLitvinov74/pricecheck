@@ -44,4 +44,9 @@ class Property
     {
         return strtolower($this->name) === strtolower($name);
     }
+
+    public function hasId(int $id): bool
+    {
+        return $id === $this->id;
+    }
 }
