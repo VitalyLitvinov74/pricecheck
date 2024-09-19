@@ -2,7 +2,6 @@ import {Metadata} from "next";
 import Link from "next/link";
 import Layout from "../client-components/layout";
 import React from "react";
-import Breadcrumbs from "../client-components/breadcrumbs/Breadcrumbs";
 
 export const metadata: Metadata = {};
 
@@ -12,6 +11,7 @@ export default function RootLayout({children,}: {
     return (
         <html lang="ru">
         <head>
+            <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
             <link href= "/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
             <link href= "/assets/css/bootstrap.min.css" rel="stylesheet" />
             <link href= "/assets/css/icons.css" rel="stylesheet" />
@@ -266,14 +266,24 @@ export default function RootLayout({children,}: {
                             <div className="collapse navbar-collapse active" id="navbar-menu">
                                 <ul className="horizontal-menu in">
                                     <li className="dropdown">
-                                        <a href="" className="dropdown-toggle" data-toggle="dropdown"><img
+                                        <a className="dropdown-toggle" data-toggle="dropdown"><img
                                             src="/assets/images/svg-icon/basic.svg" className="img-fluid"
                                             alt="apps"/><span>Товары</span></a>
                                         <ul className="dropdown-menu animated">
-                                            <li><Link href="/product">Список товаров</Link></li>
-                                            <li><Link href="/product/properties">Свойства</Link></li>
-                                            <li><Link href="/product/properties">Импорт</Link></li>
-                                            <li><Link href="/product/properties">Схемы парсинга</Link></li>
+                                            <li>
+                                                <Link href="/product">Список товаров</Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/product/properties">
+                                                    Свойства
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/product/properties">Импорт</Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/product/properties">Схемы парсинга</Link>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -294,15 +304,30 @@ export default function RootLayout({children,}: {
             </div>
         </div>
 
-        <script type="text/javascript" src="/assets/js/jquery.min.js"/>
-        <script type="text/javascript" src="/assets/js/popper.min.js"/>
-        <script type="text/javascript" src="/assets/js/bootstrap.min.js"/>
-        <script type="text/javascript" src="/assets/js/modernizr.min.js"/>
-        <script type="text/javascript" src="/assets/js/detect.js"/>
-        <script type="text/javascript" src="/assets/js/jquery.slimscroll.js"/>
-        <script type="text/javascript" src="/assets/js/horizontal-menu.js"/>
-        <script type="text/javascript" src="/assets/plugins/switchery/switchery.min.js"/>
-        <script type="text/javascript" src="/assets/js/core.js"/>
+        {/*<script type="text/javascript" src="/assets/js/jquery.min.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/popper.min.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/bootstrap.min.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/modernizr.min.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/detect.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/jquery.slimscroll.js"/>*/}
+        {/*<script type="text/javascript" src="/assets/js/horizontal-menu.js"/>*/}
+        {/*<script src="/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>*/}
+        {/*<script src="/assets/plugins/bootstrap-tagsinput/typeahead.bundle.js"></script>*/}
+        {/*<script src="/assets/js/custom/custom-form-select.js"></script>*/}
+        {/*<script src="/assets/plugins/select2/select2.min.js" />*/}
+        {/*<script type="text/javascript" src="/assets/js/core.js"/>*/}
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/modernizr.min.js"></script>
+        <script src="/assets/js/detect.js"></script>
+        <script src="/assets/js/jquery.slimscroll.js"></script>
+        <script src="/assets/js/horizontal-menu.js"></script>
+        <script src="/assets/plugins/switchery/switchery.min.js"></script>
+        <script src="/assets/plugins/select2/select2.min.js"></script>
+        <script src="/assets/js/custom/custom-form-select.js"></script>
+        <script src="/assets/js/core.js"></script>
         </body>
         </html>
     )

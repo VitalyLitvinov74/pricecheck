@@ -38,23 +38,6 @@ $(document).ready(function() {
         $("body").toggleClass("topbar-toggle-menu");        
         $(".topbar-toggle-hamburger img").toggle();       
     });
-    /* -- Switchery -- */
-    var setting_first = document.querySelector('.js-switch-setting-first');
-    var switchery = new Switchery(setting_first, { color: '#0080ff', size: 'small' });
-    var setting_second = document.querySelector('.js-switch-setting-second');
-    var switchery = new Switchery(setting_second, { color: '#0080ff', size: 'small' });
-    var setting_third = document.querySelector('.js-switch-setting-third');
-    var switchery = new Switchery(setting_third, { color: '#0080ff', size: 'small' });
-    var setting_fourth = document.querySelector('.js-switch-setting-fourth');
-    var switchery = new Switchery(setting_fourth, { color: '#0080ff', size: 'small' });
-    var setting_fifth = document.querySelector('.js-switch-setting-fifth');
-    var switchery = new Switchery(setting_fifth, { color: '#0080ff', size: 'small' });
-    var setting_sixth = document.querySelector('.js-switch-setting-sixth');
-    var switchery = new Switchery(setting_sixth, { color: '#0080ff', size: 'small' });
-    var setting_seventh = document.querySelector('.js-switch-setting-seventh');
-    var switchery = new Switchery(setting_seventh, { color: '#0080ff', size: 'small' });
-    var setting_eightth = document.querySelector('.js-switch-setting-eightth');
-    var switchery = new Switchery(setting_eightth, { color: '#0080ff', size: 'small' });
     /* -- Bootstrap Popover -- */
     $('[data-toggle="popover"]').popover();
     /* -- Bootstrap Tooltip -- */

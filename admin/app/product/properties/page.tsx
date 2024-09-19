@@ -1,4 +1,4 @@
-import {loadProperties} from "../../../utils/product-properties";
+import {availableProps, loadProperties} from "../../../utils/product-properties";
 import ProductPropertiesPage from "../../../client-components/product-properties/product-properties-page";
 import {metadata} from "../../layout";
 
@@ -11,9 +11,16 @@ export default async function ProductProperties() {
         }
     );
 
+    let availableTypes = [];
+    await availableProps().then(
+        function (data) {
+            availableTypes = data;
+        }
+    );
+
     return (
         <>
-            <ProductPropertiesPage data={properties} title={metadata.title}/>
+            <ProductPropertiesPage data={properties} title={metadata.title} availableTypes={availableTypes}/>
         </>
     );
 }

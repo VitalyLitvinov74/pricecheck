@@ -13,3 +13,15 @@ export const loadProperties = cache (async function(){
     })
     return data.json();
 })
+
+export const availableProps = cache(
+    async function(){
+        const url = `${process.env.URL}/product-property/available`;
+        const data = await fetch(url, {
+            next: {
+                revalidate: 60
+            }
+        })
+        return data.json();
+    }
+)
