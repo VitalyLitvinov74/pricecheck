@@ -22,6 +22,7 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
 
 
     render() {
+        console.log('hi1')
         return (
             <div className="contentbar">
                 <div className="row">

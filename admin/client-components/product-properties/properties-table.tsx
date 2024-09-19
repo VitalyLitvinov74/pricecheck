@@ -2,14 +2,14 @@ import React, {Component} from "react";
 import Select from "react-select";
 
 export default class PropertiesTable extends Component<any, any> {
-    private data
 
+    state = {
+        draftRows: [],
+        data: this.props.data
+    }
     constructor({data}) {
         super({data});
-        this.data = data
-        this.state = {
-            draftRows: []
-        }
+
         this.addNewRow = this.addNewRow.bind(this)
         this.removeRow = this.removeRow.bind(this)
         this.update = this.update.bind(this)
@@ -22,16 +22,18 @@ export default class PropertiesTable extends Component<any, any> {
             type: "striing",
         };
         this.setState({
-            data: [newData, ...this.data]
+            data: [newData, ...this.props.data]
         })
     }
 
     removeRow(item) {
-        this.setState({
-            data: this.data.filter(function (oldProp) {
-                return oldProp.id !== item.id
-            })
-        })
+
+       this.setState({
+           data: this.state.data.filter(function (oldProp) {
+               return oldProp.id !== item.id
+           })
+       })
+        console.log(this.state.data)
     }
 
     update(item) {
@@ -93,7 +95,7 @@ export default class PropertiesTable extends Component<any, any> {
         this.setState({
             draftRows: draftRows
         })
-        this.data.forEach(function (property) {
+        this.props.data.forEach(function (property) {
             if (property.id === draftItem.id) {
                 property.name = draftItem.name;
                 property.type = draftItem.type;
@@ -112,6 +114,7 @@ export default class PropertiesTable extends Component<any, any> {
         }).then(function (result) {
             status = result.status;
         })
+        this.setState({data: this.props.data})
     }
 
     editableRow(item, key) {
@@ -159,6 +162,7 @@ export default class PropertiesTable extends Component<any, any> {
     }
 
     readebleRow(item, key) {
+        const self = this;
         return (
             <tr key={key}>
                 <td>#{item.id ? item.id : '#'}</td>
@@ -176,8 +180,14 @@ export default class PropertiesTable extends Component<any, any> {
                             <i className="feather icon-edit-2"></i>
                         </button>
                         <button type="button"
-                                className="btn btn-danger-rgba"><i
-                            className="feather icon-trash"></i></button>
+                                onClick={
+                                    function(){
+                                        self.removeRow(item)
+                                    }
+                                }
+                                className="btn btn-danger-rgba">
+                            <i className="feather icon-trash"></i>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -186,6 +196,8 @@ export default class PropertiesTable extends Component<any, any> {
 
     render() {
         const self = this;
+        console.log('hi')
+        const data = this.state.data.length > 0 ? this.state.data : this.props.data
         return (
             <table className="table table-borderless table-hover">
                 <thead>
@@ -197,7 +209,7 @@ export default class PropertiesTable extends Component<any, any> {
                 </tr>
                 </thead>
                 <tbody>
-                {this.data.map(
+                {data.map(
                     function (property, key) {
                         if (self.propertyIsDraft(property)) {
                             return self.editableRow(
