@@ -3,13 +3,13 @@ import Select from "react-select";
 
 export default class PropertiesTable extends Component<any, any> {
 
-    state = {
-        draftRows: [],
-        data: this.props.data
-    }
+
     constructor({data}) {
         super({data});
-
+        this.state = {
+            draftRows: [],
+            data: this.props.data
+        }
         this.addNewRow = this.addNewRow.bind(this)
         this.removeRow = this.removeRow.bind(this)
         this.update = this.update.bind(this)
@@ -33,7 +33,6 @@ export default class PropertiesTable extends Component<any, any> {
                return oldProp.id !== item.id
            })
        })
-        console.log(this.state.data)
     }
 
     update(item) {
@@ -196,8 +195,7 @@ export default class PropertiesTable extends Component<any, any> {
 
     render() {
         const self = this;
-        console.log('hi')
-        const data = this.state.data.length > 0 ? this.state.data : this.props.data
+        const data = this.state.data
         return (
             <table className="table table-borderless table-hover">
                 <thead>

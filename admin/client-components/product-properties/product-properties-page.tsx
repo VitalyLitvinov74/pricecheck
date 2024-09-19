@@ -11,18 +11,19 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.context.changeData(
-            {
-                metadata: {
-                    title: this.props.title
+        if(this.context.metadata.title !== this.props.title){
+            this.context.changeData(
+                {
+                    metadata: {
+                        title: this.props.title
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
 
     render() {
-        console.log('hi1')
         return (
             <div className="contentbar">
                 <div className="row">
