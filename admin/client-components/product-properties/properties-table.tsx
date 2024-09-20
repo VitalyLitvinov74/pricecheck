@@ -2,10 +2,8 @@ import React, {Component} from "react";
 import Select from "react-select";
 
 export default class PropertiesTable extends Component<any, any> {
-
-
-    constructor({data}) {
-        super({data});
+    constructor(props) {
+        super(props);
         this.state = {
             draftRows: [],
             data: this.props.data

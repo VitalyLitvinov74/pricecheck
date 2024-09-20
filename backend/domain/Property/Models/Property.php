@@ -5,7 +5,6 @@ namespace app\domain\Property\Models;
 use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
-use MongoDB\BSON\ObjectId;
 
 #[DomainModel]
 class Property
