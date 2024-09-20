@@ -20,7 +20,7 @@ export default class PropertiesTable extends Component<any, any> {
             type: "striing",
         };
         this.setState({
-            data: [newData, ...this.props.data]
+            data: [newData, ...this.state.data]
         })
     }
 

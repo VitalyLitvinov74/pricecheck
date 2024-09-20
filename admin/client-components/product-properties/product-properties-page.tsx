@@ -4,7 +4,6 @@ import {LayoutContext} from "../layout";
 import PropertiesTable from "./properties-table";
 
 export default class ProductPropertiesPage extends React.Component<any, any> {
-
     private tableRef;
     constructor(props) {
         super(props);
@@ -13,7 +12,7 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
         this.state = {
             rowsAdded: 0
         }
-        this.tableRef = React.createRef();
+        this.tableRef = React.createRef<typeof PropertiesTable>();
     }
 
     componentDidMount() {
@@ -29,7 +28,7 @@ export default class ProductPropertiesPage extends React.Component<any, any> {
     }
 
     addTableRow(){
-       console.log(this.tableRef.current.addNewRow())
+        this.tableRef.current.addNewRow()
     }
 
 
