@@ -14,7 +14,7 @@ export const loadProperties = async function(){
     return data.json();
 }
 
-export const availableProps = async function(){
+export const availableTypes = async function(){
     const url = `${process.env.URL}/properties/available-types`;
     const data = await fetch(url, {
         next: {

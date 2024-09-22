@@ -1,6 +1,6 @@
 'use client'
 import React, {useContext} from "react";
-import {LayoutContext} from "../layout";
+import {LayoutContext} from "./client-layout";
 
 export default class Breadcrumbs extends React.Component<any, any> {
     constructor(props) {

@@ -1,56 +1,59 @@
 import {Metadata} from "next";
 import Link from "next/link";
-import Layout from "../client-components/layout";
-import React from "react";
+import Breadcrumbs from "./breadcrumbs";
+import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {};
 
-export default function RootLayout({children,}: {
+
+
+export default async function RootLayout({children,}: {
     children: React.ReactNode
 }) {
     return (
         <html lang="ru">
         <head>
-            <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
-            <link href= "/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
-            <link href= "/assets/css/bootstrap.min.css" rel="stylesheet" />
-            <link href= "/assets/css/icons.css" rel="stylesheet" />
-            <link href= "/assets/css/flag-icon.min.css" rel="stylesheet" />
-            <link href= "/assets/css/style.css" rel="stylesheet" />
+            <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
+            <link href="/assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>
+            <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="/assets/css/icons.css" rel="stylesheet"/>
+            <link href="/assets/css/flag-icon.min.css" rel="stylesheet"/>
+            <link href="/assets/css/style.css" rel="stylesheet"/>
         </head>
         <body className="horizontal-layout">
 
         <div id="containerbar" className="container-fluid">
             <div className="rightbar">
-                
+
                 <div className="topbar-mobile">
                     <div className="row align-items-center">
                         <div className="col-md-12">
                             <div className="mobile-logobar">
                                 <a className="mobile-logo">
-                                    <img src="/assets/images/logo.svg" className="img-fluid" alt="logo" />
+                                    <img src="/assets/images/logo.svg" className="img-fluid" alt="logo"/>
                                 </a>
                             </div>
                             <div className="mobile-togglebar">
                                 <ul className="list-inline mb-0">
                                     <li className="list-inline-item">
                                         <div className="topbar-toggle-icon">
-                                            <a className="topbar-toggle-hamburger" >
+                                            <a className="topbar-toggle-hamburger">
                                                 <img src="/assets/images/svg-icon/horizontal.svg"
-                                                     className="img-fluid menu-hamburger-horizontal" alt="horizontal" />
-                                                    <img src="/assets/images/svg-icon/verticle.svg"
-                                                         className="img-fluid menu-hamburger-vertical" alt="verticle" />
+                                                     className="img-fluid menu-hamburger-horizontal" alt="horizontal"/>
+                                                <img src="/assets/images/svg-icon/verticle.svg"
+                                                     className="img-fluid menu-hamburger-vertical" alt="verticle"/>
                                             </a>
                                         </div>
                                     </li>
                                     <li className="list-inline-item">
                                         <div className="menubar">
-                                            <a className="menu-hamburger navbar-toggle bg-transparent" data-toggle="collapse"
+                                            <a className="menu-hamburger navbar-toggle bg-transparent"
+                                               data-toggle="collapse"
                                                data-target="#navbar-menu" aria-expanded="true">
                                                 <img src="/assets/images/svg-icon/collapse.svg"
-                                                     className="img-fluid menu-hamburger-collapse" alt="collapse" />
-                                                    <img src="/assets/images/svg-icon/close.svg"
-                                                         className="img-fluid menu-hamburger-close" alt="close" />
+                                                     className="img-fluid menu-hamburger-collapse" alt="collapse"/>
+                                                <img src="/assets/images/svg-icon/close.svg"
+                                                     className="img-fluid menu-hamburger-close" alt="close"/>
                                             </a>
                                         </div>
                                     </li>
@@ -59,20 +62,21 @@ export default function RootLayout({children,}: {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="topbar">
-                    
+
                     <div className="container-fluid">
-                        
+
                         <div className="row align-items-center">
-                            
+
                             <div className="col-md-12 align-self-center">
                                 <div className="togglebar">
                                     <ul className="list-inline mb-0">
                                         <li className="list-inline-item">
                                             <div className="logobar">
                                                 <a className="logo logo-large">
-                                                    <img src="/assets/images/logo.svg" className="img-fluid" alt="logo" />
+                                                    <img src="/assets/images/logo.svg" className="img-fluid"
+                                                         alt="logo"/>
                                                 </a>
                                             </div>
                                         </li>
@@ -82,15 +86,15 @@ export default function RootLayout({children,}: {
                                                     <div className="input-group">
                                                         <input type="search" className="form-control"
                                                                placeholder="Search" aria-label="Search"
-                                                               aria-describedby="button-addon2" />
-                                                            <div className="input-group-append">
-                                                                <button className="btn" type="submit"
-                                                                        id="button-addon2">
-                                                                    <img
+                                                               aria-describedby="button-addon2"/>
+                                                        <div className="input-group-append">
+                                                            <button className="btn" type="submit"
+                                                                    id="button-addon2">
+                                                                <img
                                                                     src="/assets/images/svg-icon/search.svg"
-                                                                    className="img-fluid" alt="search" />
-                                                                </button>
-                                                            </div>
+                                                                    className="img-fluid" alt="search"/>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
@@ -103,8 +107,9 @@ export default function RootLayout({children,}: {
                                             <div className="settingbar">
                                                 <a id="infobar-settings-open"
                                                    className="infobar-icon">
-                                                    <img src="/assets/images/svg-icon/settings.svg" className="img-fluid"
-                                                         alt="settings" />
+                                                    <img src="/assets/images/svg-icon/settings.svg"
+                                                         className="img-fluid"
+                                                         alt="settings"/>
                                                 </a>
                                             </div>
                                         </li>
@@ -115,8 +120,8 @@ export default function RootLayout({children,}: {
                                                        id="notoficationlink" data-toggle="dropdown" aria-haspopup="true"
                                                        aria-expanded="false"><img
                                                         src="/assets/images/svg-icon/notifications.svg"
-                                                        className="img-fluid" alt="notifications" />
-                                                        <span className="live-icon" />
+                                                        className="img-fluid" alt="notifications"/>
+                                                        <span className="live-icon"/>
                                                     </a>
                                                     <div className="dropdown-menu dropdown-menu-right"
                                                          aria-labelledby="notoficationlink">
@@ -203,7 +208,7 @@ export default function RootLayout({children,}: {
                                                        id="profilelink" data-toggle="dropdown" aria-haspopup="true"
                                                        aria-expanded="false"><img src="/assets/images/users/profile.svg"
                                                                                   className="img-fluid"
-                                                                                  alt="profile" /><span
+                                                                                  alt="profile"/><span
                                                         className="feather icon-chevron-down live-icon"></span></a>
                                                     <div className="dropdown-menu dropdown-menu-right"
                                                          aria-labelledby="profilelink">
@@ -217,17 +222,17 @@ export default function RootLayout({children,}: {
                                                                 <li className="media dropdown-item">
                                                                     <a href="#" className="profile-icon"><img
                                                                         src="/assets/images/svg-icon/user.svg"
-                                                                        className="img-fluid" alt="user" />My Profile</a>
+                                                                        className="img-fluid" alt="user"/>My Profile</a>
                                                                 </li>
                                                                 <li className="media dropdown-item">
                                                                     <a href="#" className="profile-icon"><img
                                                                         src="/assets/images/svg-icon/email.svg"
-                                                                        className="img-fluid" alt="email" />Email</a>
+                                                                        className="img-fluid" alt="email"/>Email</a>
                                                                 </li>
                                                                 <li className="media dropdown-item">
                                                                     <a href="#" className="profile-icon"><img
                                                                         src="/assets/images/svg-icon/logout.svg"
-                                                                        className="img-fluid" alt="logout" />Logout</a>
+                                                                        className="img-fluid" alt="logout"/>Logout</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -241,27 +246,27 @@ export default function RootLayout({children,}: {
                                                    data-toggle="collapse"
                                                    data-target="#navbar-menu" aria-expanded="true">
                                                     <img src="/assets/images/svg-icon/collapse.svg"
-                                                         className="img-fluid menu-hamburger-collapse" alt="collapse" />
-                                                        <img src="/assets/images/svg-icon/close.svg"
-                                                             className="img-fluid menu-hamburger-close" alt="close" />
+                                                         className="img-fluid menu-hamburger-collapse" alt="collapse"/>
+                                                    <img src="/assets/images/svg-icon/close.svg"
+                                                         className="img-fluid menu-hamburger-close" alt="close"/>
                                                 </a>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
-                
-                
+
+
                 <div className="navigationbar">
-                    
+
                     <div className="container-fluid">
-                        
+
                         <nav className="horizontal-nav mobile-navbar fixed-navbar">
                             <div className="collapse navbar-collapse active" id="navbar-menu">
                                 <ul className="horizontal-menu in">
@@ -291,11 +296,10 @@ export default function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                <Layout serverMetadata={metadata}>
-                    {children}
-                </Layout>
-
-
+                    <ClientLayout metadata={metadata}>
+                        <Breadcrumbs/>
+                        {children}
+                    </ClientLayout>
                 <div className="footerbar">
                     <footer className="footer">
                         <p className="mb-0">© 2020 Orbiter - All Rights Reserved.</p>
@@ -303,20 +307,6 @@ export default function RootLayout({children,}: {
                 </div>
             </div>
         </div>
-
-        {/*<script type="text/javascript" src="/assets/js/jquery.min.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/popper.min.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/bootstrap.min.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/modernizr.min.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/detect.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/jquery.slimscroll.js"/>*/}
-        {/*<script type="text/javascript" src="/assets/js/horizontal-menu.js"/>*/}
-        {/*<script src="/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>*/}
-        {/*<script src="/assets/plugins/bootstrap-tagsinput/typeahead.bundle.js"></script>*/}
-        {/*<script src="/assets/js/custom/custom-form-select.js"></script>*/}
-        {/*<script src="/assets/plugins/select2/select2.min.js" />*/}
-        {/*<script type="text/javascript" src="/assets/js/core.js"/>*/}
-
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/popper.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>

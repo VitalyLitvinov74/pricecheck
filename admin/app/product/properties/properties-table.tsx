@@ -1,3 +1,4 @@
+'use client'
 import React, {Component} from "react";
 import Select from "react-select";
 
@@ -208,28 +209,43 @@ export default class PropertiesTable extends Component<any, any> {
         const self = this;
         const data = this.state.data
         return (
-            <table className="table table-borderless table-hover">
-                <thead>
-                <tr>
-                    <th width="5%">ID</th>
-                    <th width="20%">Название</th>
-                    <th width="10%">Тип</th>
-                    <th width="15%">Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data.map(
-                    function (property, key) {
-                        if (self.propertyIsDraft(property)) {
-                            return self.editableRow(
-                                self.draftRowByIdItem(property.id),
-                                key
-                            )
-                        }
-                        return self.readebleRow(property, key)
-                    })}
-                </tbody>
-            </table>
+            <>
+                <div className="btn-toolbar">
+                    <div className="btn-group focus-btn-group">
+                        <button
+                            // onClick={this.addTableRow}
+                            type="button"
+                            className="btn btn-default">
+                            <span className="glyphicon glyphicon-screenshot"></span>
+                            Добавить
+                        </button>
+                    </div>
+                </div>
+                <div className="table-responsive">
+                    <table className="table table-borderless table-hover">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th width="20%">Название</th>
+                            <th width="10%">Тип</th>
+                            <th width="15%">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {data.map(
+                            function (property, key) {
+                                if (self.propertyIsDraft(property)) {
+                                    return self.editableRow(
+                                        self.draftRowByIdItem(property.id),
+                                        key
+                                    )
+                                }
+                                return self.readebleRow(property, key)
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </>
         )
     }
 }
