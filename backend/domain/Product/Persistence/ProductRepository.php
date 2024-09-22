@@ -14,7 +14,7 @@ use app\exceptions\BaseException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductAttributesRecord;
-use app\records\ProductPropertiesRecord;
+use app\records\PropertiesRecord;
 use app\records\ProductsRecords;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -48,7 +48,7 @@ class ProductRepository
                 404
             );
         }
-        $data['available_properties'] = ProductPropertiesRecord::find()->asArray()->all();
+        $data['available_properties'] = PropertiesRecord::find()->asArray()->all();
         return $this->objectMapper->map($data, Product::class);
     }
 
@@ -112,7 +112,7 @@ class ProductRepository
     public function findPropertyById($id): Property
     {
         if ($this->propertiesData === []) {
-            $this->propertiesData = ProductPropertiesRecord::find()->select(['id', 'name'])->asArray()->all();
+            $this->propertiesData = PropertiesRecord::find()->select(['id', 'name'])->asArray()->all();
         }
         foreach ($this->properties as $mappedPropertyId => $property) {
             if ((int) $mappedPropertyId === (int) $id) {
@@ -134,7 +134,7 @@ class ProductRepository
      */
     public function availableProperties(): array{
         if($this->propertiesData === []){
-            $this->propertiesData = ProductPropertiesRecord::find()->select(['id', 'name'])->asArray()->all();
+            $this->propertiesData = PropertiesRecord::find()->select(['id', 'name'])->asArray()->all();
         }
         foreach ($this->propertiesData as $propertyItem){
             $this->properties[$propertyItem['id']] =  $this->objectMapper->map($propertyItem, Property::class);

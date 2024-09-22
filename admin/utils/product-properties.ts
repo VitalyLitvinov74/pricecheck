@@ -5,7 +5,7 @@ export const preload = function (){
 }
 /** @type {Array.<object>}*/
 export const loadProperties = async function(){
-    const url = `${process.env.URL}/product/all-properties-list`;
+    const url = `${process.env.URL}/properties/list`;
     const data = await fetch(url, {
         next: {
             revalidate: 0
@@ -15,7 +15,7 @@ export const loadProperties = async function(){
 }
 
 export const availableProps = async function(){
-    const url = `${process.env.URL}/product-property/available`;
+    const url = `${process.env.URL}/properties/available-types`;
     const data = await fetch(url, {
         next: {
             revalidate: 0

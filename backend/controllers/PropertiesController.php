@@ -9,14 +9,14 @@ use app\forms\ParsingSchemaForm;
 use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
 use app\forms\Scenarious;
+use app\records\PropertiesRecord;
 use Yii;
 use yii\db\Exception;
 use yii\filters\VerbFilter;
 
-class ProductPropertyController extends BaseApiController
+class PropertiesController extends BaseApiController
 {
     private ProductPropertyService $service;
-    private ParsingSchemaService $parsingSchemaService;
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
@@ -32,11 +32,10 @@ class ProductPropertyController extends BaseApiController
     public function init(): void
     {
         $this->service = new ProductPropertyService();
-        $this->parsingSchemaService = new ParsingSchemaService();
         parent::init();
     }
 
-    public function actionCreateList(): array
+    public function actionCreate(): array
     {
         $productTypeForm = new ProductsPropertiesForm();
         $productTypeForm->load($this->request->post());
@@ -52,7 +51,7 @@ class ProductPropertyController extends BaseApiController
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
     }
 
-    public function actionAvailable(){
+    public function actionAvailableTypes(){
         return $this->jsonApi->addBody([
             Type::Float->value,
             Type::String->value,
@@ -60,41 +59,6 @@ class ProductPropertyController extends BaseApiController
             Type::Int->value,
         ])
             ->setupCode(200)
-            ->asArray();
-    }
-
-    public function actionAddParsingSchema(): array{
-        $schemaForm = new ParsingSchemaForm();
-        $schemaForm->load($this->request->post());
-        if($schemaForm->validate()){
-            $this->parsingSchemaService->create(
-                $schemaForm->categoryId,
-                $schemaForm->name,
-                $schemaForm->startWithRowNum,
-                $schemaForm->map,
-
-            );
-            return $this->jsonApi->asArray();
-        }
-        return $this->jsonApi
-            ->addModelErrors($schemaForm)
-            ->asArray();
-    }
-
-    public function actionUpdateParsingSchema(): array{
-        $schemaForm = new ParsingSchemaForm();
-        $schemaForm->load($this->request->post());
-        if($schemaForm->validate()){
-            $this->parsingSchemaService->update(
-                $schemaForm->categoryId,
-                $schemaForm->name,
-                $schemaForm->startWithRowNum,
-                $schemaForm->map,
-            );
-            return $this->jsonApi->asArray();
-        }
-        return $this->jsonApi
-            ->addModelErrors($schemaForm)
             ->asArray();
     }
 
@@ -113,5 +77,16 @@ class ProductPropertyController extends BaseApiController
 
         }
         return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
+    }
+
+    public function actionList(){
+        return $this->jsonApi
+            ->setupCode(200)
+            ->addBody(
+                PropertiesRecord::find()
+                    ->asArray()
+                    ->all()
+            )
+            ->asArray();
     }
 }

@@ -4,7 +4,7 @@ namespace app\records;
 
 use yii\db\ActiveRecord;
 
-class ProductPropertiesRecord extends ActiveRecord
+class PropertiesRecord extends ActiveRecord
 {
     public static function tableName(): string
     {

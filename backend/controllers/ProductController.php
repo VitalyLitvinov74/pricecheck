@@ -7,25 +7,20 @@ use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
-use app\records\ProductPropertiesRecord;
+use app\records\PropertiesRecord;
 use Throwable;
 use Yii;
 
 class ProductController extends BaseApiController
 {
     private ProductsService $service;
-    private ParsingSchemaService $parsingSchemaService;
 
     public function init(): void
     {
         parent::init();
         $this->service = new ProductsService();
-        $this->parsingSchemaService = new ParsingSchemaService();
     }
 
-    /**
-     * @return string
-     */
     public function actionCreate(): array
     {
         $form = new ProductForm();
@@ -50,17 +45,5 @@ class ProductController extends BaseApiController
             }
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionAllPropertiesList(): array
-    {
-        return $this->jsonApi
-            ->setupCode(200)
-            ->addBody(
-                ProductPropertiesRecord::find()
-                    ->asArray()
-                    ->all()
-            )
-            ->asArray();
     }
 }
