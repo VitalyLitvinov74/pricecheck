@@ -1,5 +1,5 @@
 import {metadata} from "../layout";
-import ProductsTable from "./products-table";
+import ProductTable from "./product-table";
 export default function Products(){
     metadata.title= "Список товаров"
     return (
@@ -8,7 +8,7 @@ export default function Products(){
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            {/*<ProductsTable metadata={metadata}/>*/}
+                            <ProductTable/>
                         </div>
                     </div>
                 </div>
