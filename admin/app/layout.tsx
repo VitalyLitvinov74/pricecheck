@@ -1,7 +1,6 @@
 import {Metadata} from "next";
 import Link from "next/link";
 import Breadcrumbs from "./breadcrumbs";
-import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {};
 
@@ -296,9 +295,8 @@ export default async function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                    <ClientLayout metadata={metadata}>
-                        {children}
-                    </ClientLayout>
+                <Breadcrumbs titlee={metadata.title}/>
+                {children}
                 <div className="footerbar">
                     <footer className="footer">
                         <p className="mb-0">© 2020 Orbiter - All Rights Reserved.</p>
