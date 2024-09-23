@@ -1,7 +1,18 @@
 'use client'
 import {Component} from "react";
+import {LayoutContext} from "../client-layout";
 
 export default class ProductsTable  extends Component<any, any> {
+    static contextType = LayoutContext;
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.context.breadcrumbs.current.changeTitleTo(this.props.metadata.title)
+    }
+
     render(){
         return (
             <div className="table-responsive">

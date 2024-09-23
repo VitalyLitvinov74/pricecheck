@@ -1,8 +1,16 @@
 'use client'
 import React, {Component} from "react";
 import Select from "react-select";
+import {LayoutContext} from "../../client-layout";
 
 export default class PropertiesTable extends Component<any, any> {
+
+    static contextType = LayoutContext;
+
+    componentDidMount() {
+        this.context.breadcrumbs.current.changeTitleTo(this.props.metadata.title)
+    }
+
     constructor(props) {
         super(props);
         this.state = {

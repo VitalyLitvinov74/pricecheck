@@ -30,6 +30,7 @@ export default async function ProductProperties() {
                             <div className="card-body">
                                     <PropertiesTable data={properties}
                                                      availableTypes={types}
+                                                     metadata={metadata}
                                     />
                             </div>
                         </div>

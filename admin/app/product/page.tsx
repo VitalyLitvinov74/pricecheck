@@ -8,7 +8,7 @@ export default function Products(){
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <ProductsTable />
+                            <ProductsTable metadata={metadata}/>
                         </div>
                     </div>
                 </div>

@@ -297,7 +297,6 @@ export default async function RootLayout({children,}: {
                     </div>
                 </div>
                     <ClientLayout metadata={metadata}>
-                        <Breadcrumbs/>
                         {children}
                     </ClientLayout>
                 <div className="footerbar">
