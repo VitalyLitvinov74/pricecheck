@@ -3,26 +3,20 @@ import React, {useState} from "react";
 import Select from "react-select";
 
 export default function PropertiesTable({datas, availableTypes}) {
-
-    const [draftedRows, addDraftRow] = useState([])
+    datas = datas.map(function (item) {
+        item.transactionData = {};
+        item.isEditable = false;
+        return item;
+    })
     const [data, changeData] = useState(datas)
 
-    function propertyIsDraft(item)
-    {
-        const result = draftedRows.find(
-            function (activeItem) {
-                return activeItem.id === item.id
-            }
-        )
-        return result === undefined ? false : true;
-    }
-
-    function removeRow(item)
-    {
-        changeData(data.filter(function (oldProp) {
-            return oldProp.id !== item.id
+    function removeRow(itemForRemove) {
+        changeData(data.filter(function (item) {
+            return itemForRemove.id !== item.id
         }))
-
+        if (itemForRemove.id === null) {
+            return;
+        }
         // const url = `http://api.pricecheck.my:82/product-property/remove`;
         // let status = 0;
         // fetch(url, {
@@ -38,28 +32,60 @@ export default function PropertiesTable({datas, availableTypes}) {
         // })
     }
 
-    function update(item)
-    {
-        if(propertyIsDraft(item)){
+    function update(updatingItem) {
+        if (updatingItem.isEditable) {
             return;
         }
-        addDraftRow([item, ...draftedRows])
+        const result = [];
+        data.forEach(function (item) {
+            if (item.id === updatingItem.id) {
+                result.push({
+                    ...item, ...{
+                        isEditable: true,
+                        transactionData: {
+                            name: updatingItem.name,
+                            type: updatingItem.type
+                        }
+                    }
+                })
+                return;
+            }
+            result.push(item)
+        })
+        changeData(result)
     }
 
-    function editableRow(item, key)
-    {
+    function rollback(currentItem) {
+        changeData(data
+            .map(function (item) {
+                if (item.id === currentItem.id) {
+                    item.transactionData = {}
+                    item.isEditable = false;
+                }
+                return item;
+            })
+            .filter(function (item) {
+                if(currentItem.id === parseInt(currentItem.id)){
+                    return true; //Оставляем только прежде добавленные
+                }
+                return currentItem.id !== item.id;
+            })
+        )
+    }
+
+    function editableRow(item) {
         return (
-            <tr key={key}>
+            <tr key={item.id}>
                 <td className="tabledit-edit-mode"><input
                     className="tabledit-input form-control input-sm" type="text"
-                    readOnly={true} value={item.id}/></td>
+                    readOnly={true} value={item.id === parseInt(item.id) ? '#' + item.id : '##'}/></td>
                 <td className="tabledit-edit-mode">
                     <input
                         className="tabledit-input form-control input-sm"
                         type="text"
                         name="name"
                         onBlur={function (elem) {
-                            item.name = elem.target.value
+                            item.transactionData.name = elem.target.value
                         }}
                         defaultValue={item.name}
                     />
@@ -72,7 +98,7 @@ export default function PropertiesTable({datas, availableTypes}) {
                         }}
                         onChange={
                             function (option) {
-                                item.type = option.value
+                                item.transactionData.type = option.value
                             }
                         }
                     >
@@ -80,8 +106,14 @@ export default function PropertiesTable({datas, availableTypes}) {
                 </td>
                 <td>
                     <div className="button-list">
-                        <button type={"submit"} onClick={() => commitRow(item)} className="btn btn-primary-rgba">
+                        <button type={"submit"} onClick={() => commit(item)} className="btn btn-primary-rgba">
                             <i className="feather icon-save"></i>
+                        </button>
+                        <button type={"submit"} onClick={() => rollback(item)} className="btn btn-danger-rgba">
+                            <i className={item.id === parseInt(item.id)
+                                ? "feather icon-slash"
+                                : "feather icon-trash"}>
+                            </i>
                         </button>
                     </div>
                 </td>
@@ -89,11 +121,11 @@ export default function PropertiesTable({datas, availableTypes}) {
         );
     }
 
-    function readebleRow(item, key)
-    {
+    function readebleRow(item) {
         return (
-            <tr key={key}>
-                <td>#{item.id ? item.id : '#'}</td>
+            <tr key={item.id}>
+                {/*Если строка то это новый айтем*/}
+                <td>#{item.id === parseInt(item.id) ? item.id : '#'}</td>
                 <td>{item.name}</td>
                 <td>
                     <span className="badge badge-secondary-inverse mr-2">
@@ -122,16 +154,21 @@ export default function PropertiesTable({datas, availableTypes}) {
         )
     }
 
-    function addNewRow () {
+    function addNewRow() {
         const newData = {
+            id: "_" + Date.now(),
             name: "Тест",
-            type: "striing",
+            type: availableTypes[0],
+            isEditable: true,
+            transactionData: {
+                name: "Тест",
+                type: availableTypes[0],
+            }
         };
-        changeData([newData, ...data])
+        changeData([newData, ...data]);
     }
 
-    function options()
-    {
+    function options() {
         let options: any;
         options = availableTypes.map(function (type, key) {
             return {value: type, label: type}
@@ -139,60 +176,38 @@ export default function PropertiesTable({datas, availableTypes}) {
         return options;
     }
 
-    function optionByName(name)
-    {
+    function optionByName(name) {
         return options().find(function (option) {
             return option.value === name;
         })
     }
 
-    function test()
-    {
-        console.log('hello')
-    }
-
-    function draftRowByIdItem(id)
-    {
-        return draftedRows.find(
-            function (draftRow) {
-                return draftRow.id === id
+    function commit(updatedItem) {
+        const list = [];
+        data.map(function(item){
+            if (item.id === updatedItem.id) {
+                item.name = updatedItem.transactionData.name;
+                item.type = updatedItem.transactionData.type;
+                item.transactionData = {};
+                item.isEditable = false
             }
-        )
-    }
-
-    function commitRow(draftItem)
-    {
-        const draftRows = this.state.draftRows;
-        let keyForRemoveRow = null;
-        draftRows.forEach(function (draftRow, key) {
-            if (draftRow.id === draftItem.id) {
-                keyForRemoveRow = key;
-            }
+            list.push(item)
         })
-        draftRows.splice(keyForRemoveRow, 1)
-        this.setState({
-            draftRows: draftRows
-        })
-        this.props.data.forEach(function (property) {
-            if (property.id === draftItem.id) {
-                property.name = draftItem.name;
-                property.type = draftItem.type;
-            }
-        })
-        let status = 0;
-        const url = `http://api.pricecheck.my:82/product-property/create-list`;
-        fetch(url, {
-            body: JSON.stringify({
-                properties: [draftItem]
-            }),
-            headers: {
-                'content-type': "application/json"
-            },
-            method: "post",
-        }).then(function (result) {
-            status = result.status;
-        })
-        this.setState({data: this.props.data})
+        changeData(list)
+        // let status = 0;
+        // const url = `http://api.pricecheck.my:82/properties/create`;
+        // fetch(url, {
+        //     body: JSON.stringify({
+        //         properties: [draftItem]
+        //     }),
+        //     headers: {
+        //         'content-type': "application/json"
+        //     },
+        //     method: "post",
+        // }).then(function (result) {
+        //     status = result.status;
+        // })
+        // this.setState({data: this.props.data})
     }
 
     return (
@@ -220,14 +235,11 @@ export default function PropertiesTable({datas, availableTypes}) {
                     </thead>
                     <tbody>
                     {data.map(
-                        function (property, key) {
-                            if (propertyIsDraft(property)) {
-                                return editableRow(
-                                    draftRowByIdItem(property.id),
-                                    key
-                                )
+                        function (property) {
+                            if (property.isEditable) {
+                                return editableRow(property)
                             }
-                            return readebleRow(property, key)
+                            return readebleRow(property)
                         })}
                     </tbody>
                 </table>

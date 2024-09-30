@@ -84,6 +84,7 @@ class PropertiesController extends BaseApiController
             ->setupCode(200)
             ->addBody(
                 PropertiesRecord::find()
+                    ->orderBy('id DESC')
                     ->asArray()
                     ->all()
             )
