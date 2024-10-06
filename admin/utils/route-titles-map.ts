@@ -1,10 +1,13 @@
 export const titleByPath = function(path){
     let title = '';
     switch (path){
-        case '/product':
+        case '/products':
             title = 'Список товаров';
             break
-        case '/product/properties':
+        case '/products/new':
+            title = 'Создать новый товар';
+            break
+        case '/products/properties':
             title = "Свойства товаров"
             break;
     }

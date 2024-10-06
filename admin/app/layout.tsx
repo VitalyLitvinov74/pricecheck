@@ -275,18 +275,18 @@ export default async function RootLayout({children,}: {
                                             alt="apps"/><span>Товары</span></a>
                                         <ul className="dropdown-menu animated">
                                             <li>
-                                                <Link href="/product">Список товаров</Link>
+                                                <Link href="/products">Список товаров</Link>
                                             </li>
                                             <li>
-                                                <Link href="/product/properties">
+                                                <Link href="/products/properties">
                                                     Свойства
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/product/properties">Импорт</Link>
+                                                <Link href="/products/properties">Импорт</Link>
                                             </li>
                                             <li>
-                                                <Link href="/product/properties">Схемы парсинга</Link>
+                                                <Link href="/products/properties">Схемы парсинга</Link>
                                             </li>
                                         </ul>
                                     </li>
