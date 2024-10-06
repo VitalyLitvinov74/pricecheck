@@ -2,7 +2,16 @@
 import Select from "react-select";
 import React from "react";
 
-export default function Form() {
+export default function Form({properties}) {
+
+    function options() {
+        let options: any;
+        options = properties.map(function (property, key) {
+            return {value: property.id, label: property.name}
+        });
+        return options;
+    }
+
     return (
         <div>
             <div className="row">
@@ -27,7 +36,8 @@ export default function Form() {
                 <div className="col-md-3">
                     <Select
                         id="validationServer04"
-                        options={[]}
+                        options={options()}
+                        defaultValue={options()[0]}
                     >
                     </Select>
                 </div>
@@ -37,7 +47,14 @@ export default function Form() {
                 </div>
             </div>
             <div className="row mt-2">
-                <div className="col-md-9"></div>
+                <div className="col-md-9">
+                    <button type="button" className="btn btn-success-rgba mr-2"><i
+                        className="feather icon-plus mr-2"></i> Создать
+                    </button>
+                    <button type="button" className="btn btn-secondary-rgba mr-2"><i
+                        className="feather icon-save mr-2"></i> Сохранить как шаблон
+                    </button>
+                </div>
                 <div className="col-md-1">
                     <button type="button" className="btn btn-round btn-success-rgba"><i className="feather icon-plus"></i></button>
                 </div>
