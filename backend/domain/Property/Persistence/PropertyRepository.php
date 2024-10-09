@@ -35,7 +35,9 @@ class PropertyRepository
             ->upsertManyRecords($insertData);
         $actualIds = [];
         foreach ($data['collection'] as $property){
-            $actualIds[] = $property['id'];
+            if($property['id']){
+                $actualIds[] = $property['id'];
+            }
         }
         PropertiesRecord::deleteAll(['not in', 'id', $actualIds]);
     }

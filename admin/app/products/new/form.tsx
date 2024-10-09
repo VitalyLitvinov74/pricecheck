@@ -7,10 +7,11 @@ export default function Form({properties}) {
     const [attributes, changeAttributes] = useState([defaultAttribute()])
 
     function defaultAttribute(){
+        console.log(options())
         return {
             value: '',
-            name: options()[0].label,
-            propertyId: options()[0].value
+            name: 'options()[0].label',
+            propertyId: 'options()[0].value'
         }
     }
 
