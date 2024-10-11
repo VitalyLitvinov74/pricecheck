@@ -1,47 +1,87 @@
 "use client"
 import Select from "react-select";
 import React, {useState} from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Form({properties}) {
 
-    const [attributes, changeAttributes] = useState([defaultAttribute()])
+    const [attributes, changeAttributes] = useState([])
+    const [addButtonDisabled, disableAddButton] = useState(false)
 
-    function defaultAttribute(){
-        console.log(options())
+    function defaultAttribute() {
         return {
-            value: '',
-            name: 'options()[0].label',
-            propertyId: 'options()[0].value'
+            id: uuidv4(),
+            name: optionsFor()[0].label,
+            propertyId: optionsFor()[0].value,
+            value: null
         }
     }
 
-    function options() {
+    function optionsFor(attribute = null) {
         let options: any;
-        options = properties.map(function (property, key) {
-            return {value: property.id, label: property.name}
+        options = properties
+            .filter(function(property){
+                let needShow = true
+                attributes.forEach(function(createdAttribute){
+                    if(createdAttribute.propertyId === property.id){
+                        needShow = false
+                    }
+                })
+                return needShow
+            })
+            .map(function (property, key) {
+            return {
+                value: property.id,
+                label: property.name
+            }
         });
+        if(attribute !== null){
+            options = [{
+                value: attribute.propertyId,
+                label: attribute.name
+            }, ...options]
+        }
         return options;
     }
 
     function add(){
+        if(optionsFor(null).length === 0){
+            disableAddButton(true);
+            return;
+        }
         changeAttributes([defaultAttribute(), ...attributes])
     }
 
     function remove(attribute){
-        changeAttributes(attributes.filter(function(validateAttribute){
-            if(validateAttribute.propertyId === attribute.propertyId){
-                return false;
-            }
-            return true;
+        changeAttributes(
+            attributes.filter(function(validateAttribute){
+            return validateAttribute.id !== attribute.id;
         }))
+
+        if(optionsFor(attribute).length > 0){
+            disableAddButton(false);
+            return;
+        }
+    }
+
+    function attributeChangedOn(attribute, option){
+        const newAttributes = attributes.slice()
+        newAttributes.forEach(function(newAttribute){
+            if(attribute.propertyId === newAttribute.propertyId){
+                newAttribute.name = option.label
+                newAttribute.propertyId = option.value
+                newAttribute.value = attribute.value
+            }
+        })
+        changeAttributes(newAttributes)
     }
 
     function attributeInput(attribute){
         return (
-            <>
+            <div key={attribute.id}>
                 <div className="row mt-4">
                     <div className="col-md-6">
-                        <label htmlFor="validationServer03">{attribute.name}</label>
+                        <label htmlFor={attribute.id}>{attribute.name}</label>
 
                         {/*<div className="invalid-feedback">*/}
                         {/*    Please provide a valid city.*/}
@@ -55,13 +95,13 @@ export default function Form({properties}) {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <input type="text" className="form-control is-invalid" id="validationServer03" required=""/>
+                        <input type="text" className="form-control is-invalid" id={attribute.id} required=""/>
                     </div>
                     <div className="col-md-3">
                         <Select
-                            id="validationServer04"
-                            options={options()}
-                            defaultValue={options()[0]}
+                            defaultValue={optionsFor(attribute)[0]}
+                            options={optionsFor()}
+                            onChange={(option)=>attributeChangedOn(attribute, option)}
                         >
                         </Select>
                     </div>
@@ -75,7 +115,7 @@ export default function Form({properties}) {
                         </button>
                     </div>
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -86,6 +126,7 @@ export default function Form({properties}) {
                     <button
                         type="button"
                         className="btn btn-default mr-2"
+                        disabled={addButtonDisabled}
                         onClick={add}
                     >
                         <span className="glyphicon glyphicon-screenshot"></span>
