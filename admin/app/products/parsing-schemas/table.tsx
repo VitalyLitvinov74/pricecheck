@@ -1,8 +1,11 @@
-
-"use-client"
+"use client"
+import Link from "next/link";
 import React from "react";
 
 export default function Table({}) {
+    function remove(id){
+        console.log('send request to remove')
+    }
     return (
         <>
             <div className="table-responsive">
@@ -18,10 +21,13 @@ export default function Table({}) {
                         <th scope="row">#1</th>
                         <td>
                             <div className="button-list">
-                                <a href="#" className="btn btn-success-rgba"><i
-                                    className="feather icon-edit-2"></i></a>
-                                <a href="#" className="btn btn-danger-rgba"><i
-                                    className="feather icon-trash"></i></a>
+                                <Link href="/products/parsing-schemas/update" className="btn btn-success-rgba">
+                                    <i className="feather icon-edit-2"></i>
+                                </Link>
+                                <button onClick={ () => remove(2) }
+                                        className="btn btn-danger-rgba">
+                                    <i className="feather icon-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>

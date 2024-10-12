@@ -4,7 +4,7 @@ namespace app\domain\ParseDocument\Persistance;
 
 use app\domain\ParseDocument\Models\MappingSchema;
 use app\libs\ObjectMapper\ObjectMapper;
-use app\records\ParsingSchemaRecord;
+use app\records\ParsingSchemasRecord;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 
@@ -16,7 +16,7 @@ class MappingSchemasRepository
 
     public function findBy(string $parsingSchemaId): MappingSchema
     {
-        $data = ParsingSchemaRecord::find()
+        $data = ParsingSchemasRecord::find()
             ->where(['id'=>$parsingSchemaId])
             ->with([
                 'parsingSchemaProperties'=>function(ActiveQuery $query){

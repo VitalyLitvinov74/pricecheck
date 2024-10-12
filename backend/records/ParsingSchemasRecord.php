@@ -4,7 +4,10 @@ namespace app\records;
 
 use yii\db\ActiveRecord;
 
-class ParsingSchemaRecord extends ActiveRecord
+/**
+ * @property ParsingSchemaPropertiesRecord parsingSchemaProperties
+ */
+class ParsingSchemasRecord extends ActiveRecord
 {
     public static function tableName(): string
     {

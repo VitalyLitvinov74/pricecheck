@@ -1,9 +1,11 @@
 import {metadata} from "../../layout";
 import Table from "./table";
 import Toolbar from "./toolbar";
+import {loadParsingSchemas} from "../../../utils/product-properties";
 
 export default function ParsingSchemas(){
     metadata.title= "Схемы парсинга"
+    const parsingSchemas = loadParsingSchemas();
     return (
         <div className="contentbar">
             <div className="row">
@@ -11,7 +13,7 @@ export default function ParsingSchemas(){
                     <div className="card m-b-30">
                         <div className="card-body">
                             <Toolbar></Toolbar>
-                            <Table></Table>
+                            <Table parsingSchemas={parsingSchemas}></Table>
                         </div>
                     </div>
                 </div>

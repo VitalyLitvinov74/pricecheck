@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
+use app\records\ParsingSchemasRecord;
 use Yii;
 
 class ParsingSchemaController extends BaseApiController
@@ -20,7 +21,7 @@ class ParsingSchemaController extends BaseApiController
     {
         $form = new ParsingSchemaForm();
         $form->load(Yii::$app->request->post());
-        if($form->validate()){
+        if ($form->validate()) {
             $this->service->create(
                 $form->name,
                 $form->startWithRowNum,
@@ -29,5 +30,17 @@ class ParsingSchemaController extends BaseApiController
             return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
+    }
+
+    public function actionIndex()
+    {
+        return $this->jsonApi
+            ->addBody(
+                ParsingSchemasRecord::find()
+                    ->with(['parsingSchemaProperties'])
+                    ->asArray()
+                    ->all()
+            )
+            ->asArray();
     }
 }

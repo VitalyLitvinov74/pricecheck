@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Select from "react-select";
 import {v4 as uuidv4} from "uuid";
 
-export default function NewParsingSchemaForm({properties, exitedSchemaItems}) {
+export default function ParsingSchemaForm({properties, exitedSchemaItems}) {
     exitedSchemaItems = exitedSchemaItems.map(
         function (item) {
             item.transactionData = {};

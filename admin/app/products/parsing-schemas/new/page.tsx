@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {metadata} from "../../../layout";
-import NewParsingSchemaForm from "./form";
+import ParsingSchemaForm from "../form";
 import {availableTypes, loadProperties} from "../../../../utils/product-properties";
 
 export default async function NewParsingSchema() {
@@ -23,7 +23,7 @@ export default async function NewParsingSchema() {
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <NewParsingSchemaForm properties={properties}
+                            <ParsingSchemaForm properties={properties}
                                                   exitedSchemaItems={[]}
                             />
                         </div>
