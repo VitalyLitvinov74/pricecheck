@@ -2,6 +2,7 @@
 
 namespace app\records;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 class ParsingSchemaPropertiesRecord extends ActiveRecord
@@ -9,5 +10,9 @@ class ParsingSchemaPropertiesRecord extends ActiveRecord
     public static function tableName():string
     {
         return 'parsing_schema_properties';
+    }
+
+    public function getProperty(): ActiveQuery{
+        return $this->hasOne(PropertiesRecord::class,['id' => 'property_id']);
     }
 }

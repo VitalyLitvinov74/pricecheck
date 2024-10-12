@@ -4,10 +4,10 @@ namespace app\controllers;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
-use app\records\ParsingSchemasRecord;
+use app\records\ParsingSchemaRecord;
 use Yii;
 
-class ParsingSchemaController extends BaseApiController
+class ParsingSchemasController extends BaseApiController
 {
     private ParsingSchemaService $service;
 
@@ -36,8 +36,11 @@ class ParsingSchemaController extends BaseApiController
     {
         return $this->jsonApi
             ->addBody(
-                ParsingSchemasRecord::find()
-                    ->with(['parsingSchemaProperties'])
+                ParsingSchemaRecord::find()
+                    ->with([
+                        'parsingSchemaProperties',
+                        'parsingSchemaProperties.property'
+                    ])
                     ->asArray()
                     ->all()
             )

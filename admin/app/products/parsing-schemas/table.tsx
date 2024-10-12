@@ -2,7 +2,8 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Table({}) {
+export default function Table({parsingSchemas}) {
+    console.log(parsingSchemas)
     function remove(id){
         console.log('send request to remove')
     }

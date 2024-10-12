@@ -9,7 +9,7 @@ use app\domain\ParsingSchema\Persistence\Snapshots\SchemaSnapshot;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ParsingSchemaPropertiesRecord;
-use app\records\ParsingSchemasRecord;
+use app\records\ParsingSchemaRecord;
 use MongoDB\BSON\ObjectId;
 use Yii;
 
@@ -77,9 +77,9 @@ class ParsingSchemaRepository
                 'start_with_row_num' => $snapshot->startWithRowNum,
             ];
             $this->upsertBuilder
-                ->useActiveRecord(ParsingSchemasRecord::class)
+                ->useActiveRecord(ParsingSchemaRecord::class)
                 ->upsertManyRecords([$insertData]);
-            $schemaId = ParsingSchemasRecord::getDb()->getLastInsertID();
+            $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
             foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
                 $pairs[] = [
                     'id' => $relationshipPairsSnapshot->id,

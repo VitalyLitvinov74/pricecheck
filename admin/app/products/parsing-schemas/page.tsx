@@ -3,9 +3,14 @@ import Table from "./table";
 import Toolbar from "./toolbar";
 import {loadParsingSchemas} from "../../../utils/product-properties";
 
-export default function ParsingSchemas(){
+export default async function ParsingSchemas(){
     metadata.title= "Схемы парсинга"
-    const parsingSchemas = loadParsingSchemas();
+    let parsingSchemas = [];
+    await loadParsingSchemas().then(
+        function (data) {
+            parsingSchemas = data;
+        }
+    );
     return (
         <div className="contentbar">
             <div className="row">
