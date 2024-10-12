@@ -10,6 +10,8 @@ export const titleByPath = function(path){
         case '/products/properties':
             title = "Свойства товаров"
             break;
+        case '/products/parsing-schemas':
+            title = "Схемы парсинга"
     }
     return title;
 }

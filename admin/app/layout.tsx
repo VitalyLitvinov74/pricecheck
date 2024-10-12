@@ -286,7 +286,7 @@ export default async function RootLayout({children,}: {
                                                 <Link href="/products/properties">Импорт</Link>
                                             </li>
                                             <li>
-                                                <Link href="/products/properties">Схемы парсинга</Link>
+                                                <Link href="/products/parsing-schemas">Схемы парсинга</Link>
                                             </li>
                                         </ul>
                                     </li>
