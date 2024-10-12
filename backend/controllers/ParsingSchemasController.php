@@ -46,4 +46,26 @@ class ParsingSchemasController extends BaseApiController
             )
             ->asArray();
     }
+
+    public function actionView(int $id){
+        $schema = ParsingSchemaRecord::find()
+            ->with([
+                'parsingSchemaProperties',
+                'parsingSchemaProperties.property'
+            ])
+            ->where(['id'=>$id])
+            ->asArray()
+            ->one();
+
+        if($schema){
+            return $this->jsonApi
+                ->addBody($schema)
+                ->asArray();
+        }
+        return $this->jsonApi
+            ->addBody(null)
+            ->setupCode(404)
+            ->asArray();
+
+    }
 }

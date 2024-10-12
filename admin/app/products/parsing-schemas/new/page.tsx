@@ -15,15 +15,13 @@ export default async function NewParsingSchema() {
         }
     );
 
-    let types = [];
-
     return (
         <div className="contentbar">
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <ParsingSchemaForm properties={properties}
+                            <ParsingSchemaForm availableProperties={properties}
                                                   exitedSchemaItems={[]}
                             />
                         </div>

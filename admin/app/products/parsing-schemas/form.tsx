@@ -3,19 +3,20 @@ import React, {useState} from "react";
 import Select from "react-select";
 import {v4 as uuidv4} from "uuid";
 
-export default function ParsingSchemaForm({properties, exitedSchemaItems}) {
-    exitedSchemaItems = exitedSchemaItems.map(
-        function (item) {
-            item.transactionData = {};
-            item.isEditable = false;
-            return item;
-        })
-    const [data, changeData] = useState(properties)
-    const [schemaItems, changeSchemaItems] = useState(exitedSchemaItems)
+export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
+    // exitedSchemaItems = exitedSchemaItems.map(
+    //     function (item) {
+    //         item.transactionData = {};
+    //         item.isEditable = false;
+    //         return item;
+    //     })
+    const existedSchemaItems = [];
+    const [data, changeData] = useState(availableProperties)
+    const [schemaItems, changeSchemaItems] = useState(existedSchemaItems)
 
     function optionsFor(schemaItem = null) {
         let options: any;
-        options = properties
+        options = availableProperties
             .filter(function (property) {
                 let needShow = true
                 schemaItems.forEach(function (createdAttribute) {
@@ -186,29 +187,29 @@ export default function ParsingSchemaForm({properties, exitedSchemaItems}) {
 
     return (
         <>
-            <div class="card-body">
-                <button type="button" class="btn btn-success mr-2"><i class="feather icon-save mr-2"></i> Сохранить
+            <div className="card-body">
+                <button type="button" className="btn btn-success mr-2"><i className="feather icon-save mr-2"></i> Сохранить
                 </button>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <h6 class="card-subtitle">Наименование</h6>
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="inputPlaceholder" id="inputPlaceholder"
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-md-3">
+                        <h6 className="card-subtitle">Наименование</h6>
+                        <div className="form-group">
+                            <input type="text" className="form-control" name="inputPlaceholder" id="inputPlaceholder"
                                    placeholder="Имя схемы парсинга для быстрой ориентации"/>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <h6 class="card-subtitle">Начинать парсить со строки (включительно)</h6>
-                        <div class="form-group">
-                            <input type="number" class="form-control" name="inputPlaceholder" placeholder=""/>
+                    <div className="col-md-3">
+                        <h6 className="card-subtitle">Начинать парсить со строки (включительно)</h6>
+                        <div className="form-group">
+                            <input type="number" className="form-control" name="inputPlaceholder" placeholder=""/>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div class="card-body">
+            <div className="card-body">
                 <div className="btn-toolbar">
                     <div className="btn-group focus-btn-group">
                         <button

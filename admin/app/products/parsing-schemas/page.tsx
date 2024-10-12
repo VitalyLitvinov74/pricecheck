@@ -2,15 +2,12 @@ import {metadata} from "../../layout";
 import Table from "./table";
 import Toolbar from "./toolbar";
 import {loadParsingSchemas} from "../../../utils/product-properties";
+import {notFound} from "next/navigation";
 
 export default async function ParsingSchemas(){
     metadata.title= "Схемы парсинга"
     let parsingSchemas = [];
-    await loadParsingSchemas().then(
-        function (data) {
-            parsingSchemas = data;
-        }
-    );
+    parsingSchemas = loadParsingSchemas();
     return (
         <div className="contentbar">
             <div className="row">

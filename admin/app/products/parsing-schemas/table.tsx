@@ -3,7 +3,6 @@ import Link from "next/link";
 import React from "react";
 
 export default function Table({parsingSchemas}) {
-    console.log(parsingSchemas)
     function remove(id){
         console.log('send request to remove')
     }
@@ -18,20 +17,26 @@ export default function Table({parsingSchemas}) {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">#1</th>
-                        <td>
-                            <div className="button-list">
-                                <Link href="/products/parsing-schemas/update" className="btn btn-success-rgba">
-                                    <i className="feather icon-edit-2"></i>
-                                </Link>
-                                <button onClick={ () => remove(2) }
-                                        className="btn btn-danger-rgba">
-                                    <i className="feather icon-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    {
+                        parsingSchemas.map(function(schema){
+                            return (
+                                <tr key={schema.id}>
+                                    <th scope="row">{schema.name}</th>
+                                    <td>
+                                        <div className="button-list">
+                                            <Link href="/products/parsing-schemas/update" className="btn btn-success-rgba">
+                                                <i className="feather icon-edit-2"></i>
+                                            </Link>
+                                            <button onClick={ () => remove(2) }
+                                                    className="btn btn-danger-rgba">
+                                                <i className="feather icon-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
             </div>
