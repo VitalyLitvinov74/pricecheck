@@ -12,6 +12,10 @@ export const titleByPath = function(path){
             break;
         case '/products/parsing-schemas':
             title = "Схемы парсинга"
+            break;
+        case '/products/parsing-schemas/new':
+            title = "Создать схему парсинга"
+            break
     }
     return title;
 }
