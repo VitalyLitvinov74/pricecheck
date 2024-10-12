@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {metadata} from "../../../layout";
 import ParsingSchemaForm from "../form";
 import {availableTypes, loadProperties} from "../../../../utils/product-properties";
+import {randomUUID} from "crypto";
 
 export default async function NewParsingSchema() {
 
@@ -22,7 +23,12 @@ export default async function NewParsingSchema() {
                     <div className="card m-b-30">
                         <div className="card-body">
                             <ParsingSchemaForm availableProperties={properties}
-                                                  exitedSchemaItems={[]}
+                                               parsingSchema={{
+                                                   id: randomUUID(),
+                                                   name: null,
+                                                   start_with_row_num: 1,
+                                                   parsingSchemaProperties: []
+                                               }}
                             />
                         </div>
                     </div>

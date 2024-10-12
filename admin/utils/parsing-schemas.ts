@@ -10,3 +10,13 @@ export const loadParsingSchema = async function (id){
     }
     return data.json();
 }
+
+export const loadParsingSchemas = async function(){
+    const url = `${process.env.URL}/parsing-schemas/index`;
+    const data = await fetch(url, {
+        next: {
+            revalidate: 0
+        }
+    })
+    return data.json();
+}

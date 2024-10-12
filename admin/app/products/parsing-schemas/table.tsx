@@ -24,7 +24,7 @@ export default function Table({parsingSchemas}) {
                                     <th scope="row">{schema.name}</th>
                                     <td>
                                         <div className="button-list">
-                                            <Link href="/products/parsing-schemas/update" className="btn btn-success-rgba">
+                                            <Link href={`/products/parsing-schemas/update/${schema.id}`} className="btn btn-success-rgba">
                                                 <i className="feather icon-edit-2"></i>
                                             </Link>
                                             <button onClick={ () => remove(2) }

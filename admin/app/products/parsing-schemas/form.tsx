@@ -4,6 +4,7 @@ import Select from "react-select";
 import {v4 as uuidv4} from "uuid";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
+    console.log(parsingSchema)
     // exitedSchemaItems = exitedSchemaItems.map(
     //     function (item) {
     //         item.transactionData = {};
@@ -13,7 +14,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
     const existedSchemaItems = [];
     const [data, changeData] = useState(availableProperties)
     const [schemaItems, changeSchemaItems] = useState(existedSchemaItems)
-
     function optionsFor(schemaItem = null) {
         let options: any;
         options = availableProperties
@@ -91,6 +91,37 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         )
     }
 
+
+
+    function addNewRow() {
+        const newData = {
+
+        };
+        changeData([newData, ...data]);
+    }
+
+    function emptyRelation(){
+        return {
+            propertyId: null,
+            tableColumnName: null
+        };
+    }
+
+
+    function commit(updatedItem) {
+        const list = [];
+        data.map(function (item) {
+            if (item.id === updatedItem.id) {
+                item.name = updatedItem.transactionData.name;
+                item.type = updatedItem.transactionData.type;
+                item.transactionData = {};
+                item.isEditable = false
+            }
+            list.push(item)
+        })
+        changeData(list)
+    }
+
     function editableRow(item) {
         return (
             <tr key={item.id}>
@@ -159,32 +190,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         )
     }
 
-    function addNewRow() {
-        const newData = {
-            id: uuidv4(),
-            name: "",
-            isEditable: true,
-            transactionData: {
-                name: "",
-            }
-        };
-        changeData([newData, ...data]);
-    }
-
-    function commit(updatedItem) {
-        const list = [];
-        data.map(function (item) {
-            if (item.id === updatedItem.id) {
-                item.name = updatedItem.transactionData.name;
-                item.type = updatedItem.transactionData.type;
-                item.transactionData = {};
-                item.isEditable = false
-            }
-            list.push(item)
-        })
-        changeData(list)
-    }
-
     return (
         <>
             <div className="card-body">
@@ -196,14 +201,24 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                     <div className="col-md-3">
                         <h6 className="card-subtitle">Наименование</h6>
                         <div className="form-group">
-                            <input type="text" className="form-control" name="inputPlaceholder" id="inputPlaceholder"
-                                   placeholder="Имя схемы парсинга для быстрой ориентации"/>
+                            <input type="text"
+                                   className="form-control"
+                                   name="inputPlaceholder" id="inputPlaceholder"
+                                   placeholder="Имя схемы парсинга для быстрой ориентации"
+                                   value={parsingSchema.name}
+                            />
                         </div>
                     </div>
                     <div className="col-md-3">
                         <h6 className="card-subtitle">Начинать парсить со строки (включительно)</h6>
                         <div className="form-group">
-                            <input type="number" className="form-control" name="inputPlaceholder" placeholder=""/>
+                            <input
+                                type="number"
+                                className="form-control"
+                                name="inputPlaceholder"
+                                placeholder=""
+                                value={parsingSchema.start_with_row_num}
+                            />
                         </div>
                     </div>
                 </div>

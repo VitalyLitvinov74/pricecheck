@@ -5,10 +5,10 @@ import {loadParsingSchema} from "../../../../../utils/parsing-schemas";
 import {notFound} from "next/navigation";
 
 export default async function UpdatePage({params}: { id: string }) {
-    let properties = [];
+    let availableProperties = [];
     await loadProperties().then(
         function (data) {
-            properties = data;
+            availableProperties = data;
         }
     );
 
@@ -27,11 +27,9 @@ export default async function UpdatePage({params}: { id: string }) {
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <ParsingSchemaForm availableProperties={properties}
-                                               exitedSchemaItems={[]}
+                            <ParsingSchemaForm availableProperties={availableProperties}
                                                parsingSchema={parsingSchema}
-                            >
-                            </ParsingSchemaForm>
+                            />
                         </div>
                     </div>
                 </div>

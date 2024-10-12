@@ -51,7 +51,6 @@ class ParsingSchemasController extends BaseApiController
         $schema = ParsingSchemaRecord::find()
             ->with([
                 'parsingSchemaProperties',
-                'parsingSchemaProperties.property'
             ])
             ->where(['id'=>$id])
             ->asArray()
