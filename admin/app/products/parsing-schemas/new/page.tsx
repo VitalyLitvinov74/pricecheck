@@ -16,11 +16,6 @@ export default async function NewParsingSchema() {
     );
 
     let types = [];
-    await availableTypes().then(
-        function (data) {
-            types = data;
-        }
-    );
 
     return (
         <div className="contentbar">
@@ -28,8 +23,8 @@ export default async function NewParsingSchema() {
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <NewParsingSchemaForm datas={properties}
-                                             availableTypes={types}
+                            <NewParsingSchemaForm properties={properties}
+                                                  exitedSchemaItems={[]}
                             />
                         </div>
                     </div>

@@ -1,14 +1,44 @@
 'use client'
 import React, {useState} from "react";
 import Select from "react-select";
+import {v4 as uuidv4} from "uuid";
 
-export default function NewParsingSchemaForm({datas, availableTypes}) {
-    datas = datas.map(function (item) {
-        item.transactionData = {};
-        item.isEditable = false;
-        return item;
-    })
-    const [data, changeData] = useState(datas)
+export default function NewParsingSchemaForm({properties, exitedSchemaItems}) {
+    exitedSchemaItems = exitedSchemaItems.map(
+        function (item) {
+            item.transactionData = {};
+            item.isEditable = false;
+            return item;
+        })
+    const [data, changeData] = useState(properties)
+    const [schemaItems, changeSchemaItems] = useState(exitedSchemaItems)
+
+    function optionsFor(schemaItem = null) {
+        let options: any;
+        options = properties
+            .filter(function (property) {
+                let needShow = true
+                schemaItems.forEach(function (createdAttribute) {
+                    if (createdAttribute.propertyId === property.id) {
+                        needShow = false
+                    }
+                })
+                return needShow
+            })
+            .map(function (property, key) {
+                return {
+                    value: property.id,
+                    label: property.name
+                }
+            });
+        if (attribute !== null) {
+            options = [{
+                value: attribute.propertyId,
+                label: attribute.name
+            }, ...options]
+        }
+        return options;
+    }
 
     function removeRow(itemForRemove) {
         changeData(data.filter(function (item) {
@@ -17,19 +47,6 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
         if (itemForRemove.id === null) {
             return;
         }
-        // const url = `http://api.pricecheck.my:82/product-property/remove`;
-        // let status = 0;
-        // fetch(url, {
-        //     body: JSON.stringify({
-        //         id: item.id
-        //     }),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "post",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
     }
 
     function update(updatingItem) {
@@ -65,7 +82,7 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
                 return item;
             })
             .filter(function (item) {
-                if(currentItem.id === parseInt(currentItem.id)){
+                if (currentItem.id === parseInt(currentItem.id)) {
                     return true; //Оставляем только прежде добавленные
                 }
                 return currentItem.id !== item.id;
@@ -76,33 +93,22 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
     function editableRow(item) {
         return (
             <tr key={item.id}>
-                <td className="tabledit-edit-mode"><input
-                    className="tabledit-input form-control input-sm" type="text"
-                    readOnly={true} value={item.id === parseInt(item.id) ? '#' + item.id : '##'}/></td>
+                <td className="tabledit-edit-mode">
+                    <Select>
+
+                    </Select>
+                </td>
                 <td className="tabledit-edit-mode">
                     <input
                         className="tabledit-input form-control input-sm"
                         type="text"
-                        name="name"
+                        name="tableCollumnName"
                         onBlur={function (elem) {
                             item.transactionData.name = elem.target.value
                         }}
                         defaultValue={item.name}
+                        placeholder="Например BA или А"
                     />
-                </td>
-                <td className="tabledit-edit-mode">
-                    <Select
-                        options={options()}
-                        defaultValue={function () {
-                            return optionByName(item.type)
-                        }}
-                        onChange={
-                            function (option) {
-                                item.transactionData.type = option.value
-                            }
-                        }
-                    >
-                    </Select>
                 </td>
                 <td>
                     <div className="button-list">
@@ -126,12 +132,9 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
         return (
             <tr key={item.id}>
                 {/*Если строка то это новый айтем*/}
-                <td>#{item.id === parseInt(item.id) ? item.id : '#'}</td>
                 <td>{item.name}</td>
                 <td>
-                    <span className="badge badge-secondary-inverse mr-2">
-                        {item.type}
-                    </span>
+                    {item.name}
                 </td>
                 <td>
                     <div className="button-list">
@@ -157,35 +160,19 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
 
     function addNewRow() {
         const newData = {
-            id: "_" + Date.now(),
-            name: "Тест",
-            type: availableTypes[0],
+            id: uuidv4(),
+            name: "",
             isEditable: true,
             transactionData: {
-                name: "Тест",
-                type: availableTypes[0],
+                name: "",
             }
         };
         changeData([newData, ...data]);
     }
 
-    function options() {
-        let options: any;
-        options = availableTypes.map(function (type, key) {
-            return {value: type, label: type}
-        });
-        return options;
-    }
-
-    function optionByName(name) {
-        return options().find(function (option) {
-            return option.value === name;
-        })
-    }
-
     function commit(updatedItem) {
         const list = [];
-        data.map(function(item){
+        data.map(function (item) {
             if (item.id === updatedItem.id) {
                 item.name = updatedItem.transactionData.name;
                 item.type = updatedItem.transactionData.type;
@@ -195,32 +182,31 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
             list.push(item)
         })
         changeData(list)
-        // let status = 0;
-        // const url = `http://api.pricecheck.my:82/properties/create`;
-        // fetch(url, {
-        //     body: JSON.stringify({
-        //         properties: [draftItem]
-        //     }),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "post",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
-        // this.setState({data: this.props.data})
     }
 
     return (
         <>
             <div class="card-body">
-                <button type="button" class="btn btn-success mr-2"><i class="feather icon-save mr-2"></i> Сохранить</button>
+                <button type="button" class="btn btn-success mr-2"><i class="feather icon-save mr-2"></i> Сохранить
+                </button>
             </div>
             <div class="card-body">
-                <h6 class="card-subtitle">Наименование</h6>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="inputPlaceholder" id="inputPlaceholder" placeholder="Имя схемы парсинга для быстрой ориентации" />
+                <div class="row">
+                    <div class="col-md-3">
+                        <h6 class="card-subtitle">Наименование</h6>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="inputPlaceholder" id="inputPlaceholder"
+                                   placeholder="Имя схемы парсинга для быстрой ориентации"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h6 class="card-subtitle">Начинать парсить со строки (включительно)</h6>
+                        <div class="form-group">
+                            <input type="number" class="form-control" name="inputPlaceholder" placeholder=""/>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="card-body">
                 <div className="btn-toolbar">
@@ -239,19 +225,18 @@ export default function NewParsingSchemaForm({datas, availableTypes}) {
                     <table className="table table-borderless table-hover">
                         <thead>
                         <tr>
-                            <th width="5%">ID</th>
-                            <th width="20%">Название</th>
-                            <th width="10%">Тип</th>
-                            <th width="15%">Действия</th>
+                            <th width="10%">Свойство</th>
+                            <th width="10%">Столбец в таблце</th>
+                            <th width="15%"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {data.map(
-                            function (property) {
-                                if (property.isEditable) {
-                                    return editableRow(property)
+                        {schemaItems.map(
+                            function (schemaItem) {
+                                if (schemaItem.isEditable) {
+                                    return editableRow(schemaItem)
                                 }
-                                return readebleRow(property)
+                                return readebleRow(schemaItem)
                             })}
                         </tbody>
                     </table>

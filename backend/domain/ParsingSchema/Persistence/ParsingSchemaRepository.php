@@ -11,6 +11,7 @@ use app\libs\UpsertBuilder;
 use app\records\ParsingSchemaPropertiesRecord;
 use app\records\ParsingSchemaRecord;
 use MongoDB\BSON\ObjectId;
+use Yii;
 
 class ParsingSchemaRepository
 {
@@ -68,25 +69,35 @@ class ParsingSchemaRepository
     public function save(ParsingSchema $schema): void
     {
         $snapshot = $this->objectMapper->map($schema, SchemaSnapshot::class);
-        $insertData = [
-            'id' => $snapshot->id,
-            'name'=>$snapshot->name,
-            'start_with_row_num' => $snapshot->startWithRowNum,
-        ];
-        $this->upsertBuilder
-            ->useActiveRecord(ParsingSchemaRecord::class)
-            ->upsertManyRecords([$insertData]);
-        $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
-        foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
-            $pairs[] = [
-                'id' => $relationshipPairsSnapshot->id,
-                'schema_id' => $schemaId,
-                'property_id' => $relationshipPairsSnapshot->propertyId,
-                'external_column_name' => $relationshipPairsSnapshot->externalColumnName
+        $trx = Yii::$app->db->beginTransaction();
+        try {
+            $insertData = [
+                'id' => $snapshot->id,
+                'name'=>$snapshot->name,
+                'start_with_row_num' => $snapshot->startWithRowNum,
             ];
+            $this->upsertBuilder
+                ->useActiveRecord(ParsingSchemaRecord::class)
+                ->upsertManyRecords([$insertData]);
+            $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
+            foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
+                $pairs[] = [
+                    'id' => $relationshipPairsSnapshot->id,
+                    'schema_id' => $schemaId,
+                    'property_id' => $relationshipPairsSnapshot->propertyId,
+                    'external_column_name' => $relationshipPairsSnapshot->externalColumnName
+                ];
+            }
+            $this->upsertBuilder
+                ->useUniqueKeys([
+                    'id'
+                ])
+                ->useActiveRecord(ParsingSchemaPropertiesRecord::class)
+                ->upsertManyRecords($pairs);
+            $trx->commit();
+        }catch (\Throwable $exception){
+            $trx->rollBack();
+            throw $exception;
         }
-        $this->upsertBuilder
-            ->useActiveRecord(ParsingSchemaPropertiesRecord::class)
-            ->upsertManyRecords($pairs);
     }
 }
