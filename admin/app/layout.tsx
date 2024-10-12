@@ -295,7 +295,7 @@ export default async function RootLayout({children,}: {
                         </nav>
                     </div>
                 </div>
-                <Breadcrumbs titlee={metadata.title}/>
+                <Breadcrumbs inputTitle={metadata.title}/>
                 {children}
                 <div className="footerbar">
                     <footer className="footer">

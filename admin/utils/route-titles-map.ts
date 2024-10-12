@@ -19,3 +19,7 @@ export const titleByPath = function(path){
     }
     return title;
 }
+
+export const breadcrumbMap = function (){
+    return
+}
