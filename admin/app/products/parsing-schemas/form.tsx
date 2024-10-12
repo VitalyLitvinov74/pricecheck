@@ -1,19 +1,19 @@
 'use client'
 import React, {useState} from "react";
 import Select from "react-select";
-import {v4 as uuidv4} from "uuid";
+import {uuid} from "../../../utils/helpers";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
-    console.log(parsingSchema)
-    // exitedSchemaItems = exitedSchemaItems.map(
-    //     function (item) {
-    //         item.transactionData = {};
-    //         item.isEditable = false;
-    //         return item;
-    //     })
-    const existedSchemaItems = [];
-    const [data, changeData] = useState(availableProperties)
-    const [schemaItems, changeSchemaItems] = useState(existedSchemaItems)
+    console.log(availableProperties)
+    const startPairs = parsingSchema.parsingSchemaProperties.map(
+        function (pairData) {
+            return {
+                id: pairData.id,
+                propertyId: pairData.property_id,
+                externalColumnName: pairData.external_column_name
+            }
+        })
+    const [pairs, changePairs] = useState(startPairs)
     function optionsFor(schemaItem = null) {
         let options: any;
         options = availableProperties
@@ -42,7 +42,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
     }
 
     function removeRow(itemForRemove) {
-        changeData(data.filter(function (item) {
+        changePairs(pairs.filter(function (item) {
             return itemForRemove.id !== item.id
         }))
         if (itemForRemove.id === null) {
@@ -55,7 +55,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             return;
         }
         const result = [];
-        data.forEach(function (item) {
+        pairs.forEach(function (item) {
             if (item.id === updatingItem.id) {
                 result.push({
                     ...item, ...{
@@ -70,11 +70,11 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             }
             result.push(item)
         })
-        changeData(result)
+        changePairs(result)
     }
 
     function rollback(currentItem) {
-        changeData(data
+        changePairs(pairs
             .map(function (item) {
                 if (item.id === currentItem.id) {
                     item.transactionData = {}
@@ -91,26 +91,39 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         )
     }
 
-
-
     function addNewRow() {
-        const newData = {
-
-        };
-        changeData([newData, ...data]);
+        changePairs([emptyPair(), ...pairs]);
+        console.log(pairs)
     }
 
-    function emptyRelation(){
+    function emptyPair() {
         return {
-            propertyId: null,
+            id: uuid(),
+            propertyId: availableForAddingProperties()[0].id,
             tableColumnName: null
         };
+    }
+
+    function availableForAddingProperties(){
+        return availableProperties.filter(function(property){
+            let alreadyExist = false;
+            pairs.forEach(function(pair){
+                alreadyExist = pair.propertyId === property.id
+            })
+            return !alreadyExist;
+        })
+    }
+
+    function propertyById(id){
+        return availableProperties.find(function(property){
+            return property.id === id;
+        })
     }
 
 
     function commit(updatedItem) {
         const list = [];
-        data.map(function (item) {
+        pairs.map(function (item) {
             if (item.id === updatedItem.id) {
                 item.name = updatedItem.transactionData.name;
                 item.type = updatedItem.transactionData.type;
@@ -119,7 +132,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             }
             list.push(item)
         })
-        changeData(list)
+        changePairs(list)
     }
 
     function editableRow(item) {
@@ -160,25 +173,24 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         );
     }
 
-    function readebleRow(item) {
+    function readebleRow(pair) {
         return (
-            <tr key={item.id}>
-                {/*Если строка то это новый айтем*/}
-                <td>{item.name}</td>
+            <tr key={pair.id}>
+                <td>{propertyById(pair.propertyId).name}</td>
                 <td>
-                    {item.name}
+                    {pair.externalColumnName}
                 </td>
                 <td>
                     <div className="button-list">
                         <button onClick={() => {
-                            update(item)
+                            update(pair)
                         }} className="btn btn-success-rgba">
                             <i className="feather icon-edit-2"></i>
                         </button>
                         <button type="button"
                                 onClick={
                                     function () {
-                                        removeRow(item)
+                                        removeRow(pair)
                                     }
                                 }
                                 className="btn btn-danger-rgba">
@@ -193,7 +205,8 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
     return (
         <>
             <div className="card-body">
-                <button type="button" className="btn btn-success mr-2"><i className="feather icon-save mr-2"></i> Сохранить
+                <button type="button" className="btn btn-success mr-2"><i
+                    className="feather icon-save mr-2"></i> Сохранить
                 </button>
             </div>
             <div className="card-body">
@@ -247,12 +260,12 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         </tr>
                         </thead>
                         <tbody>
-                        {schemaItems.map(
-                            function (schemaItem) {
-                                if (schemaItem.isEditable) {
-                                    return editableRow(schemaItem)
+                        {pairs.map(
+                            function (schemaPair) {
+                                if (schemaPair.isEditable) {
+                                    return editableRow(schemaPair)
                                 }
-                                return readebleRow(schemaItem)
+                                return readebleRow(schemaPair)
                             })}
                         </tbody>
                     </table>
