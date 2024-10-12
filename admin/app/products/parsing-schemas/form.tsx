@@ -4,7 +4,7 @@ import Select from "react-select";
 import {uuid} from "../../../utils/helpers";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
-    console.log(availableProperties)
+    // console.log(availableProperties)
     const startPairs = parsingSchema.parsingSchemaProperties.map(
         function (pairData) {
             return {
@@ -93,7 +93,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
 
     function addNewRow() {
         changePairs([emptyPair(), ...pairs]);
-        console.log(pairs)
     }
 
     function emptyPair() {
@@ -107,9 +106,12 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
     function availableForAddingProperties(){
         return availableProperties.filter(function(property){
             let alreadyExist = false;
-            pairs.forEach(function(pair){
-                alreadyExist = pair.propertyId === property.id
-            })
+            for(let i=0; i < pairs.length; i++){
+                if(pairs[i].propertyId === property.id){
+                    alreadyExist = true;
+                    break;
+                }
+            }
             return !alreadyExist;
         })
     }
