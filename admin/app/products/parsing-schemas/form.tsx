@@ -14,6 +14,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             }
         })
     const [pairs, changePairs] = useState(startPairs)
+
     function optionsFor(schemaItem = null) {
         let options: any;
         options = availableProperties
@@ -103,11 +104,11 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         };
     }
 
-    function availableForAddingProperties(){
-        return availableProperties.filter(function(property){
+    function availableForAddingProperties() {
+        return availableProperties.filter(function (property) {
             let alreadyExist = false;
-            for(let i=0; i < pairs.length; i++){
-                if(pairs[i].propertyId === property.id){
+            for (let i = 0; i < pairs.length; i++) {
+                if (pairs[i].propertyId === property.id) {
                     alreadyExist = true;
                     break;
                 }
@@ -116,8 +117,8 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         })
     }
 
-    function propertyById(id){
-        return availableProperties.find(function(property){
+    function propertyById(id) {
+        return availableProperties.find(function (property) {
             return property.id === id;
         })
     }
@@ -137,13 +138,30 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         changePairs(list)
     }
 
-    function editableRow(item) {
-        return (
-            <tr key={item.id}>
-                <td className="tabledit-edit-mode">
-                    <Select>
+    function optionsFor(pair) {
+        const availableOptions = availableForAddingProperties()
+            .map(function (property) {
+                return {
+                    value: property.id,
+                    label: property.name
+                }
+            })
+        const currentOptions = {
+            value: pair.propertyId,
+            label: propertyById(pair.propertyId).name
+        }
+        return [currentOptions, ...availableOptions];
+    }
 
-                    </Select>
+    function editableRow(pair) {
+        return (
+            <tr key={pair.id}>
+                <td className="tabledit-edit-mode">
+                    <Select
+                        options={optionsFor(pair)}
+                        defaultValue={optionsFor(pair)[0]}
+                        isSearchable={true}
+                    />
                 </td>
                 <td className="tabledit-edit-mode">
                     <input
@@ -151,20 +169,20 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         type="text"
                         name="tableCollumnName"
                         onBlur={function (elem) {
-                            item.transactionData.name = elem.target.value
+                            pair.transactionData.name = elem.target.value
                         }}
-                        defaultValue={item.name}
+                        defaultValue={pair.name}
                         placeholder="Например BA или А"
                     />
                 </td>
                 <td>
                     <div className="button-list">
-                        <button type={"submit"} onClick={() => commit(item)} className="btn btn-primary-rgba">
+                        <button type={"submit"} onClick={() => commit(pair)} className="btn btn-primary-rgba">
                             <i className="feather icon-save"></i>
                         </button>
 
-                        <button type={"submit"} onClick={() => rollback(item)} className="btn btn-danger-rgba">
-                            <i className={item.id === parseInt(item.id)
+                        <button type={"submit"} onClick={() => rollback(pair)} className="btn btn-danger-rgba">
+                            <i className={pair.id === parseInt(pair.id)
                                 ? "feather icon-slash"
                                 : "feather icon-trash"}>
                             </i>
