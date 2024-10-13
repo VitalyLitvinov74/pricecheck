@@ -4,7 +4,6 @@ import Select from "react-select";
 import {uuid} from "../../../utils/helpers";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
-    // console.log(availableProperties)
     const startPairs = parsingSchema.parsingSchemaProperties.map(
         function (pairData) {
             return {
@@ -15,33 +14,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         })
     const [pairs, changePairs] = useState(startPairs)
 
-    function optionsFor(schemaItem = null) {
-        let options: any;
-        options = availableProperties
-            .filter(function (property) {
-                let needShow = true
-                schemaItems.forEach(function (createdAttribute) {
-                    if (createdAttribute.propertyId === property.id) {
-                        needShow = false
-                    }
-                })
-                return needShow
-            })
-            .map(function (property, key) {
-                return {
-                    value: property.id,
-                    label: property.name
-                }
-            });
-        if (attribute !== null) {
-            options = [{
-                value: attribute.propertyId,
-                label: attribute.name
-            }, ...options]
-        }
-        return options;
-    }
-
     function removeRow(itemForRemove) {
         changePairs(pairs.filter(function (item) {
             return itemForRemove.id !== item.id
@@ -49,47 +21,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         if (itemForRemove.id === null) {
             return;
         }
-    }
-
-    function update(updatingItem) {
-        if (updatingItem.isEditable) {
-            return;
-        }
-        const result = [];
-        pairs.forEach(function (item) {
-            if (item.id === updatingItem.id) {
-                result.push({
-                    ...item, ...{
-                        isEditable: true,
-                        transactionData: {
-                            name: updatingItem.name,
-                            type: updatingItem.type
-                        }
-                    }
-                })
-                return;
-            }
-            result.push(item)
-        })
-        changePairs(result)
-    }
-
-    function rollback(currentItem) {
-        changePairs(pairs
-            .map(function (item) {
-                if (item.id === currentItem.id) {
-                    item.transactionData = {}
-                    item.isEditable = false;
-                }
-                return item;
-            })
-            .filter(function (item) {
-                if (currentItem.id === parseInt(currentItem.id)) {
-                    return true; //Оставляем только прежде добавленные
-                }
-                return currentItem.id !== item.id;
-            })
-        )
     }
 
     function addNewRow() {
@@ -123,21 +54,6 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         })
     }
 
-
-    function commit(updatedItem) {
-        const list = [];
-        pairs.map(function (item) {
-            if (item.id === updatedItem.id) {
-                item.name = updatedItem.transactionData.name;
-                item.type = updatedItem.transactionData.type;
-                item.transactionData = {};
-                item.isEditable = false
-            }
-            list.push(item)
-        })
-        changePairs(list)
-    }
-
     function optionsFor(pair) {
         const availableOptions = availableForAddingProperties()
             .map(function (property) {
@@ -153,6 +69,11 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         return [currentOptions, ...availableOptions];
     }
 
+    function propertyChanged(pair, option) {
+        pair.propertyId = option.value;
+        changePairs(pairs.slice())
+    }
+
     function editableRow(pair) {
         return (
             <tr key={pair.id}>
@@ -161,6 +82,9 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         options={optionsFor(pair)}
                         defaultValue={optionsFor(pair)[0]}
                         isSearchable={true}
+                        onChange={(option)=>{
+                            propertyChanged(pair, option)
+                        }}
                     />
                 </td>
                 <td className="tabledit-edit-mode">
@@ -168,58 +92,19 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         className="tabledit-input form-control input-sm"
                         type="text"
                         name="tableCollumnName"
-                        onBlur={function (elem) {
-                            pair.transactionData.name = elem.target.value
-                        }}
                         defaultValue={pair.name}
                         placeholder="Например BA или А"
                     />
                 </td>
                 <td>
                     <div className="button-list">
-                        <button type={"submit"} onClick={() => commit(pair)} className="btn btn-primary-rgba">
-                            <i className="feather icon-save"></i>
-                        </button>
-
-                        <button type={"submit"} onClick={() => rollback(pair)} className="btn btn-danger-rgba">
-                            <i className={pair.id === parseInt(pair.id)
-                                ? "feather icon-slash"
-                                : "feather icon-trash"}>
-                            </i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        );
-    }
-
-    function readebleRow(pair) {
-        return (
-            <tr key={pair.id}>
-                <td>{propertyById(pair.propertyId).name}</td>
-                <td>
-                    {pair.externalColumnName}
-                </td>
-                <td>
-                    <div className="button-list">
-                        <button onClick={() => {
-                            update(pair)
-                        }} className="btn btn-success-rgba">
-                            <i className="feather icon-edit-2"></i>
-                        </button>
-                        <button type="button"
-                                onClick={
-                                    function () {
-                                        removeRow(pair)
-                                    }
-                                }
-                                className="btn btn-danger-rgba">
+                        <button type={"submit"} onClick={() => removeRow(pair)} className="btn btn-danger-rgba">
                             <i className="feather icon-trash"></i>
                         </button>
                     </div>
                 </td>
             </tr>
-        )
+        );
     }
 
     return (
@@ -238,7 +123,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                                    className="form-control"
                                    name="inputPlaceholder" id="inputPlaceholder"
                                    placeholder="Имя схемы парсинга для быстрой ориентации"
-                                   value={parsingSchema.name}
+                                   defaultValue={parsingSchema.name}
                             />
                         </div>
                     </div>
@@ -250,12 +135,11 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                                 className="form-control"
                                 name="inputPlaceholder"
                                 placeholder=""
-                                value={parsingSchema.start_with_row_num}
+                                defaultValue={parsingSchema.start_with_row_num}
                             />
                         </div>
                     </div>
                 </div>
-
             </div>
             <div className="card-body">
                 <div className="btn-toolbar">
@@ -263,33 +147,30 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         <button
                             onClick={addNewRow}
                             type="button"
-                            className="btn btn-default mr-2">
+                            className="btn btn-default mr-2"
+                            disabled={availableForAddingProperties().length < 1}
+                        >
                             <i className="feather icon-plus mr-2"></i>
                             Добавить связку
                         </button>
 
                     </div>
                 </div>
-                <div className="table-responsive">
-                    <table className="table table-borderless table-hover">
-                        <thead>
-                        <tr>
-                            <th width="10%">Свойство</th>
-                            <th width="10%">Столбец в таблце</th>
-                            <th width="15%"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {pairs.map(
-                            function (schemaPair) {
-                                if (schemaPair.isEditable) {
-                                    return editableRow(schemaPair)
-                                }
-                                return readebleRow(schemaPair)
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                <table className="table table-borderless table-hover">
+                    <thead>
+                    <tr>
+                        <th width="10%">Свойство</th>
+                        <th width="10%">Столбец в таблце</th>
+                        <th width="15%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {pairs.map(
+                        function (schemaPair) {
+                            return editableRow(schemaPair)
+                        })}
+                    </tbody>
+                </table>
             </div>
         </>
     );

@@ -312,8 +312,6 @@ export default async function RootLayout({children,}: {
         <script src="/assets/js/jquery.slimscroll.js"></script>
         <script src="/assets/js/horizontal-menu.js"></script>
         <script src="/assets/plugins/switchery/switchery.min.js"></script>
-        <script src="/assets/plugins/select2/select2.min.js"></script>
-        <script src="/assets/js/custom/custom-form-select.js"></script>
         <script src="/assets/js/core.js"></script>
         </body>
         </html>
