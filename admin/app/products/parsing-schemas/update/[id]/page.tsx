@@ -3,8 +3,10 @@ import React from "react";
 import {loadProperties} from "../../../../../utils/product-properties";
 import {loadParsingSchema} from "../../../../../utils/parsing-schemas";
 import {notFound} from "next/navigation";
+import {metadata} from "../../../../layout";
 
 export default async function UpdatePage({params}: { id: string }) {
+    metadata.title= `Обновляем схему ${params.id}`
     let availableProperties = [];
     await loadProperties().then(
         function (data) {

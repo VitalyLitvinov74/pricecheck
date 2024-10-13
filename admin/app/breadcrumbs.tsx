@@ -31,6 +31,10 @@ export default function Breadcrumbs({inputTitle}) {
                         {
                             path: '/products/parsing-schemas/new',
                             title: "Создать схему парсинга"
+                        },
+                        {
+                            path: '/products/parsing-schemas/update',
+                            title: "Обновляем схему"
                         }
                     ]
                 }
