@@ -64,7 +64,7 @@ class PropertiesController extends BaseApiController
 
     public function actionRemove(){
         $form = new ProductPropertyForm([
-            'scenario' => Scenarious::RemoveProperty->value
+            'scenario' => Scenarious::RemoveProperty
         ]);
         $form->load(Yii::$app->request->post());
         if($form->validate()){

@@ -21,7 +21,7 @@ class ProductAttributeForm extends NestedForm
     public function scenarios(): array
     {
         return [
-            Scenarious::CreateProduct->value => [
+            Scenarious::CreateProduct => [
                 'value', 'property'
             ],
         ];
@@ -32,7 +32,7 @@ class ProductAttributeForm extends NestedForm
         return [
             'property' => [
                 'class' => ProductPropertyForm::class,
-                'scenario' => Scenarious::CreateProduct->value
+                'scenario' => Scenarious::CreateProduct
             ]
         ];
     }

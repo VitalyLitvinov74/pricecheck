@@ -6,7 +6,10 @@ use yii\base\Model;
 
 class ParsingSchemaForm extends NestedForm
 {
+    public $id;
+
     public $name;
+
     /** @var RelationPairForm[] */
     public $map;
 
@@ -15,9 +18,17 @@ class ParsingSchemaForm extends NestedForm
     public function rules(): array
     {
         return [
-            [['name', 'map', 'startWithRowNum'], 'required'],
+            [['name', 'map', 'startWithRowNum', 'id'], 'required'],
             [['name'], 'string'],
-            ['startWithRowNum', 'integer']
+            [['startWithRowNum', 'id'], 'integer']
+        ];
+    }
+
+    public function scenarios(): array
+    {
+        return [
+            Scenarious::UpdateParsingSchema => ['id', 'name', 'map', 'startWithRowNum'],
+            Scenarious::CreateParsingSchema => ['name', 'map', 'startWithRowNum']
         ];
     }
 

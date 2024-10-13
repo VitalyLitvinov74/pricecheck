@@ -22,10 +22,10 @@ class ProductPropertyForm extends Model
     public function scenarios(): array
     {
         return [
-            Scenarious::Default->value => ['name', 'type'],
-            Scenarious::CreateProduct->value => ['id'],
-            Scenarious::CreateParsingSchema->value => ['id'],
-            Scenarious::RemoveProperty->value => ['id']
+            Scenarious::Default => ['name', 'type'],
+            Scenarious::CreateProduct => ['id'],
+            Scenarious::CreateParsingSchema => ['id'],
+            Scenarious::RemoveProperty => ['id']
 
         ];
     }

@@ -27,7 +27,7 @@ class RelationPairForm extends NestedForm
         return [
             'productProperty' => [
                 'class' => ProductPropertyForm::class,
-                'scenario' => Scenarious::CreateParsingSchema->value
+                'scenario' => Scenarious::CreateParsingSchema
             ]
         ];
     }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
+use app\forms\Scenarious;
 use app\records\ParsingSchemaRecord;
 use Yii;
 
@@ -19,7 +20,7 @@ class ParsingSchemasController extends BaseApiController
 
     public function actionCreate()
     {
-        $form = new ParsingSchemaForm();
+        $form = new ParsingSchemaForm(['scenario'=>Scenarious::CreateParsingSchema]);
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
             $this->service->create(
@@ -47,16 +48,17 @@ class ParsingSchemasController extends BaseApiController
             ->asArray();
     }
 
-    public function actionView(int $id){
+    public function actionView(int $id)
+    {
         $schema = ParsingSchemaRecord::find()
             ->with([
                 'parsingSchemaProperties',
             ])
-            ->where(['id'=>$id])
+            ->where(['id' => $id])
             ->asArray()
             ->one();
 
-        if($schema){
+        if ($schema) {
             return $this->jsonApi
                 ->addBody($schema)
                 ->asArray();
@@ -65,6 +67,14 @@ class ParsingSchemasController extends BaseApiController
             ->addBody(null)
             ->setupCode(404)
             ->asArray();
+    }
 
+    public function actionUpdate(): array
+    {
+        $form = new ParsingSchemaForm(['scenario' => Scenarious::UpdateParsingSchema]);
+        $form->load(Yii::$app->request->post());
+        if($form->validate()){
+            $this->service->update();
+        }
     }
 }

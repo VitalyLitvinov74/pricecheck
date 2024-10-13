@@ -2,10 +2,11 @@
 
 namespace app\forms;
 
-enum Scenarious: string
+abstract class Scenarious
 {
-    case CreateProduct = 'createProduct';
-    case CreateParsingSchema = 'createParsingSchema';
-    case Default = 'default';
-    case RemoveProperty = 'removeProperty';
+    public const CreateProduct = 'createProduct';
+    public const CreateParsingSchema = 'createParsingSchema';
+    public const UpdateParsingSchema = 'updateParsingSchema';
+    public const Default = 'default';
+    public const RemoveProperty = 'removeProperty';
 }
