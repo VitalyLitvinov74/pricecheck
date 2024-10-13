@@ -29,6 +29,7 @@ export default async function NewParsingSchema() {
                                                    start_with_row_num: 1,
                                                    parsingSchemaProperties: []
                                                }}
+                                               isUpdate={false}
                             />
                         </div>
                     </div>

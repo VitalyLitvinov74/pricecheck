@@ -77,4 +77,11 @@ class ParsingSchemasController extends BaseApiController
             $this->service->update();
         }
     }
+
+    public function actionRemove(int $id): array{
+        ParsingSchemaRecord::deleteAll(['id'=>$id]);
+        return $this->jsonApi
+            ->setupCode(204)
+            ->asArray();
+    }
 }

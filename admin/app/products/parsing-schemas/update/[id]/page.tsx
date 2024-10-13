@@ -31,6 +31,7 @@ export default async function UpdatePage({params}: { id: string }) {
                         <div className="card-body">
                             <ParsingSchemaForm availableProperties={availableProperties}
                                                parsingSchema={parsingSchema}
+                                               isUpdate={true}
                             />
                         </div>
                     </div>

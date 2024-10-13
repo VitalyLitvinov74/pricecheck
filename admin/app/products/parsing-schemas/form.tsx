@@ -1,9 +1,11 @@
 'use client'
 import React, {useState} from "react";
 import Select from "react-select";
-import {uuid} from "../../../utils/helpers";
+import {uuid} from "../../../utils/helpers"
+import {redirect} from "next/navigation";
+import Router from "react-router";
 
-export default function ParsingSchemaForm({availableProperties, parsingSchema}) {
+export default function ParsingSchemaForm({availableProperties, parsingSchema, isUpdate}) {
     const startPairs = parsingSchema.parsingSchemaProperties.map(
         function (pairData) {
             return {
@@ -13,6 +15,8 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             }
         })
     const [pairs, changePairs] = useState(startPairs)
+    const [name, changeName] = useState(parsingSchema.name)
+    const [startWithRowNum, changeRowNum] = useState(parsingSchema.start_with_row_num)
 
     function removeRow(itemForRemove) {
         changePairs(pairs.filter(function (item) {
@@ -31,7 +35,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         return {
             id: uuid(),
             propertyId: availableForAddingProperties()[0].id,
-            tableColumnName: null
+            externalColumnName: null
         };
     }
 
@@ -69,9 +73,60 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
         return [currentOptions, ...availableOptions];
     }
 
-    function propertyChanged(pair, option) {
-        pair.propertyId = option.value;
-        changePairs(pairs.slice())
+    function changePair(pair, optionForProperty = null, externalColumnName = null){
+        const newPairs = pairs.slice()
+            .map(function (existedPair) {
+                if(existedPair.id !== pair.id){
+                    return existedPair
+                }
+                if(optionForProperty !== null){
+                    existedPair.propertyId = optionForProperty.value
+                }
+                if(externalColumnName !== null){
+                    existedPair.externalColumnName = externalColumnName
+                }
+                return existedPair
+            });
+        changePairs(newPairs)
+    }
+
+    function dataForBackend() {
+        return {
+            id: parsingSchema.id,
+            name: name,
+            startWithRowNum: startWithRowNum,
+            map: pairs.map(function (pair) {
+                return {
+                    productProperty: {
+                        id: pair.propertyId
+                    },
+                    externalFieldName: pair.externalColumnName
+                }
+            })
+        }
+    }
+
+    function update() {
+        const data = dataForBackend();
+
+    }
+
+    async function create() {
+        let status = 204;
+        const url = `http://api.pricecheck.my:82/parsing-schemas/create`;
+        // await fetch(url, {
+        //     body: JSON.stringify(dataForBackend()),
+        //     headers: {
+        //         'content-type': "application/json"
+        //     },
+        //     method: "post",
+        // }).then(function (result) {
+        //     status = result.status;
+        // })
+        // console.log(status)
+        if(status === 204){
+            await push('/products/parsing-schemas')
+        }
     }
 
     function editableRow(pair) {
@@ -79,11 +134,12 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
             <tr key={pair.id}>
                 <td className="tabledit-edit-mode">
                     <Select
+                        name="map"
                         options={optionsFor(pair)}
                         defaultValue={optionsFor(pair)[0]}
                         isSearchable={true}
-                        onChange={(option)=>{
-                            propertyChanged(pair, option)
+                        onChange={(option) => {
+                            changePair(pair, option)
                         }}
                     />
                 </td>
@@ -92,7 +148,10 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         className="tabledit-input form-control input-sm"
                         type="text"
                         name="tableCollumnName"
-                        defaultValue={pair.name}
+                        defaultValue={pair.externalColumnName}
+                        onBlur={(e) => {
+                            changePair(pair, null, e.target.value)
+                        }}
                         placeholder="Например BA или А"
                     />
                 </td>
@@ -110,8 +169,15 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
     return (
         <>
             <div className="card-body">
-                <button type="button" className="btn btn-success mr-2"><i
-                    className="feather icon-save mr-2"></i> Сохранить
+                <button
+                    type="button"
+                    className="btn btn-success mr-2"
+                    onClick={() => {
+                        isUpdate ? update() : create()
+                    }}
+                >
+                    <i className="feather icon-save mr-2"></i>
+                    {isUpdate ? "Сохранить" : "Создать"}
                 </button>
             </div>
             <div className="card-body">
@@ -121,9 +187,12 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                         <div className="form-group">
                             <input type="text"
                                    className="form-control"
-                                   name="inputPlaceholder" id="inputPlaceholder"
+                                   name="name" id="inputPlaceholder"
                                    placeholder="Имя схемы парсинга для быстрой ориентации"
-                                   defaultValue={parsingSchema.name}
+                                   defaultValue={name}
+                                   onChange={(e) => {
+                                       changeName(e.target.value)
+                                   }}
                             />
                         </div>
                     </div>
@@ -133,9 +202,12 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema}) 
                             <input
                                 type="number"
                                 className="form-control"
-                                name="inputPlaceholder"
+                                name="startWithRowNum"
                                 placeholder=""
-                                defaultValue={parsingSchema.start_with_row_num}
+                                defaultValue={startWithRowNum}
+                                onChange={(e) => {
+                                    changeRowNum(e.target.value)
+                                }}
                             />
                         </div>
                     </div>
