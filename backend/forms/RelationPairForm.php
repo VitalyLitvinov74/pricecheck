@@ -4,6 +4,8 @@ namespace app\forms;
 
 class RelationPairForm extends NestedForm
 {
+    public $id;
+
     /** @var ProductPropertyForm */
     public $productProperty;
     public $externalFieldName;
@@ -11,9 +13,18 @@ class RelationPairForm extends NestedForm
     public function rules(): array
     {
         return [
-            [['productProperty', 'externalFieldName'], 'required'],
+            ['id', 'integer'],
+            [['productProperty', 'externalFieldName', 'id'], 'required'],
             [['externalFieldName'], 'string'],
 
+        ];
+    }
+
+    public function scenarios(): array
+    {
+        return [
+            Scenarious::UpdateParsingSchema => ['id', 'productProperty', 'externalFieldName'],
+            Scenarious::CreateParsingSchema => ['productProperty', 'externalFieldName']
         ];
     }
 
@@ -27,7 +38,7 @@ class RelationPairForm extends NestedForm
         return [
             'productProperty' => [
                 'class' => ProductPropertyForm::class,
-                'scenario' => Scenarious::CreateParsingSchema
+                'scenario' => $this->scenario
             ]
         ];
     }

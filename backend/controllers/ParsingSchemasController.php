@@ -6,7 +6,9 @@ use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
 use app\forms\Scenarious;
 use app\records\ParsingSchemaRecord;
+use Throwable;
 use Yii;
+use yii\db\Exception;
 
 class ParsingSchemasController extends BaseApiController
 {
@@ -74,8 +76,20 @@ class ParsingSchemasController extends BaseApiController
         $form = new ParsingSchemaForm(['scenario' => Scenarious::UpdateParsingSchema]);
         $form->load(Yii::$app->request->post());
         if($form->validate()){
-            $this->service->update();
+            try {
+                $this->service->update(
+                    $form->id,
+                    $form->name,
+                    $form->startWithRowNum,
+                    $form->map
+                );
+                return $this->jsonApi->setupCode(204)->asArray();
+            }catch (Throwable $exception){
+                return $this->jsonApi->addException($exception)->asArray();
+            }
+
         }
+        return $this->jsonApi->addModelErrors($form)->setupCode(422)->asArray();
     }
 
     public function actionRemove(int $id): array{

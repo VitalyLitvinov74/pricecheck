@@ -2,8 +2,6 @@
 
 namespace app\forms;
 
-use yii\base\Model;
-
 class ParsingSchemaForm extends NestedForm
 {
     public $id;
@@ -40,7 +38,10 @@ class ParsingSchemaForm extends NestedForm
     protected function nestedFormsMap(): array
     {
         return [
-            'map' => RelationPairForm::class
+            'map' => [
+                'class' => RelationPairForm::class,
+                'scenario' => $this->scenario
+            ]
         ];
     }
 }

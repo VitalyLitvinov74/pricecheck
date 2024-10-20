@@ -10,60 +10,29 @@ use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ParsingSchemaPropertiesRecord;
 use app\records\ParsingSchemaRecord;
-use MongoDB\BSON\ObjectId;
 use Yii;
+use yii\db\Exception;
 
 class ParsingSchemaRepository
 {
     public function __construct(
-        private ObjectMapper $objectMapper = new ObjectMapper(),
+        private ObjectMapper  $objectMapper = new ObjectMapper(),
         private UpsertBuilder $upsertBuilder = new UpsertBuilder()
     )
     {
     }
 
-    public function findByNameAndCategoryId(string $schemaName, string $categoryID,): ParsingSchema
+    public function findById(int $id): ParsingSchema
     {
-        $parsingSchemaData = ProductPropertyCollection::find()
+        $schemaRecord = ParsingSchemaRecord::find()->where([
+            'id' => $id
+        ])->with()
             ->asArray()
-            ->select(['parsingSchemas' => [
-                '$mergeObjects' => [
-                    [
-                        '$arrayElemAt' => [
-                            '$parsingSchemas',
-                            [
-                                '$indexOfArray' => [
-                                    '$parsingSchemas',
-                                    [
-                                        '$eq' => [
-                                            '$parsingSchemas.name',
-                                            $schemaName
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ],
-                ]
-            ]])
-            ->where(['_id' => $categoryID])
-            ->limit(1)
             ->one();
-        return $this->objectMapper->map($parsingSchemaData['parsingSchemas'], ParsingSchema::class);
-    }
-
-    public function update(ParsingSchema $schema, string $categoryID): void
-    {
-        $data = $this->objectMapper->map($schema, []);
-        ProductPropertyCollection::getCollection()->update(
-            ['_id' => $categoryID],
-            ["parsingSchemas.$[elem]" => $data],
-            [
-                'arrayFilters' => [
-                    ["elem.name" => $data['name']]
-                ]
-            ]
-        );
+        if ($schemaRecord === null) {
+            throw new Exception(sprintf('Схема парсинга с id=%s не найдена', $id));
+        }
+        return $this->objectMapper->map($schemaRecord, ParsingSchema::class);
     }
 
     public function save(ParsingSchema $schema): void
@@ -73,14 +42,14 @@ class ParsingSchemaRepository
         try {
             $insertData = [
                 'id' => $snapshot->id,
-                'name'=>$snapshot->name,
+                'name' => $snapshot->name,
                 'start_with_row_num' => $snapshot->startWithRowNum,
             ];
             $this->upsertBuilder
                 ->useActiveRecord(ParsingSchemaRecord::class)
                 ->upsertManyRecords([$insertData]);
             $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
-            foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot){
+            foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot) {
                 $pairs[] = [
                     'id' => $relationshipPairsSnapshot->id,
                     'schema_id' => $schemaId,
@@ -95,7 +64,7 @@ class ParsingSchemaRepository
                 ->useActiveRecord(ParsingSchemaPropertiesRecord::class)
                 ->upsertManyRecords($pairs);
             $trx->commit();
-        }catch (\Throwable $exception){
+        } catch (\Throwable $exception) {
             $trx->rollBack();
             throw $exception;
         }

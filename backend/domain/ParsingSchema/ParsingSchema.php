@@ -57,15 +57,26 @@ class ParsingSchema
         $this->relationshipPairs->add($pair);
     }
 
-    public function changeRelationPairLink(string $pairName, string $newName, string $newFieldName): void
+    public function changeRelationPairLink(
+        mixed    $pairID,
+        string $relatedWithExternalField,
+        string $relatedWithPropertyID
+    ): void
     {
-        $pair = $this->relationshipPairs->findFirst(function ($key, RelationshipPair $relationshipPair) use ($pairName
-        ) {
-            return $relationshipPair->hasNameProperty($pairName);
-        });
+        $pair = $this->relationshipPairs
+            ->findFirst(
+                function ($key, RelationshipPair $relationshipPair) use ($pairID) {
+                    return $relationshipPair->hasId($pairID);
+                });
         if (is_null($pair)) {
+            $this->add(
+                new RelationshipPair(
+                    $relatedWithPropertyID,
+                    $relatedWithExternalField
+                )
+            );
             return;
         }
-        $pair->changeRelation($newName, $newFieldName);
+        $pair->changeRelation($relatedWithPropertyID, $relatedWithExternalField);
     }
 }

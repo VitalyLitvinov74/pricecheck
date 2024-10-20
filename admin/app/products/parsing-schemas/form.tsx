@@ -2,8 +2,7 @@
 import React, {useState} from "react";
 import Select from "react-select";
 import {uuid} from "../../../utils/helpers"
-import {redirect} from "next/navigation";
-import Router from "react-router";
+import {useRouter} from "next/navigation";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema, isUpdate}) {
     const startPairs = parsingSchema.parsingSchemaProperties.map(
@@ -17,6 +16,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
     const [pairs, changePairs] = useState(startPairs)
     const [name, changeName] = useState(parsingSchema.name)
     const [startWithRowNum, changeRowNum] = useState(parsingSchema.start_with_row_num)
+    const {push} = useRouter()
 
     function removeRow(itemForRemove) {
         changePairs(pairs.filter(function (item) {
@@ -97,6 +97,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
             startWithRowNum: startWithRowNum,
             map: pairs.map(function (pair) {
                 return {
+                    id: pair.id,
                     productProperty: {
                         id: pair.propertyId
                     },
@@ -106,26 +107,37 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
         }
     }
 
-    function update() {
-        const data = dataForBackend();
-
+    async function update() {
+        let status = 204;
+        const url = `http://api.pricecheck.my:82/parsing-schemas/update`;
+        await fetch(url, {
+            body: JSON.stringify(dataForBackend()),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "post",
+        }).then(function (result) {
+            status = result.status;
+        })
+        if(status === 204){
+            push("/products/parsing-schemas");
+        }
     }
 
     async function create() {
         let status = 204;
         const url = `http://api.pricecheck.my:82/parsing-schemas/create`;
-        // await fetch(url, {
-        //     body: JSON.stringify(dataForBackend()),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "post",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
-        // console.log(status)
+        await fetch(url, {
+            body: JSON.stringify(dataForBackend()),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "post",
+        }).then(function (result) {
+            status = result.status;
+        })
         if(status === 204){
-            await push('/products/parsing-schemas')
+            push("/products/parsing-schemas");
         }
     }
 

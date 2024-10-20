@@ -34,22 +34,14 @@ class RelationshipPair
     {
     }
 
-    public function changeRelation(string $newName, string $newFieldName): void
+    public function changeRelation(string $relatedWithPropertyID, string $relatedWithExternalField): void
     {
-//        $existNeighbouringPairWithIdenticalName = $this->neighboringPairs->exists(function ($key, RelationshipPair $pair){
-//            return $pair->hasNameProperty($this->productPropertyId);
-//        });
-//        if($existNeighbouringPairWithIdenticalName){
-//
-//        }
-//        $this->productPropertyId = $newName;
-//        $this->externalFieldName = $newFieldName;
+        $this->productPropertyId = $relatedWithPropertyID;
+        $this->externalFieldName = $relatedWithExternalField;
     }
 
-    public function hasNameProperty(string $name): bool
+    public function hasId(mixed $id): bool
     {
-        return strtolower($this->productPropertyId) === strtolower($name);
+        return $this->id === $id;
     }
-
-
 }

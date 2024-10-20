@@ -2,12 +2,9 @@
 
 namespace app\controllers;
 
-use app\collections\ProductPropertyCollection;
-use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
-use app\records\PropertiesRecord;
 use Throwable;
 use Yii;
 

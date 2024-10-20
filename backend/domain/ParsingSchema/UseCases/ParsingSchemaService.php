@@ -39,17 +39,30 @@ class ParsingSchemaService
     }
 
     /**
-     * @param string $categoryId
+     * @param int $id
      * @param string $name
      * @param int $startFromRow
      * @param RelationPairForm[] $relationshipPairsForms
      * @return void
+     * @throws \Throwable
      */
-    public function update(string $categoryId, string $name, int $startFromRow, array $relationshipPairsForms): void
+    public function update(
+        int $id,
+        string $name,
+        int $startFromRow,
+        array $relationshipPairsForms
+    ): void
     {
-        $schema = $this->repository->findByNameAndCategoryId($name, $categoryId);
+        $schema = $this->repository->findById($id);
         $schema->rename($name);
         $schema->changeStartingRowNum($startFromRow);
+        foreach ($relationshipPairsForms as $relationshipPairsForm){
+            $schema->changeRelationPairLink(
+                $relationshipPairsForm->id,
+                $relationshipPairsForm->externalFieldName,
+                $relationshipPairsForm->productProperty->id
+            );
+        }
         $this->repository->save($schema);
     }
 }
