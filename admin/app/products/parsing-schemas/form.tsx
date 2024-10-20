@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import Select from "react-select";
 import {uuid} from "../../../utils/helpers"
 import {useRouter} from "next/navigation";
+import {revalidatePath, revalidateTag} from "next/cache";
+import revalidateParsingSchemaData from "../../actions/action";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema, isUpdate}) {
     const startPairs = parsingSchema.parsingSchemaProperties.map(
@@ -121,6 +123,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
             status = result.status;
         })
         if(status === 204){
+            await revalidateParsingSchemaData(parsingSchema.id)
             router.push("/products/parsing-schemas")
         }
     }

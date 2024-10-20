@@ -2,7 +2,8 @@ export const loadParsingSchema = async function (id){
     const url = `${process.env.URL}/parsing-schemas/view?id=${id}`;
     const data = await fetch(url, {
         next: {
-            revalidate: 0
+            revalidate: 0,
+            tags: ['parsingSchema']
         },
     })
     if(data.status === 404){
@@ -15,8 +16,9 @@ export const loadParsingSchemas = async function(){
     const url = `${process.env.URL}/parsing-schemas/index`;
     const data = await fetch(url, {
         next: {
-            revalidate: 0
-        }
+            revalidate: 0,
+            tags: ['parsingSchema']
+        },
     })
     return data.json();
 }
