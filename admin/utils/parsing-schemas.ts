@@ -3,7 +3,7 @@ export const loadParsingSchema = async function (id){
     const data = await fetch(url, {
         next: {
             revalidate: 0
-        }
+        },
     })
     if(data.status === 404){
         return null;

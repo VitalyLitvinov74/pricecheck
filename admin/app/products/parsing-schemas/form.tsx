@@ -107,6 +107,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
         }
     }
 
+    const router = useRouter()
     async function upsert(action){
         let status = 204;
         const url = `http://api.pricecheck.my:82/parsing-schemas/${action}`;
@@ -120,7 +121,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
             status = result.status;
         })
         if(status === 204){
-            push("/products/parsing-schemas");
+            router.push("/products/parsing-schemas")
         }
     }
 

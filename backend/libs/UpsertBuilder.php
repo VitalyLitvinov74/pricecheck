@@ -136,7 +136,7 @@ class UpsertBuilder
     private function pgOnDuplicateKeyExpression(): Expression
     {
         $result = '';
-        $columnNames = $this->uniqueKeys;
+        $columnNames = $this->columnNamesForInsert();
         foreach ($columnNames as $key => $columnName) {
             $result .= sprintf(
                 '%s = excluded.%s',
@@ -149,7 +149,7 @@ class UpsertBuilder
         }
         return new Expression(sprintf(
             " ON CONFLICT (%s) DO UPDATE SET %s",
-            implode(',', $columnNames),
+            implode(',', $this->uniqueKeys),
             $result
         ));
     }
