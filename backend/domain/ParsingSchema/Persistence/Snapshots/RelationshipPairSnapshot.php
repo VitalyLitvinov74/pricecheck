@@ -6,7 +6,7 @@ readonly class RelationshipPairSnapshot
 {
     public function __construct(
         public int|null $id,
-        public string $propertyId,
+        public int $propertyId,
         public string $externalColumnName
     )
     {

@@ -64,5 +64,6 @@ class ParsingSchemaService
             );
         }
         $this->repository->save($schema);
+        $dd = 0;
     }
 }

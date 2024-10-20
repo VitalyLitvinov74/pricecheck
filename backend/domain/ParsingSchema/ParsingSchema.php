@@ -34,7 +34,7 @@ class ParsingSchema
 
         #[HasManyModels(
             nestedType: RelationshipPair::class,
-            mapWithArrayKey: 'relationshipPairs',
+            mapWithArrayKey: 'parsingSchemaProperties',
             mapWithObjectKey: 'relationshipPairsSnapshots'
         )]
         private ArrayCollection $relationshipPairs = new ArrayCollection(),

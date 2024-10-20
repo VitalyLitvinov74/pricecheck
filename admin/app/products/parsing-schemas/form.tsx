@@ -107,26 +107,9 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
         }
     }
 
-    async function update() {
+    async function upsert(action){
         let status = 204;
-        const url = `http://api.pricecheck.my:82/parsing-schemas/update`;
-        await fetch(url, {
-            body: JSON.stringify(dataForBackend()),
-            headers: {
-                'content-type': "application/json"
-            },
-            method: "post",
-        }).then(function (result) {
-            status = result.status;
-        })
-        if(status === 204){
-            push("/products/parsing-schemas");
-        }
-    }
-
-    async function create() {
-        let status = 204;
-        const url = `http://api.pricecheck.my:82/parsing-schemas/create`;
+        const url = `http://api.pricecheck.my:82/parsing-schemas/${action}`;
         await fetch(url, {
             body: JSON.stringify(dataForBackend()),
             headers: {
@@ -185,7 +168,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
                     type="button"
                     className="btn btn-success mr-2"
                     onClick={() => {
-                        isUpdate ? update() : create()
+                        isUpdate ? upsert('update') : upsert('create')
                     }}
                 >
                     <i className="feather icon-save mr-2"></i>

@@ -11,6 +11,7 @@ use app\libs\UpsertBuilder;
 use app\records\ParsingSchemaPropertiesRecord;
 use app\records\ParsingSchemaRecord;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\Exception;
 
 class ParsingSchemaRepository
@@ -24,9 +25,13 @@ class ParsingSchemaRepository
 
     public function findById(int $id): ParsingSchema
     {
-        $schemaRecord = ParsingSchemaRecord::find()->where([
-            'id' => $id
-        ])->with()
+        $schemaRecord = ParsingSchemaRecord::find()
+            ->where([
+                'id' => $id
+            ])
+            ->with([
+                'parsingSchemaProperties'
+            ])
             ->asArray()
             ->one();
         if ($schemaRecord === null) {
@@ -46,9 +51,15 @@ class ParsingSchemaRepository
                 'start_with_row_num' => $snapshot->startWithRowNum,
             ];
             $this->upsertBuilder
+                ->useUniqueKeys([
+                    'id'
+                ])
                 ->useActiveRecord(ParsingSchemaRecord::class)
                 ->upsertManyRecords([$insertData]);
-            $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
+            $schemaId = $snapshot->id;
+            if($schemaId === null){
+                $schemaId = ParsingSchemaRecord::getDb()->getLastInsertID();
+            }
             foreach ($snapshot->relationshipPairsSnapshots as $relationshipPairsSnapshot) {
                 $pairs[] = [
                     'id' => $relationshipPairsSnapshot->id,
