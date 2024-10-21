@@ -17,19 +17,19 @@ export default function PropertiesTable({datas, availableTypes}) {
         if (itemForRemove.id === null) {
             return;
         }
-        // const url = `http://api.pricecheck.my:82/product-property/remove`;
-        // let status = 0;
-        // fetch(url, {
-        //     body: JSON.stringify({
-        //         id: item.id
-        //     }),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "post",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
+        const url = `http://api.pricecheck.my:82/properties/remove`;
+        let status = 0;
+        fetch(url, {
+            body: JSON.stringify({
+                id: itemForRemove.id
+            }),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "delete",
+        }).then(function (result) {
+            status = result.status;
+        })
     }
 
     function update(updatingItem) {
@@ -194,20 +194,33 @@ export default function PropertiesTable({datas, availableTypes}) {
             list.push(item)
         })
         changeData(list)
-        // let status = 0;
-        // const url = `http://api.pricecheck.my:82/properties/create`;
-        // fetch(url, {
-        //     body: JSON.stringify({
-        //         properties: [draftItem]
-        //     }),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "post",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
-        // this.setState({data: this.props.data})
+        let status = 0;
+        let url = '';
+        let dataForUpsert = {};
+        if(Number.isInteger(updatedItem.id)){
+            url = `http://api.pricecheck.my:82/properties/change`;
+            dataForUpsert = data.find(function(property){
+                return property.id === updatedItem.id
+            })
+        }else{
+            url = `http://api.pricecheck.my:82/properties/create`;
+            dataForUpsert = {
+                properties: data.filter(function(property){
+                    return property.id === updatedItem.id
+                })
+            }
+        }
+        console.log(url, dataForUpsert)
+
+        fetch(url, {
+            body: JSON.stringify(dataForUpsert),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "POST",
+        }).then(function (result) {
+            status = result.status;
+        })
     }
 
     return (

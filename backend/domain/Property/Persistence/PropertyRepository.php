@@ -7,9 +7,6 @@ use app\libs\LibsException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\PropertiesRecord;
-use Yii;
-use yii\base\InvalidConfigException;
-use yii\mongodb\Exception;
 
 class PropertyRepository
 {
@@ -33,13 +30,13 @@ class PropertyRepository
             ->useActiveRecord(PropertiesRecord::class)
             ->useUniqueKeys(['id'])
             ->upsertManyRecords($insertData);
-        $actualIds = [];
+        $actualNames = [];
         foreach ($data['collection'] as $property){
-            if($property['id']){
-                $actualIds[] = $property['id'];
+            if($property['name']){
+                $actualNames[] = $property['name'];
             }
         }
-        PropertiesRecord::deleteAll(['not in', 'id', $actualIds]);
+        PropertiesRecord::deleteAll(['not in', 'name', $actualNames]);
     }
 
     public function findAll(): Properties

@@ -4,6 +4,7 @@ namespace app\domain\Property\UseCases;
 
 use app\domain\Property\Persistence\PropertyRepository;
 use app\forms\ProductPropertyForm;
+use yii\base\Exception;
 
 class ProductPropertyService
 {
@@ -15,7 +16,7 @@ class ProductPropertyService
     /**
      * @param ProductPropertyForm[] $propertiesData
      * @return void - id
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function push(array $propertiesData): void
     {
@@ -29,9 +30,11 @@ class ProductPropertyService
         $this->propertiesRepository->merge($properties);
     }
 
-    public function change(): void
+    public function change(int $id, string $newName, string $newType): void
     {
-
+        $properties = $this->propertiesRepository->findAll();
+        $properties->change($id, $newName, $newType);
+        $this->propertiesRepository->merge($properties);
     }
 
     public function remove(int $id): void

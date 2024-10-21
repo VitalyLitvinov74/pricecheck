@@ -10,6 +10,7 @@ use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
 use app\forms\Scenarious;
 use app\records\PropertiesRecord;
+use Throwable;
 use Yii;
 use yii\db\Exception;
 use yii\filters\VerbFilter;
@@ -49,6 +50,28 @@ class PropertiesController extends BaseApiController
             }
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
+    }
+
+    public function actionChange(){
+        $propertyForm = new ProductPropertyForm([
+            'scenario' => Scenarious::UpdateProductProperty
+        ]);
+        $propertyForm->load($this->request->post());
+        if($propertyForm->validate()){
+            try {
+                $this->service->change(
+                    $propertyForm->id,
+                    $propertyForm->name,
+                    $propertyForm->type
+                );
+                return $this->jsonApi
+                    ->setupCode(204)
+                    ->asArray();
+            }catch (Throwable $exception){
+                return $this->jsonApi->addException($exception)->asArray();
+            }
+        }
+        return $this->jsonApi->addModelErrors($propertyForm)->asArray();
     }
 
     public function actionAvailableTypes(){

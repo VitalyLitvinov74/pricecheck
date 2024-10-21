@@ -9,4 +9,5 @@ abstract class Scenarious
     public const UpdateParsingSchema = 'updateParsingSchema';
     public const Default = 'default';
     public const RemoveProperty = 'removeProperty';
+    const UpdateProductProperty = 'updateProductProperty';
 }
