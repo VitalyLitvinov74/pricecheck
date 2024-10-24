@@ -15,9 +15,7 @@ export default async function newProduct(){
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card m-b-30">
-                        <div className="card-body">
-                            <Form properties={properties}/>
-                        </div>
+                        <Form properties={properties}/>
                     </div>
                 </div>
 

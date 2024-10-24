@@ -102,6 +102,8 @@ export default function Form({properties}) {
                             defaultValue={optionsFor(attribute)[0]}
                             options={optionsFor()}
                             onChange={(option)=>attributeChangedOn(attribute, option)}
+
+                            // menuPortalTarget={document.querySelector('.contentbar')}
                         >
                         </Select>
                     </div>
@@ -120,7 +122,7 @@ export default function Form({properties}) {
     }
 
     return (
-        <div>
+        <div className="card-body" >
             <div className="row mt-2">
                 <div className="col-md-9">
                     <button
@@ -140,11 +142,15 @@ export default function Form({properties}) {
                     </button>
                 </div>
             </div>
-            {attributes.map(
-                function(attribute){
-                    return attributeInput(attribute)
-                }
-            )}
+            <div className="row ">
+                <div className="col-md-12">
+                    {attributes.map(
+                        function(attribute){
+                            return attributeInput(attribute)
+                        }
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
