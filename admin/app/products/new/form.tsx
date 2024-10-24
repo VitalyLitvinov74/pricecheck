@@ -1,6 +1,6 @@
 "use client"
 import Select from "react-select";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Form({properties}) {
@@ -75,7 +75,6 @@ export default function Form({properties}) {
         })
         changeAttributes(newAttributes)
     }
-
     function attributeInput(attribute){
         return (
             <div key={attribute.id}>
@@ -102,8 +101,6 @@ export default function Form({properties}) {
                             defaultValue={optionsFor(attribute)[0]}
                             options={optionsFor()}
                             onChange={(option)=>attributeChangedOn(attribute, option)}
-
-                            // menuPortalTarget={document.querySelector('.contentbar')}
                         >
                         </Select>
                     </div>
