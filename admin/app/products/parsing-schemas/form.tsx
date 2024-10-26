@@ -140,6 +140,8 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
                         onChange={(option) => {
                             changePair(pair, option)
                         }}
+                        menuPortalTarget={document.body}
+                        styles={{ menuPortal: base => ({ ...base, zIndex: 2 }) }}
                     />
                 </td>
                 <td className="tabledit-edit-mode">
