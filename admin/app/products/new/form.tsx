@@ -101,8 +101,7 @@ export default function Form({properties}) {
                             defaultValue={optionsFor(attribute)[0]}
                             options={optionsFor()}
                             onChange={(option)=>attributeChangedOn(attribute, option)}
-                            menuPortalTarget={document.body}
-                            styles={{ menuPortal: base => ({ ...base, zIndex: 2 }) }}
+                            menuPosition={"fixed"}
                         >
                         </Select>
                     </div>
