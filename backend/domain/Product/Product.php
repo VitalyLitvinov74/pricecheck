@@ -37,6 +37,7 @@ class Product
             }
         );
         if($existedSameAttribute !== null){
+
             $this->attributes->removeElement($existedSameAttribute);
             $this->attributes->add($attribute);
             return;

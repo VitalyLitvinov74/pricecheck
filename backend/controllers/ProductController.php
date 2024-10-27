@@ -69,15 +69,16 @@ class ProductController extends BaseApiController
         $productForm = new ProductForm([
             'scenario' => Scenarious::UpdateProduct
         ]);
-        if ($productForm->load(Yii::$app->request->post()) && $productForm->validate()) {
+        $productForm->load(Yii::$app->request->post());
+        if ($productForm->validate()) {
             try {
-                $this->service->update();
+                $this->service->update($productForm);
                 return $this->jsonApi->setupCode(204)->asArray();
             }catch (Throwable $throwable){
                 return $this->jsonApi->addException($throwable)->asArray();
             }
         }
-        return $this->jsonApi->addModelErrors($productForm)->asArray();
+        return $this->jsonApi->addModelErrors($productForm)->setupCode(422)->asArray();
     }
 
     public function actionRemove(): array

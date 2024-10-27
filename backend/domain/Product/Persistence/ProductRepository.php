@@ -189,4 +189,15 @@ class ProductRepository
     {
         ProductsRecords::deleteAll(['id'=>$id]);
     }
+
+    /**
+     * @param Product $product
+     * @return void
+     * @throws Exception
+     * @throws Throwable
+     */
+    public function save(Product $product): void
+    {
+        $this->saveAll(new ArrayCollection([$product]));
+    }
 }

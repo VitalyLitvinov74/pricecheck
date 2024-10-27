@@ -5,10 +5,13 @@ namespace app\domain\Product\UseCase;
 use app\domain\Product\Models\Attribute;
 use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
+use app\domain\Property\Models\Property;
 use app\exceptions\BaseException;
 use app\forms\ProductAttributeForm;
+use app\forms\ProductForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Throwable;
+use yii\db\Exception;
 use yii\web\UploadedFile;
 
 class ProductsService
@@ -58,6 +61,28 @@ class ProductsService
     public function remove($id): void
     {
         $this->productRepository->remove($id);
+    }
+
+    /**
+     * @param ProductForm $form
+     * @return void
+     * @throws BaseException
+     * @throws Throwable
+     * @throws Exception
+     */
+    public function update(ProductForm $form): void
+    {
+        $product = $this->productRepository->find($form->id);
+        foreach ($form->productAttributes as $attribute){
+            $property = $this->productRepository->findPropertyById($attribute->property->id);
+            $product->attachWith(
+                new Attribute(
+                    $property,
+                    $attribute->value,
+                )
+            );
+        }
+        $this->productRepository->save($product);
     }
 
     private function existProperty(int $id): bool{
