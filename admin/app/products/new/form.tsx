@@ -1,8 +1,9 @@
 "use client"
 import Select from "react-select";
-import React, {useRef, useState} from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, {useState} from "react";
+import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/navigation";
+import revalidateProductList from "../../actions/RevalidateProductList";
 
 export default function Form({properties}) {
 
@@ -21,22 +22,22 @@ export default function Form({properties}) {
     function optionsFor(attribute = null) {
         let options: any;
         options = properties
-            .filter(function(property){
+            .filter(function (property) {
                 let needShow = true
-                attributes.forEach(function(createdAttribute){
-                    if(createdAttribute.propertyId === property.id){
+                attributes.forEach(function (createdAttribute) {
+                    if (createdAttribute.propertyId === property.id) {
                         needShow = false
                     }
                 })
                 return needShow
             })
             .map(function (property, key) {
-            return {
-                value: property.id,
-                label: property.name
-            }
-        });
-        if(attribute !== null){
+                return {
+                    value: property.id,
+                    label: property.name
+                }
+            });
+        if (attribute !== null) {
             options = [{
                 value: attribute.propertyId,
                 label: attribute.name
@@ -45,36 +46,36 @@ export default function Form({properties}) {
         return options;
     }
 
-    function add(){
-        if(optionsFor(null).length === 0){
+    function add() {
+        if (optionsFor(null).length === 0) {
             disableAddButton(true);
             return;
         }
         changeAttributes([defaultAttribute(), ...attributes])
     }
 
-    function remove(attribute){
+    function remove(attribute) {
         changeAttributes(
-            attributes.filter(function(validateAttribute){
-            return validateAttribute.id !== attribute.id;
-        }))
+            attributes.filter(function (validateAttribute) {
+                return validateAttribute.id !== attribute.id;
+            }))
 
-        if(optionsFor(attribute).length > 0){
+        if (optionsFor(attribute).length > 0) {
             disableAddButton(false);
             return;
         }
     }
 
-    function attributeChangedOn(attribute, option = null, attributeValue = null){
+    function attributeChangedOn(attribute, option = null, attributeValue = null) {
         const newAttributes = attributes.slice()
-        newAttributes.forEach(function(newAttribute){
-            if(attribute.propertyId === newAttribute.propertyId){
-                if(option){
+        newAttributes.forEach(function (newAttribute) {
+            if (attribute.propertyId === newAttribute.propertyId) {
+                if (option) {
                     newAttribute.name = option.label
                     newAttribute.propertyId = option.value
                 }
-                if(attributeValue !== null){
-                    if(attributeValue === ''){
+                if (attributeValue !== null) {
+                    if (attributeValue === '') {
                         newAttribute.value = null
                         return;
                     }
@@ -85,7 +86,8 @@ export default function Form({properties}) {
         changeAttributes(newAttributes)
         console.log(newAttributes)
     }
-    function attributeInput(attribute){
+
+    function attributeInput(attribute) {
         return (
             <div key={attribute.id}>
                 <div className="row mt-4">
@@ -107,8 +109,8 @@ export default function Form({properties}) {
                         <input type="text"
                                className="form-control is-invalid"
                                id={attribute.id} required=""
-                               onBlur={(e)=>{
-                                   attributeChangedOn(attribute, null,e.target.value)
+                               onBlur={(e) => {
+                                   attributeChangedOn(attribute, null, e.target.value)
                                }}
                         />
                     </div>
@@ -116,7 +118,7 @@ export default function Form({properties}) {
                         <Select
                             defaultValue={optionsFor(attribute)[0]}
                             options={optionsFor()}
-                            onChange={(option)=>attributeChangedOn(attribute, option)}
+                            onChange={(option) => attributeChangedOn(attribute, option)}
                             menuPosition={"fixed"}
                         >
                         </Select>
@@ -125,7 +127,9 @@ export default function Form({properties}) {
                         <button
                             type="button"
                             className="btn btn-round btn-danger-rgba"
-                            onClick={()=>{remove(attribute)}}
+                            onClick={() => {
+                                remove(attribute)
+                            }}
                         >
                             <i className="feather icon-minus"></i>
                         </button>
@@ -135,8 +139,8 @@ export default function Form({properties}) {
         )
     }
 
-    function dataForBackend(){
-        return attributes.map(function(attribute){
+    function dataForBackend() {
+        return attributes.map(function (attribute) {
             return {
                 name: attribute.name,
                 property: {
@@ -146,10 +150,10 @@ export default function Form({properties}) {
             }
         })
     }
+
     const router = useRouter();
 
-    async function saveProduct(action = 'create'){
-        console.log(dataForBackend())
+    async function saveProduct(action = 'create') {
         let status = 204;
         const url = `http://api.pricecheck.my:82/product/create`;
         await fetch(url, {
@@ -161,13 +165,14 @@ export default function Form({properties}) {
         }).then(function (result) {
             status = result.status;
         })
-        if(status === 204){
+        if (status === 204) {
+            await revalidateProductList()
             router.push("/products")
         }
     }
 
     return (
-        <div className="card-body" >
+        <div className="card-body">
             <div className="row mt-2">
                 <div className="col-md-9">
                     <button
@@ -194,7 +199,7 @@ export default function Form({properties}) {
             <div className="row ">
                 <div className="col-md-12">
                     {attributes.map(
-                        function(attribute){
+                        function (attribute) {
                             return attributeInput(attribute)
                         }
                     )}

@@ -3,8 +3,7 @@ import React, {useState} from "react";
 import Select from "react-select";
 import {uuid} from "../../../utils/helpers"
 import {useRouter} from "next/navigation";
-import {revalidatePath, revalidateTag} from "next/cache";
-import revalidateParsingSchemaData from "../../actions/action";
+import revalidateParsingSchemaData from "../../actions/RevalidateParsingSchema";
 
 export default function ParsingSchemaForm({availableProperties, parsingSchema, isUpdate}) {
     const startPairs = parsingSchema.parsingSchemaProperties.map(
@@ -140,7 +139,7 @@ export default function ParsingSchemaForm({availableProperties, parsingSchema, i
                         onChange={(option) => {
                             changePair(pair, option)
                         }}
-                        menuPosition={"fixed"}
+                       menuPosition={"fixed"}
                     />
                 </td>
                 <td className="tabledit-edit-mode">

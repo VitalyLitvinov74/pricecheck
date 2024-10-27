@@ -44,11 +44,11 @@ class ProductController extends BaseApiController
             ->all();
     }
 
-    public function actionRemove(int $id): array{
+    public function actionRemove(): array{
         $form = new ProductForm([
             'scenario' => Scenarious::RemoveProduct
         ]);
-        if($form->load(Yii::$app->request->get()) && $form->validate()){
+        if($form->load(Yii::$app->request->post()) && $form->validate()){
             try {
                 $this->service->remove($form->id);
                 return $this->jsonApi->setupCode(204)->asArray();

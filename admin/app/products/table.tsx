@@ -1,13 +1,30 @@
-import {loadProducts} from "../../utils/products";
+"use client"
+import React, {useState} from "react";
+import revalidateProductList from "../actions/RevalidateProductList";
 
-"use-client"
-import React from "react";
+export default function Table({importedProducts}) {
 
-export default async function Table({}) {
-    let products = [];
-    await loadProducts().then(function(data){
-        products = data;
-    });
+    const [products, updateProducts] = useState(importedProducts)
+
+    async function remove(product){
+        let status = 204;
+        const url = `http://api.pricecheck.my:82/product/remove`;
+        await fetch(url, {
+            body: JSON.stringify(product),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "delete",
+        }).then(function (result) {
+            status = result.status;
+        })
+        if(status === 204){
+            updateProducts(
+                products.filter(function(importedProduct){
+                return product.id !== importedProduct.id
+            }))
+        }
+    }
     return (
         <>
             <div className="table-responsive">
@@ -25,10 +42,10 @@ export default async function Table({}) {
                                 <th scope="row">#{product.id}</th>
                                 <td>
                                     <div className="button-list">
-                                        <a href="#" className="btn btn-success-rgba"><i
-                                            className="feather icon-edit-2"></i></a>
-                                        <a href="#" className="btn btn-danger-rgba"><i
-                                            className="feather icon-trash"></i></a>
+                                        <button className="btn btn-success-rgba"><i
+                                            className="feather icon-edit-2"></i></button>
+                                        <button onClick={()=>{remove(product)}} className="btn btn-danger-rgba"><i
+                                            className="feather icon-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
