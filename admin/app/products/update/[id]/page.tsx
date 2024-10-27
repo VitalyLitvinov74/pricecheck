@@ -23,7 +23,7 @@ export default async function Page({params}: { id: string }){
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card m-b-30">
-                        <Form properties={properties} productData={product}/>
+                        <Form properties={properties} productData={product} action={"update"}/>
                     </div>
                 </div>
 

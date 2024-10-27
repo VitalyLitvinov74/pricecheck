@@ -9,6 +9,7 @@ use app\forms\Scenarious;
 use app\records\ProductsRecords;
 use Throwable;
 use Yii;
+use yii\db\ActiveQuery;
 
 class ProductController extends BaseApiController
 {
@@ -48,11 +49,35 @@ class ProductController extends BaseApiController
     {
         return ProductsRecords::find()
             ->with([
-                'productAttributes'
+                'productAttributes' => function (ActiveQuery $query) {
+                    $query->select([
+                        'id',
+                        'name' => 'property_name',
+                        'propertyId' => 'property_id',
+                        'value',
+                        'product_id'
+                    ]);
+                }
             ])
             ->where(['id' => $id])
             ->asArray()
             ->one();
+    }
+
+    public function actionUpdate(): array
+    {
+        $productForm = new ProductForm([
+            'scenario' => Scenarious::UpdateProduct
+        ]);
+        if ($productForm->load(Yii::$app->request->post()) && $productForm->validate()) {
+            try {
+                $this->service->update();
+                return $this->jsonApi->setupCode(204)->asArray();
+            }catch (Throwable $throwable){
+                return $this->jsonApi->addException($throwable)->asArray();
+            }
+        }
+        return $this->jsonApi->addModelErrors($productForm)->asArray();
     }
 
     public function actionRemove(): array

@@ -27,7 +27,8 @@ class ProductPropertyForm extends Model
             Scenarious::CreateParsingSchema => ['id'],
             Scenarious::UpdateParsingSchema => ['id'],
             Scenarious::RemoveProperty => ['id'],
-            Scenarious::UpdateProductProperty => ['id', 'name', 'type']
+            Scenarious::UpdateProductProperty => ['id', 'name', 'type'],
+            Scenarious::UpdateProduct => ['id']
 
         ];
     }

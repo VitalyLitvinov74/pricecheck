@@ -1,6 +1,7 @@
 "use client"
 import React, {useState} from "react";
 import revalidateProductList from "../actions/RevalidateProductList";
+import Link from "next/link";
 
 export default function Table({importedProducts}) {
 
@@ -42,8 +43,11 @@ export default function Table({importedProducts}) {
                                 <th scope="row">#{product.id}</th>
                                 <td>
                                     <div className="button-list">
-                                        <button className="btn btn-success-rgba"><i
-                                            className="feather icon-edit-2"></i></button>
+                                        <Link className="btn btn-success-rgba"
+                                              href={`/products/update/${product.id}`}
+                                        >
+                                            <i className="feather icon-edit-2"></i>
+                                        </Link>
                                         <button onClick={()=>{remove(product)}} className="btn btn-danger-rgba"><i
                                             className="feather icon-trash"></i></button>
                                     </div>

@@ -5,10 +5,16 @@ import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/navigation";
 import revalidateProductList from "../actions/RevalidateProductList";
 
-export default function Form({properties, productData = {}}) {
+export default function Form({
+                                 properties,
+                                 productData = {productAttributes: []},
+                                action = 'create'
+}) {
 
-    const [attributes, changeAttributes] = useState(productData.attributes)
+    const [attributes, changeAttributes] = useState(productData.productAttributes)
     const [addButtonDisabled, disableAddButton] = useState(false)
+
+    console.log(attributes)
 
     function defaultAttribute() {
         return {
@@ -112,6 +118,7 @@ export default function Form({properties, productData = {}}) {
                                onBlur={(e) => {
                                    attributeChangedOn(attribute, null, e.target.value)
                                }}
+                               value={attribute.value}
                         />
                     </div>
                     <div className="col-md-3">
@@ -153,9 +160,9 @@ export default function Form({properties, productData = {}}) {
 
     const router = useRouter();
 
-    async function saveProduct(action = 'create') {
+    async function saveProduct() {
         let status = 204;
-        const url = `http://api.pricecheck.my:82/product/create`;
+        const url = `http://api.pricecheck.my:82/product/${action}`;
         await fetch(url, {
             body: JSON.stringify(dataForBackend()),
             headers: {

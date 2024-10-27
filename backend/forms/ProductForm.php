@@ -19,7 +19,8 @@ class ProductForm extends NestedForm
     {
         return [
             Scenarious::CreateProduct => ['productAttributes'],
-            Scenarious::RemoveProduct => ['id']
+            Scenarious::RemoveProduct => ['id'],
+            Scenarious::UpdateProduct => ['id', 'productAttributes']
         ];
     }
 
@@ -28,7 +29,7 @@ class ProductForm extends NestedForm
         return [
             'productAttributes' => [
                 'class' => ProductAttributeForm::class,
-                'scenario' => Scenarious::CreateProduct
+                'scenario' => $this->scenario
             ]
         ];
     }

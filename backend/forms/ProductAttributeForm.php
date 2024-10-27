@@ -14,7 +14,7 @@ class ProductAttributeForm extends NestedForm
     public function rules(): array
     {
         return [
-            [['value', 'property'], 'required', 'skipOnEmpty' => false, 'strict' => true, 'skipOnError' => false]
+            [['value', 'property', 'id'], 'required', 'skipOnEmpty' => false, 'strict' => true, 'skipOnError' => false]
         ];
     }
 
@@ -24,6 +24,9 @@ class ProductAttributeForm extends NestedForm
             Scenarious::CreateProduct => [
                 'value', 'property'
             ],
+            Scenarious::UpdateProduct => [
+                'id', 'value', 'property'
+            ]
         ];
     }
 
@@ -32,7 +35,7 @@ class ProductAttributeForm extends NestedForm
         return [
             'property' => [
                 'class' => ProductPropertyForm::class,
-                'scenario' => Scenarious::CreateProduct
+                'scenario' => $this->scenario
             ]
         ];
     }
