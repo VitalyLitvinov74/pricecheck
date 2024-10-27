@@ -2,8 +2,6 @@
 
 namespace app\forms;
 
-use yii\base\Model;
-
 class ProductForm extends NestedForm
 {
     /** @var ProductAttributeForm[] */

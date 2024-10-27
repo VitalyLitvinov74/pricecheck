@@ -2,6 +2,7 @@
 import Select from "react-select";
 import React, {useRef, useState} from "react";
 import { v4 as uuidv4 } from "uuid";
+import {useRouter} from "next/navigation";
 
 export default function Form({properties}) {
 
@@ -64,16 +65,25 @@ export default function Form({properties}) {
         }
     }
 
-    function attributeChangedOn(attribute, option){
+    function attributeChangedOn(attribute, option = null, attributeValue = null){
         const newAttributes = attributes.slice()
         newAttributes.forEach(function(newAttribute){
             if(attribute.propertyId === newAttribute.propertyId){
-                newAttribute.name = option.label
-                newAttribute.propertyId = option.value
-                newAttribute.value = attribute.value
+                if(option){
+                    newAttribute.name = option.label
+                    newAttribute.propertyId = option.value
+                }
+                if(attributeValue !== null){
+                    if(attributeValue === ''){
+                        newAttribute.value = null
+                        return;
+                    }
+                    newAttribute.value = attributeValue
+                }
             }
         })
         changeAttributes(newAttributes)
+        console.log(newAttributes)
     }
     function attributeInput(attribute){
         return (
@@ -94,7 +104,13 @@ export default function Form({properties}) {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <input type="text" className="form-control is-invalid" id={attribute.id} required=""/>
+                        <input type="text"
+                               className="form-control is-invalid"
+                               id={attribute.id} required=""
+                               onBlur={(e)=>{
+                                   attributeChangedOn(attribute, null,e.target.value)
+                               }}
+                        />
                     </div>
                     <div className="col-md-3">
                         <Select
@@ -119,6 +135,37 @@ export default function Form({properties}) {
         )
     }
 
+    function dataForBackend(){
+        return attributes.map(function(attribute){
+            return {
+                name: attribute.name,
+                property: {
+                    id: attribute.propertyId
+                },
+                value: attribute.value
+            }
+        })
+    }
+    const router = useRouter();
+
+    async function saveProduct(action = 'create'){
+        console.log(dataForBackend())
+        let status = 204;
+        const url = `http://api.pricecheck.my:82/product/create`;
+        await fetch(url, {
+            body: JSON.stringify(dataForBackend()),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "post",
+        }).then(function (result) {
+            status = result.status;
+        })
+        if(status === 204){
+            router.push("/products")
+        }
+    }
+
     return (
         <div className="card-body" >
             <div className="row mt-2">
@@ -132,8 +179,12 @@ export default function Form({properties}) {
                         <span className="glyphicon glyphicon-screenshot"></span>
                         Добавить аттрибут
                     </button>
-                    <button type="button" className="btn btn-success mr-2"><i
-                        className="feather icon-save mr-2"></i> Сохранить
+                    <button
+                        type="button"
+                        onClick={saveProduct}
+                        className="btn btn-success mr-2">
+                        <i className="feather icon-save mr-2"></i>
+                        Сохранить
                     </button>
                     <button type="button" className="btn btn-secondary-rgba mr-2"><i
                         className="feather icon-share-2 mr-2"></i> Сохранить шаблон

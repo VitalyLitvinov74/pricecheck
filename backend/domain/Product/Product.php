@@ -21,16 +21,7 @@ class Product
     /** @var ArrayCollection<int, Attribute> $attributes */
     private ArrayCollection $attributes;
 
-    /**
-     * @param ArrayCollection<int, Property> $availableProperties
-     */
     public function __construct(
-        #[HasManyModels(
-            nestedType: Property::class,
-            mapWithArrayKey: 'available_properties'
-        )]
-        private ArrayCollection $availableProperties,
-
         #[Prop(defaultMapWith: 'id')]
         private int|null $id = null
     )
@@ -50,20 +41,7 @@ class Product
             $this->attributes->add($attribute);
             return;
         }
-        foreach ($this->availableProperties as $availableProperty){
-            if($attribute->belongsTo($availableProperty)){
-                $this->attributes->add($attribute);
-                return;
-            }
-        }
-        $existAvailableProperty = $this->availableProperties->exists(
-            function($key, Property $property) use ($attribute){
-                return $property->canAttachTo($attribute);
-            }
-        );
-        if($existAvailableProperty){
-            $this->attributes->add($attribute);
-        }
+        $this->attributes->add($attribute);
     }
 
     public function has(Attribute $attribute): bool

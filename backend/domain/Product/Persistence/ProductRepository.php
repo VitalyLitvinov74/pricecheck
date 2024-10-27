@@ -17,6 +17,9 @@ use app\records\ProductAttributesRecord;
 use app\records\PropertiesRecord;
 use app\records\ProductsRecords;
 use Doctrine\Common\Collections\ArrayCollection;
+use Throwable;
+use Yii;
+use yii\db\Exception;
 
 class ProductRepository
 {
@@ -55,14 +58,23 @@ class ProductRepository
     /**
      * @param ArrayCollection $products
      * @return void
+     * @throws Throwable
+     * @throws Exception
      */
     public function saveAll(ArrayCollection $products): void
     {
-        $productsSnapshots = [];
-        foreach ($products as $product) {
-            $productsSnapshots[] = $this->objectMapper->map($product, ProductSnapshot::class);
+        $trx = Yii::$app->db->beginTransaction();
+        try{
+            $productsSnapshots = [];
+            foreach ($products as $product) {
+                $productsSnapshots[] = $this->objectMapper->map($product, ProductSnapshot::class);
+            }
+            $this->saveProducts($productsSnapshots);
+            $trx->commit();
+        }catch (Throwable $throwable){
+            $trx->rollBack();
+            throw $throwable;
         }
-        $this->saveProducts($productsSnapshots);
     }
 
     /**
@@ -126,7 +138,7 @@ class ProductRepository
                 return $property;
             }
         }
-        throw new BaseException('Не найдено свойство товара с id=%s', $id);
+        throw new BaseException(sprintf('Не найдено свойство товара с id=%s', $id));
     }
 
     /**
@@ -159,9 +171,7 @@ class ProductRepository
         $products = new ArrayCollection();
         $documentSnapshot = $this->objectMapper->map($result, DocumentSnapshot::class);
         foreach ($documentSnapshot->productsCardsSnapshots as $productCardSnapshot) {
-            $product = new Product(
-                new ArrayCollection($this->availableProperties())
-            );
+            $product = new Product();
             foreach ($productCardSnapshot->productCardPropertiesSnapshots as $propertySnapshot) {
                 $product->attachWith(
                     new Attribute(

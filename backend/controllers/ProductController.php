@@ -7,6 +7,7 @@ use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
 use Throwable;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class ProductController extends BaseApiController
 {
@@ -21,7 +22,7 @@ class ProductController extends BaseApiController
     public function actionCreate(): array
     {
         $form = new ProductForm();
-        $form->load(Yii::$app->request->post(), '');
+        $form->load(['productAttributes' => Yii::$app->request->post()], '');
         if ($form->validate()) {
             $this->service->createProduct($form->productAttributes);
             return $this->jsonApi->setupCode(204)->asArray();
