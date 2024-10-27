@@ -9,7 +9,6 @@ use app\forms\Scenarious;
 use app\records\ProductsRecords;
 use Throwable;
 use Yii;
-use yii\helpers\ArrayHelper;
 
 class ProductController extends BaseApiController
 {
@@ -34,25 +33,38 @@ class ProductController extends BaseApiController
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
 
-    public function actionIndex(): array{
+    public function actionIndex(): array
+    {
         return ProductsRecords::find()
             ->with([
                 'productAttributes'
             ])
-            ->orderBy(['id'=>SORT_DESC])
+            ->orderBy(['id' => SORT_DESC])
             ->asArray()
             ->all();
     }
 
-    public function actionRemove(): array{
+    public function actionView(int $id): array
+    {
+        return ProductsRecords::find()
+            ->with([
+                'productAttributes'
+            ])
+            ->where(['id' => $id])
+            ->asArray()
+            ->one();
+    }
+
+    public function actionRemove(): array
+    {
         $form = new ProductForm([
             'scenario' => Scenarious::RemoveProduct
         ]);
-        if($form->load(Yii::$app->request->post()) && $form->validate()){
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->remove($form->id);
                 return $this->jsonApi->setupCode(204)->asArray();
-            }catch (Throwable $throwable){
+            } catch (Throwable $throwable) {
                 return $this->jsonApi->addException($throwable)->asArray();
             }
         }

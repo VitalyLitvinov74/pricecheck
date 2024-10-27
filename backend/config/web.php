@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -46,6 +46,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'pattern' => 'product',
+                    'route' => 'product/index',
+                ],
+                [
+                    'pattern' => 'product/<id:\d+>',
+                    'route' => 'product/view',
+                ],
             ],
         ],
 
