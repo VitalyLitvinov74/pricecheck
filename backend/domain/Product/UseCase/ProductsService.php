@@ -55,6 +55,11 @@ class ProductsService
         $this->productRepository->saveAll($products);
     }
 
+    public function remove($id): void
+    {
+        $this->productRepository->remove($id);
+    }
+
     private function existProperty(int $id): bool{
         $properties = $this->productRepository->availableProperties();
         foreach ($properties as $property){

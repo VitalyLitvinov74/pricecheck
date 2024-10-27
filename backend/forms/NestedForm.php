@@ -81,11 +81,23 @@ abstract class NestedForm extends Model
         }
         $isValid = true;
         foreach ($this->nestedFormsMap() as $propertyName => $nestedFormName) {
+            if(!$this->needWorkWithNestedForm($propertyName)){
+                continue;
+            }
             if ($this->validateNestedForm($propertyName) === false) {
                 $isValid = false;
             }
         }
         return $isValid;
+    }
+
+    /**
+     * @param string $propertyName
+     * @return bool
+     */
+    private function needWorkWithNestedForm(string $propertyName): bool
+    {
+        return in_array($propertyName, $this->scenarios()[$this->scenario]);
     }
 
     public function load($data, $formName = null): bool
@@ -96,6 +108,9 @@ abstract class NestedForm extends Model
         }
         $isLoad = true;
         foreach ($this->nestedFormsMap() as $property => $nestedData) {
+            if(!$this->needWorkWithNestedForm($property)){
+                continue;
+            }
             $nestedClassName = $nestedData;
             if (is_array($nestedData)) {
                 $nestedClassName = $nestedData['class'];

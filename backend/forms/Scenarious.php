@@ -5,6 +5,7 @@ namespace app\forms;
 abstract class Scenarious
 {
     public const CreateProduct = 'createProduct';
+    public const RemoveProduct = 'removeProduct';
     public const CreateParsingSchema = 'createParsingSchema';
     public const UpdateParsingSchema = 'updateParsingSchema';
     public const Default = 'default';

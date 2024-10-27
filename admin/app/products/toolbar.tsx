@@ -7,7 +7,7 @@ export default function Toolbar(){
 
     return (
         <div className="row">
-            <div className="col-lg-6 btn-toolbar">
+            <div className="col-lg-6">
                 <div className="btn-group focus-btn-group">
                     <Link to="/home" href="/products/new">
                         <button
@@ -37,16 +37,16 @@ export default function Toolbar(){
                     </button>
                 </div>
             </div>
-            <div className="col-lg-6 ">
-                <div className="form-inline d-flex justify-content-end">
-                    <div className="form-group mx-sm-3 mb-2">
-                        <input type="text" className="form-control" id="inputPassword2" placeholder="Ищем по всем полям" />
-                    </div>
-                    <button type="submit" className="btn btn-info mb-2">
-                        <i className="feather icon-search"></i>
-                       </button>
-                </div>
-            </div>
+            {/*<div className="col-lg-6 ">*/}
+            {/*    <div className="form-inline d-flex justify-content-end">*/}
+            {/*        <div className="form-group mx-sm-3 mb-2">*/}
+            {/*            <input type="text" className="form-control" id="inputPassword2" placeholder="Ищем по всем полям" />*/}
+            {/*        </div>*/}
+            {/*        <button type="submit" className="btn btn-info mb-2">*/}
+            {/*            <i className="feather icon-search"></i>*/}
+            {/*           </button>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     );
 }

@@ -6,11 +6,20 @@ class ProductForm extends NestedForm
 {
     /** @var ProductAttributeForm[] */
     public $productAttributes;
+    public $id;
 
     public function rules(): array
     {
         return [
-            [['productAttributes'], 'required'],
+            [['productAttributes', 'id'], 'required'],
+            ['id', 'integer']
+        ];
+    }
+    public function scenarios(): array
+    {
+        return [
+            Scenarious::CreateProduct => ['productAttributes'],
+            Scenarious::RemoveProduct => ['id']
         ];
     }
 
@@ -22,5 +31,10 @@ class ProductForm extends NestedForm
                 'scenario' => Scenarious::CreateProduct
             ]
         ];
+    }
+
+    public function formName(): string
+    {
+        return '';
     }
 }

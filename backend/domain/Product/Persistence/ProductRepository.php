@@ -184,4 +184,9 @@ class ProductRepository
         }
         return $products;
     }
+
+    public function remove(int $id): void
+    {
+        ProductsRecords::deleteAll(['id'=>$id]);
+    }
 }

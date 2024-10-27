@@ -1,8 +1,13 @@
+import {loadProducts} from "../../utils/products";
 
 "use-client"
 import React from "react";
 
-export default function Table({}) {
+export default async function Table({}) {
+    let products = [];
+    await loadProducts().then(function(data){
+        products = data;
+    });
     return (
         <>
             <div className="table-responsive">
@@ -14,17 +19,21 @@ export default function Table({}) {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">#1</th>
-                        <td>
-                            <div className="button-list">
-                                <a href="#" className="btn btn-success-rgba"><i
-                                    className="feather icon-edit-2"></i></a>
-                                <a href="#" className="btn btn-danger-rgba"><i
-                                    className="feather icon-trash"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    {products.map(function(product){
+                        return (
+                            <tr key={product.id}>
+                                <th scope="row">#{product.id}</th>
+                                <td>
+                                    <div className="button-list">
+                                        <a href="#" className="btn btn-success-rgba"><i
+                                            className="feather icon-edit-2"></i></a>
+                                        <a href="#" className="btn btn-danger-rgba"><i
+                                            className="feather icon-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    })}
                     </tbody>
                 </table>
             </div>
