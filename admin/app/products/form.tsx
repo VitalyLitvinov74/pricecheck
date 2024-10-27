@@ -3,11 +3,11 @@ import Select from "react-select";
 import React, {useState} from "react";
 import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/navigation";
-import revalidateProductList from "../../actions/RevalidateProductList";
+import revalidateProductList from "../actions/RevalidateProductList";
 
-export default function Form({properties}) {
+export default function Form({properties, productData = {}}) {
 
-    const [attributes, changeAttributes] = useState([])
+    const [attributes, changeAttributes] = useState(productData.attributes)
     const [addButtonDisabled, disableAddButton] = useState(false)
 
     function defaultAttribute() {

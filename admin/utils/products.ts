@@ -7,3 +7,13 @@ export const loadProducts = async function(){
     })
     return data.json();
 }
+
+export const loadProduct = async function (id){
+    const url = `${process.env.URL}/product/${id}`;
+    const data  = await fetch(url, {
+        next: {
+            revalidate: 0
+        }
+    })
+    return data.json();
+}

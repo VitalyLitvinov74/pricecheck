@@ -1,9 +1,9 @@
 import {metadata} from "../../layout";
-import Form from "./form";
+import Form from "../form";
 import {loadProperties} from "../../../utils/product-properties";
 
 export default async function newProduct(){
-    metadata.title= "Список товаров"
+    metadata.title= "Создать товар"
     let properties = [];
     await loadProperties().then(
         function (data) {
