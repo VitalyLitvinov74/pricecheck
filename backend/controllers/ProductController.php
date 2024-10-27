@@ -74,7 +74,7 @@ class ProductController extends BaseApiController
             try {
                 $this->service->update($productForm);
                 return $this->jsonApi->setupCode(204)->asArray();
-            }catch (Throwable $throwable){
+            } catch (Throwable $throwable) {
                 return $this->jsonApi->addException($throwable)->asArray();
             }
         }
@@ -110,5 +110,10 @@ class ProductController extends BaseApiController
             }
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
+    }
+
+    public function actionTableSettings(): array
+    {
+
     }
 }
