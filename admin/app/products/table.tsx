@@ -55,7 +55,7 @@ export default function Table({importedProducts, tableSettings}) {
                                 <th>{setting.property.name}</th>
                             );
                         })}
-                        <th>Actions</th>
+                        <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
