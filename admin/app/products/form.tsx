@@ -118,7 +118,7 @@ export default function Form({
                                onBlur={(e) => {
                                    attributeChangedOn(attribute, null, e.target.value)
                                }}
-                               value={attribute.value}
+                               defaultValue={attribute.value}
                         />
                     </div>
                     <div className="col-md-3">
@@ -160,8 +160,6 @@ export default function Form({
                 }
             })
         };
-
-
     }
 
     const router = useRouter();
