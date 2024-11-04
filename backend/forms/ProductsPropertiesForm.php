@@ -1,6 +1,8 @@
 <?php
 namespace app\forms;
 
+use app\libs\NestedForm;
+
 class ProductsPropertiesForm extends NestedForm
 {
     public $title;

@@ -6,6 +6,7 @@ use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
 use app\forms\Scenarious;
+use app\records\CrmProductListSettingsRecord;
 use app\records\ProductsRecords;
 use Throwable;
 use Yii;
@@ -112,7 +113,13 @@ class ProductController extends BaseApiController
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
 
-    public function actionTableSettings(): array
+    public function actionListSettings(): array
+    {
+        $settings = CrmProductListSettingsRecord::find()->all();
+        return $this->jsonApi->addBody($settings)->asArray();
+    }
+
+    public function actionUpdateListSettings(): array
     {
 
     }

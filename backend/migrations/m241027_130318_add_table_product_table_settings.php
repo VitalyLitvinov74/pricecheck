@@ -14,9 +14,8 @@ class m241027_130318_add_table_product_table_settings extends Migration
     {
         $this->createTable('crm_product_list_settings', [
             'id'=>$this->primaryKey(),
-            'table_settings_id'=>$this->integer(),
             'property_id'=>$this->integer(),
-            'setting'=>$this->integer()
+            'setting_type_id'=>$this->integer()
         ]);
     }
 

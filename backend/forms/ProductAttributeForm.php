@@ -2,6 +2,8 @@
 
 namespace app\forms;
 
+use app\libs\NestedForm;
+
 class ProductAttributeForm extends NestedForm
 {
     public $value;
