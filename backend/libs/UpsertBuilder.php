@@ -157,10 +157,10 @@ class UpsertBuilder
     private function dataForInsert(): array
     {
         $data = $this->dataForInsert;
-        if($this->dbType() === self::pg){
-            foreach ($data as $rowNum => $row){
-                foreach ($row as $columnName => $column){
-                    if($column !== null){
+        if ($this->dbType() === self::pg) {
+            foreach ($data as $rowNum => $row) {
+                foreach ($row as $columnName => $column) {
+                    if ($column !== null) {
                         continue;
                     }
                     $data[$rowNum][$columnName] = new Expression('default');
@@ -170,5 +170,19 @@ class UpsertBuilder
         }
 
         return $data;
+    }
+
+    public function removeEverythingExcept(array $exceptFields, array $dynamicPk, array $values): void
+    {
+
+        $command = $this->db->createCommand(
+            sprintf(
+                'delete from %s where %s in (%s)',
+                $this->tableName,
+                $pk,
+                $queryExistRecords
+            )
+        );
+        return ;
     }
 }

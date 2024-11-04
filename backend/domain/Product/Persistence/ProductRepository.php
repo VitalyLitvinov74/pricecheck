@@ -2,7 +2,6 @@
 
 namespace app\domain\Product\Persistence;
 
-use app\domain\ParseDocument\Document;
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
 use app\domain\ParseDocument\UseCases\DocumentsParseService;
@@ -14,17 +13,18 @@ use app\exceptions\BaseException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductAttributesRecord;
-use app\records\PropertyRecord;
 use app\records\ProductsRecords;
+use app\records\PropertyRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 use Throwable;
 use Yii;
 use yii\db\Exception;
+use yii\db\Query;
 
 class ProductRepository
 {
     private array $propertiesData;
-    /** @var Property[]  */
+    /** @var Property[] */
     private array $properties;
 
     public function __construct(
@@ -41,8 +41,12 @@ class ProductRepository
         $data = ProductsRecords::find()
             ->where(['id' => $id])
             ->with([
-                'productAttributes',
-                'productAttributes.property'
+                'productAttributes' => function (Query $query) {
+                    $query->emulateExecution();
+                },
+                'productAttributes.property' => function (Query $query) {
+                    $query->emulateExecution();
+                }
             ])
             ->asArray()
             ->one();
@@ -65,14 +69,14 @@ class ProductRepository
     public function saveAll(ArrayCollection $products): void
     {
         $trx = Yii::$app->db->beginTransaction();
-        try{
+        try {
             $productsSnapshots = [];
             foreach ($products as $product) {
                 $productsSnapshots[] = $this->objectMapper->map($product, ProductSnapshot::class);
             }
             $this->saveProducts($productsSnapshots);
             $trx->commit();
-        }catch (Throwable $throwable){
+        } catch (Throwable $throwable) {
             $trx->rollBack();
             throw $throwable;
         }
@@ -88,7 +92,7 @@ class ProductRepository
             $this->upsertBuilder
                 ->useActiveRecord(ProductsRecords::class)
                 ->upsertOneRecord(['id' => $snapshot->id]);
-            if($snapshot->id === null){
+            if ($snapshot->id === null) {
                 $snapshot->id = ProductsRecords::getDb()->getLastInsertID();
             }
         }
@@ -113,9 +117,13 @@ class ProductRepository
                 ];
             }
         }
+
         $this->upsertBuilder
             ->useActiveRecord(ProductAttributesRecord::class)
             ->upsertManyRecords($insertData);
+        $this->upsertBuilder
+            ->useActiveRecord(ProductAttributesRecord::class)
+            ->removeEverythingExcept(['product_id', 'property_id'], $insertData, 'product_id');
     }
 
     /**
@@ -129,12 +137,12 @@ class ProductRepository
             $this->propertiesData = PropertyRecord::find()->select(['id', 'name'])->asArray()->all();
         }
         foreach ($this->properties as $mappedPropertyId => $property) {
-            if ((int) $mappedPropertyId === (int) $id) {
+            if ((int)$mappedPropertyId === (int)$id) {
                 return $property;
             }
         }
-        foreach ($this->propertiesData as $item){
-            if((int) $item['id'] === (int) $id){
+        foreach ($this->propertiesData as $item) {
+            if ((int)$item['id'] === (int)$id) {
                 $property = $this->objectMapper->map($item, Property::class);
                 $this->properties[$id] = $property;
                 return $property;
@@ -146,12 +154,13 @@ class ProductRepository
     /**
      * @return Property[]
      */
-    public function availableProperties(): array{
-        if($this->propertiesData === []){
+    public function availableProperties(): array
+    {
+        if ($this->propertiesData === []) {
             $this->propertiesData = PropertyRecord::find()->select(['id', 'name'])->asArray()->all();
         }
-        foreach ($this->propertiesData as $propertyItem){
-            $this->properties[$propertyItem['id']] =  $this->objectMapper->map($propertyItem, Property::class);
+        foreach ($this->propertiesData as $propertyItem) {
+            $this->properties[$propertyItem['id']] = $this->objectMapper->map($propertyItem, Property::class);
         }
         return $this->properties;
     }
@@ -189,7 +198,7 @@ class ProductRepository
 
     public function remove(int $id): void
     {
-        ProductsRecords::deleteAll(['id'=>$id]);
+        ProductsRecords::deleteAll(['id' => $id]);
     }
 
     /**
