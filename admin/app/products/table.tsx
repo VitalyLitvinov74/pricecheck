@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import revalidateProductList from "../actions/RevalidateProductList";
 import Link from "next/link";
 
-export default function Table({importedProducts}) {
+export default function Table({importedProducts, tableSettings}) {
 
     const [products, updateProducts] = useState(importedProducts)
 
@@ -26,6 +26,23 @@ export default function Table({importedProducts}) {
             }))
         }
     }
+
+    function renderAttributeCol(product, propertyId){
+
+        const attribute = product.productAttributes.find(function(attribute){
+            return attribute.property_id == propertyId;
+        });
+        if(attribute){
+            return (
+                <td>
+                    {attribute.value}
+                </td>
+            );
+        }
+        return (<td> - </td>);
+    }
+
+    console.log(importedProducts)
     return (
         <>
             <div className="table-responsive">
@@ -33,6 +50,11 @@ export default function Table({importedProducts}) {
                     <thead>
                     <tr>
                         <th>ID</th>
+                        {tableSettings.map(function(setting){
+                            return (
+                                <th>{setting.property.name}</th>
+                            );
+                        })}
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -40,7 +62,10 @@ export default function Table({importedProducts}) {
                     {products.map(function(product){
                         return (
                             <tr key={product.id}>
-                                <th scope="row">#{product.id}</th>
+                                <td scope="row">#{product.id}</td>
+                                {tableSettings.map(function(setting){
+                                    return renderAttributeCol(product, setting.property_id)
+                                })}
                                 <td>
                                     <div className="button-list">
                                         <Link className="btn btn-success-rgba"

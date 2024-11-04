@@ -9,7 +9,7 @@ use app\forms\ParsingSchemaForm;
 use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
 use app\forms\Scenarious;
-use app\records\PropertiesRecord;
+use app\records\PropertyRecord;
 use Throwable;
 use Yii;
 use yii\db\Exception;
@@ -106,7 +106,7 @@ class PropertiesController extends BaseApiController
         return $this->jsonApi
             ->setupCode(200)
             ->addBody(
-                PropertiesRecord::find()
+                PropertyRecord::find()
                     ->orderBy('id DESC')
                     ->asArray()
                     ->all()

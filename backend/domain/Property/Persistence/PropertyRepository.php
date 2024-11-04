@@ -8,7 +8,7 @@ use app\domain\Property\Properties;
 use app\libs\LibsException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
-use app\records\PropertiesRecord;
+use app\records\PropertyRecord;
 use app\records\PropertiesSettingsRecord;
 use Throwable;
 use Yii;
@@ -45,7 +45,7 @@ class PropertyRepository
         $trx = Yii::$app->db->beginTransaction();
         try {
             $this->upsertBuilder
-                ->useActiveRecord(PropertiesRecord::class)
+                ->useActiveRecord(PropertyRecord::class)
                 ->useUniqueKeys(['id'])
                 ->upsertManyRecords($insertData);
             $actualNames = [];
@@ -54,7 +54,7 @@ class PropertyRepository
                     $actualNames[] = $property->name;
                 }
             }
-            PropertiesRecord::deleteAll(['not in', 'name', $actualNames]);
+            PropertyRecord::deleteAll(['not in', 'name', $actualNames]);
             $this->saveSettings($data->collection);
             $trx->commit();
         } catch (Throwable $throwable) {
@@ -87,7 +87,7 @@ class PropertyRepository
 
     public function findAll(): Properties
     {
-        $list = PropertiesRecord::find()
+        $list = PropertyRecord::find()
             ->with(['settings' => function (Query $query) {
                 $query->emulateExecution();
             }])

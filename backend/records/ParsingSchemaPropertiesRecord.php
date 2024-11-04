@@ -13,6 +13,6 @@ class ParsingSchemaPropertiesRecord extends ActiveRecord
     }
 
     public function getProperty(): ActiveQuery{
-        return $this->hasOne(PropertiesRecord::class,['id' => 'property_id']);
+        return $this->hasOne(PropertyRecord::class,['id' => 'property_id']);
     }
 }
