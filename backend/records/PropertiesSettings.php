@@ -4,10 +4,10 @@ namespace app\records;
 
 use yii\db\ActiveRecord;
 
-class CrmProductListSettingsRecord extends ActiveRecord
+class PropertiesSettings extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'crm_product_list_settings';
+        return 'properties_settings';
     }
 }

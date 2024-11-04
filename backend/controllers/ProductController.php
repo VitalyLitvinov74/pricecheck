@@ -3,10 +3,14 @@
 namespace app\controllers;
 
 use app\domain\Product\UseCase\ProductsService;
+use app\domain\Property\Models\PropertySettingType;
+use app\domain\Property\UseCases\ProductPropertyService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
+use app\forms\ProductListSettingsForm;
+use app\forms\PropertySettingForm;
 use app\forms\Scenarious;
-use app\records\CrmProductListSettingsRecord;
+use app\records\PropertiesSettings;
 use app\records\ProductsRecords;
 use Throwable;
 use Yii;
@@ -115,12 +119,20 @@ class ProductController extends BaseApiController
 
     public function actionListSettings(): array
     {
-        $settings = CrmProductListSettingsRecord::find()->all();
+        $settings = PropertiesSettings::find()->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
 
     public function actionUpdateListSettings(): array
     {
-
+        $form = new ProductListSettingsForm([
+            'scenario' => Scenarious::ChangeProductListSettings
+        ]);
+        $form->load(['settings'=>Yii::$app->request->post()]);
+        if($form->validate()){
+            $service = new ProductPropertyService();
+            $service->attachSettings($form->settings);
+        }
+        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }

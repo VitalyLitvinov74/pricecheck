@@ -41,7 +41,9 @@ class PropertyRepository
 
     public function findAll(): Properties
     {
-        $list = PropertiesRecord::find()->asArray()->all();
+        $list = PropertiesRecord::find()
+            ->with(['settings'])
+            ->asArray()->all();
         $list = [
             "collection" => $list
         ];

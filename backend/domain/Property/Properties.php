@@ -3,12 +3,14 @@
 namespace app\domain\Property;
 
 use app\domain\Property\Models\Property;
+use app\domain\Property\Models\Setting;
+use app\domain\Property\Persistence\snapshots\PropertiesSnapshot;
 use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[DomainModel]
+#[DomainModel (mapWith: PropertiesSnapshot::class)]
 class Properties
 {
     #[HasManyModels(
@@ -16,18 +18,20 @@ class Properties
         defaultMapWith: 'collection'
     )]
     /**
-     * @var ArrayCollection<int, Property>
+     * @var ArrayCollection<int, Property> $collection
      */
     private ArrayCollection $collection;
+
     private function __construct()
     {
     }
 
-    public function change(int $id, string $newName, string $newType): self{
-        $property = $this->collection->findFirst(function($key, Property $property) use ($id){
+    public function change(int $id, string $newName, string $newType): self
+    {
+        $property = $this->collection->findFirst(function ($key, Property $property) use ($id) {
             return $property->hasId($id);
         });
-        if(is_null($property)){
+        if (is_null($property)) {
             $this->add($newName, $newType);
             return $this;
         }
@@ -38,10 +42,10 @@ class Properties
 
     public function add(string $name, string $type): self
     {
-        $existed = $this->collection->exists(function($key, Property $existedProperty) use($name){
-           return $existedProperty->hasName($name);
+        $existed = $this->collection->exists(function ($key, Property $existedProperty) use ($name) {
+            return $existedProperty->hasName($name);
         });
-        if($existed){
+        if ($existed) {
             return $this;
         }
         $this->collection->add(
@@ -55,11 +59,24 @@ class Properties
 
     public function remove(int $id): void
     {
-        $property = $this->collection->findFirst(function($key, Property $property) use($id){
+        $property = $this->collection->findFirst(function ($key, Property $property) use ($id) {
             return $property->hasId($id);
         });
-        if($property){
+        if ($property) {
             $this->collection->removeElement($property);
         }
+    }
+
+    public function attach(Setting $setting): void
+    {
+        $property = $this->collection->findFirst(
+            function (Property $property) use ($setting) {
+                return $setting->belongsTo($property);
+            }
+        );
+        if ($property === null) {
+            return;
+        }
+        $property->attach($setting);
     }
 }

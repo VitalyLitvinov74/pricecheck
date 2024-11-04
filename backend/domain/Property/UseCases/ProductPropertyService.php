@@ -2,8 +2,10 @@
 
 namespace app\domain\Property\UseCases;
 
+use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\PropertyRepository;
 use app\forms\ProductPropertyForm;
+use app\forms\PropertySettingForm;
 use yii\base\Exception;
 
 class ProductPropertyService
@@ -42,5 +44,20 @@ class ProductPropertyService
         $properties = $this->propertiesRepository->findAll();
         $properties->remove($id);
         $this->propertiesRepository->merge($properties);
+    }
+
+    /**
+     * @param PropertySettingForm[] $settings
+     * @return void
+     */
+    public function attachSettings(array $settings): void
+    {
+        $properties = $this->propertiesRepository->findAll();
+        foreach ($settings as $setting){
+            $properties->attach(
+                new Setting($setting->property->id, $setting->settingTypeId)
+            );
+        }
+
     }
 }

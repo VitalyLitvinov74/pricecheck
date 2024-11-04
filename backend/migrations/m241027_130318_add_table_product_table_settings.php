@@ -12,7 +12,7 @@ class m241027_130318_add_table_product_table_settings extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('crm_product_list_settings', [
+        $this->createTable('properties_settings', [
             'id'=>$this->primaryKey(),
             'property_id'=>$this->integer(),
             'setting_type_id'=>$this->integer()
@@ -24,7 +24,7 @@ class m241027_130318_add_table_product_table_settings extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('crm_product_list_settings');
+        $this->dropTable('properties_settings');
     }
 
     /*
