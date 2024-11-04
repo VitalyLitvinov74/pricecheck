@@ -15,7 +15,7 @@ class Product
 {
     #[HasManyModels(
         nestedType: Attribute::class,
-        mapWithArrayKey: 'attributes',
+        mapWithArrayKey: 'productAttributes',
         mapWithObjectKey: 'attributesSnapshots'
     )]
     /** @var ArrayCollection<int, Attribute> $attributes */

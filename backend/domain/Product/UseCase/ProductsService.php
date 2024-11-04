@@ -5,7 +5,6 @@ namespace app\domain\Product\UseCase;
 use app\domain\Product\Models\Attribute;
 use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
-use app\domain\Property\Models\Property;
 use app\exceptions\BaseException;
 use app\forms\ProductAttributeForm;
 use app\forms\ProductForm;
@@ -38,7 +37,7 @@ class ProductsService
                         $attribute->value
                     )
                 );
-            }catch (Throwable $throwable){
+            } catch (Throwable $throwable) {
                 continue;
             }
         }
@@ -73,7 +72,7 @@ class ProductsService
     public function update(ProductForm $form): void
     {
         $product = $this->productRepository->find($form->id);
-        foreach ($form->productAttributes as $attribute){
+        foreach ($form->productAttributes as $attribute) {
             $property = $this->productRepository->findPropertyById($attribute->property->id);
             $product->attachWith(
                 new Attribute(
@@ -85,10 +84,11 @@ class ProductsService
         $this->productRepository->save($product);
     }
 
-    private function existProperty(int $id): bool{
+    private function existProperty(int $id): bool
+    {
         $properties = $this->productRepository->availableProperties();
-        foreach ($properties as $property){
-            if($property->hasId($id)){
+        foreach ($properties as $property) {
+            if ($property->hasId($id)) {
                 return true;
             }
         }

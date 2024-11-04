@@ -147,15 +147,21 @@ export default function Form({
     }
 
     function dataForBackend() {
-        return attributes.map(function (attribute) {
-            return {
-                name: attribute.name,
-                property: {
-                    id: attribute.propertyId
-                },
-                value: attribute.value
-            }
-        })
+        return {
+            id: productData.id,
+            productAttributes: attributes.map(function (attribute) {
+                return {
+                    id: attribute.id,
+                    name: attribute.name,
+                    property: {
+                        id: attribute.propertyId
+                    },
+                    value: attribute.value
+                }
+            })
+        };
+
+
     }
 
     const router = useRouter();

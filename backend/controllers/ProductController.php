@@ -31,7 +31,7 @@ class ProductController extends BaseApiController
         $form = new ProductForm([
             'scenario' => Scenarious::CreateProduct
         ]);
-        $form->load(['productAttributes' => Yii::$app->request->post()], '');
+        $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {
             $this->service->createProduct($form->productAttributes);
             return $this->jsonApi->setupCode(204)->asArray();

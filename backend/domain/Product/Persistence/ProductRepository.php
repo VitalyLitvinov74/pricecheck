@@ -41,7 +41,8 @@ class ProductRepository
         $data = ProductsRecords::find()
             ->where(['id' => $id])
             ->with([
-                'productAttributes'
+                'productAttributes',
+                'productAttributes.property'
             ])
             ->asArray()
             ->one();
@@ -87,8 +88,9 @@ class ProductRepository
             $this->upsertBuilder
                 ->useActiveRecord(ProductsRecords::class)
                 ->upsertOneRecord(['id' => $snapshot->id]);
-            $id = ProductsRecords::getDb()->getLastInsertID();
-            $snapshot->id = $id;
+            if($snapshot->id === null){
+                $snapshot->id = ProductsRecords::getDb()->getLastInsertID();
+            }
         }
         $this->saveAttributes($productsSnapshots);
     }
