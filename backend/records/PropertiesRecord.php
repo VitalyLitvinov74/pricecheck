@@ -13,6 +13,6 @@ class PropertiesRecord extends ActiveRecord
     }
 
     public function getSettings(): ActiveQuery{
-        return $this->hasMany(PropertiesSettings::class, ['property_id'=>'id']);
+        return $this->hasMany(PropertiesSettingsRecord::class, ['property_id'=>'id']);
     }
 }

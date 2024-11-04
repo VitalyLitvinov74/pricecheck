@@ -6,13 +6,19 @@ use app\libs\NestedForm;
 
 class ProductListSettingsForm extends NestedForm
 {
-
     public $settings;
 
     public function rules(): array
     {
         return [
-            ['settings' => 'required'],
+            ['settings', 'required']
+        ];
+    }
+
+    public function scenarios(): array
+    {
+        return [
+            Scenarious::ChangeProductListSettings => ['settings']
         ];
     }
 

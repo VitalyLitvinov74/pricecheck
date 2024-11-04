@@ -13,10 +13,14 @@ class m241027_130318_add_table_product_table_settings extends Migration
     public function safeUp()
     {
         $this->createTable('properties_settings', [
-            'id'=>$this->primaryKey(),
             'property_id'=>$this->integer(),
             'setting_type_id'=>$this->integer()
         ]);
+        $this->addPrimaryKey(
+            'PRIMARY',
+            'properties_settings',
+            ['property_id', 'setting_type_id']
+        );
     }
 
     /**

@@ -2,13 +2,14 @@
 
 namespace app\domain\Property\Models;
 
+use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[DomainModel]
+#[DomainModel(mapWith: PropertySnapshot::class)]
 class Property
 {
     #[Prop(
@@ -32,7 +33,7 @@ class Property
     private ArrayCollection $settings;
 
     public function __construct(
-        #[Prop(mapWithArrayKey: 'name')]
+        #[Prop(defaultMapWith: 'name')]
         private string $name,
         string         $type
     )
@@ -63,12 +64,12 @@ class Property
 
     public function attach(Setting $setting): void
     {
-        $setting = $this->settings->findFirst(
-            function (Setting $existedSetting) use ($setting) {
+        $existedSetting = $this->settings->findFirst(
+            function ($key, Setting $existedSetting) use ($setting) {
                 return $setting->compareWith($existedSetting);
             }
         );
-        if($setting !== null){
+        if($existedSetting !== null){
             return;
         }
         $this->settings->add($setting);

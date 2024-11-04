@@ -4,7 +4,7 @@ namespace app\records;
 
 use yii\db\ActiveRecord;
 
-class PropertiesSettings extends ActiveRecord
+class PropertiesSettingsRecord extends ActiveRecord
 {
     public static function tableName(): string
     {

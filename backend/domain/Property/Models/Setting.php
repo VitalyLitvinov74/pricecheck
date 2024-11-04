@@ -2,10 +2,11 @@
 
 namespace app\domain\Property\Models;
 
+use app\domain\Property\Persistence\snapshots\SettingSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 
-#[DomainModel]
+#[DomainModel (mapWith: SettingSnapshot::class)]
 class Setting
 {
     #[Prop(
@@ -19,7 +20,8 @@ class Setting
         )]
         private int $propertyId,
         #[Prop(
-            defaultMapWith: 'type',
+            mapWithArrayKey: 'setting_type_id',
+            mapWithObjectKey: 'type',
             typecast: PropertySettingType::class
         )]
         private PropertySettingType $type,

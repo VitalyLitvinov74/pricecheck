@@ -70,7 +70,7 @@ class Properties
     public function attach(Setting $setting): void
     {
         $property = $this->collection->findFirst(
-            function (Property $property) use ($setting) {
+            function ($key, Property $property) use ($setting) {
                 return $setting->belongsTo($property);
             }
         );

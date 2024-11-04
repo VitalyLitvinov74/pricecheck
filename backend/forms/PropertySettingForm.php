@@ -16,10 +16,15 @@ class PropertySettingForm extends NestedForm
         return [
             [['settingTypeId', 'property'], 'required'],
             ['settingTypeId', 'in', 'range' => [
-                PropertySettingType::OnInProductListCRM,
-                PropertySettingType::OffInProductListCRM
+                PropertySettingType::OnInProductListCRM->value,
+                PropertySettingType::OffInProductListCRM->value
             ]]
         ];
+    }
+
+    public function formName(): string
+    {
+        return '';
     }
 
     public function scenarios(): array
