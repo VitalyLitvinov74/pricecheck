@@ -21,6 +21,10 @@ export default function Breadcrumbs({inputTitle}) {
                     title: 'Создать новый товар',
                 },
                 {
+                    path: "/products/table-settings",
+                    title: "Настройка таблицы"
+                },
+                {
                     path: '/products/update',
                     title: 'Обновляем товар',
                 },

@@ -21,12 +21,14 @@ export default function Toolbar(){
                     
                 </div>
                 <div className="btn-group focus-btn-group ml-4 mb-2">
-                    <button
-                        type="button"
-                        className="btn btn-primary-rgba">
-                        <i className="feather icon-settings mr-2"></i>
-                        Настройки таблицы
-                    </button>
+                    <Link href={"/products/table-settings"}>
+                        <button
+                            type="button"
+                            className="btn btn-primary-rgba">
+                            <i className="feather icon-settings mr-2"></i>
+                            Настройки таблицы
+                        </button>
+                    </Link>
                 </div>
                 <div className="btn-group focus-btn-group ml-4 mb-2">
                     <button

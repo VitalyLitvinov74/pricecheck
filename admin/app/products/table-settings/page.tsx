@@ -1,12 +1,14 @@
-import {loadProperties} from "../../../utils/product-properties";
+
 import {metadata} from "../../layout";
+import Table from "./table";
+import {loadPropertiesSettings} from "../../../utils/product-properties";
 
 export default async function Page(){
     metadata.title= "Настройка таблицы"
 
-    let products = [];
-    await loadProperties().then(function(data){
-        products = data;
+    let settings = [];
+    await loadPropertiesSettings().then(function(data){
+        settings = data;
     });
 
     return (
@@ -15,7 +17,7 @@ export default async function Page(){
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <Table importedProducts={products}/>
+                            <Table data={settings}/>
                         </div>
                     </div>
                 </div>
