@@ -4,7 +4,9 @@ namespace app\libs;
 
 use yii\db\ActiveRecord;
 use yii\db\Connection;
+use yii\db\Exception;
 use yii\db\Expression;
+use yii\db\Query;
 
 /**
  * Билдер который помогает быстро построить запрос upsert для одной или нескольких записей.
@@ -172,17 +174,51 @@ class UpsertBuilder
         return $data;
     }
 
-    public function removeEverythingExcept(array $exceptFields, array $dynamicPk, array $values): void
+    /**
+     * @param array $domainPk
+     * @return void
+     * @throws Exception
+     */
+    public function removeDuplicatesBy(array $domainPk = []): void
     {
-
+        $firstAlias = 'first';
+        $secondAlias = 'second';
+        $pkExpressions = [];
+        foreach ($this->uniqueKeys as $uniqueKey){
+            $pkExpressions[] = sprintf(
+                '%s.%s > %s.%s',
+                $firstAlias,
+                $uniqueKey,
+                $secondAlias,
+                $uniqueKey
+            );
+        }
+        $pkExpression = implode(' and ', $pkExpressions);
+        $domainPkExpressions = [];
+        if($domainPk === []){
+            $domainPk = $this->uniqueKeys;
+        }
+        foreach ($domainPk as $colName){
+            $domainPkExpressions[] = sprintf(
+                '%s.%s = %s.%s',
+                $firstAlias,
+                $colName,
+                $secondAlias,
+                $colName
+            );
+        }
+        $domainPkExpression = implode(' and ', $domainPkExpressions);
         $command = $this->db->createCommand(
             sprintf(
-                'delete from %s where %s in (%s)',
+                'delete from %s %s using %s %s where %s and %s and %s',
                 $this->tableName,
-                $pk,
-                $queryExistRecords
+                $firstAlias,
+                $this->tableName,
+                $secondAlias,
+                $pkExpression,
+                $domainPkExpression,
             )
         );
-        return ;
+        $command->execute();
     }
 }

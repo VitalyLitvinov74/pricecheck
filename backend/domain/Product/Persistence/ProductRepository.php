@@ -119,11 +119,9 @@ class ProductRepository
         }
 
         $this->upsertBuilder
+            ->useUniqueKeys(['property_id', 'product_id'])
             ->useActiveRecord(ProductAttributesRecord::class)
             ->upsertManyRecords($insertData);
-        $this->upsertBuilder
-            ->useActiveRecord(ProductAttributesRecord::class)
-            ->removeEverythingExcept(['product_id', 'property_id'], $insertData, 'product_id');
     }
 
     /**
