@@ -6,15 +6,7 @@ export default function Table({data, availableProperties}) {
 
     const [propertySettings, changePropertySettings] = useState(data)
 
-    console.log(availableProperties)
-
-    function removeRow(itemForRemove) {
-        changePropertySettings(propertySettings.filter(function (item) {
-            return itemForRemove.property_id !== item.property_id
-        }))
-        if (itemForRemove.id === null) {
-            return;
-        }
+    function removeOnBackend(itemForRemove) {
         // const url = `http://api.pricecheck.my:82/properties/remove`;
         // let status = 0;
         // fetch(url, {
@@ -28,61 +20,138 @@ export default function Table({data, availableProperties}) {
         // }).then(function (result) {
         //     status = result.status;
         // })
+        removeRow(itemForRemove)
     }
 
-    function rollback(currentItem) {
-        changeData(data
-            .map(function (item) {
-                if (item.id === currentItem.id) {
-                    item.transactionData = {}
-                    item.isEditable = false;
-                }
-                return item;
-            })
-            .filter(function (item) {
-                if (currentItem.id === parseInt(currentItem.id)) {
-                    return true; //Оставляем только прежде добавленные
-                }
-                return currentItem.id !== item.id;
+    function removeRow(settingForRemove) {
+        changePropertySettings(propertySettings
+            .filter(function (existedSetting) {
+                return settingForRemove.property_id !== existedSetting.property_id;
+
             })
         )
     }
 
-    function editableRow(item) {
+    function addNewRow() {
+        const property = availableForAddingProperties()[0]
+        const newData = {
+            property_id: property.id,
+            setting_type_id: 1,
+            property: property,
+            isEditable: true
+        }
+        changePropertySettings([newData, ...propertySettings])
+    }
+
+    function availableForAddingProperties(){
+        return availableProperties.filter(function(loadedProperty){
+            const setting = propertySettings.find(function(setting){
+                return setting.property_id == loadedProperty.id
+            })
+            if(setting){
+                return false;
+            }
+            return true;
+        })
+    }
+
+    function propertyById(id) {
+        return availableProperties.find(function (property) {
+            return property.id == id;
+        })
+    }
+
+    function optionsFor(setting) {
+        return availableForAddingProperties().map(function(property){
+            return {
+                value: property.id,
+                label: property.name
+            }
+        })
+    }
+
+    function buildOptionBy(setting) {
+        // console.log(id,options())
+        return {
+            value: setting.property_id,
+            label: propertyById(setting.property_id).name
+        }
+    }
+
+    function commit(updatedItem) {
+        // const list = [];
+        // propertySettings.map(function (item) {
+        //     console.log(item)
+        //     if (item.property_id === updatedItem.property_id) {
+        //         item.property_id = updatedItem.transactionData.property_id;
+        //         item.setting_type_id = updatedItem.transactionData.setting_type_id;
+        //         item.property = updatedItem.property
+        //         item.transactionData = {};
+        //         item.isEditable = false
+        //
+        //     }
+        //     list.push(item)
+        // })
+        // changePropertySettings(list)
+        // let status = 0;
+        // let url = '';
+        // let dataForUpsert = {};
+        // if (Number.isInteger(updatedItem.id)) {
+        //     url = `http://api.pricecheck.my:82/properties/change`;
+        //     dataForUpsert = data.find(function (property) {
+        //         return property.id === updatedItem.id
+        //     })
+        // } else {
+        //     url = `http://api.pricecheck.my:82/properties/create`;
+        //     dataForUpsert = {
+        //         properties: data.filter(function (property) {
+        //             return property.id === updatedItem.id
+        //         })
+        //     }
+        // }
+        // console.log(url, dataForUpsert)
+        //
+        // fetch(url, {
+        //     body: JSON.stringify(dataForUpsert),
+        //     headers: {
+        //         'content-type': "application/json"
+        //     },
+        //     method: "POST",
+        // }).then(function (result) {
+        //     status = result.status;
+        // })
+    }
+
+    function changeSetting(newOptionData, settingChanged) {
+        const list = propertySettings.map(function(setting){
+            if(setting.property_id==settingChanged.property_id){
+                setting.property_id = newOptionData.value
+                setting.property = propertyById(newOptionData.value)
+            }
+            return setting;
+        })
+        changePropertySettings(list);
+    }
+
+    function editableRow(setting) {
         return (
-            <tr key={item.property_id}>
-                <td className="tabledit-edit-mode">
-                    <input
-                        className="tabledit-input form-control input-sm"
-                        type="text"
-                        name="name"
-                        onBlur={function (elem) {
-                            item.transactionData.name = elem.target.value
-                        }}
-                        defaultValue={item.name}
-                    />
-                </td>
+            <tr key={setting.property_id}>
                 <td className="tabledit-edit-mode">
                     <Select
-                        options={options()}
-                        defaultValue={function () {
-                            return optionByName(item.type)
-                        }}
-                        onChange={
-                            function (option) {
-                                item.transactionData.type = option.value
-                            }
-                        }
+                        options={optionsFor(setting)}
+                        defaultValue={buildOptionBy(setting)}
+                        onChange={function(option){changeSetting(option, setting)}}
+                        menuPosition={"fixed"}
                     >
                     </Select>
                 </td>
                 <td>
                     <div className="button-list">
-                        <button type={"submit"} onClick={() => commit(item)} className="btn btn-primary-rgba">
+                        <button type={"submit"} onClick={() => commit(setting)} className="btn btn-primary-rgba">
                             <i className="feather icon-save"></i>
                         </button>
-                        <button type={"submit"} onClick={() => rollback(item)} className="btn btn-danger-rgba">
-                            <i className={item.id === parseInt(item.id)
+                        <button type={"submit"} onClick={() => removeRow(setting)} className="btn btn-danger-rgba">
+                            <i className={setting.id === parseInt(setting.id)
                                 ? "feather icon-slash"
                                 : "feather icon-trash"}>
                             </i>
@@ -107,7 +176,7 @@ export default function Table({data, availableProperties}) {
                         <button type="button"
                                 onClick={
                                     function () {
-                                        removeRow(item)
+                                        removeOnBackend(item)
                                     }
                                 }
                                 className="btn btn-danger-rgba">
@@ -117,83 +186,6 @@ export default function Table({data, availableProperties}) {
                 </td>
             </tr>
         )
-    }
-
-    function addNewRow() {
-        const property = availableProperties.find(function (availableProperty) {
-            const setting = propertySettings.find(function (existedSetting) {
-                return existedSetting.property_id = availableProperty.id
-            })
-            if(setting){
-                return false;
-            }
-            return true;
-        })
-        console.log(property)
-        if(property == null) {
-            return;
-        }
-        const newData = {
-            property_id: property.id,
-            setting_type_id: 1,
-            property: property
-        }
-        changePropertySettings([newData, ...propertySettings]);
-    }
-
-    function options() {
-        let options: any;
-        options = availableTypes.map(function (type, key) {
-            return {value: type, label: type}
-        });
-        return options;
-    }
-
-    function optionByName(name) {
-        return options().find(function (option) {
-            return option.value === name;
-        })
-    }
-
-    function commit(updatedItem) {
-        const list = [];
-        data.map(function (item) {
-            if (item.id === updatedItem.id) {
-                item.name = updatedItem.transactionData.name;
-                item.type = updatedItem.transactionData.type;
-                item.transactionData = {};
-                item.isEditable = false
-            }
-            list.push(item)
-        })
-        changeData(list)
-        let status = 0;
-        let url = '';
-        let dataForUpsert = {};
-        if (Number.isInteger(updatedItem.id)) {
-            url = `http://api.pricecheck.my:82/properties/change`;
-            dataForUpsert = data.find(function (property) {
-                return property.id === updatedItem.id
-            })
-        } else {
-            url = `http://api.pricecheck.my:82/properties/create`;
-            dataForUpsert = {
-                properties: data.filter(function (property) {
-                    return property.id === updatedItem.id
-                })
-            }
-        }
-        console.log(url, dataForUpsert)
-
-        fetch(url, {
-            body: JSON.stringify(dataForUpsert),
-            headers: {
-                'content-type': "application/json"
-            },
-            method: "POST",
-        }).then(function (result) {
-            status = result.status;
-        })
     }
 
     return (
@@ -219,11 +211,11 @@ export default function Table({data, availableProperties}) {
                     </thead>
                     <tbody>
                     {propertySettings.map(
-                        function (property) {
-                            if (property.isEditable) {
-                                return editableRow(property)
+                        function (setting) {
+                            if (setting.isEditable) {
+                                return editableRow(setting)
                             }
-                            return readebleRow(property)
+                            return readebleRow(setting)
                         })}
                     </tbody>
                 </table>
