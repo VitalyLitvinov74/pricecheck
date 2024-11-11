@@ -13,7 +13,8 @@ class ProductPropertyService
 {
     public function __construct(
         private PropertyRepository $propertiesRepository = new PropertyRepository()
-    ) {
+    )
+    {
     }
 
     /**
@@ -24,7 +25,7 @@ class ProductPropertyService
     public function push(array $propertiesData): void
     {
         $properties = $this->propertiesRepository->findAll();
-        foreach ($propertiesData as $propertyData){
+        foreach ($propertiesData as $propertyData) {
             $properties->add(
                 $propertyData->name,
                 $propertyData->type
@@ -54,7 +55,7 @@ class ProductPropertyService
     public function attachSettings(array $settings): void
     {
         $properties = $this->propertiesRepository->findAll();
-        foreach ($settings as $setting){
+        foreach ($settings as $setting) {
             $properties->attach(
                 new Setting(
                     $setting->property->id,
@@ -63,5 +64,11 @@ class ProductPropertyService
             );
         }
         $this->propertiesRepository->upsert($properties);
+    }
+
+    public function disattachSettung(int $propertyId, int $settingId): void
+    {
+        $properties = $this->propertiesRepository->findAll();
+        $properties->
     }
 }

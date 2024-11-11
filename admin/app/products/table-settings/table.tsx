@@ -167,11 +167,6 @@ export default function Table({data, availableProperties}) {
             <tr key={item.property_id}>
                 <td>{item.property.name}</td>
                 <td>
-                    <span className="badge badge-secondary-inverse mr-2">
-                        {item.type}
-                    </span>
-                </td>
-                <td>
                     <div className="button-list">
                         <button type="button"
                                 onClick={
@@ -205,7 +200,7 @@ export default function Table({data, availableProperties}) {
                 <table className="table table-borderless table-hover">
                     <thead>
                     <tr>
-                        <th width="20%">Название</th>
+                        <th width="5%">Название</th>
                         <th width="15%">Действия</th>
                     </tr>
                     </thead>
