@@ -18,7 +18,16 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export const loadTableSettings = async function () {
+export type tableSetting = {
+    property_id: bigint,
+    setting_type_id: bigint,
+    property: {
+        id: bigint,
+        name: string,
+        type: string
+    }
+}
+export const loadTableSettings = async function (): Promise<Array<tableSetting>> {
     const url = `${process.env.URL}/product/list-settings`;
     const data = await fetch(url, {
         next: {

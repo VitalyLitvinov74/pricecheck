@@ -2,11 +2,14 @@
 import React, {useState} from "react";
 import revalidateProductList from "../actions/RevalidateProductList";
 import Link from "next/link";
+import {tableSetting} from "../../utils/products";
 
-export default function Table({importedProducts, tableSettings}) {
 
+export default function Table({importedProducts, tableSettings}:{
+    importedProducts: object,
+    tableSettings: tableSetting[]
+}) {
     const [products, updateProducts] = useState(importedProducts)
-
     async function remove(product){
         let status = 204;
         const url = `http://api.pricecheck.my:82/product/remove`;

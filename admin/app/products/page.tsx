@@ -1,12 +1,14 @@
 import {metadata} from "../layout";
 import Table from "./table";
 import Toolbar from "./toolbar";
-import {loadProducts, loadTableSettings} from "../../utils/products";
-export default async function Products(){
-    metadata.title= "Список товаров"
+import {loadProducts, loadTableSettings, tableSetting} from "../../utils/products";
+
+
+export default async function Products() {
+    metadata.title = "Список товаров"
 
     let products = [];
-    await loadProducts().then(function(data){
+    await loadProducts().then(function (data) {
         products = data;
     });
 
@@ -18,7 +20,7 @@ export default async function Products(){
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-                            <Toolbar />
+                            <Toolbar/>
                             <Table importedProducts={products} tableSettings={tableSettings}/>
                         </div>
                     </div>
