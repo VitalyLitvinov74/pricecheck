@@ -5,7 +5,6 @@ import Select from "react-select";
 export default function Table({data, availableProperties}) {
 
     const [propertySettings, changePropertySettings] = useState(data)
-
     function removeOnBackend(itemForRemove) {
         // const url = `http://api.pricecheck.my:82/properties/remove`;
         // let status = 0;

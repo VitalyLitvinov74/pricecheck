@@ -8,12 +8,7 @@ export default async function ProductProperties() {
     metadata.title = "Свойства товаров"
     // console.log(metadata)
 
-    let properties = [];
-    await loadProperties().then(
-        function (data) {
-            properties = data;
-        }
-    );
+    const properties = await loadProperties();
 
     let types = [];
     await availableTypes().then(

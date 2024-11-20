@@ -7,12 +7,7 @@ import {metadata} from "../../../../layout";
 
 export default async function UpdatePage({params}: { id: string }) {
     metadata.title= `Обновляем схему ${params.id}`
-    let availableProperties = [];
-    await loadProperties().then(
-        function (data) {
-            availableProperties = data;
-        }
-    );
+    const availableProperties = await loadProperties();
 
     let parsingSchema = null;
     await loadParsingSchema(params.id).then(

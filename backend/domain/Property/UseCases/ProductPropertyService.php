@@ -69,6 +69,6 @@ class ProductPropertyService
     public function disattachSettung(int $propertyId, int $settingId): void
     {
         $properties = $this->propertiesRepository->findAll();
-        $properties->
+//        $properties->
     }
 }

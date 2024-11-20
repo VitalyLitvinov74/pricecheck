@@ -11,10 +11,7 @@ export default async function Page(){
         settings = data;
     });
 
-    let availableProperties = [];
-    await loadProperties().then(function(data){
-        availableProperties = data;
-    });
+    const availableProperties = await loadProperties();
 
     return (
         <div className="contentbar">

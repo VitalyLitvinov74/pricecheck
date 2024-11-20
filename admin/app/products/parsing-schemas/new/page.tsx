@@ -7,14 +7,8 @@ import {randomUUID} from "crypto";
 export default async function NewParsingSchema() {
 
     metadata.title = "Создать схему парсинга"
-    // console.log(metadata)
 
-    let properties = [];
-    await loadProperties().then(
-        function (data) {
-            properties = data;
-        }
-    );
+    const properties = await loadProperties();
 
     return (
         <div className="contentbar">

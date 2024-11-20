@@ -4,12 +4,7 @@ import {loadProperties} from "../../../utils/product-properties";
 
 export default async function newProduct(){
     metadata.title= "Создать товар"
-    let properties = [];
-    await loadProperties().then(
-        function (data) {
-            properties = data;
-        }
-    );
+    const properties = await loadProperties();
     return (
         <div className="contentbar">
             <div className="row">

@@ -10,10 +10,7 @@ export default async function Products(){
         products = data;
     });
 
-    let tableSettings = [];
-    await loadTableSettings().then(function (data){
-        tableSettings = data
-    });
+    const tableSettings = await loadTableSettings();
 
     return (
         <div className="contentbar">

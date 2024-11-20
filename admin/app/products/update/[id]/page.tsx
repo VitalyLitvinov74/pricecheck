@@ -5,18 +5,9 @@ import {loadProduct} from "../../../../utils/products";
 
 export default async function Page({params}: { id: string }){
     metadata.title= "Обновить"
-    let properties = [];
-    await loadProperties().then(
-        function (data) {
-            properties = data;
-        }
-    );
+    const properties = await loadProperties();
 
-    let product = {};
-    await loadProduct(params.id).then(function(data){
-        product = data
-    })
-
+    const product = await loadProduct(params.id);
 
     return (
         <div className="contentbar">
