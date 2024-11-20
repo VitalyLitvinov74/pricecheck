@@ -5,10 +5,11 @@ import Link from "next/link";
 import {TableSetting} from "../../utils/types";
 
 
-export default function Table({importedProducts, tableSettings}:{
+export default function Table(
+    {importedProducts, tableSettings}:{
     importedProducts: object,
     tableSettings: TableSetting[]
-}) {
+    }) {
     const [products, updateProducts] = useState(importedProducts)
     async function remove(product){
         let status = 204;
