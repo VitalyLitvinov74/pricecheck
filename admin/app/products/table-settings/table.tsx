@@ -1,8 +1,12 @@
 'use client'
 import React, {useState} from "react";
 import Select from "react-select";
+import {Property, TableSetting} from "../../../utils/types";
+import revalidateProductList from "../../actions/RevalidateProductList";
 
-export default function Table({data, availableProperties}) {
+export default function Table({data, availableProperties}: {
+    data: TableSetting[]
+}) {
 
     const [propertySettings, changePropertySettings] = useState(data)
     function removeOnBackend(itemForRemove) {
@@ -37,12 +41,13 @@ export default function Table({data, availableProperties}) {
             property_id: property.id,
             setting_type_id: 1,
             property: property,
-            isEditable: true
+            isEditable: true,
+            committed: false
         }
         changePropertySettings([newData, ...propertySettings])
     }
 
-    function availableForAddingProperties(){
+    function availableForAddingProperties(): Property[]{
         return availableProperties.filter(function(loadedProperty){
             const setting = propertySettings.find(function(setting){
                 return setting.property_id == loadedProperty.id
@@ -77,51 +82,36 @@ export default function Table({data, availableProperties}) {
         }
     }
 
-    function commit(updatedItem) {
-        // const list = [];
-        // propertySettings.map(function (item) {
-        //     console.log(item)
-        //     if (item.property_id === updatedItem.property_id) {
-        //         item.property_id = updatedItem.transactionData.property_id;
-        //         item.setting_type_id = updatedItem.transactionData.setting_type_id;
-        //         item.property = updatedItem.property
-        //         item.transactionData = {};
-        //         item.isEditable = false
-        //
-        //     }
-        //     list.push(item)
-        // })
-        // changePropertySettings(list)
-        // let status = 0;
-        // let url = '';
-        // let dataForUpsert = {};
-        // if (Number.isInteger(updatedItem.id)) {
-        //     url = `http://api.pricecheck.my:82/properties/change`;
-        //     dataForUpsert = data.find(function (property) {
-        //         return property.id === updatedItem.id
-        //     })
-        // } else {
-        //     url = `http://api.pricecheck.my:82/properties/create`;
-        //     dataForUpsert = {
-        //         properties: data.filter(function (property) {
-        //             return property.id === updatedItem.id
-        //         })
-        //     }
-        // }
-        // console.log(url, dataForUpsert)
-        //
-        // fetch(url, {
-        //     body: JSON.stringify(dataForUpsert),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "POST",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
+    async function commit(updatedItem: TableSetting) {
+        const list = [];
+        propertySettings.map(function (item) {
+            if (item.property_id === updatedItem.property_id) {
+                item.property = updatedItem.property
+                item.isEditable = false
+                item.committed = true;
+                item.settingTypeId = item.setting_type_id
+            }
+            list.push(item)
+        })
+        changePropertySettings(list)
+        let status = 0;
+        const url = `http://api.pricecheck.my:82/product/update-list-settings`;
+        const dataForUpsert = [updatedItem]
+        await fetch(url, {
+            body: JSON.stringify(dataForUpsert),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "POST",
+        }).then(function (result) {
+            status = result.status;
+        })
+        if (status === 204) {
+            await revalidateProductList()
+        }
     }
 
-    function changeSetting(newOptionData, settingChanged) {
+    function changeSetting(newOptionData, settingChanged: TableSetting) {
         const list = propertySettings.map(function(setting){
             if(setting.property_id==settingChanged.property_id){
                 setting.property_id = newOptionData.value
@@ -132,7 +122,7 @@ export default function Table({data, availableProperties}) {
         changePropertySettings(list);
     }
 
-    function editableRow(setting) {
+    function editableRow(setting: TableSetting) {
         return (
             <tr key={setting.property_id}>
                 <td className="tabledit-edit-mode">
@@ -150,7 +140,8 @@ export default function Table({data, availableProperties}) {
                             <i className="feather icon-save"></i>
                         </button>
                         <button type={"submit"} onClick={() => removeRow(setting)} className="btn btn-danger-rgba">
-                            <i className={setting.id === parseInt(setting.id)
+                            <i className={
+                                setting.committed !== true
                                 ? "feather icon-slash"
                                 : "feather icon-trash"}>
                             </i>

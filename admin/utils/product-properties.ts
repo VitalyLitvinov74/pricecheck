@@ -21,13 +21,3 @@ export const availableTypes = async function(){
     })
     return data.json();
 }
-
-export const loadPropertiesSettings = async function(){
-    const url = `${process.env.URL}/product/list-settings`;
-    const data = await fetch(url, {
-        next: {
-            revalidate: 0
-        }
-    })
-    return data.json();
-}
