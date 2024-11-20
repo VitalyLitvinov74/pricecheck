@@ -2,12 +2,12 @@
 import React, {useState} from "react";
 import revalidateProductList from "../actions/RevalidateProductList";
 import Link from "next/link";
-import {tableSetting} from "../../utils/products";
+import {TableSetting} from "../../utils/types";
 
 
 export default function Table({importedProducts, tableSettings}:{
     importedProducts: object,
-    tableSettings: tableSetting[]
+    tableSettings: TableSetting[]
 }) {
     const [products, updateProducts] = useState(importedProducts)
     async function remove(product){

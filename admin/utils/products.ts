@@ -1,3 +1,5 @@
+import {TableSetting} from "./types";
+
 export const loadProducts = async function () {
     const url = `${process.env.URL}/product/index`;
     const data = await fetch(url, {
@@ -18,16 +20,7 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export type tableSetting = {
-    property_id: bigint,
-    setting_type_id: bigint,
-    property: {
-        id: bigint,
-        name: string,
-        type: string
-    }
-}
-export const loadTableSettings = async function (): Promise<Array<tableSetting>> {
+export const loadTableSettings = async function (): Promise<Array<TableSetting>> {
     const url = `${process.env.URL}/product/list-settings`;
     const data = await fetch(url, {
         next: {
