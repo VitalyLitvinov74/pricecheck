@@ -65,9 +65,16 @@ class ProductPropertyService
      */
     public function attachSettings(array $settings): void
     {
-        $properties = $this->repository->findAll();
+        $propertiesIds = [];
+        foreach ($settings as $setting){
+            $propertiesIds[] = $setting->property->id;
+        }
+        $properties = $this->repository->findAll($propertiesIds);
         foreach ($settings as $setting) {
             foreach ($properties as $property){
+                if(!$property->hasId($setting->property->id)){
+                    continue;
+                }
                 $property->attach(
                     new Setting(
                         $setting->property->id,

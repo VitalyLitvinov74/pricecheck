@@ -5,7 +5,6 @@ namespace app\domain\Property\Persistence;
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Property\Property;
 use app\libs\LibsException;
-use app\libs\ObjectMapper\Attributes\PropertyAttribute;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\ProductAttributesRecord;
@@ -100,9 +99,10 @@ class PropertyRepository
     /**
      * @return Property[]
      */
-    public function findAll(): array
+    public function findAll(array $ids = []): array
     {
         $list = PropertyRecord::find()
+            ->andFilterWhere(['id'=>$ids])
             ->with(['settings' => function (Query $query) {
                 $query->emulateExecution();
             }])
@@ -122,7 +122,7 @@ class PropertyRepository
     public function find(int $id): Property
     {
         $propertyRecord = PropertyRecord::find()
-            ->where(['id'=>$id])
+            ->where(['id' => $id])
             ->with(['settings' => function (Query $query) {
                 $query->emulateExecution();
             }])
@@ -134,5 +134,7 @@ class PropertyRepository
     public function remove(int $id): void
     {
         PropertyRecord::deleteAll(['id' => $id]);
+        PropertiesSettingsRecord::deleteAll(['property_id' => $id]);
+        ProductAttributesRecord::deleteAll(['property_id' => $id]);
     }
 }
