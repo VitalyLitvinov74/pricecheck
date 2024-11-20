@@ -5,6 +5,8 @@ namespace app\domain\Property\UseCases;
 use app\domain\Property\Models\PropertySettingType;
 use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\PropertyRepository;
+use app\domain\Property\Property;
+use app\domain\Type;
 use app\forms\ProductPropertyForm;
 use app\forms\PropertySettingForm;
 use yii\base\Exception;
@@ -12,7 +14,7 @@ use yii\base\Exception;
 class ProductPropertyService
 {
     public function __construct(
-        private PropertyRepository $propertiesRepository = new PropertyRepository()
+        private PropertyRepository $repository = new PropertyRepository()
     )
     {
     }
@@ -24,28 +26,37 @@ class ProductPropertyService
      */
     public function push(array $propertiesData): void
     {
-        $properties = $this->propertiesRepository->findAll();
+        $properties = $this->repository->findAll();
+        $createdProperties = [];
         foreach ($propertiesData as $propertyData) {
-            $properties->add(
-                $propertyData->name,
-                $propertyData->type
-            );
+            $exist = false;
+            foreach ($properties as $property){
+                if($property->hasName($propertyData->name)){
+                    $exist = true;
+                    break;
+                }
+            }
+            if(!$exist){
+                $createdProperties[] = new Property(
+                    $propertyData->name,
+                    $propertyData->type
+                );
+            }
         }
-        $this->propertiesRepository->upsert($properties);
+        $this->repository->saveAll($createdProperties);
     }
 
     public function change(int $id, string $newName, string $newType): void
     {
-        $properties = $this->propertiesRepository->findAll();
-        $properties->change($id, $newName, $newType);
-        $this->propertiesRepository->upsert($properties);
+        $property = $this->repository->find($id);
+        $property->rename($newName);
+        $property->change(Type::from($newType));
+        $this->repository->saveAll([$property]);
     }
 
     public function remove(int $id): void
     {
-        $properties = $this->propertiesRepository->findAll();
-        $properties->remove($id);
-        $this->propertiesRepository->upsert($properties);
+        $this->repository->remove($id);
     }
 
     /**
@@ -54,21 +65,23 @@ class ProductPropertyService
      */
     public function attachSettings(array $settings): void
     {
-        $properties = $this->propertiesRepository->findAll();
+        $properties = $this->repository->findAll();
         foreach ($settings as $setting) {
-            $properties->attach(
-                new Setting(
-                    $setting->property->id,
-                    PropertySettingType::from($setting->settingTypeId)
-                )
-            );
+            foreach ($properties as $property){
+                $property->attach(
+                    new Setting(
+                        $setting->property->id,
+                        PropertySettingType::from($setting->settingTypeId)
+                    )
+                );
+            }
         }
-        $this->propertiesRepository->upsert($properties);
+        $this->repository->saveAll($properties);
     }
 
     public function disattachSettung(int $propertyId, int $settingId): void
     {
-        $properties = $this->propertiesRepository->findAll();
+        $properties = $this->repository->findAll();
 //        $properties->
     }
 }

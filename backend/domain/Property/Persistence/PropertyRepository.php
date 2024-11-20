@@ -2,14 +2,15 @@
 
 namespace app\domain\Property\Persistence;
 
-use app\domain\Property\Persistence\snapshots\PropertiesSnapshot;
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
-use app\domain\Property\Properties;
+use app\domain\Property\Property;
 use app\libs\LibsException;
+use app\libs\ObjectMapper\Attributes\PropertyAttribute;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
-use app\records\PropertyRecord;
+use app\records\ProductAttributesRecord;
 use app\records\PropertiesSettingsRecord;
+use app\records\PropertyRecord;
 use Throwable;
 use Yii;
 use yii\db\Exception;
@@ -25,21 +26,23 @@ class PropertyRepository
     }
 
     /**
-     * @param Properties $properties
+     * @param Property[] $properties
      * @return void - id сохраненной записи
      * @throws LibsException
      * @throws Throwable
      * @throws Exception
      */
-    public function upsert(Properties $properties): void
+    public function saveAll(array $properties): void
     {
-        $data = $this->objectMapper->map($properties, PropertiesSnapshot::class);
         $insertData = [];
-        foreach ($data->collection as $property) {
+        $snapshots = [];
+        foreach ($properties as $property) {
+            $snapshot = $this->objectMapper->map($property, PropertySnapshot::class);
+            $snapshots[] = $snapshot;
             $insertData[] = [
-                'id' => $property->id,
-                'type' => $property->type,
-                'name' => $property->name
+                'id' => $snapshot->id,
+                'type' => $snapshot->type,
+                'name' => $snapshot->name
             ];
         }
         $trx = Yii::$app->db->beginTransaction();
@@ -49,13 +52,12 @@ class PropertyRepository
                 ->useUniqueKeys(['id'])
                 ->upsertManyRecords($insertData);
             $actualNames = [];
-            foreach ($data->collection as $property) {
-                if ($property->name) {
-                    $actualNames[] = $property->name;
+            foreach ($snapshots as $snapshot) {
+                if ($snapshot->name) {
+                    $actualNames[] = $snapshot->name;
                 }
             }
-            PropertyRecord::deleteAll(['not in', 'name', $actualNames]);
-            $this->saveSettings($data->collection);
+            $this->saveSettings($snapshots);
             $trx->commit();
         } catch (Throwable $throwable) {
             $trx->rollBack();
@@ -85,7 +87,20 @@ class PropertyRepository
             ->upsertManyRecords($insertData);
     }
 
-    public function findAll(): Properties
+    public function exist(string $name, string $type): bool
+    {
+        return PropertyRecord::find()
+            ->where([
+                'name' => $name,
+                'type' => $type
+            ])
+            ->exists();
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function findAll(): array
     {
         $list = PropertyRecord::find()
             ->with(['settings' => function (Query $query) {
@@ -93,9 +108,31 @@ class PropertyRepository
             }])
             ->asArray()
             ->all();
-        $list = [
-            "collection" => $list
-        ];
-        return $this->objectMapper->map($list, Properties::class);
+        $properties = [];
+        foreach ($list as $propertyRecord) {
+            $properties[] = $this->objectMapper->map($propertyRecord, Property::class);
+        }
+        return $properties;
+    }
+
+    /**
+     * @param int $id
+     * @return Property
+     */
+    public function find(int $id): Property
+    {
+        $propertyRecord = PropertyRecord::find()
+            ->where(['id'=>$id])
+            ->with(['settings' => function (Query $query) {
+                $query->emulateExecution();
+            }])
+            ->asArray()
+            ->one();
+        return $this->objectMapper->map($propertyRecord, Property::class);
+    }
+
+    public function remove(int $id): void
+    {
+        PropertyRecord::deleteAll(['id' => $id]);
     }
 }

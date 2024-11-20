@@ -3,6 +3,7 @@
 namespace app\domain\Property\Models;
 
 use app\domain\Property\Persistence\snapshots\SettingSnapshot;
+use app\domain\Property\Property;
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 

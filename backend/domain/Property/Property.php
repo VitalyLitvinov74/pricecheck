@@ -1,7 +1,8 @@
 <?php
 
-namespace app\domain\Property\Models;
+namespace app\domain\Property;
 
+use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Type;
 use app\libs\ObjectMapper\Attributes\DomainModel;
@@ -22,7 +23,6 @@ class Property
         typecast: Type::class
     )]
     private Type $type;
-
 
     #[HasManyModels(
         nestedType: Setting::class,
