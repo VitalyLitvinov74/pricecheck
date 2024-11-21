@@ -2,6 +2,7 @@
 
 namespace app\domain\Property;
 
+use app\domain\Property\Models\PropertySettingType;
 use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Type;
@@ -73,5 +74,14 @@ class Property
             return;
         }
         $this->settings->add($setting);
+    }
+
+    public function disAttach(PropertySettingType $settingType): void
+    {
+        foreach ($this->settings as $setting){
+            if($setting->is($settingType)){
+                $this->settings->removeElement($setting);
+            }
+        }
     }
 }

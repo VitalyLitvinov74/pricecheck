@@ -9,20 +9,22 @@ export default function Table({data, availableProperties}: {
 }) {
 
     const [propertySettings, changePropertySettings] = useState(data)
-    function removeOnBackend(itemForRemove) {
-        // const url = `http://api.pricecheck.my:82/properties/remove`;
-        // let status = 0;
-        // fetch(url, {
-        //     body: JSON.stringify({
-        //         id: itemForRemove.id
-        //     }),
-        //     headers: {
-        //         'content-type': "application/json"
-        //     },
-        //     method: "delete",
-        // }).then(function (result) {
-        //     status = result.status;
-        // })
+
+    function removeOnBackend(itemForRemove: TableSetting) {
+        const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
+        let status = 0;
+        fetch(url, {
+            body: JSON.stringify({
+                settingTypeId: itemForRemove.setting_type_id,
+                property: itemForRemove.property
+            }),
+            headers: {
+                'content-type': "application/json"
+            },
+            method: "delete",
+        }).then(function (result) {
+            status = result.status;
+        })
         removeRow(itemForRemove)
     }
 
@@ -47,12 +49,12 @@ export default function Table({data, availableProperties}: {
         changePropertySettings([newData, ...propertySettings])
     }
 
-    function availableForAddingProperties(): Property[]{
-        return availableProperties.filter(function(loadedProperty){
-            const setting = propertySettings.find(function(setting){
+    function availableForAddingProperties(): Property[] {
+        return availableProperties.filter(function (loadedProperty) {
+            const setting = propertySettings.find(function (setting) {
                 return setting.property_id == loadedProperty.id
             })
-            if(setting){
+            if (setting) {
                 return false;
             }
             return true;
@@ -66,7 +68,7 @@ export default function Table({data, availableProperties}: {
     }
 
     function optionsFor(setting) {
-        return availableForAddingProperties().map(function(property){
+        return availableForAddingProperties().map(function (property) {
             return {
                 value: property.id,
                 label: property.name
@@ -95,7 +97,7 @@ export default function Table({data, availableProperties}: {
         })
         changePropertySettings(list)
         let status = 0;
-        const url = `http://api.pricecheck.my:82/product/update-list-settings`;
+        const url = `http://api.pricecheck.my:82/properties/attach-setting`;
         const dataForUpsert = [updatedItem]
         await fetch(url, {
             body: JSON.stringify(dataForUpsert),
@@ -112,8 +114,8 @@ export default function Table({data, availableProperties}: {
     }
 
     function changeSetting(newOptionData, settingChanged: TableSetting) {
-        const list = propertySettings.map(function(setting){
-            if(setting.property_id==settingChanged.property_id){
+        const list = propertySettings.map(function (setting) {
+            if (setting.property_id == settingChanged.property_id) {
                 setting.property_id = newOptionData.value
                 setting.property = propertyById(newOptionData.value)
             }
@@ -129,7 +131,9 @@ export default function Table({data, availableProperties}: {
                     <Select
                         options={optionsFor(setting)}
                         defaultValue={buildOptionBy(setting)}
-                        onChange={function(option){changeSetting(option, setting)}}
+                        onChange={function (option) {
+                            changeSetting(option, setting)
+                        }}
                         menuPosition={"fixed"}
                     >
                     </Select>
@@ -142,8 +146,8 @@ export default function Table({data, availableProperties}: {
                         <button type={"submit"} onClick={() => removeRow(setting)} className="btn btn-danger-rgba">
                             <i className={
                                 setting.committed !== true
-                                ? "feather icon-slash"
-                                : "feather icon-trash"}>
+                                    ? "feather icon-slash"
+                                    : "feather icon-trash"}>
                             </i>
                         </button>
                     </div>
@@ -152,7 +156,7 @@ export default function Table({data, availableProperties}: {
         );
     }
 
-    function readebleRow(item) {
+    function readebleRow(item: TableSetting) {
         return (
             <tr key={item.property_id}>
                 <td>{item.property.name}</td>

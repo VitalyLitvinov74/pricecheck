@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\domain\Property\UseCases\ProductPropertyService;
 use app\domain\Type;
-use app\forms\ParsingSchemaForm;
+use app\forms\ProductListSettingsForm;
 use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
+use app\forms\PropertySettingForm;
 use app\forms\Scenarious;
 use app\records\PropertyRecord;
 use Throwable;
@@ -18,6 +18,7 @@ use yii\filters\VerbFilter;
 class PropertiesController extends BaseApiController
 {
     private ProductPropertyService $service;
+
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
@@ -45,19 +46,20 @@ class PropertiesController extends BaseApiController
                 $this->service->push($productTypeForm->properties);
                 $this->jsonApi->setupCode(204);
                 return $this->jsonApi->asArray();
-            }catch (Exception $exception){
+            } catch (Exception $exception) {
                 return $this->jsonApi->addException($exception)->asArray();
             }
         }
         return $this->jsonApi->addModelErrors($productTypeForm)->asArray();
     }
 
-    public function actionChange(){
+    public function actionChange()
+    {
         $propertyForm = new ProductPropertyForm([
             'scenario' => Scenarious::UpdateProductProperty
         ]);
         $propertyForm->load($this->request->post());
-        if($propertyForm->validate()){
+        if ($propertyForm->validate()) {
             try {
                 $this->service->change(
                     $propertyForm->id,
@@ -67,14 +69,15 @@ class PropertiesController extends BaseApiController
                 return $this->jsonApi
                     ->setupCode(204)
                     ->asArray();
-            }catch (Throwable $exception){
+            } catch (Throwable $exception) {
                 return $this->jsonApi->addException($exception)->asArray();
             }
         }
         return $this->jsonApi->addModelErrors($propertyForm)->asArray();
     }
 
-    public function actionAvailableTypes(){
+    public function actionAvailableTypes()
+    {
         return $this->jsonApi->addBody([
             Type::Float->value,
             Type::String->value,
@@ -85,16 +88,17 @@ class PropertiesController extends BaseApiController
             ->asArray();
     }
 
-    public function actionRemove(){
+    public function actionRemove()
+    {
         $form = new ProductPropertyForm([
             'scenario' => Scenarious::RemoveProperty
         ]);
         $form->load(Yii::$app->request->post());
-        if($form->validate()){
-            try{
+        if ($form->validate()) {
+            try {
                 $this->service->remove($form->id);
                 return $this->jsonApi->setupCode(204)->asArray();
-            }catch (\Throwable $exception){
+            } catch (\Throwable $exception) {
                 return $this->jsonApi->addException($exception)->asArray();
             }
 
@@ -102,7 +106,8 @@ class PropertiesController extends BaseApiController
         return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
     }
 
-    public function actionList(){
+    public function actionList()
+    {
         return $this->jsonApi
             ->setupCode(200)
             ->addBody(
@@ -112,5 +117,33 @@ class PropertiesController extends BaseApiController
                     ->all()
             )
             ->asArray();
+    }
+
+    public function actionAttachSetting()
+    {
+        $form = new ProductListSettingsForm([
+            'scenario' => Scenarious::ChangeProductListSettings
+        ]);
+        $form->load(['settings' => Yii::$app->request->post()]);
+        if ($form->validate()) {
+            $service = new ProductPropertyService();
+            $service->attachSettings($form->settings);
+            return $this->jsonApi->setupCode(204)->asArray();
+        }
+        return $this->jsonApi->addModelErrors($form)->asArray();
+    }
+
+    public function actionDisAttachSetting()
+    {
+        $form = new PropertySettingForm([
+            'scenario' => Scenarious::DisAttachSetting
+        ]);
+        $form->load(Yii::$app->request->post());
+        if ($form->validate()) {
+            $service = new ProductPropertyService();
+            $service->disAttachSetting($form->property->id, $form->settingTypeId);
+            return $this->jsonApi->setupCode(204)->asArray();
+        }
+        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }

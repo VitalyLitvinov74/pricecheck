@@ -50,12 +50,6 @@ class PropertyRepository
                 ->useActiveRecord(PropertyRecord::class)
                 ->useUniqueKeys(['id'])
                 ->upsertManyRecords($insertData);
-            $actualNames = [];
-            foreach ($snapshots as $snapshot) {
-                if ($snapshot->name) {
-                    $actualNames[] = $snapshot->name;
-                }
-            }
             $this->saveSettings($snapshots);
             $trx->commit();
         } catch (Throwable $throwable) {
@@ -72,14 +66,28 @@ class PropertyRepository
     private function saveSettings(array $propertiesSnapshots): void
     {
         $insertData = [];
+        $actualSettings = [];
         foreach ($propertiesSnapshots as $propertySnapshot) {
             foreach ($propertySnapshot->settingsSnapshots as $settingSnapshot) {
-                $insertData[] = [
+                $settingRecord = [
                     'property_id' => $settingSnapshot->propertyId,
                     'setting_type_id' => $settingSnapshot->type
                 ];
+                $actualSettings[] = sprintf('(%s)', implode(', ', $settingRecord));
+                $insertData[] = $settingRecord;
             }
         }
+
+        if ($actualSettings !== []) {
+            PropertiesSettingsRecord::getDb()
+                ->createCommand(sprintf(
+                    'delete from %s where (property_id, setting_type_id) not in (%s)',
+                    PropertiesSettingsRecord::tableName(),
+                    implode(', ', $actualSettings)
+                ))
+                ->execute();
+        }
+
         $this->upsertBuilder
             ->useActiveRecord(PropertiesSettingsRecord::class)
             ->useUniqueKeys(['property_id', 'setting_type_id'])
@@ -102,10 +110,8 @@ class PropertyRepository
     public function findAll(array $ids = []): array
     {
         $list = PropertyRecord::find()
-            ->andFilterWhere(['id'=>$ids])
-            ->with(['settings' => function (Query $query) {
-                $query->emulateExecution();
-            }])
+            ->andFilterWhere(['id' => $ids])
+            ->with(['settings'])
             ->asArray()
             ->all();
         $properties = [];
@@ -123,9 +129,7 @@ class PropertyRepository
     {
         $propertyRecord = PropertyRecord::find()
             ->where(['id' => $id])
-            ->with(['settings' => function (Query $query) {
-                $query->emulateExecution();
-            }])
+            ->with(['settings'])
             ->asArray()
             ->one();
         return $this->objectMapper->map($propertyRecord, Property::class);

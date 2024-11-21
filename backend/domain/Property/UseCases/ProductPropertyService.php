@@ -86,9 +86,12 @@ class ProductPropertyService
         $this->repository->saveAll($properties);
     }
 
-    public function disattachSettung(int $propertyId, int $settingId): void
+    public function disAttachSetting(int $propertyId, int $settingTypeId): void
     {
-        $properties = $this->repository->findAll();
-//        $properties->
+        $property = $this->repository->find($propertyId);
+        $property->disAttach(
+            PropertySettingType::from($settingTypeId)
+        );
+        $this->repository->saveAll([$property]);
     }
 }

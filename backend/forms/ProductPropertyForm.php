@@ -29,7 +29,8 @@ class ProductPropertyForm extends Model
             Scenarious::RemoveProperty => ['id'],
             Scenarious::UpdateProductProperty => ['id', 'name', 'type'],
             Scenarious::UpdateProduct => ['id'],
-            Scenarious::ChangeProductListSettings => ['id']
+            Scenarious::ChangeProductListSettings => ['id'],
+            Scenarious::DisAttachSetting => ['id']
 
         ];
     }

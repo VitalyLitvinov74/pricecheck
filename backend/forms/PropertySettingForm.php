@@ -30,7 +30,8 @@ class PropertySettingForm extends NestedForm
     public function scenarios(): array
     {
         return [
-            Scenarious::ChangeProductListSettings => ['settingTypeId', 'property']
+            Scenarious::ChangeProductListSettings => ['settingTypeId', 'property'],
+            Scenarious::DisAttachSetting => ['settingTypeId', 'property'],
         ];
     }
 
@@ -39,7 +40,7 @@ class PropertySettingForm extends NestedForm
         return [
             'property' => [
                 'class' => ProductPropertyForm::class,
-                'scenario' => Scenarious::ChangeProductListSettings
+                'scenario' => $this->scenario
             ]
         ];
     }

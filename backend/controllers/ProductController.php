@@ -134,17 +134,4 @@ class ProductController extends BaseApiController
             ->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
-
-    public function actionUpdateListSettings(): array
-    {
-        $form = new ProductListSettingsForm([
-            'scenario' => Scenarious::ChangeProductListSettings
-        ]);
-        $form->load(['settings' => Yii::$app->request->post()]);
-        if ($form->validate()) {
-            $service = new ProductPropertyService();
-            $service->attachSettings($form->settings);
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
-    }
 }

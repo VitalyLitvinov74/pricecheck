@@ -13,4 +13,5 @@ abstract class Scenarious
     public const RemoveProperty = 'removeProperty';
     const UpdateProductProperty = 'updateProductProperty';
     const ChangeProductListSettings = 'changeProductListSettings';
+    const DisAttachSetting = 'disAttachSetting';
 }
