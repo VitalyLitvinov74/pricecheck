@@ -14,6 +14,7 @@ export default async function RootLayout({children,}: {
         <head>
             <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
             <link href="/assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>
+            <link href="/assets/plugins/dropzone/dist/dropzone.css" rel="stylesheet"/>
             <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
             <link href="/assets/css/icons.css" rel="stylesheet"/>
             <link href="/assets/css/flag-icon.min.css" rel="stylesheet"/>
