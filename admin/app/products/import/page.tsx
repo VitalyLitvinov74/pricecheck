@@ -1,16 +1,13 @@
 import Form from "./form";
+import {loadParsingSchemas} from "../../../utils/parsing-schemas";
 
 export default async function ImportPage() {
+    const parsingSchemas = await loadParsingSchemas()
+
     return (
         <div className={'contentbar'}>
             <div className={"row"}>
-                <div className={"col-lg-4"}>
-                    <div className="card m-b-30">
-                        <div className="card-header">
-                        </div>
-                            <Form/>
-                    </div>
-                </div>
+                <Form parsingSchemas={parsingSchemas}/>
             </div>
         </div>
     )

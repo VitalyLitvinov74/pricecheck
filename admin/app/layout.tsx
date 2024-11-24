@@ -284,7 +284,7 @@ export default async function RootLayout({children,}: {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/products/properties">Импорт</Link>
+                                                <Link href="/products/import">Импорт</Link>
                                             </li>
                                             <li>
                                                 <Link href="/products/parsing-schemas">Схемы парсинга</Link>
@@ -300,7 +300,7 @@ export default async function RootLayout({children,}: {
                 {children}
                 <div className="footerbar">
                     <footer className="footer">
-                        <p className="mb-0">© 2020 Orbiter - All Rights Reserved.</p>
+                        <p className="mb-0">© 2024 Vitaly Litvinov</p>
                     </footer>
                 </div>
             </div>

@@ -33,6 +33,10 @@ export default function Breadcrumbs({inputTitle}) {
                     title: "Свойства товаров"
                 },
                 {
+                    path: '/products/import',
+                    title: "Импорт"
+                },
+                {
                     path: '/products/parsing-schemas',
                     title: "Схемы парсинга",
                     child: [

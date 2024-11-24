@@ -8,3 +8,18 @@ export type Property = {
     name: string,
     type: string
 }
+
+export type ParsingSchemaProperty = {
+    "id": bigint,
+    "schema_id": bigint,
+    "property_id": bigint,
+    "external_column_name": string,
+    "property": Property
+}
+
+export type ParsingSchema = {
+    "id": bigint,
+    "name": string,
+    "start_with_row_num": bigint,
+    "parsingSchemaProperties": ParsingSchemaProperty[]
+}
