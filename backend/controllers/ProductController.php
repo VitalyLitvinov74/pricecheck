@@ -112,6 +112,7 @@ class ProductController extends BaseApiController
 
     public function actionBatchCreateViaDocument(): array
     {
+        $ini = ini_get('upload_max_filesize');
         $form = new CreateProductsViaDocumentForm();
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {

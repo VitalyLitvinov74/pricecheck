@@ -35,7 +35,21 @@ export default function Form({parsingSchemas}: {
     }
 
     function startImport() {
-
+        const form = new FormData();
+        form.append('parsingSchemaId', parsingSchema?.id);
+        form.append('table', file)
+        const url = 'http://api.pricecheck.my:82/product/batch-create-via-document'
+        fetch(url, { method: 'post', body:form})
+            .then(response => {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+                console.log('You are successfully registered!: ' + response.status);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     function renderRowOfSchema(parsingSchemaProperty: ParsingSchemaProperty) {

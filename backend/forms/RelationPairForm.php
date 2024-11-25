@@ -15,7 +15,6 @@ class RelationPairForm extends NestedForm
     public function rules(): array
     {
         return [
-            ['id', 'integer'],
             [['productProperty', 'externalFieldName', 'id'], 'required'],
             [['externalFieldName'], 'string'],
 
