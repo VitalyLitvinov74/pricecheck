@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import revalidateProductList from "../actions/RevalidateProductList";
 import Link from "next/link";
-import {TableSetting} from "../../../utils/types";
+import {TableSetting} from "../../utils/types";
 
 
 export default function Table(

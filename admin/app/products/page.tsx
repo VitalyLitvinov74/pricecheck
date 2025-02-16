@@ -1,7 +1,7 @@
 import {metadata} from "../layout";
 import Table from "./table";
 import Toolbar from "./toolbar";
-import {loadProducts, loadTableSettings} from "../../../utils/products";
+import {loadProducts, loadTableSettings} from "../../utils/products";
 
 
 export default async function Products() {

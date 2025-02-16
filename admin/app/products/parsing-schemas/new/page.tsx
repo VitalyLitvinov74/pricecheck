@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {metadata} from "../../../layout";
 import ParsingSchemaForm from "../form";
-import {availableTypes, loadProperties} from "../../../../../utils/product-properties";
+import {availableTypes, loadProperties} from "../../../../utils/product-properties";
 import {randomUUID} from "crypto";
 
 export default async function NewParsingSchema() {

@@ -1,5 +1,5 @@
 import Form from "./form";
-import {loadParsingSchemas} from "../../../../utils/parsing-schemas";
+import {loadParsingSchemas} from "../../../utils/parsing-schemas";
 
 export default async function ImportPage() {
     const parsingSchemas = await loadParsingSchemas()

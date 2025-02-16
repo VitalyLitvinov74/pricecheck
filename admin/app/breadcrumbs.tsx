@@ -1,6 +1,6 @@
 'use client'
 import {usePathname} from "next/navigation";
-import {titleByPath} from "../../utils/route-titles-map";
+import {titleByPath} from "../utils/route-titles-map";
 import {useState} from "react";
 import Link from "next/link";
 
