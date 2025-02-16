@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from "react";
 import Select from "react-select";
-import {uuid} from "../../../utils/helpers"
+import {uuid} from "../../../../utils/helpers"
 import {useRouter} from "next/navigation";
 import revalidateParsingSchemaData from "../../actions/RevalidateParsingSchema";
 

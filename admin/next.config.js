@@ -1,5 +1,6 @@
 const nextConfig = {
-    reactStrictMode: false
+    reactStrictMode: false,
+    assetPrefix: '/src',
 }
 
 module.exports = nextConfig

@@ -1,7 +1,7 @@
 import {metadata} from "../../../layout";
-import {loadProperties} from "../../../../utils/product-properties";
+import {loadProperties} from "../../../../../utils/product-properties";
 import Form from "../../form";
-import {loadProduct} from "../../../../utils/products";
+import {loadProduct} from "../../../../../utils/products";
 
 export default async function Page({params}: { id: string }){
     metadata.title= "Обновить"

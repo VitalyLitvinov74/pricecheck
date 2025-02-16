@@ -1,4 +1,4 @@
-import {availableTypes, loadProperties} from "../../../utils/product-properties";
+import {availableTypes, loadProperties} from "../../../../utils/product-properties";
 import {metadata} from "../../layout";
 import React, {useState} from "react";
 import PropertiesTable from "./properties-table";

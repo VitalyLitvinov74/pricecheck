@@ -1,8 +1,8 @@
 
 import {metadata} from "../../layout";
 import Table from "./table";
-import {loadProperties} from "../../../utils/product-properties";
-import {loadTableSettings} from "../../../utils/products";
+import {loadProperties} from "../../../../utils/product-properties";
+import {loadTableSettings} from "../../../../utils/products";
 
 export default async function Page(){
     metadata.title= "Настройка таблицы"
