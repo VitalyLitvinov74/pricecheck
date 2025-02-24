@@ -1,5 +1,6 @@
 <?php
 
+use app\components\cycle\Cycle;
 use app\components\cycle\CycleComponent;
 
 /**
@@ -24,6 +25,7 @@ class Yii {
 /**
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
+ * @property Cycle $cycle
  */
 class __Application {
 }

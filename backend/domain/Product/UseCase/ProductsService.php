@@ -71,6 +71,8 @@ class ProductsService
      */
     public function update(ProductForm $form): void
     {
+        $product2 = $this->productRepository->find2($form->id);
+        throw new Exception('asd');
         $product = $this->productRepository->find($form->id);
         foreach ($form->productAttributes as $attribute) {
             $property = $this->productRepository->findPropertyById($attribute->property->id);

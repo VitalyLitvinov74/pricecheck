@@ -1,5 +1,6 @@
 <?php
 
+use app\components\cycle\Cycle;
 use yii\db\Connection;
 
 return [
@@ -10,4 +11,10 @@ return [
         'password' => 'admin',
         'charset' => 'utf8',
     ],
+    'cycle' => [
+        'class' => Cycle::class,
+        'dsn' => 'pgsql:host=postgres;dbname=pricecheck',
+        'username' => 'admin',
+        'password' => 'admin',
+    ]
 ];

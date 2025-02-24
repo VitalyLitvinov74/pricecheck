@@ -23,6 +23,7 @@ use yii\db\Query;
 
 class ProductRepository
 {
+    use ProductMappingSchema;
     private array $propertiesData;
     /** @var Property[] */
     private array $properties;
@@ -34,6 +35,13 @@ class ProductRepository
     {
         $this->propertiesData = [];
         $this->properties = [];
+    }
+
+    public function find2(int $id): Product{
+        $product = Yii::$app->cycle->orm($this->schemna())
+            ->getRepository(Product::class)
+            ->findByPK($id);
+        return $product;
     }
 
     public function find(int $id): Product
