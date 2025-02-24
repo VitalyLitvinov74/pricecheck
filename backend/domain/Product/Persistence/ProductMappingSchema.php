@@ -17,7 +17,7 @@ trait ProductMappingSchema
             'product' => [
                 Schema::ENTITY => Product::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::DATABASE => 'pricecheck',
+//                Schema::DATABASE => 'postgres',
                 Schema::TABLE => 'products',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
@@ -41,7 +41,7 @@ trait ProductMappingSchema
             'attribute' => [
                 Schema::ENTITY => Attribute::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::DATABASE => 'pricecheck',
+//                Schema::DATABASE => 'postgres',
                 Schema::TABLE => 'product_attributes',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
@@ -67,7 +67,7 @@ trait ProductMappingSchema
             'property' => [
                 Schema::ENTITY => Property::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::DATABASE => 'pricecheck',
+//                Schema::DATABASE => 'postgres',
                 Schema::TABLE => 'properties',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [

@@ -3,9 +3,7 @@
 namespace app\components\cycle;
 
 use Cycle\Database\Config\DatabaseConfig;
-use Cycle\Database\Config\MySQL\ConnectionConfig;
-use Cycle\Database\Config\MySQL\DsnConnectionConfig;
-use Cycle\Database\Config\MySQLDriverConfig;
+use Cycle\Database\Config\Postgres\TcpConnectionConfig;
 use Cycle\Database\Config\PostgresDriverConfig;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\Driver\Postgres\PostgresDriver;
@@ -45,16 +43,18 @@ class Cycle extends Component
                     'default' => ['connection' => 'postgres']
                 ],
                 'connections' => [
-                    'postgres'  => [
-                        'driver'   => PostgresDriver::class,
-                        'options' => [
-                            'connection' => $this->dsn,
-                            'username'   => $this->username,
-                            'password'   => $this->password,
-                        ],
-                    ],
+                    'postgres'  => new PostgresDriverConfig(
+                        new TcpConnectionConfig(
+                            'pricecheck',
+                            'postgres',
+                            5432,
+                            $this->username,
+                            $this->password
+                        )
+                    )
                 ]
             ])
+
         );
     }
 }
