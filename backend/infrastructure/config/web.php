@@ -5,11 +5,16 @@ $components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(__DIR__. '/../../../'),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+    ],
+    'runtimePath' => 'presentation/runtime',
+    'controllerNamespace' => 'presentation\controllers',
+    'controllerMap' => [
+        'product' => \app\presentation\controllers\ProductController::class
     ],
     'components' => [
         'request' => [

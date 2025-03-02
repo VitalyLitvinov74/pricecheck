@@ -1,7 +1,5 @@
 <?php
 
-use yii\mongodb\console\controllers\MigrateController;
-
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
 
@@ -9,7 +7,7 @@ $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\commands',
+    'controllerNamespace' => 'app\presentation\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
