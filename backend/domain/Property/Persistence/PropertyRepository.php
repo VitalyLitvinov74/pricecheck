@@ -4,16 +4,15 @@ namespace app\domain\Property\Persistence;
 
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Property\Property;
-use app\libs\LibsException;
-use app\libs\ObjectMapper\ObjectMapper;
-use app\libs\UpsertBuilder;
-use app\records\ProductAttributesRecord;
-use app\records\PropertiesSettingsRecord;
-use app\records\PropertyRecord;
+use app\infrastructure\libs\LibsException;
+use app\infrastructure\libs\ObjectMapper\ObjectMapper;
+use app\infrastructure\libs\UpsertBuilder;
+use app\infrastructure\records\ProductAttributesRecord;
+use app\infrastructure\records\PropertiesSettingsRecord;
+use app\infrastructure\records\PropertyRecord;
 use Throwable;
 use Yii;
 use yii\db\Exception;
-use yii\db\Query;
 
 class PropertyRepository
 {

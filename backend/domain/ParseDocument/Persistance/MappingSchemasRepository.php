@@ -3,10 +3,9 @@
 namespace app\domain\ParseDocument\Persistance;
 
 use app\domain\ParseDocument\Models\MappingSchema;
-use app\libs\ObjectMapper\ObjectMapper;
-use app\records\ParsingSchemaRecord;
+use app\infrastructure\libs\ObjectMapper\ObjectMapper;
+use app\infrastructure\records\ParsingSchemaRecord;
 use yii\db\ActiveQuery;
-use yii\db\Query;
 
 class MappingSchemasRepository
 {

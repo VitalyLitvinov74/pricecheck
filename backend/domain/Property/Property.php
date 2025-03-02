@@ -6,9 +6,9 @@ use app\domain\Property\Models\PropertySettingType;
 use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\snapshots\PropertySnapshot;
 use app\domain\Type;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\Property as Prop;
+use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
+use app\infrastructure\libs\ObjectMapper\Attributes\HasManyModels;
+use app\infrastructure\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel(mapWith: PropertySnapshot::class)]

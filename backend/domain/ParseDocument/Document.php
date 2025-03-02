@@ -6,9 +6,9 @@ use app\domain\ParseDocument\Models\MappingSchema;
 use app\domain\ParseDocument\Models\ProductCard;
 use app\domain\ParseDocument\Models\XlsxFile;
 use app\domain\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\Property;
+use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
+use app\infrastructure\libs\ObjectMapper\Attributes\HasManyModels;
+use app\infrastructure\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel (mapWith: DocumentSnapshot::class)]

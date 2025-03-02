@@ -3,8 +3,8 @@
 namespace app\domain\ParseDocument\Models;
 
 use app\domain\Type;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\Property;
+use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
+use app\infrastructure\libs\ObjectMapper\Attributes\Property;
 
 #[DomainModel]
 class MappingPair

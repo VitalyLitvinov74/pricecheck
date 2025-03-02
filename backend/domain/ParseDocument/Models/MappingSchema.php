@@ -3,9 +3,9 @@
 namespace app\domain\ParseDocument\Models;
 
 use app\domain\ParseDocument\Persistance\Snapshots\MappingSchemaSnapshot;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\Property as Prop;
+use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
+use app\infrastructure\libs\ObjectMapper\Attributes\HasManyModels;
+use app\infrastructure\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel]

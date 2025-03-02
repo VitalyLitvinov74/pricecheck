@@ -7,8 +7,8 @@ use app\domain\Property\Models\Setting;
 use app\domain\Property\Persistence\PropertyRepository;
 use app\domain\Property\Property;
 use app\domain\Type;
-use app\forms\ProductPropertyForm;
-use app\forms\PropertySettingForm;
+use app\presentation\forms\ProductPropertyForm;
+use app\presentation\forms\PropertySettingForm;
 use yii\base\Exception;
 
 class ProductPropertyService

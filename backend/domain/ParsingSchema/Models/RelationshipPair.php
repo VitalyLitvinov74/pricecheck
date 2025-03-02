@@ -3,8 +3,8 @@
 namespace app\domain\ParsingSchema\Models;
 
 use app\domain\ParsingSchema\Persistence\Snapshots\RelationshipPairSnapshot;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\Property;
+use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
+use app\infrastructure\libs\ObjectMapper\Attributes\Property;
 
 #[DomainModel (mapWith: RelationshipPairSnapshot::class)]
 class RelationshipPair
