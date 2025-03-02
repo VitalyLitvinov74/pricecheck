@@ -41,6 +41,7 @@ class ProductRepository
         $product = Yii::$app->cycle->orm($this->schemna())
             ->getRepository(Product::class)
             ->findByPK($id);
+
         return $product;
     }
 

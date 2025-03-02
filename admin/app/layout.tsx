@@ -1,6 +1,7 @@
 import {Metadata} from "next";
 import Link from "next/link";
-import Breadcrumbs from "./breadcrumbs";
+import Breadcrumbs from "../src/widgets/breadcrumbs/ui/breadcrumbs";
+import ProductSearchWidget from "../src/widgets/product-search/ui/ProductSearch";
 
 export const metadata: Metadata = {};
 

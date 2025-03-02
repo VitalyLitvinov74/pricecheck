@@ -2,11 +2,13 @@
 import Link from "next/link";
 import React from "react";
 import {useNavigate} from "react-router";
+import ProductSearchWidget from "../../src/widgets/product-search/ui/ProductSearch";
+import Select from "react-select";
 
 export default function Toolbar(){
 
     return (
-        <div className="row">
+        <div className="row p-r-10">
             <div className="col-lg-6">
                 <div className="btn-group focus-btn-group">
                     <Link to="/home" href="/products/new">
@@ -38,6 +40,10 @@ export default function Toolbar(){
                         Шаблоны товаров
                     </button>
                 </div>
+
+            </div>
+            <div className={"col-lg-4 offset-lg-2"}>
+                <ProductSearchWidget/>
             </div>
             {/*<div className="col-lg-6 ">*/}
             {/*    <div className="form-inline d-flex justify-content-end">*/}
@@ -49,6 +55,7 @@ export default function Toolbar(){
             {/*           </button>*/}
             {/*    </div>*/}
             {/*</div>*/}
+
         </div>
     );
 }
