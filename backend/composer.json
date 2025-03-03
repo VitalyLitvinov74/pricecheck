@@ -22,7 +22,8 @@
         "shuchkin/simplexlsx": "^1.0",
         "vloop/yii2-custom-validators": "^1.0",
         "ext-pgsql": "*",
-        "cycle/orm": "^2.9"
+        "cycle/orm": "^2.9",
+        "yiisoft/yii2-elasticsearch": "~2.1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -15,18 +15,18 @@ services:
     networks:
       - pricecheck
 
-#  letsencrypt:
-#    image: "jrcs/letsencrypt-nginx-proxy-companion:latest"
-#    environment:
-#      NGINX_PROXY_CONTAINER: reverse-proxy
-#      DEFAULT_EMAIL: "user@domain.ru"
-#      NGINX_DOCKER_GEN_CONTAINER: reverse-proxy
-#    restart: "always"
-#    networks:
-#      - pricecheck
-#    volumes:
-#      - './reverse_proxy/certs:/etc/nginx/certs:rw'
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
+  #  letsencrypt:
+  #    image: "jrcs/letsencrypt-nginx-proxy-companion:latest"
+  #    environment:
+  #      NGINX_PROXY_CONTAINER: reverse-proxy
+  #      DEFAULT_EMAIL: "user@domain.ru"
+  #      NGINX_DOCKER_GEN_CONTAINER: reverse-proxy
+  #    restart: "always"
+  #    networks:
+  #      - pricecheck
+  #    volumes:
+  #      - './reverse_proxy/certs:/etc/nginx/certs:rw'
+  #      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   php-proxy:
     image: nginx
@@ -83,7 +83,7 @@ services:
     ports:
       - "4000:4000"
     command: bash -c  "${FRONTEND_DEPLOY_SCRIPT}"
-#    command: bash -c  "npm start"
+    #    command: bash -c  "npm start"
     networks:
       - pricecheck
 
@@ -112,7 +112,24 @@ services:
     networks:
       - pricecheck
 
-  ## статика панели пользователя
+  elasticsearch:
+    container_name: "pricecheck-elasticsearch"
+    image: elasticsearch:8.17.2
+    environment:
+     ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+     ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+     discovery.type: single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elastic:/usr/share/elasticsearch/data
+      - ./elastic/config.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    networks:
+      - pricecheck
+
+
+
+        ## статика панели пользователя
 #  nginx-user-panel:
 #    image: nginx
 #    container_name: "nginx-user-panel"
@@ -147,3 +164,4 @@ networks:
 
 volumes:
   pgdata:
+  elastic:
