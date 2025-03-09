@@ -5,12 +5,21 @@ $components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic-console',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(__DIR__. '/../../../'),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\presentation\commands',
+    'controllerMap' => [
+        'migrate' => [
+            'class' => \yii\console\controllers\MigrateController::class,
+            'migrationNamespaces' => [
+                'app\infrastructure\migrations',
+                'app\infrastructure\migrations\elastic',
+            ],
+        ],
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
     'components' => [

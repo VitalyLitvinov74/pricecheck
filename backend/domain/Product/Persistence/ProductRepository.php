@@ -20,6 +20,7 @@ use Throwable;
 use Yii;
 use yii\db\Exception;
 use yii\db\Query;
+use yii\elasticsearch\BulkCommand;
 
 class ProductRepository
 {
@@ -126,6 +127,15 @@ class ProductRepository
                 ];
             }
         }
+
+        $bulkCommand = Yii::$app->elastic->createBulkCommand('product_attributes');
+            ProductAttributesRecord::tableName(),
+            ['product_id', 'id', 'value', 'property_id', 'property_name'],
+            $insertData
+        );
+
+        $bulkCommand = new BulkCommand();
+        $bulkCommand->execute();
 
         $this->upsertBuilder
             ->useUniqueKeys(['property_id', 'product_id'])

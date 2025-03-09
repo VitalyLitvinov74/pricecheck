@@ -4,7 +4,7 @@ use app\infrastructure\cycle\Cycle;
 use yii\db\Connection;
 
 return [
-    'db'=>[
+    'db' => [
         'class' => Connection::class,
         'dsn' => 'pgsql:host=postgres;dbname=pricecheck',
         'username' => 'admin',
@@ -17,12 +17,16 @@ return [
         'username' => 'admin',
         'password' => 'admin',
     ],
-    'elasticsearch' => [
-        'class' => 'yii\elasticsearch\Connection',
+    'elastic' => [
+        'class' => \yii\elasticsearch\Connection::class,
         'nodes' => [
-            ['http_address' => '127.0.0.1:9200'],
+            ['http_address' => 'elasticsearch:9200'],
             // configure more hosts if you have a cluster
         ],
-        'dslVersion' => 7, // default is 5
+        'auth' => [
+            'username' => 'elastic',
+            'password' => 'MyPw123'
+        ],
+        'dslVersion' => 8, // default is 5
     ],
 ];
