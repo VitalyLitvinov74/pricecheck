@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\records;
+namespace app\infrastructure\records\pg;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

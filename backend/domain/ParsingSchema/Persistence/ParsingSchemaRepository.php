@@ -8,8 +8,8 @@ use app\domain\ParsingSchema\ParsingSchema;
 use app\domain\ParsingSchema\Persistence\Snapshots\SchemaSnapshot;
 use app\infrastructure\libs\ObjectMapper\ObjectMapper;
 use app\infrastructure\libs\UpsertBuilder;
-use app\infrastructure\records\ParsingSchemaPropertiesRecord;
-use app\infrastructure\records\ParsingSchemaRecord;
+use app\infrastructure\records\pg\ParsingSchemaPropertiesRecord;
+use app\infrastructure\records\pg\ParsingSchemaRecord;
 use Yii;
 use yii\db\Exception;
 

@@ -3,7 +3,7 @@
 namespace app\presentation\controllers;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
-use app\infrastructure\records\ParsingSchemaRecord;
+use app\infrastructure\records\pg\ParsingSchemaRecord;
 use app\presentation\forms\ParsingSchemaForm;
 use app\presentation\forms\Scenarious;
 use Throwable;

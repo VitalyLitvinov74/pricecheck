@@ -4,8 +4,8 @@ namespace app\presentation\controllers;
 
 use app\domain\Product\UseCase\ProductsService;
 use app\domain\Property\Models\PropertySettingType;
-use app\infrastructure\records\ProductsRecords;
-use app\infrastructure\records\PropertiesSettingsRecord;
+use app\infrastructure\records\pg\ProductsRecords;
+use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\Scenarious;
@@ -82,12 +82,14 @@ class ProductController extends BaseApiController
         ]);
         $productForm->load(Yii::$app->request->post());
         if ($productForm->validate()) {
-            try {
-                $this->service->update($productForm);
-                return $this->jsonApi->setupCode(204)->asArray();
-            } catch (Throwable $throwable) {
-                return $this->jsonApi->addException($throwable)->asArray();
-            }
+            $this->service->update($productForm);
+            return $this->jsonApi->setupCode(204)->asArray();
+//            try {
+//
+//            } catch (Throwable $throwable) {
+//
+//                return $this->jsonApi->addException($throwable)->asArray();
+//            }
         }
         return $this->jsonApi->addModelErrors($productForm)->setupCode(422)->asArray();
     }

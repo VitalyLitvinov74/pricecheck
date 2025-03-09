@@ -12,10 +12,10 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'runtimePath' => 'presentation/runtime',
-    'controllerNamespace' => 'presentation\controllers',
-    'controllerMap' => [
-        'product' => \app\presentation\controllers\ProductController::class
-    ],
+    'controllerNamespace' => 'app\presentation\controllers',
+//    'controllerMap' => [
+//        'product' => \app\presentation\controllers\ProductController::class
+//    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
