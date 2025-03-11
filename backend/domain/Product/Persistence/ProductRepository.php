@@ -150,9 +150,8 @@ class ProductRepository
                  * }
                  */
                 $elasticData[] = [
-                    'update' => [
+                    'create' => [
                         '_index' => ProductIndex::index(),
-                        '_type' => '_doc',
                         '_id' => $productsSnapshot->id,
                     ],
                     'doc' => [
@@ -160,11 +159,11 @@ class ProductRepository
                         'product_id' => $productsSnapshot->id,
                         'attribute_value' => $attributeSnapshot->value,
                     ],
-                    'upsert' => [
-                        'property_id' => $attributeSnapshot->propertySnapshot->id,
-                        'product_id' => $productsSnapshot->id,
-                        'attribute_value' => $attributeSnapshot->value,
-                    ]
+//                    'upsert' => [
+//                        'property_id' => $attributeSnapshot->propertySnapshot->id,
+//                        'product_id' => $productsSnapshot->id,
+//                        'attribute_value' => $attributeSnapshot->value,
+//                    ]
                 ];
             }
         }
