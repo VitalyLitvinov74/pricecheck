@@ -118,7 +118,6 @@ services:
     environment:
      ELASTIC_USERNAME: ${ELASTIC_USERNAME}
      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-#     KIBANA_PASSWORD: ${KIBANA_PASSWORD}
      discovery.type: single-node
      xpack.security.enabled: false
      xpack.security.enrollment.enabled: false
