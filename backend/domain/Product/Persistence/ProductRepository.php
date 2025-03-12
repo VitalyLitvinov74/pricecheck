@@ -13,7 +13,6 @@ use app\infrastructure\exceptions\BaseException;
 use app\infrastructure\libs\LibsException;
 use app\infrastructure\libs\ObjectMapper\ObjectMapper;
 use app\infrastructure\libs\UpsertBuilder;
-use app\infrastructure\records\elastic\ProductIndex;
 use app\infrastructure\records\pg\ProductAttributesRecord;
 use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertyRecord;
@@ -21,7 +20,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Throwable;
 use Yii;
 use yii\db\Exception;
-use yii\db\Query;
 
 class ProductRepository
 {
