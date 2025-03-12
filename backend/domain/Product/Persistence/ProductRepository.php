@@ -10,6 +10,7 @@ use app\domain\Product\Models\Property;
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\domain\Product\Product;
 use app\infrastructure\exceptions\BaseException;
+use app\infrastructure\libs\LibsException;
 use app\infrastructure\libs\ObjectMapper\ObjectMapper;
 use app\infrastructure\libs\UpsertBuilder;
 use app\infrastructure\records\elastic\ProductIndex;
@@ -97,6 +98,7 @@ class ProductRepository
     /**
      * @param ProductSnapshot[] $productsSnapshots
      * @return void
+     * @throws LibsException
      */
     private function saveProducts(array $productsSnapshots): void
     {
@@ -114,14 +116,11 @@ class ProductRepository
     /**
      * @param ProductSnapshot[] $productsSnapshots
      * @return void
+     * @throws LibsException
      */
     private function saveAttributes(array $productsSnapshots): void
     {
         $insertData = [];
-        $elasticData = [];
-        //property_id
-        //product_id
-        //attribute_value
         foreach ($productsSnapshots as $productsSnapshot) {
             foreach ($productsSnapshot->attributesSnapshots as $attributeSnapshot) {
                 $insertData[] = [
@@ -131,47 +130,8 @@ class ProductRepository
                     'property_id' => $attributeSnapshot->propertySnapshot->id,
                     'property_name' => $attributeSnapshot->propertySnapshot->name
                 ];
-                /**
-                 * {
-                 * "update": {
-                 * "_index": "your_index",
-                 * "_id": "existing_id_1",
-                 * "retry_on_conflict": 5
-                 * }
-                 * }
-                 * {
-                 * "doc": {
-                 * "field1": "new_value_1"
-                 * },
-                 * "upsert": {
-                 * "field1": "default_value_1",
-                 * "field2": "default_value_2"
-                 * }
-                 * }
-                 */
-                $elasticData[] = [
-                    'create' => [
-                        '_index' => ProductIndex::index(),
-                        '_id' => $productsSnapshot->id,
-                    ],
-                    'doc' => [
-                        'property_id' => $attributeSnapshot->propertySnapshot->id,
-                        'product_id' => $productsSnapshot->id,
-                        'attribute_value' => $attributeSnapshot->value,
-                    ],
-//                    'upsert' => [
-//                        'property_id' => $attributeSnapshot->propertySnapshot->id,
-//                        'product_id' => $productsSnapshot->id,
-//                        'attribute_value' => $attributeSnapshot->value,
-//                    ]
-                ];
             }
         }
-
-        Yii::$app->elastic->createBulkCommand([
-            'index' => ProductIndex::index(),
-            'actions' => $elasticData
-        ])->execute();
 
         $this->upsertBuilder
             ->useUniqueKeys(['property_id', 'product_id'])

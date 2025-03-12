@@ -3,6 +3,7 @@
 namespace app\domain\Product\UseCase;
 
 use app\domain\Product\Models\Attribute;
+use app\domain\Product\Persistence\ElasticProductRepository;
 use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
 use app\infrastructure\exceptions\BaseException;
@@ -16,14 +17,16 @@ use yii\web\UploadedFile;
 class ProductsService
 {
     public function __construct(
-        private ProductRepository $productRepository = new ProductRepository()
+        private ProductRepository $productRepository = new ProductRepository(),
+        private ElasticProductRepository $elasticProductRepository = new ElasticProductRepository()
     )
     {
     }
 
     /**
      * @param ProductAttributeForm[] $productAttributes
-     *
+     * @throws Exception
+     * @throws Throwable
      */
     public function createProduct(array $productAttributes): void
     {
@@ -41,7 +44,8 @@ class ProductsService
                 continue;
             }
         }
-        $this->productRepository->saveAll(new ArrayCollection([$product]));
+        $this->productRepository->save($product);
+        $this->elasticProductRepository->save($product);
     }
 
     /**
@@ -55,6 +59,7 @@ class ProductsService
         $filename = $file->baseName . '.' . $file->extension;
         $products = $this->productRepository->loadFromDocument($file->tempName, $filename, $parsingSchemaId);
         $this->productRepository->saveAll($products);
+        $this->elasticProductRepository->saveAll($products);
     }
 
     public function remove($id): void
@@ -84,6 +89,7 @@ class ProductsService
             );
         }
         $this->productRepository->save($product);
+        $this->elasticProductRepository->save($product);
     }
 
     private function existProperty(int $id): bool
