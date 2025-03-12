@@ -8,6 +8,7 @@ use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
+use app\presentation\forms\ProductSearchForm;
 use app\presentation\forms\Scenarious;
 use Throwable;
 use Yii;
@@ -39,21 +40,8 @@ class ProductController extends BaseApiController
 
     public function actionIndex(): array
     {
-        return ProductsRecords::find()
-            ->with([
-                'productAttributes' => function (Query $query) {
-                    $query->where([
-                        'property_id' => PropertiesSettingsRecord::find()
-                            ->select(['property_id'])
-                            ->where(['setting_type_id' => [
-                                PropertySettingType::OnInProductListCRM->value
-                            ]])
-                    ]);
-                }
-            ])
-            ->orderBy(['id' => SORT_DESC])
-            ->asArray()
-            ->all();
+        $searchForm = new ProductSearchForm();
+        return  $searchForm->dataProvider()->getModels();
     }
 
     public function actionView(int $id): array
