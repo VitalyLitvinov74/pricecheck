@@ -53,14 +53,7 @@ class ProductRepository
     {
         $data = ProductsRecords::find()
             ->where(['id' => $id])
-            ->with([
-                'productAttributes' => function (Query $query) {
-                    $query->emulateExecution();
-                },
-                'productAttributes.property' => function (Query $query) {
-                    $query->emulateExecution();
-                }
-            ])
+            ->forProductDomain()
             ->asArray()
             ->one();
         if ($data === null) {
@@ -223,5 +216,21 @@ class ProductRepository
     public function save(Product $product): void
     {
         $this->saveAll(new ArrayCollection([$product]));
+    }
+
+    public function findAll(): ArrayCollection
+    {
+        $records = ProductsRecords::find()
+            ->with([
+                'productAttributes',
+                'productAttributes.property'
+            ])
+            ->asArray()
+            ->all();
+        $products = [];
+        foreach ($records as $record) {
+            $products[] = $this->objectMapper->map($record, Product::class);
+        }
+        return new ArrayCollection($products);
     }
 }

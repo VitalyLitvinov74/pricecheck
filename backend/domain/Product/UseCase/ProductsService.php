@@ -53,6 +53,8 @@ class ProductsService
      * @param string $parsingSchemaId
      * @return void
      * @throws BaseException
+     * @throws Exception
+     * @throws Throwable
      */
     public function createByDocument(UploadedFile $file, string $parsingSchemaId): void
     {
@@ -90,6 +92,11 @@ class ProductsService
         }
         $this->productRepository->save($product);
         $this->elasticProductRepository->save($product);
+    }
+
+    public function reindexProductsInElastic()
+    {
+
     }
 
     private function existProperty(int $id): bool

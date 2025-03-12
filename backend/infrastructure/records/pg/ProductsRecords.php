@@ -2,6 +2,7 @@
 
 namespace app\infrastructure\records\pg;
 
+use app\infrastructure\records\pg\queries\ProductQuery;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -15,7 +16,13 @@ class ProductsRecords extends ActiveRecord
         return 'products';
     }
 
-    public function getProductAttributes(): ActiveQuery{
-        return $this->hasMany(ProductAttributesRecord::class, ['product_id'=>'id']);
+    public static function find(): ProductQuery
+    {
+        return new ProductQuery(get_called_class());
+    }
+
+    public function getProductAttributes(): ActiveQuery
+    {
+        return $this->hasMany(ProductAttributesRecord::class, ['product_id' => 'id']);
     }
 }
