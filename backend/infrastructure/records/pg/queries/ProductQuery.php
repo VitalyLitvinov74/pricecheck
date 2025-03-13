@@ -3,6 +3,7 @@
 namespace app\infrastructure\records\pg\queries;
 
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\db\Query;
 
 class ProductQuery extends ActiveQuery
@@ -17,5 +18,16 @@ class ProductQuery extends ActiveQuery
                 $query->emulateExecution();
             }
         ]);
+    }
+
+    public function strictOrderBy(string $fieldName, array $values): self
+    {
+        $cases = '';
+        foreach ($values as $key => $value) {
+            $key++;
+            $cases .= " when $value then $key ";
+        }
+        $lastKey = $key + 1;
+        return $this->orderBy(new Expression("case $fieldName $cases else $lastKey end"));
     }
 }

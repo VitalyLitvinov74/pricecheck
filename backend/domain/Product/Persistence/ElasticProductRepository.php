@@ -30,13 +30,16 @@ class ElasticProductRepository
         foreach ($products as $product) {
             $snapshot = $this->objectMapper->map($product, ProductSnapshot::class);
             foreach ($snapshot->attributesSnapshots as $attributeSnapshot) {
+                $elasticData[] =
+                    [
+                        'create' => [
+                            '_index' => ProductIndex::index(),
+                        ]
+                    ];
                 $elasticData[] = [
-                    'create' => [
-                        '_id' => $snapshot->id,
-                        'property_id' => $attributeSnapshot->propertySnapshot->id,
-                        'product_id' => $snapshot->id,
-                        'attribute_value' => $attributeSnapshot->value,
-                    ]
+                    'property_id' => $attributeSnapshot->propertySnapshot->id,
+                    'product_id' => $snapshot->id,
+                    'attribute_value' => $attributeSnapshot->value,
                 ];
             }
         }

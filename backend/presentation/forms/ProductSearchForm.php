@@ -8,9 +8,10 @@ use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use Yii;
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\Query;
-use yii\elasticsearch\ActiveDataProvider;
 
 class ProductSearchForm extends Model
 {
@@ -45,24 +46,22 @@ class ProductSearchForm extends Model
                 }
             ])
             ->orderBy(['id' => SORT_DESC]);
-//        if (!$this->validate()) {
-//            return new ActiveDataProvider();
-//        }
+        if (!$this->validate()) {
+            return new ArrayDataProvider(['models' => $query->asArray()->all()]);
+        }
         $ids = ProductIndex::find()
             ->query([
                 'match' => [
-                    'doc.attribute_value' => [
+                    'attribute_value' => [
                         'query' => $this->searchPhrase
                     ]
                 ],
             ])
-            ->asArray()->all();
-        $query->andWhere([
-            'id' => $ids //тут настроить поиск в elastic
-        ]);
-
-        return new ActiveDataProvider([
-            'query' => $query,
+            ->column('product_id');
+        $query->andWhere(['id' => $ids])
+            ->strictOrderBy('id', $ids);
+        return new ArrayDataProvider([
+            'models' => $query->asArray()->all(),
         ]);
     }
 }
