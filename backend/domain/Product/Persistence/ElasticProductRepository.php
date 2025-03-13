@@ -32,18 +32,15 @@ class ElasticProductRepository
             foreach ($snapshot->attributesSnapshots as $attributeSnapshot) {
                 $elasticData[] = [
                     'create' => [
-                        '_index' => ProductIndex::index(),
                         '_id' => $snapshot->id,
-                    ],
-                    'doc' => [
                         'property_id' => $attributeSnapshot->propertySnapshot->id,
                         'product_id' => $snapshot->id,
                         'attribute_value' => $attributeSnapshot->value,
-                    ],
+                    ]
                 ];
             }
         }
-        Yii::$app->elastic
+        Yii::$app->elasticsearch
             ->createBulkCommand([
                 'index' => ProductIndex::index(),
                 'actions' => $elasticData

@@ -17,7 +17,7 @@ return [
         'username' => 'admin',
         'password' => 'admin',
     ],
-    'elastic' => [
+    'elasticsearch' => [
         'class' => \yii\elasticsearch\Connection::class,
         'nodes' => [
             ['http_address' => 'elasticsearch:9200'],

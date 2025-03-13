@@ -19,7 +19,8 @@ class ProductSearchForm extends Model
     public function rules(): array
     {
         return [
-            ['searchPhrase', 'required', 'string'],
+            ['searchPhrase', 'required'],
+            ['searchPhrase', 'string'],
         ];
     }
 
@@ -44,11 +45,20 @@ class ProductSearchForm extends Model
                 }
             ])
             ->orderBy(['id' => SORT_DESC]);
-        if (!$this->validate()) {
-            return new ActiveDataProvider();
-        }
+//        if (!$this->validate()) {
+//            return new ActiveDataProvider();
+//        }
+        $ids = ProductIndex::find()
+            ->query([
+                'match' => [
+                    'doc.attribute_value' => [
+                        'query' => $this->searchPhrase
+                    ]
+                ],
+            ])
+            ->asArray()->all();
         $query->andWhere([
-            'id' => ProductIndex::find()->search(), //тут настроить поиск в elastic
+            'id' => $ids //тут настроить поиск в elastic
         ]);
 
         return new ActiveDataProvider([

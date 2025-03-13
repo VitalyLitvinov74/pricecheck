@@ -4,6 +4,7 @@ namespace app\presentation\commands;
 
 use app\application\ReindexProductsAction;
 use app\domain\Product\UseCase\ProductsService;
+use app\infrastructure\records\elastic\ProductIndex;
 use yii\console\Controller;
 
 class ProductController extends Controller
@@ -19,5 +20,10 @@ class ProductController extends Controller
     public function actionReindexInElastic(){
         $this->reindexAction->__invoke();
         echo "Products reindexed in ElasticSearch successfully.\n";
+    }
+
+    public function actionRemoveAllFromElastic()
+    {
+        ProductIndex::deleteAll();
     }
 }

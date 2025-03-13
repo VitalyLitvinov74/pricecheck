@@ -12,7 +12,7 @@ class m250309_153547_add_elastic_index extends Migration
      */
     public function safeUp()
     {
-        $db = Yii::$app->elastic;
+        $db = Yii::$app->elasticsearch;
         $db->createCommand()->createIndex(
             'products',
             [
@@ -32,7 +32,7 @@ class m250309_153547_add_elastic_index extends Migration
      */
     public function safeDown()
     {
-        $db = Yii::$app->elastic;
+        $db = Yii::$app->elasticsearch;
         $db->createCommand()->deleteIndex('products');
     }
 

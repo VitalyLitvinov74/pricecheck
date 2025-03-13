@@ -26,7 +26,7 @@ class Yii {
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
  * @property Cycle $cycle
- * @property \yii\elasticsearch\Connection $elastic
+ * @property \yii\elasticsearch\Connection $elasticsearch
  */
 class __Application {
 }
