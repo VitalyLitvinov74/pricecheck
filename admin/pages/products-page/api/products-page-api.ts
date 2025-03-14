@@ -1,7 +1,7 @@
 import {TableSetting} from "../../../utils/types";
 
-export const loadProducts = async function () {
-    const url = `${process.env.URL}/product/index`;
+export async function loadProducts(queryString?:string) {
+    const url = `${process.env.URL}/product/index?${queryString}`;
     const data = await fetch(url, {
         next: {
             revalidate: 0

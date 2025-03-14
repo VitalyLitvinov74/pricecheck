@@ -1,18 +1,19 @@
 'use client'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {searchProducts} from "../api/ApiProductSearch";
+import {useRouter, useSearchParams} from "next/navigation";
+
 
 export default function ProductSearchWidget() {
-    const [searchPhrase, setSearchPhrase] = useState<string>('')
 
-    async function search(){
-        try {
-            const result = await searchProducts(searchPhrase)
-            console.log(result)
-        }catch (error){
-            console.log(error)
-        }
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const [searchPhrase, setSearchPhrase] = useState<string>(searchParams.get('searchPhrase'))
 
+    function createQueryString(): string{
+        const searchParams = new URLSearchParams();
+        searchParams.set('searchPhrase', searchPhrase)
+        return searchParams.toString()
     }
 
     return (
@@ -34,7 +35,7 @@ export default function ProductSearchWidget() {
                        }}
                        onKeyDown={function(event){
                            if(event.key === 'Enter'){
-                               search().then();
+                               router.push(`/products?${createQueryString()}`)
                            }
                        }}
                 />

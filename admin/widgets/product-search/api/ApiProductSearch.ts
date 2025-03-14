@@ -1,5 +1,5 @@
-export async function searchProducts(queryString: string): Promise<void> {
-    const result = await fetch(`${process.env.apiUrl}/product/index?queryString=${queryString}`, {
+export async function searchProducts(searchQuery?: string): Promise<void> {
+    const result = await fetch(`${process.env.apiUrl}/product/index?${searchQuery}`, {
         method: "get",
     })
 
