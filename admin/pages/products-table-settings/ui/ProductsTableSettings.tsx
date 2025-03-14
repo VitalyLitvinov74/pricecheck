@@ -1,14 +1,13 @@
-'use client'
+"use client"
+
 import React, {useState} from "react";
-import Select from "react-select";
 import {Property, TableSetting} from "../../../utils/types";
-import revalidateProductList from "../../actions/RevalidateProductList";
+import revalidateProductList from "../../../app/actions/RevalidateProductList";
+import Select from "react-select";
 
-export default function Table({data, availableProperties}: {
-    data: TableSetting[]
-}) {
+export default function ProductsTableSettings({settings, availableProperties}) {
 
-    const [propertySettings, changePropertySettings] = useState(data)
+    const [propertySettings, changePropertySettings] = useState(settings)
 
     function removeOnBackend(itemForRemove: TableSetting) {
         const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
@@ -178,37 +177,47 @@ export default function Table({data, availableProperties}: {
     }
 
     return (
-        <>
-            <div className="btn-toolbar">
-                <div className="btn-group focus-btn-group">
-                    <button
-                        onClick={addNewRow}
-                        type="button"
-                        className="btn btn-default">
-                        <span className="glyphicon glyphicon-screenshot"></span>
-                        Добавить
-                    </button>
+        <div className="contentbar">
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="card m-b-30">
+                        <div className="card-body">
+
+                            <div className="btn-toolbar">
+                                <div className="btn-group focus-btn-group">
+                                    <button
+                                        onClick={addNewRow}
+                                        type="button"
+                                        className="btn btn-default">
+                                        <span className="glyphicon glyphicon-screenshot"></span>
+                                        Добавить
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="table-responsive">
+                                <table className="table table-borderless table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th width="5%">Название</th>
+                                        <th width="15%">Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {propertySettings.map(
+                                        function (setting) {
+                                            if (setting.isEditable) {
+                                                return editableRow(setting)
+                                            }
+                                            return readebleRow(setting)
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-            <div className="table-responsive">
-                <table className="table table-borderless table-hover">
-                    <thead>
-                    <tr>
-                        <th width="5%">Название</th>
-                        <th width="15%">Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {propertySettings.map(
-                        function (setting) {
-                            if (setting.isEditable) {
-                                return editableRow(setting)
-                            }
-                            return readebleRow(setting)
-                        })}
-                    </tbody>
-                </table>
-            </div>
-        </>
-    );
+        </div>
+    )
 }

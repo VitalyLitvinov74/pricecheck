@@ -1,8 +1,8 @@
 
 import {metadata} from "../../layout";
-import Table from "./table";
-import {loadProperties} from "../../../utils/product-properties";
-import {loadTableSettings} from "../../../utils/products";
+import {loadProperties, loadTableSettings} from "../../../shared/api/products-api";
+import ProductsTableSettings from "../../../pages/products-table-settings/ui/ProductsTableSettings";
+
 
 export default async function Page(){
     metadata.title= "Настройка таблицы"
@@ -11,17 +11,6 @@ export default async function Page(){
     const availableProperties = await loadProperties();
 
     return (
-        <div className="contentbar">
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="card m-b-30">
-                        <div className="card-body">
-                            <Table data={settings} availableProperties={availableProperties}/>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <ProductsTableSettings settings={settings} availableProperties={availableProperties}/>
     );
 }

@@ -1,5 +1,5 @@
 import {metadata} from "../layout";
-import {loadProducts, loadTableSettings} from "../../pages/products-page/api/products-page-api";
+import {loadProducts, loadTableSettings} from "../../shared/api/products-api";
 import ProductsPage from "../../pages/products-page/ui/products-page";
 
 

@@ -1,4 +1,4 @@
-import {TableSetting} from "../../../utils/types";
+import {TableSetting} from "../../utils/types";
 
 export async function loadProducts(queryString?:string) {
     const url = `${process.env.URL}/product/index?${queryString}`;
@@ -28,4 +28,14 @@ export const loadTableSettings = async function (): Promise<TableSetting[]> {
         }
     })
     return await data.json();
+}
+
+export const loadProperties = async function(){
+    const url = `${process.env.URL}/properties/list`;
+    const data = await fetch(url, {
+        next: {
+            revalidate: 0
+        }
+    })
+    return data.json();
 }
