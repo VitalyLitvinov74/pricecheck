@@ -1,4 +1,4 @@
-import {TableSetting} from "./types";
+import {TableSetting} from "../../../../utils/types";
 
 export const loadProducts = async function () {
     const url = `${process.env.URL}/product/index`;
@@ -7,7 +7,7 @@ export const loadProducts = async function () {
             revalidate: 0
         }
     })
-    return data.json();
+    return await data.json();
 }
 
 export const loadProduct = async function (id) {
@@ -27,5 +27,5 @@ export const loadTableSettings = async function (): Promise<TableSetting[]> {
             revalidate: 0
         }
     })
-    return data.json();
+    return await data.json();
 }

@@ -3,11 +3,11 @@ import {useState} from "react";
 import {searchProducts} from "../api/ApiProductSearch";
 
 export default function ProductSearchWidget() {
-    const [inputSearch, setInputSearch] = useState<string>('')
+    const [searchPhrase, setSearchPhrase] = useState<string>('')
 
     async function search(){
         try {
-            const result = await searchProducts(inputSearch)
+            const result = await searchProducts(searchPhrase)
             console.log(result)
         }catch (error){
             console.log(error)
@@ -28,9 +28,9 @@ export default function ProductSearchWidget() {
                        placeholder="Поиск по товару"
                        aria-label="Search"
                        aria-describedby="button-addon2"
-                       value={inputSearch}
+                       value={searchPhrase}
                        onChange={function(event){
-                           setInputSearch(event.target.value)
+                           setSearchPhrase(event.target.value)
                        }}
                        onKeyDown={function(event){
                            if(event.key === 'Enter'){
@@ -38,32 +38,32 @@ export default function ProductSearchWidget() {
                            }
                        }}
                 />
-                <div className="input-group-append">
-                    <button className="btn"
-                            type="submit"
-                            id="button-addon2"
-                            style={{
-                                backgroundColor: "rgba(129, 167, 205, 0.1)",
-                                color: "#263a5b",
-                                fontWeight: "700",
-                                fontSize: "18px",
-                                borderRadius: "0 3px 3px 0",
-                                padding: "3px 15px 3px 5px",
-                                boxShadow: "none",
-                            }}
-                    >
-                        <img
-                            src="/assets/images/svg-icon/search.svg"
-                            className="img-fluid"
-                            alt="search"
-                            style={{
-                                width: "20px",
-                                marginTop: '-3px',
-                                filter: "invert(0.6) sepia(1) saturate(1) hue-rotate(185deg)",
-                            }}
-                        />
-                    </button>
-                </div>
+                {/*<div className="input-group-append">*/}
+                {/*    <button className="btn"*/}
+                {/*            type="submit"*/}
+                {/*            id="button-addon2"*/}
+                {/*            style={{*/}
+                {/*                backgroundColor: "rgba(129, 167, 205, 0.1)",*/}
+                {/*                color: "#263a5b",*/}
+                {/*                fontWeight: "700",*/}
+                {/*                fontSize: "18px",*/}
+                {/*                borderRadius: "0 3px 3px 0",*/}
+                {/*                padding: "3px 15px 3px 5px",*/}
+                {/*                boxShadow: "none",*/}
+                {/*            }}*/}
+                {/*    >*/}
+                {/*        <img*/}
+                {/*            src="/assets/images/svg-icon/search.svg"*/}
+                {/*            className="img-fluid"*/}
+                {/*            alt="search"*/}
+                {/*            style={{*/}
+                {/*                width: "20px",*/}
+                {/*                marginTop: '-3px',*/}
+                {/*                filter: "invert(0.6) sepia(1) saturate(1) hue-rotate(185deg)",*/}
+                {/*            }}*/}
+                {/*        />*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
         </>
     )

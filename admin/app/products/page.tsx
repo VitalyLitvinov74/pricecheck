@@ -1,32 +1,15 @@
 import {metadata} from "../layout";
-import Table from "./table";
-import Toolbar from "./toolbar";
-import {loadProducts, loadTableSettings} from "../../utils/products";
+import ProductsPage from "../../src/pages/products-page/ui/ProductsPage";
+import {loadProducts, loadTableSettings} from "../../src/pages/products-page/api/products-page-api";
 
 
 export default async function Products() {
     metadata.title = "Список товаров"
 
-    let products = [];
-    await loadProducts().then(function (data) {
-        products = data;
-    });
-
+    const products = await loadProducts();
     const tableSettings = await loadTableSettings();
 
     return (
-        <div className="contentbar">
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="card m-b-30">
-                        <div className="card-body">
-                            <Toolbar/>
-                            <Table importedProducts={products} tableSettings={tableSettings}/>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <ProductsPage products={products} tableSettings={tableSettings}/>
     );
 }

@@ -20,7 +20,7 @@ export default function Toolbar(){
                             Добавить
                         </button>
                     </Link>
-                    
+
                 </div>
                 <div className="btn-group focus-btn-group ml-4 mb-2">
                     <Link href={"/products/table-settings"}>
@@ -41,9 +41,6 @@ export default function Toolbar(){
                     </button>
                 </div>
 
-            </div>
-            <div className={"col-lg-4 offset-lg-2"}>
-                <ProductSearchWidget/>
             </div>
             {/*<div className="col-lg-6 ">*/}
             {/*    <div className="form-inline d-flex justify-content-end">*/}
