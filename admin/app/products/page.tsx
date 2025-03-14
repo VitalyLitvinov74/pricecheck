@@ -1,6 +1,6 @@
 import {metadata} from "../layout";
-import {loadProducts, loadTableSettings} from "../../src/pages/products-page/api/products-page-api";
-import ProductsPage from "../../src/pages/products-page/ui/products-page";
+import {loadProducts, loadTableSettings} from "../../pages/products-page/api/products-page-api";
+import ProductsPage from "../../pages/products-page/ui/products-page";
 
 
 export default async function Products() {

@@ -1,4 +1,4 @@
-import {TableSetting} from "../../../../utils/types";
+import {TableSetting} from "../../../utils/types";
 
 export const loadProducts = async function () {
     const url = `${process.env.URL}/product/index`;
