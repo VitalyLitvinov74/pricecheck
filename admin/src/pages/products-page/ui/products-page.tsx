@@ -1,10 +1,9 @@
 "use client"
 
-import Toolbar from "../../../../app/products/toolbar";
+import Toolbar from "./toolbar";
 import Link from "next/link";
 import React from "react";
 import ProductSearchWidget from "../../../widgets/product-search/ui/ProductSearch";
-import {ProductPageContext} from "../../../shared/product-page-context/ProductPageContext";
 
 export default function ProductsPage({products, tableSettings}) {
     function renderAttributeCol(product, propertyId) {
@@ -43,7 +42,7 @@ export default function ProductsPage({products, tableSettings}) {
     }
 
     return (
-        <ProductPageContext>
+        <>
             <div className="contentbar">
                 <div className="row">
                     <div className="col-lg-12">
@@ -100,6 +99,6 @@ export default function ProductsPage({products, tableSettings}) {
 
                 </div>
             </div>
-        </ProductPageContext>
+        </>
     )
 }
