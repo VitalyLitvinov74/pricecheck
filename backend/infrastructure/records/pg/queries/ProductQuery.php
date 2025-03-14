@@ -22,6 +22,9 @@ class ProductQuery extends ActiveQuery
 
     public function strictOrderBy(string $fieldName, array $values): self
     {
+        if (empty($values)) {
+            return $this;
+        }
         $cases = '';
         foreach ($values as $key => $value) {
             $key++;
