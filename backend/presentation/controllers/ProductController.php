@@ -9,6 +9,8 @@ use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\ProductSearchForm;
+use app\presentation\forms\ProductsTableSettingsForm;
+use app\presentation\forms\PropertySettingForm;
 use app\presentation\forms\Scenarious;
 use Throwable;
 use Yii;
@@ -122,5 +124,16 @@ class ProductController extends BaseApiController
             ->asArray()
             ->all();
         return $this->jsonApi->addBody($settings)->asArray();
+    }
+
+    public function actionCreateSettings():array
+    {
+        $form = new ProductsTableSettingsForm();
+        $form->load(Yii::$app->request->post());
+        if ($form->validate()) {
+//            $this->service->createSetting($form);
+            return $this->jsonApi->setupCode(204)->asArray();
+        }
+        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }
