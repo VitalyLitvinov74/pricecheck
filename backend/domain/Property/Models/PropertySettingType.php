@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Property\Domain\Models;
+namespace app\domain\Property\Models;
 
 enum PropertySettingType: int
 {

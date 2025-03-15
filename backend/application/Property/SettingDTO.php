@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Property\Application;
+namespace app\application\Property;
 
 readonly class SettingDTO
 {

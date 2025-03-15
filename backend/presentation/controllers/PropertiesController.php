@@ -2,9 +2,9 @@
 
 namespace app\presentation\controllers;
 
+use app\domain\Property\UseCases\ProductPropertyService;
 use app\domain\Type;
 use app\infrastructure\records\pg\PropertyRecord;
-use app\modules\Property\Domain\UseCases\ProductPropertyService;
 use app\presentation\forms\ProductListSettingsForm;
 use app\presentation\forms\ProductPropertyForm;
 use app\presentation\forms\ProductsPropertiesForm;

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\Property\Application;
+namespace app\application\Property;
 
-use app\modules\Property\Infrastructure\Repositories\PropertyRepository;
+use app\infrastructure\repositories\property\PropertyRepository;
 
 class AttachSettingsToProperty
 {

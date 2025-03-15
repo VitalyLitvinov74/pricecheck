@@ -3,9 +3,9 @@
 namespace app\presentation\controllers;
 
 use app\domain\Product\UseCase\ProductsService;
+use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
-use app\modules\Property\Domain\Models\PropertySettingType;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\ProductSearchForm;

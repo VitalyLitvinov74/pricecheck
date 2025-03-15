@@ -1,14 +1,10 @@
 <?php
 
-namespace app\modules\Property\Infrastructure\Repositories;
+namespace app\infrastructure\repositories\property;
 
-use app\infrastructure\cycle\Cycle;
-use app\modules\Property\Domain\Property;
+use app\domain\Property\Property;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
-use Cycle\ORM\Select;
-use Cycle\ORM\Select\Repository;
-use Cycle\ORM\Transaction;
 use Yii;
 
 class PropertyRepository

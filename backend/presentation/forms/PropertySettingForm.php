@@ -2,8 +2,8 @@
 
 namespace app\presentation\forms;
 
+use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\libs\NestedForm;
-use app\modules\Property\Domain\Models\PropertySettingType;
 
 class PropertySettingForm extends NestedForm
 {

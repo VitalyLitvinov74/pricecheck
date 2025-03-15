@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\Property\Domain;
+namespace app\domain\Property;
 
+use app\domain\Property\Models\Setting;
+use app\domain\Property\Models\SettingVO;
 use app\domain\Type;
-use app\modules\Property\Domain\Models\Setting;
-use app\modules\Property\Domain\Models\SettingVO;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Property

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\Property\Infrastructure\Repositories;
+namespace app\infrastructure\repositories\property;
 
-use app\modules\Property\Domain\Property;
+use app\domain\Property\Property;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
