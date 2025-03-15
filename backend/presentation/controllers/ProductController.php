@@ -3,19 +3,17 @@
 namespace app\presentation\controllers;
 
 use app\domain\Product\UseCase\ProductsService;
-use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
+use app\modules\Property\Domain\Models\PropertySettingType;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\ProductSearchForm;
 use app\presentation\forms\ProductsTableSettingsForm;
-use app\presentation\forms\PropertySettingForm;
 use app\presentation\forms\Scenarious;
 use Throwable;
 use Yii;
 use yii\db\ActiveQuery;
-use yii\db\Query;
 
 class ProductController extends BaseApiController
 {
@@ -120,7 +118,7 @@ class ProductController extends BaseApiController
     {
         $settings = PropertiesSettingsRecord::find()
             ->with(['property'])
-            ->where(['setting_type_id' => [PropertySettingType::OnInProductListCRM->value]])
+            ->where(['setting_type_id' => [PropertySettingType::EnabledProductListCRM->value]])
             ->asArray()
             ->all();
         return $this->jsonApi->addBody($settings)->asArray();

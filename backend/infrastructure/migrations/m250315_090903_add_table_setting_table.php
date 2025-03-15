@@ -9,22 +9,9 @@ class m250315_090903_add_table_setting_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('products_table_settings', [
-            'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
-            'is_active' => $this->boolean()->notNull()->defaultValue(true),
-            'property_id' => $this->integer()->notNull(),
-            'position' => $this->integer()->defaultValue(1)->notNull()
-        ]);
-        $this->addForeignKey(
-            'FK_KJHASDHR',
-            'products_table_settings',
-            'property_id',
-            'properties',
-            'id',
-            'SET NULL',
-            'SET NULL'
-        );
+        $this->dropPrimaryKey('PRIMARY', 'properties_settings');
+        $this->addColumn('properties_settings', 'user_id', $this->integer()->notNull());
+        $this->addPrimaryKey('PRIMARY', 'properties_settings', ['user_id', 'property_id', 'setting_type_id']);
     }
 
     /**
@@ -32,7 +19,9 @@ class m250315_090903_add_table_setting_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('products_table_settings');
+        $this->dropPrimaryKey('PRIMARY', 'properties_settings');
+        $this->dropColumn('properties_settings', 'user_id');
+        $this->addPrimaryKey('PRIMARY', 'properties_settings', ['property_id', 'setting_type_id']);
     }
 
     /*

@@ -1,12 +1,12 @@
 <?php
 
-namespace app\domain\Property\UseCases;
+namespace app\modules\Property\Domain\UseCases;
 
-use app\domain\Property\Models\PropertySettingType;
-use app\domain\Property\Models\Setting;
-use app\domain\Property\Persistence\PropertyRepository;
-use app\domain\Property\Property;
 use app\domain\Type;
+use app\modules\Property\Domain\Models\PropertySettingType;
+use app\modules\Property\Domain\Models\Setting;
+use app\modules\Property\Domain\Persistence\PropertyRepository;
+use app\modules\Property\Domain\Property;
 use app\presentation\forms\ProductPropertyForm;
 use app\presentation\forms\PropertySettingForm;
 use yii\base\Exception;

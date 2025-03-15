@@ -2,8 +2,8 @@
 
 namespace app\presentation\forms;
 
-use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\libs\NestedForm;
+use app\modules\Property\Domain\Models\PropertySettingType;
 
 class PropertySettingForm extends NestedForm
 {
@@ -16,8 +16,8 @@ class PropertySettingForm extends NestedForm
         return [
             [['settingTypeId', 'property'], 'required'],
             ['settingTypeId', 'in', 'range' => [
-                PropertySettingType::OnInProductListCRM->value,
-                PropertySettingType::OffInProductListCRM->value
+                PropertySettingType::EnabledProductListCRM->value,
+                PropertySettingType::DisabledInProductListCRM->value
             ]]
         ];
     }

@@ -2,8 +2,7 @@
 
 namespace app\presentation\commands;
 
-use app\application\ReindexProductsAction;
-use app\domain\Product\UseCase\ProductsService;
+use app\application\Product\ReindexProductsAction;
 use app\infrastructure\records\elastic\ProductIndex;
 use yii\console\Controller;
 

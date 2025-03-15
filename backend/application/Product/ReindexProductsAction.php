@@ -1,6 +1,6 @@
 <?php
 
-namespace app\application;
+namespace app\application\Product;
 
 use app\domain\Product\Persistence\ElasticProductRepository;
 use app\domain\Product\Persistence\ProductRepository;
