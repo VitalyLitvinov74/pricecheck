@@ -12,6 +12,7 @@ class m250315_090903_add_table_setting_table extends Migration
         $this->dropPrimaryKey('PRIMARY', 'properties_settings');
         $this->addColumn('properties_settings', 'user_id', $this->integer()->notNull());
         $this->addPrimaryKey('PRIMARY', 'properties_settings', ['user_id', 'property_id', 'setting_type_id']);
+        $this->addColumn('properties_settings', 'value', $this->integer());
     }
 
     /**
@@ -19,6 +20,7 @@ class m250315_090903_add_table_setting_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropColumn('properties_settings', 'value');
         $this->dropPrimaryKey('PRIMARY', 'properties_settings');
         $this->dropColumn('properties_settings', 'user_id');
         $this->addPrimaryKey('PRIMARY', 'properties_settings', ['property_id', 'setting_type_id']);

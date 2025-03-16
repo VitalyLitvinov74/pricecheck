@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Property
 {
-    private int|null $id = null;
+    private int $id;
 
     private Type $type;
 

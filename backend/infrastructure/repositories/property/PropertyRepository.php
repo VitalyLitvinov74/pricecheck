@@ -9,17 +9,19 @@ use Yii;
 
 class PropertyRepository
 {
+    use PropertySchema;
     private ORM $orm;
     private EntityManager $em;
     public function __construct()
     {
-        $this->orm = Yii::$app->cycle->orm(PropertySchema::build());
+        $this->orm = Yii::$app->cycle->orm($this->schema());
         $this->em = new EntityManager($this->orm);
     }
 
     public function findBy(int $id): Property
     {
         $property = $this->orm->getRepository(Property::class)->findByPK($id);
+        $property->rename('asdasd');
         return $property;
     }
 

@@ -13,8 +13,6 @@ class AttachSettingsToProperty
     public function __invoke(int $propertyId, array $settings): void
     {
         $property = $this->repository->findBy($propertyId);
-        foreach ($settings as $setting){
 
-        }
     }
 }

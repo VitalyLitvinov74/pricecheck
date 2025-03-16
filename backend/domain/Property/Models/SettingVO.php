@@ -2,7 +2,7 @@
 
 namespace app\domain\Property\Models;
 
-readonly class SettingVO
+class SettingVO
 {
     public function __construct(
         public PropertySettingType $type,

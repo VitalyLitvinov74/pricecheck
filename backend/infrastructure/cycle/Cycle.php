@@ -6,6 +6,7 @@ use Cycle\Database\Config\DatabaseConfig;
 use Cycle\Database\Config\Postgres\TcpConnectionConfig;
 use Cycle\Database\Config\PostgresDriverConfig;
 use Cycle\Database\DatabaseManager;
+use Cycle\ORM\Collection\DoctrineCollectionFactory;
 use Cycle\ORM\Factory;
 use Cycle\ORM\ORM;
 use Cycle\ORM\Schema;
@@ -22,7 +23,10 @@ class Cycle extends Component
     public function init()
     {
         parent::init();
-        $this->factory = new Factory($this->dbal());
+        $this->factory = new Factory(
+            $this->dbal(),
+            defaultCollectionFactory: new DoctrineCollectionFactory()
+        );
     }
 
     public function orm(Schema $schema): ORM

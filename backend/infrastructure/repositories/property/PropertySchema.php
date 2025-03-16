@@ -2,7 +2,11 @@
 
 namespace app\infrastructure\repositories\property;
 
+use app\domain\Property\Models\PropertySettingType;
+use app\domain\Property\Models\Setting;
+use app\domain\Property\Models\SettingVO;
 use app\domain\Property\Property;
+use app\domain\Type;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
@@ -15,42 +19,65 @@ trait PropertySchema
             'property' => [
                 Schema::ENTITY => Property::class,
                 Schema::MAPPER => Mapper::class,
-//                Schema::DATABASE => 'postgres',
                 Schema::TABLE => 'properties',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
-                    'id' => 'id',
+                    'id',
+                    'type'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
+                    'type' => Type::class
                 ],
                 Schema::RELATIONS => [
                     'settings' => [
                         Relation::TYPE => Relation::HAS_MANY,
-                        Relation::TARGET => 'settings',
+                        Relation::TARGET => Setting::class,
                         Relation::SCHEMA => [
                             Relation::CASCADE => true,
-                            Relation::INNER_KEY => 'product_id',
-                            Relation::OUTER_KEY => 'id',
+                            Relation::INNER_KEY => 'id',
+                            Relation::OUTER_KEY => 'property_id',
                         ],
+                        Relation::LOAD => Relation::LOAD_EAGER
                     ],
                 ],
             ],
-            'type' => [
-                Schema::ENTITY => \app\domain\Product\Models\Property::class,
+            Setting::class => [
+                Schema::ENTITY => Setting::class,
                 Schema::MAPPER => Mapper::class,
-//                Schema::DATABASE => 'postgres',
-                Schema::TABLE => 'properties',
-                Schema::PRIMARY_KEY => 'id',
+                Schema::TABLE => 'properties_settings',
+                Schema::PRIMARY_KEY => ['property_id'],
                 Schema::COLUMNS => [
-                    'id' => 'id',
-                    'name' => 'name',
+                    'property_id',
+                    'value',
+                    'setting_type_id',
+                    'user_id',
+                ],
+                Schema::RELATIONS => [
+                    'settingVO' => [
+                        Relation::TYPE => Relation::EMBEDDED,
+                        Relation::TARGET => 'settingVO',
+                        Relation::SCHEMA => [],
+                        Relation::LOAD => Relation::LOAD_EAGER,
+                    ]
+                ],
+            ],
+            'settingVO' => [
+                Schema::TABLE => 'properties_settings',
+                Schema::ENTITY => SettingVO::class,
+                Schema::MAPPER => Mapper::class,
+                Schema::PRIMARY_KEY => ['property_id', 'setting_type_id', 'user_id'],
+                Schema::COLUMNS => [
+                    'value',
+                    'type' => 'setting_type_id',
+                    'userId' => 'user_id',
                 ],
                 Schema::TYPECAST => [
-                    'id' => 'int',
-                    'name' => 'string'
+                    'type' => PropertySettingType::class,
+                    'userId' => 'int',
+                    'value' => 'int',
                 ],
-            ]
+            ],
         ]);
     }
 }

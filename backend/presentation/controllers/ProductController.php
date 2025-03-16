@@ -2,6 +2,7 @@
 
 namespace app\presentation\controllers;
 
+use app\application\Property\AttachSettingsToProperty;
 use app\domain\Product\UseCase\ProductsService;
 use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\records\pg\ProductsRecords;
@@ -129,6 +130,8 @@ class ProductController extends BaseApiController
         $form = new ProductsTableSettingsForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
+            $action = new AttachSettingsToProperty();
+            $action->__invoke(94, []);
 //            $this->service->createSetting($form);
             return $this->jsonApi->setupCode(204)->asArray();
         }
