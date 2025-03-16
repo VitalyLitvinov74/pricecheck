@@ -3,7 +3,7 @@
 namespace app\domain\Property;
 
 use app\domain\Property\Models\Setting;
-use app\domain\Property\Models\SettingVO;
+use app\domain\Property\Models\SettingValue;
 use app\domain\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -45,7 +45,7 @@ class Property
         return $id === $this->id;
     }
 
-    public function attach(SettingVO $settingVO): void
+    public function attach(SettingValue $settingVO): void
     {
         $existedSetting = $this->settings->findFirst(
             function ($key, Setting $existedSetting) use ($settingVO) {
@@ -60,7 +60,7 @@ class Property
         $this->settings->add($setting);
     }
 
-    public function disAttach(SettingVO $settingVO): void
+    public function disAttach(SettingValue $settingVO): void
     {
         foreach ($this->settings as $setting) {
             if ($setting->compareIdentity($settingVO)) {

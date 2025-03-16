@@ -2,7 +2,7 @@
 
 namespace app\domain\Property\Models;
 
-class SettingVO
+class SettingValue
 {
     public function __construct(
         private PropertySettingType $type,
@@ -26,8 +26,10 @@ class SettingVO
         return $this->value === $value;
     }
 
-    public function compareWith(SettingVO $settingVO): bool
+    public function compareWith(SettingValue $settingVO): bool
     {
-        return $this->type === $settingVO->type && $this->userId === $settingVO->userId && $this->value === $settingVO->value;
+        return $settingVO->hasType($this->type)
+            && $settingVO->belongsTo($this->userId)
+            && $settingVO->checkValue($this->value);
     }
 }

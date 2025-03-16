@@ -4,7 +4,7 @@ namespace app\infrastructure\repositories\property;
 
 use app\domain\Property\Models\PropertySettingType;
 use app\domain\Property\Models\Setting;
-use app\domain\Property\Models\SettingVO;
+use app\domain\Property\Models\SettingValue;
 use app\domain\Property\Property;
 use app\domain\Type;
 use Cycle\ORM\Mapper\Mapper;
@@ -64,7 +64,7 @@ trait PropertySchema
             ],
             'settingVO' => [
                 Schema::TABLE => 'properties_settings',
-                Schema::ENTITY => SettingVO::class,
+                Schema::ENTITY => SettingValue::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::PRIMARY_KEY => ['property_id', 'setting_type_id', 'user_id'],
                 Schema::COLUMNS => [
