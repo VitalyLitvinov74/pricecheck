@@ -49,11 +49,11 @@ class Property
     {
         $existedSetting = $this->settings->findFirst(
             function ($key, Setting $existedSetting) use ($settingVO) {
-                return $existedSetting->is($settingVO->type) && $existedSetting->belongTo($settingVO->userId);
+                return $existedSetting->compareIdentity($settingVO);
             }
         );
         if ($existedSetting !== null) {
-            $existedSetting->change($settingVO->value);
+            $existedSetting->change($settingVO);
             return;
         }
         $setting = new Setting($settingVO);
@@ -63,7 +63,7 @@ class Property
     public function disAttach(SettingVO $settingVO): void
     {
         foreach ($this->settings as $setting) {
-            if ($setting->is($settingVO->type) && $setting->belongTo($settingVO->userId)) {
+            if ($setting->compareIdentity($settingVO)) {
                 $this->settings->removeElement($setting);
             }
         }

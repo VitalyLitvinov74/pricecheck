@@ -21,7 +21,6 @@ class PropertyRepository
     public function findBy(int $id): Property
     {
         $property = $this->orm->getRepository(Property::class)->findByPK($id);
-        $property->rename('asdasd');
         return $property;
     }
 
