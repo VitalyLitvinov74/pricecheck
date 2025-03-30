@@ -67,6 +67,7 @@ services:
       PHP_IDE_CONFIG: 'serverName=${SERVER_NAME}'
     networks:
       - pricecheck
+    user: "${UID}:${GID}"
 
   admin-panel:
     container_name: "admin-panel"
