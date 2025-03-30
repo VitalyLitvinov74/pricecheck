@@ -30,16 +30,13 @@ trait ProductTemplateSchema
                 ],
                 Schema::RELATIONS => [
                     'properties' => [
-                        Relation::TYPE => Relation::_MANY,
+                        Relation::TYPE => Relation::HAS_MANY,
                         Relation::TARGET => 'property',
                         Relation::SCHEMA => [
                             Relation::CASCADE => true,
-                            Relation::NULLABLE => true,
-                            Relation::THROUGH_INNER_KEY => 'template_id',
-                            Relation::THROUGH_OUTER_KEY => 'property_id',
-                            Relation::THROUGH_ENTITY => 'productTemplateProperties',
+                            Relation::NULLABLE => false,
                             Relation::INNER_KEY => 'id',
-                            Relation::OUTER_KEY => 'id',
+                            Relation::OUTER_KEY => 'product_template_id',
                         ],
                         Relation::LOAD => Relation::LOAD_EAGER
                     ],
@@ -54,6 +51,7 @@ trait ProductTemplateSchema
                    'id',
                    'name',
                    'availableValueType' => 'type',
+                    'product_template_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
@@ -61,17 +59,6 @@ trait ProductTemplateSchema
                     'availableValueType' => ValueType::class
                 ],
             ],
-            'productTemplateProperties' => [
-                Schema::ENTITY => ProductTemplatesProperties::class,
-                Schema::MAPPER => Mapper::class,
-                Schema::TABLE => 'product_template_properties',
-                Schema::PARENT_KEY=>'id',
-                Schema::COLUMNS => [
-                    'id',
-                    'template_id',
-                    'property_id'
-                ],
-            ]
         ]);
     }
 }
