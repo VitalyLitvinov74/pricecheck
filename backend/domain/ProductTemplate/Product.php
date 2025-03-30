@@ -62,4 +62,19 @@ class Product
         $propertyForChange->rename($newName);
         $propertyForChange->change($type);
     }
+
+    public function actualizeProperties(array $actualNames): void
+    {
+        $forRemove = $this->properties->filter(function (Property $property) use ($actualNames) {
+            foreach ($actualNames as $actualName) {
+                if ($property->hasName($actualName)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+        foreach ($forRemove as $item) {
+            $this->properties->remove($item);
+        }
+    }
 }
