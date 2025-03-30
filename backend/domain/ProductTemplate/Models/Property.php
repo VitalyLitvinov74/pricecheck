@@ -5,16 +5,12 @@ namespace app\domain\ProductTemplate\Models;
 class Property
 {
     private int $id;
-    private int $name;
-    private ValueType $availableValueType;
 
     public function __construct(
-        PropertyId $id
+        private string $name,
+        private ValueType $availableValueType
     )
     {
-        $this->name = $id->name;
-        $this->id = $id->id;
-        $this->availableValueType = $id->type;
     }
 
     public function hasName(string $name): bool
