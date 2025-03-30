@@ -30,12 +30,15 @@ export const loadTableSettings = async function (): Promise<TableSetting[]> {
     return await data.json();
 }
 
-export const loadProperties = async function(){
-    const url = `${process.env.URL}/properties/list`;
-    const data = await fetch(url, {
+export async function loadProperties(){
+    const url = `http://api.pricecheck.my:82/properties/list`;
+    const result = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
+    const data = await result.json();
+    console.log(data)
+
     return data.json();
 }

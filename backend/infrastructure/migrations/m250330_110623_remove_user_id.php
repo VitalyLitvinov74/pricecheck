@@ -9,7 +9,9 @@ class m250330_110623_remove_user_id extends Migration
      */
     public function safeUp()
     {
+        $this->addColumn('properties_settings','id', $this->integer()->notNull()->unique());
         $this->dropColumn('properties_settings','user_id',);
+        $this->addPrimaryKey('PRIMARY', 'properties_settings', ['id']);
     }
 
     /**
@@ -17,7 +19,9 @@ class m250330_110623_remove_user_id extends Migration
      */
     public function safeDown()
     {
-        $this->addColumn('properties_settings','user_id', $this->integer());
+        $this->addColumn('properties_settings','user_id', $this->integer()->notNull());
+        $this->dropColumn('properties_settings','id',);
+        $this->addPrimaryKey('PRIMARY', 'properties_settings', ['user_id', 'property_id', 'setting_type_id']);
     }
 
     /*

@@ -29,9 +29,9 @@ class ProductSearchForm extends Model
         return '';
     }
 
-    public function dataProvider(): DataProviderInterface
+    public function dataProvider(array $searchData): DataProviderInterface
     {
-        $this->load(Yii::$app->request->get());
+        $this->load($searchData);
         $query = ProductsRecords::find()
             ->with([
                 'productAttributes' => function (Query $query) {

@@ -51,14 +51,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
-                    'pattern' => 'product',
-                    'route' => 'product/index',
-                ],
-                [
-                    'pattern' => 'product/<id:\d+>',
-                    'route' => 'product/view',
-                ],
+//                [
+//                    'pattern' => 'product',
+//                    'route' => 'product/index',
+//                ],
+//                [
+//                    'pattern' => 'product/<id:\d+>',
+//                    'route' => 'product/view',
+//                ],
             ],
         ],
 

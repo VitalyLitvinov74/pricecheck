@@ -9,6 +9,8 @@ export default function ProductsTableSettings({settings, availableProperties}) {
 
     const [propertySettings, changePropertySettings] = useState(settings)
 
+    console.log(availableProperties)
+
     function removeOnBackend(itemForRemove: TableSetting) {
         const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
         let status = 0;
