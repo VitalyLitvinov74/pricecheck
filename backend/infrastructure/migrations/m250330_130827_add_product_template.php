@@ -14,11 +14,8 @@ class m250330_130827_add_product_template extends Migration
                 'name' => $this->string()->notNull()
             ]
         );
-        $this->createTable('product_template_properties', [
-            'id' => $this->primaryKey(),
-            'template_id' => $this->integer()->notNull(),
-            'property_id' => $this->integer()->notNull()
-        ]);
+        $this->addColumn('properties', 'product_template_id', $this->integer()->notNull());
+
         $this->db->createCommand("INSERT INTO product_templates (name) VALUES ('Шаблон');")->execute();
     }
 
@@ -27,7 +24,7 @@ class m250330_130827_add_product_template extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('product_template_properties');
+        $this->dropColumn('properties', 'product_template_id');
         $this->dropTable('product_templates');
     }
 

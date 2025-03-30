@@ -12,11 +12,6 @@ class ProductPropertyForm extends Model
 
     public function rules(): array
     {
-        return self::staticRules();
-    }
-
-    public static function staticRules(): array
-    {
         return [
             [['name', 'type', 'id'], 'required'],
             [['name', 'type'], 'string', 'strict' => true],

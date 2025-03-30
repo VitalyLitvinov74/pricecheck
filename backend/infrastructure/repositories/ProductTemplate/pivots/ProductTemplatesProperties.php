@@ -2,6 +2,8 @@
 
 namespace app\infrastructure\repositories\ProductTemplate\pivots;
 
+use app\domain\ProductTemplate\Models\Property;
+
 class ProductTemplatesProperties
 {
     private int $id;

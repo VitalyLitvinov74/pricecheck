@@ -10,6 +10,7 @@ use app\infrastructure\repositories\ProductTemplate\pivots\ProductTemplatesPrope
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
+use Cycle\ORM\SchemaInterface;
 
 trait ProductTemplateSchema
 {
@@ -29,10 +30,11 @@ trait ProductTemplateSchema
                 ],
                 Schema::RELATIONS => [
                     'properties' => [
-                        Relation::TYPE => Relation::MANY_TO_MANY,
+                        Relation::TYPE => Relation::_MANY,
                         Relation::TARGET => 'property',
                         Relation::SCHEMA => [
                             Relation::CASCADE => true,
+                            Relation::NULLABLE => true,
                             Relation::THROUGH_INNER_KEY => 'template_id',
                             Relation::THROUGH_OUTER_KEY => 'property_id',
                             Relation::THROUGH_ENTITY => 'productTemplateProperties',
@@ -63,13 +65,12 @@ trait ProductTemplateSchema
                 Schema::ENTITY => ProductTemplatesProperties::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::TABLE => 'product_template_properties',
-                Schema::PRIMARY_KEY => 'id',
+                Schema::PARENT_KEY=>'id',
                 Schema::COLUMNS => [
                     'id',
                     'template_id',
                     'property_id'
                 ],
-                Schema::RELATIONS => []
             ]
         ]);
     }

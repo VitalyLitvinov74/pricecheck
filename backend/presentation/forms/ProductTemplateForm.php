@@ -19,8 +19,13 @@ class ProductTemplateForm extends Model
             ['productTemplateId', 'integer'],
             ['actualProperties', CustomEachValidator::class, 'rule' => [
                 ArrayValidator::class,
-                'subRules' => ProductPropertyForm::staticRules()
+                'subRules' => [
+                    [['name', 'type'], 'required'],
+                    [['name', 'type'], 'string', 'strict' => true],
+                    ['id', 'integer']
+                ]
             ]]
+
         ];
     }
 
@@ -41,5 +46,12 @@ class ProductTemplateForm extends Model
             );
         }
         return $DTOs;
+    }
+
+    protected function internalForms(): array
+    {
+        return match ($this->scenario){
+            Scenarious::Default => ['actualProperties']
+        };
     }
 }

@@ -6,7 +6,7 @@ class PropertyDTO
 {
     public function __construct(
         public string $name,
-        public int $type,
+        public string $type,
         public int|null $id = null)
     {
     }

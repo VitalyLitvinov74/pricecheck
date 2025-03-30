@@ -18,12 +18,13 @@ class ProductTemplateRepository
 
     public function find(): Product
     {
-        return $this->orm->getRepository(Product::class)->findByPK(1);
+        $product =  $this->orm->getRepository(Product::class)->findByPK(1);
+        $this->em->persist($product);
+        return $product;
     }
 
     public function save(Product $product): int
     {
-        $this->em->persist($product);
         try {
             $this->em->run();
             return 1;

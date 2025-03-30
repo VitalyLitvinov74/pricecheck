@@ -9,7 +9,7 @@ use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
-use app\presentation\forms\ProductSearchForm;
+use app\presentation\forms\ProductListSearchForm;
 use app\presentation\forms\ProductsTableSettingsForm;
 use app\presentation\forms\Scenarious;
 use Throwable;
@@ -41,7 +41,7 @@ class ProductController extends BaseApiController
 
     public function actionIndex(): array
     {
-        $searchForm = new ProductSearchForm();
+        $searchForm = new ProductListSearchForm();
         return  $searchForm
             ->dataProvider(Yii::$app->request->get())
             ->getModels();

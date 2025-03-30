@@ -11,7 +11,7 @@ use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\Query;
 
-class ProductSearchForm extends Model
+class ProductListSearchForm extends Model
 {
     public $searchPhrase;
 

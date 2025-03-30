@@ -3,7 +3,7 @@
 namespace app\presentation\controllers\product;
 
 use app\presentation\controllers\BaseApiController;
-use app\presentation\forms\ProductSearchForm;
+use app\presentation\forms\ProductListSearchForm;
 use Yii;
 
 class ListController extends BaseApiController
@@ -15,7 +15,7 @@ class ListController extends BaseApiController
 
     public function actionIndex(): array
     {
-        $searchForm = new ProductSearchForm();
+        $searchForm = new ProductListSearchForm();
         $dataProvider = $searchForm->dataProvider(
             Yii::$app->request->get()
         );

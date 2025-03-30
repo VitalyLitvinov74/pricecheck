@@ -74,7 +74,7 @@ class Product
             return true;
         });
         foreach ($forRemove as $item) {
-            $this->properties->remove($item);
+            $this->properties->removeElement($item);
         }
     }
 }
