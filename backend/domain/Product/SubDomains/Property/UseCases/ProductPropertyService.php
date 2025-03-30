@@ -1,10 +1,10 @@
 <?php
 
-namespace app\domain\Property\UseCases;
+namespace app\domain\Product\SubDomains\Property\UseCases;
 
-use app\domain\Property\Models\PropertySettingType;
-use app\domain\Property\Models\Setting;
-use app\domain\Property\Property;
+use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
+use app\domain\Product\SubDomains\Property\Models\Setting;
+use app\domain\Product\SubDomains\Property\Property;
 use app\domain\Type;
 use app\modules\Property\Domain\Persistence\PropertyRepository;
 use app\presentation\forms\ProductPropertyForm;

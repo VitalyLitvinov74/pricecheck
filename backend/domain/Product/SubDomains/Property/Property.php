@@ -1,9 +1,9 @@
 <?php
 
-namespace app\domain\Property;
+namespace app\domain\Product\SubDomains\Property;
 
-use app\domain\Property\Models\Setting;
-use app\domain\Property\Models\SettingValue;
+use app\domain\Product\SubDomains\Property\Models\Setting;
+use app\domain\Product\SubDomains\Property\Models\SettingValue;
 use app\domain\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 

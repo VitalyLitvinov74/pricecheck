@@ -2,7 +2,7 @@
 
 namespace app\infrastructure\repositories\property;
 
-use app\domain\Property\Property;
+use app\domain\Product\SubDomains\Property\Property;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;

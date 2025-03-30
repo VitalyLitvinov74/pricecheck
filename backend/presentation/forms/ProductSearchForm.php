@@ -2,11 +2,10 @@
 
 namespace app\presentation\forms;
 
-use app\domain\Property\Models\PropertySettingType;
+use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\infrastructure\records\elastic\ProductIndex;
 use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
-use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;

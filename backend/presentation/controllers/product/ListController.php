@@ -28,4 +28,9 @@ class ListController extends BaseApiController
             ])
             ->asArray();
     }
+
+    public function actionUpdateView(): array
+    {
+
+    }
 }

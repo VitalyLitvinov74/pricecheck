@@ -3,8 +3,8 @@
 namespace app\presentation\controllers;
 
 use app\application\Property\AttachSettingsToProperty;
+use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
-use app\domain\Property\Models\PropertySettingType;
 use app\infrastructure\records\pg\ProductsRecords;
 use app\infrastructure\records\pg\PropertiesSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;

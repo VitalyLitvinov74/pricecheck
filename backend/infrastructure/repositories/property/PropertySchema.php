@@ -2,10 +2,10 @@
 
 namespace app\infrastructure\repositories\property;
 
-use app\domain\Property\Models\PropertySettingType;
-use app\domain\Property\Models\Setting;
-use app\domain\Property\Models\SettingValue;
-use app\domain\Property\Property;
+use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
+use app\domain\Product\SubDomains\Property\Models\Setting;
+use app\domain\Product\SubDomains\Property\Models\SettingValue;
+use app\domain\Product\SubDomains\Property\Property;
 use app\domain\Type;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
