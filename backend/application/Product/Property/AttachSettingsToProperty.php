@@ -1,6 +1,6 @@
 <?php
 
-namespace app\application\Property;
+namespace app\application\Product\Property;
 
 use app\infrastructure\repositories\property\PropertyRepository;
 
@@ -10,6 +10,11 @@ class AttachSettingsToProperty
     {
     }
 
+    /**
+     * @param int $propertyId
+     * @param SettingDTO[] $settings
+     * @return void
+     */
     public function __invoke(int $propertyId, array $settings): void
     {
         $property = $this->repository->findBy($propertyId);

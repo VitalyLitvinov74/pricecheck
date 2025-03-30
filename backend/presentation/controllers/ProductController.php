@@ -2,7 +2,7 @@
 
 namespace app\presentation\controllers;
 
-use app\application\Property\AttachSettingsToProperty;
+use app\application\Product\Property\AttachSettingsToProperty;
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
 use app\infrastructure\records\pg\ProductsRecords;
@@ -42,7 +42,9 @@ class ProductController extends BaseApiController
     public function actionIndex(): array
     {
         $searchForm = new ProductSearchForm();
-        return  $searchForm->dataProvider()->getModels();
+        return  $searchForm
+            ->dataProvider(Yii::$app->request->get())
+            ->getModels();
     }
 
     public function actionView(int $id): array

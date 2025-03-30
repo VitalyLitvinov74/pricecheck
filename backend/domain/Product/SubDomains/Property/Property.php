@@ -3,7 +3,6 @@
 namespace app\domain\Product\SubDomains\Property;
 
 use app\domain\Product\SubDomains\Property\Models\Setting;
-use app\domain\Product\SubDomains\Property\Models\SettingValue;
 use app\domain\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -33,39 +32,5 @@ class Property
     public function rename(string $newName): void
     {
         $this->name = $newName;
-    }
-
-    public function hasName(string $name): bool
-    {
-        return strtolower($this->name) === strtolower($name);
-    }
-
-    public function hasId(int $id): bool
-    {
-        return $id === $this->id;
-    }
-
-    public function attach(SettingValue $settingVO): void
-    {
-        $existedSetting = $this->settings->findFirst(
-            function ($key, Setting $existedSetting) use ($settingVO) {
-                return $existedSetting->compareIdentity($settingVO);
-            }
-        );
-        if ($existedSetting !== null) {
-            $existedSetting->change($settingVO);
-            return;
-        }
-        $setting = new Setting($settingVO);
-        $this->settings->add($setting);
-    }
-
-    public function disAttach(SettingValue $settingVO): void
-    {
-        foreach ($this->settings as $setting) {
-            if ($setting->compareIdentity($settingVO)) {
-                $this->settings->removeElement($setting);
-            }
-        }
     }
 }
