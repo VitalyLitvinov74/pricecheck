@@ -7,8 +7,8 @@ use yii\base\Model;
 class ColumnSettingForm extends Model
 {
     public $propertyId;
-    public $isEnabled;
-    public $columnNum;
+    public $type;
+    public $value;
 
     public function rules(): array
     {
@@ -18,9 +18,8 @@ class ColumnSettingForm extends Model
     public static function subRules(): array
     {
         return [
-            [['propertyId', 'columnNum', 'isEnabled'], 'required'],
-            ['isEnabled', 'boolean'],
-            [['columnNum', 'propertyId'], 'integer']
+            [['propertyId', 'value', 'type'], 'required'],
+            [['type', 'propertyId', 'value'], 'integer'],
         ];
     }
 
