@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ProductListSettings\Models;
+namespace app\domain\ProductList\Models;
 
 class ColumnSetting
 {

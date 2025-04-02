@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ProductListSettings;
+namespace app\domain\ProductList;
 
-use app\domain\ProductListSettings\Models\ColumnSetting;
+use app\domain\ProductList\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductList
@@ -28,6 +28,10 @@ class ProductList
         $this->settings->add($setting);
     }
 
+    /**
+     * @param ColumnSetting[] $settings
+     * @return void
+     */
     public function actualizeSettings(array $settings): void
     {
         $forRemove = $this->settings->filter(
