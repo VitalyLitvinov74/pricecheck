@@ -50,6 +50,7 @@ trait ProductsListSchema
                     'type',
                     'value',
                     'propertyId' => 'property_id',
+                    'admin_panel_setting_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',

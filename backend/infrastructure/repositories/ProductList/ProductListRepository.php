@@ -22,7 +22,9 @@ class ProductListRepository
 
     public function findBy(int $userId): ProductList
     {
-        return $this->orm->getRepository(ProductList::class)->findOne(['user_id' => $userId]);
+        return $this->orm
+            ->getRepository(ProductList::class)
+            ->findOne(['user_id' => $userId]);
     }
 
     public function save(ProductList $productList): void

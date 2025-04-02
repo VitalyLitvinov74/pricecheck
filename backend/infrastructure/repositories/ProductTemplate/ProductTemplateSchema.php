@@ -6,11 +6,9 @@ use app\domain\Product\SubDomains\Property\Models\Setting;
 use app\domain\ProductTemplate\Models\Property;
 use app\domain\ProductTemplate\Models\ValueType;
 use app\domain\ProductTemplate\Product;
-use app\infrastructure\repositories\ProductTemplate\pivots\ProductTemplatesProperties;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
-use Cycle\ORM\SchemaInterface;
 
 trait ProductTemplateSchema
 {
@@ -48,9 +46,9 @@ trait ProductTemplateSchema
                 Schema::TABLE => 'properties',
                 Schema::PRIMARY_KEY => ['id'],
                 Schema::COLUMNS => [
-                   'id',
-                   'name',
-                   'availableValueType' => 'type',
+                    'id',
+                    'name',
+                    'availableValueType' => 'type',
                     'product_template_id'
                 ],
                 Schema::TYPECAST => [

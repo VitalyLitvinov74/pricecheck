@@ -38,7 +38,6 @@ class ProductList
             function (ColumnSetting $setting) use ($settings) {
                 foreach ($settings as $settingItem) {
                     if ($setting->equalsTo($settingItem)) {
-                        $this->upsertSetting($settingItem);
                         return false;
                     }
                 }

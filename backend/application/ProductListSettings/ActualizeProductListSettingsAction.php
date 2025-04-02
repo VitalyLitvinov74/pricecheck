@@ -25,18 +25,18 @@ class ActualizeProductListSettingsAction
     public function __invoke(int $userId, array $settingsDTOs): void
     {
         $productsList = $this->repository->findBy($userId);
-        $productsList->actualizeSettings(
-            array_map(
-                function (SettingDTO $DTO) {
-                    return new ColumnSetting(
-                        $DTO->propertyId,
-                        SettingType::from($DTO->type),
-                        $DTO->value
-                    );
-                },
-                $settingsDTOs
-            )
-        );
+        $settings = [];
+        foreach ($settingsDTOs as $DTO){
+            $setting = new ColumnSetting(
+                $DTO->value,
+                SettingType::from($DTO->type),
+                $DTO->propertyId,
+            );
+            $productsList->upsertSetting($setting);
+            $settings[] = $setting;
+        }
+
+        $productsList->actualizeSettings($settings);
         $this->repository->save($productsList);
     }
 }
