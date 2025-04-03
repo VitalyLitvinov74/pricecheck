@@ -5,8 +5,9 @@ namespace app\presentation\controllers;
 use app\application\Product\Property\AttachSettingsToProperty;
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
+use app\domain\ProductList\Models\SettingType;
 use app\infrastructure\records\pg\ProductsRecords;
-use app\infrastructure\records\pg\PropertiesSettingsRecord;
+use app\infrastructure\records\pg\AdminPanelProductListSettingsRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\ProductListSearchForm;
@@ -119,9 +120,9 @@ class ProductController extends BaseApiController
 
     public function actionListSettings(): array
     {
-        $settings = PropertiesSettingsRecord::find()
+        $settings = AdminPanelProductListSettingsRecord::find()
             ->with(['property'])
-            ->where(['setting_type_id' => [PropertySettingType::EnabledProductListCRM->value]])
+            ->where(['type' => SettingType::ColumnNumber->value])
             ->asArray()
             ->all();
         return $this->jsonApi->addBody($settings)->asArray();

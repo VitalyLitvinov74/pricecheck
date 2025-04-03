@@ -2,10 +2,10 @@
 
 namespace app\presentation\forms;
 
-use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
+use app\domain\ProductList\Models\SettingType;
 use app\infrastructure\records\elastic\ProductIndex;
 use app\infrastructure\records\pg\ProductsRecords;
-use app\infrastructure\records\pg\PropertiesSettingsRecord;
+use app\infrastructure\records\pg\AdminPanelProductListSettingsRecord;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
@@ -33,15 +33,7 @@ class ProductListSearchForm extends Model
         $this->load($searchData);
         $query = ProductsRecords::find()
             ->with([
-                'productAttributes' => function (Query $query) {
-                    $query->where([
-                        'property_id' => PropertiesSettingsRecord::find()
-                            ->select(['property_id'])
-                            ->where(['setting_type_id' => [
-                                PropertySettingType::EnabledProductListCRM->value
-                            ]])
-                    ]);
-                }
+                'productAttributes'
             ])
             ->orderBy(['id' => SORT_DESC]);
         if (!$this->validate()) {

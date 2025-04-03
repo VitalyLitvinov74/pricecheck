@@ -5,11 +5,11 @@ namespace app\infrastructure\records\pg;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
-class PropertiesSettingsRecord extends ActiveRecord
+class AdminPanelProductListSettingsRecord extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'properties_settings';
+        return 'admin_panel_product_list_settings';
     }
 
     public function getProperty(): ActiveQuery{

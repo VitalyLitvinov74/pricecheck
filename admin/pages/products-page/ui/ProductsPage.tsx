@@ -4,8 +4,10 @@ import Toolbar from "./toolbar";
 import Link from "next/link";
 import React from "react";
 import ProductSearchWidget from "../../../widgets/product-search/ui/ProductSearch";
+import {ButtonRemove} from "./ButtonRemove";
 
 export default function ProductsPage({products, tableSettings}) {
+    console.log(products)
     function renderAttributeCol(product, propertyId) {
 
         const attribute = product.productAttributes.find(function (attribute) {
@@ -19,26 +21,6 @@ export default function ProductsPage({products, tableSettings}) {
             );
         }
         return (<td> - </td>);
-    }
-
-    async function remove(product) {
-        let status = 204;
-        const url = `http://api.pricecheck.my:82/product/remove`;
-        await fetch(url, {
-            body: JSON.stringify(product),
-            headers: {
-                'content-type': "application/json"
-            },
-            method: "delete",
-        }).then(function (result) {
-            status = result.status;
-        })
-        if (status === 204) {
-            // updateProducts(
-            //     products.filter(function(importedProduct){
-            //         return product.id !== importedProduct.id
-            //     }))
-        }
     }
 
     return (
@@ -81,10 +63,7 @@ export default function ProductsPage({products, tableSettings}) {
                                                             >
                                                                 <i className="feather icon-edit-2"></i>
                                                             </Link>
-                                                            <button onClick={() => {
-                                                                remove(product)
-                                                            }} className="btn btn-danger-rgba"><i
-                                                                className="feather icon-trash"></i></button>
+                                                            <ButtonRemove product={product}/>
                                                         </div>
                                                     </td>
                                                 </tr>
