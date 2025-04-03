@@ -1,5 +1,6 @@
 import {TableSetting} from "../types";
 
+
 export async function loadProducts(queryString?:string) {
     const url = `${process.env.URL}/product/index?${queryString}`;
     const data = await fetch(url, {
@@ -31,14 +32,15 @@ export const loadTableSettings = async function (): Promise<TableSetting[]> {
 }
 
 export async function loadProperties(){
-    const url = `http://api.pricecheck.my:82/properties/list`;
+    const url = `${process.env.URL}/properties/list`;
     const result = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
+    console.log(result)
     const data = await result.json();
     console.log(data)
 
-    return data.json();
+    return data;
 }

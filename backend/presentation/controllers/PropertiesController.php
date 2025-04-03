@@ -2,13 +2,10 @@
 
 namespace app\presentation\controllers;
 
-use app\domain\Product\SubDomains\Property\UseCases\ProductPropertyService;
 use app\domain\Type;
 use app\infrastructure\records\pg\PropertyRecord;
-use app\presentation\forms\ProductListSettingsForm;
 use app\presentation\forms\ProductPropertyForm;
 use app\presentation\forms\ProductsPropertiesForm;
-use app\presentation\forms\PropertySettingForm;
 use app\presentation\forms\Scenarious;
 use Throwable;
 use Yii;
@@ -17,7 +14,6 @@ use yii\filters\VerbFilter;
 
 class PropertiesController extends BaseApiController
 {
-    private ProductPropertyService $service;
 
     public function behaviors(): array
     {
@@ -33,7 +29,6 @@ class PropertiesController extends BaseApiController
 
     public function init(): void
     {
-        $this->service = new ProductPropertyService();
         parent::init();
     }
 
@@ -117,33 +112,5 @@ class PropertiesController extends BaseApiController
                     ->all()
             )
             ->asArray();
-    }
-
-    public function actionAttachSetting()
-    {
-        $form = new ProductListSettingsForm([
-            'scenario' => Scenarious::ChangeProductListSettings
-        ]);
-        $form->load(['settings' => Yii::$app->request->post()]);
-        if ($form->validate()) {
-            $service = new ProductPropertyService();
-            $service->attachSettings($form->settings);
-            return $this->jsonApi->setupCode(204)->asArray();
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionDisAttachSetting()
-    {
-        $form = new PropertySettingForm([
-            'scenario' => Scenarious::DisAttachSetting
-        ]);
-        $form->load(Yii::$app->request->post());
-        if ($form->validate()) {
-            $service = new ProductPropertyService();
-            $service->disAttachSetting($form->property->id, $form->settingTypeId);
-            return $this->jsonApi->setupCode(204)->asArray();
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }

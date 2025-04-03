@@ -1,9 +1,6 @@
 "use client"
 import Link from "next/link";
 import React from "react";
-import {useNavigate} from "react-router";
-import ProductSearchWidget from "../../../widgets/product-search/ui/ProductSearch";
-import Select from "react-select";
 
 export default function Toolbar(){
 
