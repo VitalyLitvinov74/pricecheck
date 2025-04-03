@@ -1,7 +1,7 @@
 'use client'
 import React, {useRef, useState} from "react";
 import Select from "react-select";
-import {ParsingSchema, ParsingSchemaProperty} from "../../../utils/types";
+import {ParsingSchema, ParsingSchemaProperty} from "../../../src/shared/types";
 
 export default function Form({parsingSchemas}: {
     parsingSchemas: ParsingSchema[]

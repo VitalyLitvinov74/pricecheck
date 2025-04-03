@@ -1,8 +1,8 @@
-import {availableTypes} from "../../../utils/product-properties";
+import {availableTypes} from "../../../src/shared/product-properties";
 import {metadata} from "../../layout";
 import React, {useState} from "react";
 import PropertiesTable from "./properties-table";
-import {loadProperties} from "../../../shared/api/products-api";
+import {loadProperties} from "../../../src/shared/api/products-api";
 
 export default async function ProductProperties() {
 

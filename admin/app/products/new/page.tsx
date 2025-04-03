@@ -1,6 +1,6 @@
 import {metadata} from "../../layout";
 import Form from "../form";
-import {loadProperties} from "../../../utils/product-properties";
+import {loadProperties} from "../../../src/shared/product-properties";
 
 export default async function newProduct(){
     metadata.title= "Создать товар"

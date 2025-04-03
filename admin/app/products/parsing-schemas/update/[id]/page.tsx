@@ -1,7 +1,7 @@
 import ParsingSchemaForm from "../../form";
 import React from "react";
-import {loadProperties} from "../../../../../utils/product-properties";
-import {loadParsingSchema} from "../../../../../utils/parsing-schemas";
+import {loadProperties} from "../../../../../src/shared/product-properties";
+import {loadParsingSchema} from "../../../../../src/shared/parsing-schemas";
 import {notFound} from "next/navigation";
 import {metadata} from "../../../../layout";
 

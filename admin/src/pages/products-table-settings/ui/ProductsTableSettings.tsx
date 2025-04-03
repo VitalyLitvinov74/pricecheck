@@ -1,8 +1,8 @@
 "use client"
 
 import React, {useState} from "react";
-import {Property, TableSetting} from "../../../utils/types";
-import revalidateProductList from "../../../app/actions/RevalidateProductList";
+import {Property, TableSetting} from "../../../shared/types";
+import revalidateProductList from "../../../../app/actions/RevalidateProductList";
 import Select from "react-select";
 
 export default function ProductsTableSettings({settings, availableProperties}) {

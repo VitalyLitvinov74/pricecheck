@@ -1,7 +1,7 @@
 import {metadata} from "../../layout";
 import Table from "./table";
 import Toolbar from "./toolbar";
-import {loadParsingSchemas} from "../../../utils/parsing-schemas";
+import {loadParsingSchemas} from "../../../src/shared/parsing-schemas";
 
 export default async function ParsingSchemas(){
     metadata.title= "Схемы парсинга"

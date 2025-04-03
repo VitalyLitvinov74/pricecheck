@@ -1,7 +1,7 @@
 import {metadata} from "../../../layout";
 
 import Form from "../../form";
-import {loadProduct, loadProperties} from "../../../../shared/api/products-api";
+import {loadProduct, loadProperties} from "../../../../src/shared/api/products-api";
 
 export default async function Page({params}: { id: string }){
     metadata.title= "Обновить"

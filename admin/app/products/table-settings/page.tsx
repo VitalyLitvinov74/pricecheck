@@ -1,7 +1,7 @@
 
 import {metadata} from "../../layout";
-import {loadProperties, loadTableSettings} from "../../../shared/api/products-api";
-import ProductsTableSettings from "../../../pages/products-table-settings/ui/ProductsTableSettings";
+import {loadProperties, loadTableSettings} from "../../../src/shared/api/products-api";
+import ProductsTableSettings from "../../../src/pages/products-table-settings/ui/ProductsTableSettings";
 
 
 export default async function Page(){
