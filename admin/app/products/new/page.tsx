@@ -1,5 +1,5 @@
 import {metadata} from "../../layout";
-import Form from "../form";
+import Form from "../../../src/pages/product-update/ui/form";
 import {loadProperties} from "../../../src/shared/product-properties";
 
 export default async function newProduct(){

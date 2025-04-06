@@ -41,4 +41,9 @@ class ColumnSetting
     {
         return $this->propertyId === $propertyId;
     }
+
+    public function has(int $id): bool
+    {
+        return $this->id === $id;
+    }
 }

@@ -49,4 +49,20 @@ class ProductList
             $this->settings->removeElement($setting);
         }
     }
+
+    public function disattachSetting(int $id): void
+    {
+        $setting = $this->settings->findFirst(
+            function (ColumnSetting $setting) use ($id) {
+                if($setting->has($id)){
+                    return true;
+                }
+                return false;
+            }
+        );
+        if(!$setting){
+            return;
+        }
+        $this->settings->removeElement($setting);
+    }
 }

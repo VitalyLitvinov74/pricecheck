@@ -21,7 +21,7 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export const loadTableSettings = async function (): Promise<TableSetting[]> {
+export const loadTableSettings = async function (): Promise<TableSetting & {property_id: number}[]> {
     const url = `${process.env.URL}/product/list-settings`;
     const data = await fetch(url, {
         next: {

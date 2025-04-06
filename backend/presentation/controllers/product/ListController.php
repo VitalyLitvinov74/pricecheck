@@ -4,6 +4,7 @@ namespace app\presentation\controllers\product;
 
 use app\application\ProductListSettings\ActualizeProductListSettingsAction;
 use app\presentation\controllers\BaseApiController;
+use app\presentation\forms\ColumnSettingForm;
 use app\presentation\forms\ProductListSearchForm;
 use app\presentation\forms\ProductsTableSettingsForm;
 use Yii;
