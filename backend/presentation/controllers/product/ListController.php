@@ -3,8 +3,10 @@
 namespace app\presentation\controllers\product;
 
 use app\application\ProductListSettings\ActualizeProductListSettingsAction;
+use app\application\ProductListSettings\AttachSettingAction;
+use app\application\ProductListSettings\DisattachSettingAction;
 use app\presentation\controllers\BaseApiController;
-use app\presentation\forms\ColumnSettingForm;
+use app\presentation\forms\ColumnForm;
 use app\presentation\forms\ProductListSearchForm;
 use app\presentation\forms\ProductsTableSettingsForm;
 use Yii;
@@ -12,10 +14,15 @@ use Yii;
 class ListController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
+    private AttachSettingAction $attachSettingsAction;
+    private DisattachSettingAction $disattachSettingAction;
+
     public function init(): void
     {
         parent::init();
         $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
+        $this->attachSettingsAction = new AttachSettingAction();
+        $this->disattachSettingAction = new DisattachSettingAction();
     }
 
     public function actionUpdate()
@@ -55,6 +62,15 @@ class ListController extends BaseApiController
 
     public function updateColumnSettings(): array
     {
-        $form = new ColumnSettingForm();
+        $form = new ColumnForm();
+        $form->load(Yii::$app->request->post());
+        if ($form->validate()) {
+            $this->attachSettingsAction->__invoke(
+                1,
+                $form->settingsDTOs()
+            );
+            return $this->jsonApi->setupCode(201)->asArray();
+        }
+        return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
     }
 }

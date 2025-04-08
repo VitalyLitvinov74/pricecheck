@@ -11,17 +11,25 @@ class AttachSettingAction
     public function __construct(private ProductListRepository $repository = new ProductListRepository())
     {
     }
-    
-    public function __invoke(int $userId, SettingDTO $DTO): void
+
+    /**
+     * @param int $userId
+     * @param SettingDTO[] $DTOs
+     * @return void
+     * @throws \Exception
+     */
+    public function __invoke(int $userId, array $DTOs): void
     {
         $productList = $this->repository->findBy($userId);
-        $productList->upsertSetting(
-            new ColumnSetting(
-                $DTO->value,
-                SettingType::from($DTO->type),
-                $DTO->propertyId
-            )
-        );
+        foreach ($DTOs as $DTO) {
+            $productList->upsertSetting(
+                new ColumnSetting(
+                    $DTO->value,
+                    SettingType::from($DTO->type),
+                    $DTO->propertyId
+                )
+            );
+        }
         $this->repository->save($productList);
     }
 }

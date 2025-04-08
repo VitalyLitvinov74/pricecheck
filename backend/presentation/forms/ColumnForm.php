@@ -2,6 +2,7 @@
 
 namespace app\presentation\forms;
 
+use app\application\ProductListSettings\SettingDTO;
 use yii\base\Model;
 
 class ColumnForm extends Model
@@ -35,7 +36,19 @@ class ColumnForm extends Model
                 $this->addError("settings[$key]", $form->getErrors());
                 continue;
             }
-            $this->DTOs[] = '';
+            $this->DTOs[] = new SettingDTO(
+                $this->relatedId,
+                $form->type,
+                $form->value
+            );
         }
+    }
+
+    /**
+     * @return SettingDTO[]
+     */
+    public function settingsDTOs(): array
+    {
+        return $this->DTOs;
     }
 }
