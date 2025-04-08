@@ -8,7 +8,6 @@ use yii\base\Model;
 class ColumnForm extends Model
 {
     public $relatedId;
-    public $name;
     public $settings;
     private $DTOs;
 
@@ -31,13 +30,12 @@ class ColumnForm extends Model
         foreach ($this->settings as $key => $setting) {
             $form = new ColumnSettingForm();
             $form->load($setting);
-            $form->propertyId = $this->relatedId;
             if (!$form->validate()) {
                 $this->addError("settings[$key]", $form->getErrors());
                 continue;
             }
             $this->DTOs[] = new SettingDTO(
-                $this->relatedId,
+                $form->propertyId,
                 $form->type,
                 $form->value
             );

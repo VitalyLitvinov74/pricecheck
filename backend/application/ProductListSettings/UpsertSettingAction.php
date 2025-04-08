@@ -6,7 +6,7 @@ use app\domain\ProductList\Models\ColumnSetting;
 use app\domain\ProductList\Models\SettingType;
 use app\infrastructure\repositories\ProductList\ProductListRepository;
 
-class AttachSettingAction
+class UpsertSettingAction
 {
     public function __construct(private ProductListRepository $repository = new ProductListRepository())
     {

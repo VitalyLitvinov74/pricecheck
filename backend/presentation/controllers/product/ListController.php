@@ -3,7 +3,7 @@
 namespace app\presentation\controllers\product;
 
 use app\application\ProductListSettings\ActualizeProductListSettingsAction;
-use app\application\ProductListSettings\AttachSettingAction;
+use app\application\ProductListSettings\UpsertSettingAction;
 use app\application\ProductListSettings\DisattachSettingAction;
 use app\presentation\controllers\BaseApiController;
 use app\presentation\forms\ColumnForm;
@@ -14,14 +14,14 @@ use Yii;
 class ListController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
-    private AttachSettingAction $attachSettingsAction;
+    private UpsertSettingAction $upsertSettingsAction;
     private DisattachSettingAction $disattachSettingAction;
 
     public function init(): void
     {
         parent::init();
         $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
-        $this->attachSettingsAction = new AttachSettingAction();
+        $this->upsertSettingsAction = new UpsertSettingAction();
         $this->disattachSettingAction = new DisattachSettingAction();
     }
 
@@ -60,12 +60,12 @@ class ListController extends BaseApiController
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
 
-    public function updateColumnSettings(): array
+    public function acitionUpsertColumnSettings(): array
     {
         $form = new ColumnForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
-            $this->attachSettingsAction->__invoke(
+            $this->upsertSettingsAction->__invoke(
                 1,
                 $form->settingsDTOs()
             );

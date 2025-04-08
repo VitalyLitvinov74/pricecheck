@@ -1,12 +1,14 @@
 import React from "react";
 import {Column} from "../../../../shared/types";
+import {attachSettings} from "../../api/api-products-table-settings";
 
 export function CommitButton({column, rowIsEditing, setIsEditingCallback}: {
     column: Column,
     rowIsEditing: boolean,
     setIsEditingCallback: (isEditing: boolean) => void
 }) {
-    function commit() {
+    async function commit() {
+        await attachSettings(column)
         setIsEditingCallback(false)
     }
 
