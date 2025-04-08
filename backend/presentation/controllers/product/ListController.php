@@ -52,4 +52,9 @@ class ListController extends BaseApiController
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
+
+    public function updateColumnSettings(): array
+    {
+        $form = new ColumnSettingForm();
+    }
 }
