@@ -8,22 +8,6 @@ export default function ProductsTableSettings({columns: existedColumns, productP
     columns: Column[],
     productProperties: ProductProperty[],
 }) {
-    existedColumns = existedColumns.map(function (existedColumn: Column) {
-        const setting = existedColumn.settings.find(function (setting: ColumnSetting) {
-            return setting.type === SettingType.ColumnNumber
-        })
-        if (setting) {
-            return existedColumn;
-        }
-        existedColumn.settings
-            .push({
-                id: undefined,
-                type: SettingType.ColumnNumber,
-                value: 999
-            })
-        return existedColumn;
-    })
-
     const [productColumns, setProductColumns] = useState(existedColumns)
 
 

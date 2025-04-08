@@ -2,6 +2,7 @@ export type ColumnSetting = {
     id: bigint | undefined,
     type: number,
     value: number,
+    frontendId?: string
 }
 
 export type Property = {
