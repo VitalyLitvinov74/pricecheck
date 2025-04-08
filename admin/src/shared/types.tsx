@@ -1,14 +1,9 @@
-export type TableSetting = {
-    property_id: bigint,
-    type: bigint,
-    value: string,
-}
-
 export type ColumnSetting = {
     id: bigint | undefined,
-    type: bigint,
-    value: bigint,
+    type: number,
+    value: number,
 }
+
 export type Property = {
     id: bigint,
     name: string,
@@ -31,8 +26,8 @@ export type ParsingSchema = {
 }
 
 export enum SettingType {
-    IsEnabled = 1,
-    ColumnNumber = 2,
+    IsEnabled = 2,
+    ColumnNumber = 1,
 }
 
 export type ProductProperty = {
@@ -45,4 +40,10 @@ export type ProductTableSettings = {
     columnSettings: ProductProperty & {
         settings: ColumnSetting[],
     }[],
+}
+
+export type Column = {
+    relatedId: bigint,
+    name: string,
+    settings: ColumnSetting[],
 }

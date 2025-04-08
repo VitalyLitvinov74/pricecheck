@@ -1,7 +1,7 @@
 
 import {metadata} from "../../layout";
 import {loadProperties, loadTableSettings} from "../../../src/shared/api/products-api";
-import ProductsListSettings from "../../../src/pages/products-table-settings/ui/ProductsListSettings";
+import ProductsTableSettings from "../../../src/pages/products-table-settings/ui/ProductsTableSettings";
 
 
 export default async function Page(){
@@ -11,6 +11,6 @@ export default async function Page(){
     const availableProperties = await loadProperties();
 
     return (
-        <ProductsListSettings settings={settings}/>
+        <ProductsTableSettings columns={settings} productProperties={availableProperties}/>
     );
 }

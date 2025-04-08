@@ -1,19 +1,17 @@
-import Select from "react-select";
-import {CommitButton} from "./CommitButton";
-import React, {useState} from "react";
-import {ColumnSetting, ProductProperty, TableSetting} from "../../../shared/types";
-import {RemoveButton} from "./RemoveButton";
+import React from "react";
+import {Column, ColumnSetting, SettingType} from "../../../shared/types";
 
-export function Row({setting}: {
-    setting: ProductProperty & {settings: ColumnSetting[]},
+export function Row({productColumn}: {
+    productColumn: Column,
 }) {
     function options() {
         return [];
     }
 
     return (<>
-        <tr key={setting.id}>
+        <tr key={productColumn.relatedId}>
             <td className="tabledit-edit-mode">
+                {productColumn.name}
                 {/*<Select*/}
                 {/*    options={optionsFor(setting)}*/}
                 {/*    defaultValue={buildOptionBy(setting)}*/}
@@ -24,10 +22,18 @@ export function Row({setting}: {
                 {/*>*/}
                 {/*</Select>*/}
             </td>
+            {productColumn.settings
+                .filter(function (setting: ColumnSetting) {
+                    return setting.type === SettingType.ColumnNumber
+                })
+                .map(function (setting: ColumnSetting) {
+                    return (<td key={setting.id}>{setting.value}</td>)
+                })
+            }
             <td>
                 <div className="button-list">
-                    <CommitButton/>
-                    <RemoveButton/>
+                    {/*<CommitButton/>*/}
+                    {/*<RemoveButton/>*/}
                 </div>
             </td>
         </tr>

@@ -1,12 +1,16 @@
 "use client"
 
-import React from "react";
-import {ColumnSetting, ProductProperty, ProductTableSettings, SettingType} from "../../../shared/types";
+import React, {useState} from "react";
+import {Column, ProductProperty, SettingType} from "../../../shared/types";
 import {Row} from "./Row";
 
-export default function ProductsListSettings({settings}: {
-    settings: ProductTableSettings
+export default function ProductsTableSettings({columns: existedColumns, productProperties}: {
+    columns: Column[],
+    productProperties: ProductProperty[],
 }) {
+    const [productColumns, setProductColumns] = useState(existedColumns)
+
+
     // function removeOnBackend(itemForRemove: TableSetting) {
     //     const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
     //     let status = 0;
@@ -117,16 +121,49 @@ export default function ProductsListSettings({settings}: {
     //     setTableSettings(list);
     // }
 
-    function settingTypesAsArray() {
+    function types() {
         const values = [SettingType.IsEnabled, SettingType.ColumnNumber];
         return values.map(function (type: SettingType) {
             switch (type) {
-                case SettingType.IsEnabled:
-                    return "Включено"
                 case SettingType.ColumnNumber:
                     return "Номер колонки"
             }
         });
+    }
+
+    function addNewColumn() {
+        const property = productProperties.find(function (property: ProductProperty) {
+            const column = productColumns.find(function (column) {
+                return column.relatedId == property.id
+            })
+            if (column) {
+                return false;
+            }
+            return true;
+        })
+
+        if (!property) {
+            return;
+        }
+
+        const column: Column = {
+            relatedId: property.id,
+            name: property.name,
+            settings: [
+                {
+                    id: undefined,
+                    type: SettingType.IsEnabled,
+                    value: 1,
+                },
+            ],
+        }
+
+        setProductColumns(function (prev) {
+            return [
+                column,
+                ...prev
+            ]
+        })
     }
 
     return (
@@ -139,7 +176,7 @@ export default function ProductsListSettings({settings}: {
                             <div className="btn-toolbar">
                                 <div className="btn-group focus-btn-group">
                                     <button
-                                        // onClick={addNewRow}
+                                        onClick={addNewColumn}
                                         type="button"
                                         className="btn btn-default">
                                         <span className="glyphicon glyphicon-screenshot"></span>
@@ -151,22 +188,27 @@ export default function ProductsListSettings({settings}: {
                                 <table className="table table-borderless table-hover">
                                     <thead>
                                     <tr>
-                                        <th width="1%">#</th>
-                                        {settingTypesAsArray().map(function (type) {
-                                            return <th width="5%">{type}</th>
-                                        })}
+                                        <th width="5%">Наименование колонки</th>
+                                        {Object.values(SettingType)
+                                            .filter(function (type) {
+                                                return type === SettingType.ColumnNumber
+                                            })
+                                            .map(function (type) {
+                                                let word;
+                                                switch (type) {
+                                                    case SettingType.ColumnNumber:
+                                                        word = "Номер колонки"
+                                                        break;
+                                                }
+                                                return <th key={type} width="5%">{word}</th>
+                                            })}
                                         <th width="15%"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {settings.columnSettings.map(
-                                        function (setting: ProductProperty & { settings: ColumnSetting[] }
-                                        ) {
-                                            return <Row setting={setting}
-                                                // commitCallback={}
-                                                // notUsedSettings={}
-                                                // removeCallback={}
-                                            />
+                                    {productColumns.map(
+                                        function (productColumn: Column) {
+                                            return <Row productColumn={productColumn}/>
                                         })
                                     }
                                     </tbody>

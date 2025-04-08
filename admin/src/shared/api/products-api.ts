@@ -1,4 +1,4 @@
-import {TableSetting} from "../types";
+import {Column, ColumnSetting} from "../types";
 
 
 export async function loadProducts(queryString?:string) {
@@ -21,7 +21,7 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export const loadTableSettings = async function (): Promise<TableSetting & {property_id: number}[]> {
+export const loadTableSettings = async function (): Promise<Column[]> {
     const url = `${process.env.URL}/product/list-settings`;
     const data = await fetch(url, {
         next: {

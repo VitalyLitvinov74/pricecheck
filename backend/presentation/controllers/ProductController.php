@@ -5,9 +5,9 @@ namespace app\presentation\controllers;
 use app\application\Product\Property\AttachSettingsToProperty;
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
-use app\domain\ProductList\Models\SettingType;
 use app\infrastructure\records\pg\ProductsRecords;
-use app\infrastructure\records\pg\AdminPanelProductListSettingsRecord;
+use app\infrastructure\records\pg\ProductTemplateRecord;
+use app\infrastructure\records\pg\PropertyRecord;
 use app\presentation\forms\CreateProductsViaDocumentForm;
 use app\presentation\forms\ProductForm;
 use app\presentation\forms\ProductListSearchForm;
@@ -43,7 +43,7 @@ class ProductController extends BaseApiController
     public function actionIndex(): array
     {
         $searchForm = new ProductListSearchForm();
-        return  $searchForm
+        return $searchForm
             ->dataProvider(Yii::$app->request->get())
             ->getModels();
     }
@@ -120,15 +120,26 @@ class ProductController extends BaseApiController
 
     public function actionListSettings(): array
     {
-        $settings = AdminPanelProductListSettingsRecord::find()
-            ->with(['property'])
-            ->where(['type' => SettingType::ColumnNumber->value])
+        $settings = PropertyRecord::find()
+            ->select([
+                'id',
+                'name',
+                'relatedId' => 'id',
+            ])
+            ->where([
+                'product_template_id' => ProductTemplateRecord::find()
+                    ->select(['id'])
+                    ->where(['id' => 1])
+            ])
+            ->with([
+                'settings'
+            ])
             ->asArray()
             ->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
 
-    public function actionCreateSettings():array
+    public function actionCreateSettings(): array
     {
         $form = new ProductsTableSettingsForm();
         $form->load(Yii::$app->request->post());
