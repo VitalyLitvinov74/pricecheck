@@ -36,12 +36,6 @@ export type ProductProperty = {
     type: string,
 }
 
-export type ProductTableSettings = {
-    columnSettings: ProductProperty & {
-        settings: ColumnSetting[],
-    }[],
-}
-
 export type Column = {
     relatedId: bigint,
     name: string,

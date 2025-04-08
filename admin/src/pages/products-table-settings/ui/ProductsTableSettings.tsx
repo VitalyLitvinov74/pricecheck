@@ -1,13 +1,29 @@
 "use client"
 
 import React, {useState} from "react";
-import {Column, ProductProperty, SettingType} from "../../../shared/types";
+import {Column, ColumnSetting, ProductProperty, SettingType} from "../../../shared/types";
 import {Row} from "./Row";
 
 export default function ProductsTableSettings({columns: existedColumns, productProperties}: {
     columns: Column[],
     productProperties: ProductProperty[],
 }) {
+    existedColumns = existedColumns.map(function (existedColumn: Column) {
+        const setting = existedColumn.settings.find(function (setting: ColumnSetting) {
+            return setting.type === SettingType.ColumnNumber
+        })
+        if (setting) {
+            return existedColumn;
+        }
+        existedColumn.settings
+            .push({
+                id: undefined,
+                type: SettingType.ColumnNumber,
+                value: 999
+            })
+        return existedColumn;
+    })
+
     const [productColumns, setProductColumns] = useState(existedColumns)
 
 
@@ -208,7 +224,7 @@ export default function ProductsTableSettings({columns: existedColumns, productP
                                     <tbody>
                                     {productColumns.map(
                                         function (productColumn: Column) {
-                                            return <Row productColumn={productColumn}/>
+                                            return <Row originalProductColumn={productColumn}/>
                                         })
                                     }
                                     </tbody>

@@ -1,9 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import {Column, ColumnSetting, SettingType} from "../../../shared/types";
+import {CommitButton} from "./buttons/CommitButton";
+import {EditableButton} from "./buttons/EditableButton";
+import {RemoveButton} from "./buttons/RemoveButton";
 
-export function Row({productColumn}: {
-    productColumn: Column,
+export function Row({originalProductColumn}: {
+    originalProductColumn: Column,
 }) {
+    const [productColumn, setProductColumn] = useState(originalProductColumn)
+    const [isEditing, setIsEditing] = useState<Boolean>(false)
     function options() {
         return [];
     }
@@ -32,8 +37,19 @@ export function Row({productColumn}: {
             }
             <td>
                 <div className="button-list">
-                    {/*<CommitButton/>*/}
-                    {/*<RemoveButton/>*/}
+                    <EditableButton
+                        isEditing={isEditing}
+                        setIsEditing={setIsEditing}
+                    />
+                    <CommitButton
+                        column={productColumn}
+                        rowIsEditing={isEditing}
+                        setIsEditingCallback={setIsEditing}
+                    />
+                    <RemoveButton
+                        column={productColumn}
+                        isEditing={isEditing}
+                    />
                 </div>
             </td>
         </tr>
