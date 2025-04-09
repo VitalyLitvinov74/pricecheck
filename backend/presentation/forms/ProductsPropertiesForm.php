@@ -1,7 +1,7 @@
 <?php
 namespace app\presentation\forms;
 
-use app\infrastructure\libs\NestedForm;
+use app\libs\NestedForm;
 
 class ProductsPropertiesForm extends NestedForm
 {

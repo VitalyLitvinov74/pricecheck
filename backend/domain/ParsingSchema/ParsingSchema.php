@@ -4,9 +4,9 @@ namespace app\domain\ParsingSchema;
 
 use app\domain\ParsingSchema\Models\RelationshipPair;
 use app\domain\ParsingSchema\Persistence\Snapshots\SchemaSnapshot;
-use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\HasManyModels;
-use app\infrastructure\libs\ObjectMapper\Attributes\Property;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
+use app\libs\ObjectMapper\Attributes\Property;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel (mapWith: SchemaSnapshot::class)]

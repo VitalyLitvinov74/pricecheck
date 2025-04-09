@@ -2,7 +2,7 @@
 
 namespace app\presentation\forms;
 
-use app\infrastructure\libs\NestedForm;
+use app\libs\NestedForm;
 
 class RelationPairForm extends NestedForm
 {

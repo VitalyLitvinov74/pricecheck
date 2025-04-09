@@ -3,8 +3,8 @@
 namespace app\domain\ParseDocument\Models;
 
 use app\domain\ParseDocument\Persistance\Snapshots\ProductCardPropertySnapshot;
-use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\Property;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property;
 
 #[DomainModel (mapWith: ProductCardPropertySnapshot::class)]
 class CardProperty

@@ -3,8 +3,8 @@
 namespace app\domain\Product\Models;
 
 use app\domain\Product\Persistence\Snapshots\PropertySnapshot;
-use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\Property as Prop;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
 
 /**
  * Свойство - значение описывающее объект, но присущее любому колличеству объектов.

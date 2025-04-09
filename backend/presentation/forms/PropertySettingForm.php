@@ -3,7 +3,7 @@
 namespace app\presentation\forms;
 
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
-use app\infrastructure\libs\NestedForm;
+use app\libs\NestedForm;
 
 class PropertySettingForm extends NestedForm
 {

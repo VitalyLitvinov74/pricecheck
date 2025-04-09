@@ -2,7 +2,7 @@
 
 namespace app\presentation\forms;
 
-use app\infrastructure\libs\NestedForm;
+use app\libs\NestedForm;
 use yii\web\UploadedFile;
 
 class DocumentForm extends NestedForm

@@ -4,8 +4,8 @@ namespace app\domain\Product\Persistence;
 
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\domain\Product\Product;
-use app\infrastructure\libs\ObjectMapper\ObjectMapper;
 use app\infrastructure\records\elastic\ProductIndex;
+use app\libs\ObjectMapper\ObjectMapper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yii;
 

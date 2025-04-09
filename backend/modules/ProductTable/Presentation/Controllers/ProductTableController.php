@@ -15,14 +15,14 @@ class ProductTableController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
-    private DisattachSettingAction $disattachSettingAction;
+    private DisattachSettingAction $disAttachSettingAction;
 
     public function init(): void
     {
         parent::init();
         $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
         $this->upsertSettingsAction = new UpsertSettingAction();
-        $this->disattachSettingAction = new DisattachSettingAction();
+        $this->disAttachSettingAction = new DisattachSettingAction();
     }
 
     public function actionUpdate()

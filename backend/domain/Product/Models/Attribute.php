@@ -3,9 +3,9 @@
 namespace app\domain\Product\Models;
 
 use app\domain\Product\Persistence\Snapshots\AttributeSnapshot;
-use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\HasOneModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\Property as Prop;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasOneModel;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
 
 /**
  * Атрибут - изменяемое значение конкретно указывающее на объект.

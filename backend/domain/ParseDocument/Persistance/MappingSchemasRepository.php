@@ -3,8 +3,8 @@
 namespace app\domain\ParseDocument\Persistance;
 
 use app\domain\ParseDocument\Models\MappingSchema;
-use app\infrastructure\libs\ObjectMapper\ObjectMapper;
 use app\infrastructure\records\pg\ParsingSchemaRecord;
+use app\libs\ObjectMapper\ObjectMapper;
 use yii\db\ActiveQuery;
 
 class MappingSchemasRepository

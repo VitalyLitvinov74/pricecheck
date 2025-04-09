@@ -4,9 +4,9 @@ namespace app\domain\Product;
 
 use app\domain\Product\Models\Attribute;
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
-use app\infrastructure\libs\ObjectMapper\Attributes\DomainModel;
-use app\infrastructure\libs\ObjectMapper\Attributes\HasManyModels;
-use app\infrastructure\libs\ObjectMapper\Attributes\Property as Prop;
+use app\libs\ObjectMapper\Attributes\DomainModel;
+use app\libs\ObjectMapper\Attributes\HasManyModels;
+use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel(mapWith: ProductSnapshot::class)]
