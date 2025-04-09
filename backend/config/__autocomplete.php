@@ -1,7 +1,7 @@
 <?php
 
+use app\components\cycle\Cycle;
 use app\components\cycle\CycleComponent;
-use app\infrastructure\cycle\Cycle;
 
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.

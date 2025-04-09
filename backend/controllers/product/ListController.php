@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ProductTable\Presentation\Controllers;
+namespace app\controllers\product;
 
 use app\controllers\BaseApiController;
 use app\modules\ProductTable\Application\ActualizeProductListSettingsAction;
@@ -11,18 +11,18 @@ use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
 use Yii;
 
-class ProductTableController extends BaseApiController
+class ListController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
-    private DisattachSettingAction $disAttachSettingAction;
+    private DisattachSettingAction $disattachSettingAction;
 
     public function init(): void
     {
         parent::init();
         $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
         $this->upsertSettingsAction = new UpsertSettingAction();
-        $this->disAttachSettingAction = new DisattachSettingAction();
+        $this->disattachSettingAction = new DisattachSettingAction();
     }
 
     public function actionUpdate()

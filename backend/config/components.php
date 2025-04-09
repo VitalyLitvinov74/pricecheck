@@ -1,6 +1,6 @@
 <?php
 
-use app\infrastructure\cycle\Cycle;
+use app\components\cycle\Cycle;
 use yii\db\Connection;
 
 return [

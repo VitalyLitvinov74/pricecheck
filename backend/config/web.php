@@ -11,8 +11,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
-    'runtimePath' => 'presentation/runtime',
-    'controllerNamespace' => 'app\presentation\controllers',
+    'runtimePath' => 'runtime',
 //    'controllerMap' => [
 //        'product' => \app\presentation\controllers\ProductController::class
 //    ],
@@ -51,14 +50,6 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-//                [
-//                    'pattern' => 'product',
-//                    'route' => 'product/index',
-//                ],
-//                [
-//                    'pattern' => 'product/<id:\d+>',
-//                    'route' => 'product/view',
-//                ],
             ],
         ],
 
