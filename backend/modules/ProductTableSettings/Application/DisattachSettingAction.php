@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\ProductTable\Application;
+namespace app\modules\ProductTableSettings\Application;
 
-use app\modules\ProductTable\Infrastructure\Repositories\ProductListRepository;
+use app\modules\ProductTableSettings\Infrastructure\Repositories\ProductListRepository;
 
 class DisattachSettingAction
 {

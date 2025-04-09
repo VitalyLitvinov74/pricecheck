@@ -1,13 +1,13 @@
 
 import {metadata} from "../../layout";
-import {loadProperties, loadTableSettings} from "../../../src/shared/api/products-api";
+import {loadProperties, loadColumns} from "../../../src/shared/api/products-api";
 import ProductsTableSettings from "../../../src/pages/products-table-settings/ui/ProductsTableSettings";
 
 
 export default async function Page(){
     metadata.title= "Настройка таблицы"
 
-    const settings = await loadTableSettings()
+    const settings = await loadColumns()
     const availableProperties = await loadProperties();
 
     return (

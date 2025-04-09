@@ -21,13 +21,14 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export const loadTableSettings = async function (): Promise<Column[]> {
-    const url = `${process.env.URL}/product/list-settings`;
+export const loadColumns = async function (): Promise<Column[]> {
+    const url = `${process.env.URL}/product-table-settings/list-settings`;
     const data = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
+    console.log(url)
     return await data.json();
 }
 

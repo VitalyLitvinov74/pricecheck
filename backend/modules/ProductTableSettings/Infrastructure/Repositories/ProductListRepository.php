@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\ProductTable\Infrastructure\Repositories;
+namespace app\modules\ProductTableSettings\Infrastructure\Repositories;
 
-use app\modules\ProductTable\Domain\ProductList;
+use app\modules\ProductTableSettings\Domain\ProductList;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;

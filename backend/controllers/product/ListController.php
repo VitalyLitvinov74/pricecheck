@@ -3,9 +3,9 @@
 namespace app\controllers\product;
 
 use app\controllers\BaseApiController;
-use app\modules\ProductTable\Application\ActualizeProductListSettingsAction;
-use app\modules\ProductTable\Application\DisattachSettingAction;
-use app\modules\ProductTable\Application\UpsertSettingAction;
+use app\modules\ProductTableSettings\Application\ActualizeProductListSettingsAction;
+use app\modules\ProductTableSettings\Application\DisattachSettingAction;
+use app\modules\ProductTableSettings\Application\UpsertSettingAction;
 use app\forms\ColumnForm;
 use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;

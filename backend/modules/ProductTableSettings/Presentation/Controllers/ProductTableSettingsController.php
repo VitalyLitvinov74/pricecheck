@@ -1,17 +1,19 @@
 <?php
 
-namespace app\modules\ProductTable\Presentation\Controllers;
+namespace app\modules\ProductTableSettings\Presentation\Controllers;
 
 use app\controllers\BaseApiController;
-use app\modules\ProductTable\Application\ActualizeProductListSettingsAction;
-use app\modules\ProductTable\Application\DisattachSettingAction;
-use app\modules\ProductTable\Application\UpsertSettingAction;
+use app\modules\ProductTableSettings\Application\ActualizeProductListSettingsAction;
+use app\modules\ProductTableSettings\Application\DisattachSettingAction;
+use app\modules\ProductTableSettings\Application\UpsertSettingAction;
 use app\forms\ColumnForm;
 use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
+use app\records\pg\ProductTemplateRecord;
+use app\records\pg\PropertyRecord;
 use Yii;
 
-class ProductTableController extends BaseApiController
+class ProductTableSettingsController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
@@ -44,6 +46,27 @@ class ProductTableController extends BaseApiController
                 'data' => $dataProvider->getModels()
             ])
             ->asArray();
+    }
+
+    public function actionListSettings()
+    {
+        $settings = PropertyRecord::find()
+            ->select([
+                'id',
+                'name',
+                'relatedId' => 'id',
+            ])
+            ->where([
+                'product_template_id' => ProductTemplateRecord::find()
+                    ->select(['id'])
+                    ->where(['id' => 1])
+            ])
+            ->with([
+                'settings'
+            ])
+            ->asArray()
+            ->all();
+        return $this->jsonApi->addBody($settings)->asArray();
     }
 
     public function actionUpdateView(): array

@@ -3,7 +3,7 @@
 namespace app\forms;
 
 use app\forms\ColumnSettingForm;
-use app\modules\ProductTable\Application\SettingDTO;
+use app\modules\ProductTableSettings\Application\SettingDTO;
 use yii\base\Model;
 
 class ColumnForm extends Model
