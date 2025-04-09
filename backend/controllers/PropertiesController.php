@@ -3,10 +3,10 @@
 namespace app\controllers;
 
 use app\domain\Type;
-use app\infrastructure\records\pg\PropertyRecord;
 use app\forms\ProductPropertyForm;
 use app\forms\ProductsPropertiesForm;
 use app\forms\Scenarious;
+use app\records\pg\PropertyRecord;
 use Throwable;
 use Yii;
 use yii\db\Exception;

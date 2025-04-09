@@ -1,8 +1,8 @@
 <?php
 
-namespace app\infrastructure\records\pg;
+namespace app\records\pg;
 
-use app\infrastructure\records\pg\queries\ProductQuery;
+use app\records\pg\queries\ProductQuery;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

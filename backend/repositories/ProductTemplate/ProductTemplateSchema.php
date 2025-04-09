@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\repositories\ProductTemplate;
+namespace app\repositories\ProductTemplate;
 
 use app\domain\Product\SubDomains\Property\Models\Setting;
 use app\domain\ProductTemplate\Models\Property;

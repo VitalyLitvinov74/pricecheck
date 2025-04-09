@@ -3,7 +3,7 @@
 namespace app\commands;
 
 use app\application\Product\ReindexProductsAction;
-use app\infrastructure\records\elastic\ProductIndex;
+use app\records\elastic\ProductIndex;
 use yii\console\Controller;
 
 class ProductController extends Controller

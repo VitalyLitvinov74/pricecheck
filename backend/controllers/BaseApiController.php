@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\infrastructure\exceptions\BaseException;
+use app\exceptions\BaseException;
 use app\libs\JsonApi;
 use Yii;
 use yii\filters\Cors;

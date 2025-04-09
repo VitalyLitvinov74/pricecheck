@@ -2,7 +2,7 @@
 
 namespace app\application\Product\Property;
 
-use app\infrastructure\repositories\property\PropertyRepository;
+use app\repositories\property\PropertyRepository;
 
 class AttachSettingsToProperty
 {

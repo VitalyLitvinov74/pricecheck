@@ -2,10 +2,9 @@
 
 namespace app\application\ProductTemplate;
 
-use app\application\ProductTemplate\DTOs\PropertyDTO;
 use app\domain\ProductTemplate\Models\Property;
 use app\domain\ProductTemplate\Models\ValueType;
-use app\infrastructure\repositories\ProductTemplate\ProductTemplateRepository;
+use app\repositories\ProductTemplate\ProductTemplateRepository;
 
 class ActualizePropertiesAction
 {

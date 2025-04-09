@@ -2,8 +2,8 @@
 
 namespace app\forms;
 
-use app\infrastructure\records\elastic\ProductIndex;
-use app\infrastructure\records\pg\ProductsRecords;
+use app\records\elastic\ProductIndex;
+use app\records\pg\ProductsRecords;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;

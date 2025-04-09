@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\repositories\ProductTemplate;
+namespace app\repositories\ProductTemplate;
 
 use app\domain\ProductTemplate\Product;
 use Cycle\ORM\EntityManager;

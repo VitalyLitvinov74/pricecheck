@@ -1,8 +1,6 @@
 <?php
 
-namespace app\infrastructure\repositories\ProductTemplate\pivots;
-
-use app\domain\ProductTemplate\Models\Property;
+namespace app\repositories\ProductTemplate\pivots;
 
 class ProductTemplatesProperties
 {

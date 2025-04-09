@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\records\elastic;
+namespace app\records\elastic;
 
 use yii\elasticsearch\ActiveRecord;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\repositories\property;
+namespace app\repositories\property;
 
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\SubDomains\Property\Models\Setting;

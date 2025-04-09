@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\records\pg\queries;
+namespace app\records\pg\queries;
 
 use yii\db\ActiveQuery;
 use yii\db\Expression;

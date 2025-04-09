@@ -3,9 +3,9 @@
 namespace app\controllers;
 
 use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
-use app\infrastructure\records\pg\ParsingSchemaRecord;
 use app\forms\ParsingSchemaForm;
 use app\forms\Scenarious;
+use app\records\pg\ParsingSchemaRecord;
 use Throwable;
 use Yii;
 
