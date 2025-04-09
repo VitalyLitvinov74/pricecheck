@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\ProductTableSettings\Presentation\Controllers\IndexController;
 use app\modules\ProductTableSettings\ProductTableSettingsModule;
 
 $params = require __DIR__ . '/params.php';
@@ -7,16 +8,12 @@ $components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic',
-    'basePath' => dirname(__DIR__ . '/../../pricecheck/'),
+    'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
-    'runtimePath' => 'runtime',
-//    'controllerMap' => [
-//        'product' => \app\presentation\controllers\ProductController::class
-//    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -59,7 +56,10 @@ $config = [
     'modules' => [
         [
             'class' => ProductTableSettingsModule::class,
-            'controllerNamespace' => 'app\modules\ProductTableSettings\Presentation\Controllers'
+            'controllerNamespace' => 'app\modules\ProductTableSettings\Presentation\Controllers',
+//            'controllerMap' => [
+//                'product-table-settings' => ProductTableSettingsController::class
+//            ]
         ]
     ],
     'params' => $params,

@@ -13,7 +13,7 @@ use app\records\pg\ProductTemplateRecord;
 use app\records\pg\PropertyRecord;
 use Yii;
 
-class ProductTableSettingsController extends BaseApiController
+class IndexController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
