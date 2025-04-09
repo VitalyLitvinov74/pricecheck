@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\ProductList\Models;
+namespace app\modules\ProductTable\Domain\Models;
 
 enum SettingType: int
 {

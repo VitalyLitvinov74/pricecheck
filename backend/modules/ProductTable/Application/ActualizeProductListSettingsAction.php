@@ -1,10 +1,10 @@
 <?php
 
-namespace app\application\ProductListSettings;
+namespace app\modules\ProductTable\Application;
 
-use app\domain\ProductList\Models\ColumnSetting;
-use app\domain\ProductList\Models\SettingType;
-use app\infrastructure\repositories\ProductList\ProductListRepository;
+use app\modules\ProductTable\Domain\Models\ColumnSetting;
+use app\modules\ProductTable\Domain\Models\SettingType;
+use app\modules\ProductTable\Infrastructure\Repositories\ProductListRepository;
 
 class ActualizeProductListSettingsAction
 {

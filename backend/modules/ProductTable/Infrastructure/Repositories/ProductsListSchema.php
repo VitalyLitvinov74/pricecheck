@@ -1,10 +1,10 @@
 <?php
 
-namespace app\infrastructure\repositories\ProductList;
+namespace app\modules\ProductTable\Infrastructure\Repositories;
 
-use app\domain\ProductList\Models\ColumnSetting;
-use app\domain\ProductList\Models\SettingType;
-use app\domain\ProductList\ProductList;
+use app\modules\ProductTable\Domain\Models\ColumnSetting;
+use app\modules\ProductTable\Domain\Models\SettingType;
+use app\modules\ProductTable\Domain\ProductList;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;

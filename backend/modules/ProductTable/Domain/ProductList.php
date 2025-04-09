@@ -1,8 +1,8 @@
 <?php
 
-namespace app\domain\ProductList;
+namespace app\modules\ProductTable\Domain;
 
-use app\domain\ProductList\Models\ColumnSetting;
+use app\modules\ProductTable\Domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductList
