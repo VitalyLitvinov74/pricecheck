@@ -1,6 +1,6 @@
 <?php
 
-namespace app\migrations;
+
 
 use app\domain\Type;
 use yii\db\Migration;

@@ -1,5 +1,5 @@
 <?php
-namespace app\migrations;
+
 use yii\db\Migration;
 
 class m250330_193653_add_list_settings extends Migration

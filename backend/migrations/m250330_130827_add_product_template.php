@@ -1,5 +1,5 @@
 <?php
-namespace app\migrations;
+
 use yii\db\Migration;
 
 class m250330_130827_add_product_template extends Migration

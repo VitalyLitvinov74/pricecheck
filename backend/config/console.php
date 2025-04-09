@@ -1,19 +1,19 @@
 <?php
 
+use yii\console\controllers\MigrateController;
+
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
 
 $config = [
     'id' => 'basic-console',
-    'basePath' => dirname(__DIR__ . '/../../pricecheck/'),
+    'basePath' => dirname(__DIR__ ),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\presentation\commands',
     'controllerMap' => [
         'migrate' => [
-            'class' => \yii\console\controllers\MigrateController::class,
+            'class' => MigrateController::class,
             'migrationNamespaces' => [
-                'app\infrastructure\migrations',
-                'app\infrastructure\migrations\elastic',
+                'app\migrations\elastic',
             ],
         ],
     ],
