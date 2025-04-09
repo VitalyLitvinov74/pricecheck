@@ -1,5 +1,5 @@
 <?php
-namespace app\infrastructure\migrations;
+namespace app\migrations;
 use yii\db\Migration;
 
 class m250401_021630_add_new_table extends Migration

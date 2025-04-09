@@ -1,5 +1,5 @@
 <?php
-namespace app\infrastructure\migrations;
+namespace app\migrations;
 use yii\db\Migration;
 
 class m250330_110623_remove_user_id extends Migration

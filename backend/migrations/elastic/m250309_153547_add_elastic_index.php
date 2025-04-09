@@ -1,6 +1,6 @@
 <?php
 
-namespace app\infrastructure\migrations\elastic;
+namespace app\migrations\elastic;
 
 use Yii;
 use yii\db\Migration;
