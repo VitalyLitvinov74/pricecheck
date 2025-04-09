@@ -1,5 +1,7 @@
 <?php
 
+use app\modules\ProductTable\ProductTableModule;
+
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
 
@@ -53,6 +55,12 @@ $config = [
             ],
         ],
 
+    ],
+    'modules' => [
+        [
+            'class' => ProductTableModule::class,
+            'controllerNamespace' => 'app\modules\ProductTable\Presentation\Controllers',
+        ]
     ],
     'params' => $params,
 ];
