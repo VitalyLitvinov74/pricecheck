@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\TableSettings\Infrastructure\Repositories;
+namespace app\modules\TableSettings\Infrastructure\repositories;
 
-use app\modules\TableSettings\Domain\Models\ColumnSetting;
-use app\modules\TableSettings\Domain\Models\SettingType;
-use app\modules\TableSettings\Domain\Table;
+use app\modules\TableSettings\domain\Models\ColumnSetting;
+use app\modules\TableSettings\domain\Models\SettingType;
+use app\modules\TableSettings\domain\Table;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
@@ -43,20 +43,20 @@ trait ProductsListSchema
             'settings' => [
                 Schema::ENTITY => ColumnSetting::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::TABLE => 'admin_panel_product_list_settings',
+                Schema::TABLE => 'admin_panel_tables_settings',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
-                    'type',
+                    'columnSettingType' => 'column_setting_type',
                     'value',
-                    'propertyId' => 'property_id',
+                    'relatedId' => 'related_id',
                     'admin_panel_setting_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
-                    'type' => SettingType::class,
+                    'columnSettingType' => SettingType::class,
                     'value' => 'int',
-                    'propertyId' => 'int',
+                    'relatedId' => 'int',
                 ]
             ]
         ]);

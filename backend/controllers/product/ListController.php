@@ -5,9 +5,9 @@ namespace app\controllers\product;
 use app\controllers\BaseApiController;
 use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
-use app\modules\TableSettings\Application\ActualizeProductListSettingsAction;
-use app\modules\TableSettings\Application\DisattachSettingAction;
-use app\modules\TableSettings\Application\UpsertSettingAction;
+use app\modules\TableSettings\application\ActualizeProductListSettingsAction;
+use app\modules\TableSettings\application\DisattachSettingAction;
+use app\modules\TableSettings\application\UpsertSettingAction;
 use app\modules\TableSettings\Presentation\Forms\ColumnForm;
 use Yii;
 

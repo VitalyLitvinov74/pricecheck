@@ -1,19 +1,19 @@
 <?php
 
-namespace app\modules\TableSettings\Application;
+namespace app\modules\TableSettings\application;
 
-use app\modules\TableSettings\Domain\Models\ColumnSetting;
-use app\modules\TableSettings\Domain\Models\SettingType;
-use app\modules\TableSettings\Infrastructure\Repositories\ProductListRepository;
+use app\modules\TableSettings\domain\Models\ColumnSetting;
+use app\modules\TableSettings\domain\Models\SettingType;
+use app\modules\TableSettings\infrastructure\repositories\TableSettingsRepository;
 
 class ActualizeProductListSettingsAction
 {
 
-    private ProductListRepository $repository;
+    private TableSettingsRepository $repository;
 
     public function __construct()
     {
-        $this->repository = new ProductListRepository();
+        $this->repository = new TableSettingsRepository();
     }
 
     /**

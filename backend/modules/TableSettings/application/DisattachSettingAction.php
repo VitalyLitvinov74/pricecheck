@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\TableSettings\Application;
+namespace app\modules\TableSettings\application;
 
-use app\modules\TableSettings\Infrastructure\Repositories\ProductListRepository;
+use app\modules\TableSettings\Infrastructure\repositories\TableSettingsRepository;
 
 class DisattachSettingAction
 {
     public function __construct(
-        private ProductListRepository $repository = new ProductListRepository()
+        private TableSettingsRepository $repository = new TableSettingsRepository()
     )
     {
     }

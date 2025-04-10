@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\Domain\Models;
+namespace app\modules\TableSettings\domain\Models;
 
 enum SettingType: int
 {

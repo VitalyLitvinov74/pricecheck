@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\Domain\Models;
+namespace app\modules\TableSettings\domain\Models;
 
 class ColumnSetting
 {
@@ -8,8 +8,8 @@ class ColumnSetting
 
     public function __construct(
         private int $value,
-        private SettingType $type,
-        private int $propertyId
+        private SettingType $columnSettingType,
+        private int $relatedId
     )
     {
     }
@@ -26,7 +26,7 @@ class ColumnSetting
 
     public function equalsTo(ColumnSetting $setting): bool
     {
-        if ($setting->belongsTo($this->propertyId) && $setting->is($this->type)) {
+        if ($setting->belongsTo($this->relatedId) && $setting->is($this->columnSettingType)) {
             return true;
         }
         return false;
@@ -34,12 +34,12 @@ class ColumnSetting
 
     public function is(SettingType $type): bool
     {
-        return $this->type === $type;
+        return $this->columnSettingType === $type;
     }
 
     public function belongsTo(int $propertyId): bool
     {
-        return $this->propertyId === $propertyId;
+        return $this->relatedId === $propertyId;
     }
 
     public function has(int $id): bool

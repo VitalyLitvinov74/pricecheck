@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\TableSettings\Infrastructure\Repositories;
+namespace app\modules\TableSettings\infrastructure\repositories;
 
-use app\modules\TableSettings\Domain\Table;
+use app\modules\TableSettings\domain\Table;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;
 
-class ProductListRepository
+class TableSettingsRepository
 {
     use ProductsListSchema;
 

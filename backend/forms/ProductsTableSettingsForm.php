@@ -2,7 +2,7 @@
 
 namespace app\forms;
 
-use app\modules\TableSettings\Application\SettingDTO;
+use app\modules\TableSettings\application\SettingDTO;
 use yii\base\Model;
 
 class ProductsTableSettingsForm extends Model

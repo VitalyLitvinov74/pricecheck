@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\TableSettings\Domain;
+namespace app\modules\TableSettings\domain;
 
-use app\modules\TableSettings\Domain\Models\ColumnSetting;
+use app\modules\TableSettings\domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Table
