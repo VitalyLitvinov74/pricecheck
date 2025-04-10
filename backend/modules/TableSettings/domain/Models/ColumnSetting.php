@@ -9,7 +9,8 @@ class ColumnSetting
     public function __construct(
         private int $value,
         private SettingType $columnSettingType,
-        private int $propertyOfBusinessLogicEntityId
+        private int $propertyOfBusinessLogicEntityId,
+        private int $businessLogicEntityType
     )
     {
     }

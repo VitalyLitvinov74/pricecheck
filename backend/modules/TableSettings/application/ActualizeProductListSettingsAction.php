@@ -31,6 +31,7 @@ class ActualizeProductListSettingsAction
                 $DTO->value,
                 SettingType::from($DTO->type),
                 $DTO->propertyId,
+                $DTO->entityType
             );
             $productsList->upsertSetting($setting);
             $settings[] = $setting;

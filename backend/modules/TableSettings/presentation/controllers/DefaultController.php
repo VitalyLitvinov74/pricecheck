@@ -1,16 +1,15 @@
 <?php
 
-namespace app\modules\TableSettings\Presentation\Controllers;
+namespace app\modules\TableSettings\presentation\controllers;
 
 use app\controllers\BaseApiController;
-use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
 use app\modules\TableSettings\application\ActualizeProductListSettingsAction;
 use app\modules\TableSettings\application\DisattachSettingAction;
 use app\modules\TableSettings\application\UpsertSettingAction;
-use app\modules\TableSettings\Presentation\Forms\ColumnForm;
-use app\records\pg\ProductTemplateRecord;
-use app\records\pg\PropertyRecord;
+use app\modules\TableSettings\domain\AdminPanelEntityType;
+use app\modules\TableSettings\presentation\forms\ColumnForm;
+use app\modules\TableSettings\presentation\records\AdminPanelEntities;
 use Yii;
 
 class DefaultController extends BaseApiController
@@ -32,40 +31,50 @@ class DefaultController extends BaseApiController
 
     }
 
+//    public function actionIndex(): array
+//    {
+//        $searchForm = new ProductListSearchForm();
+//        $dataProvider = $searchForm->dataProvider(
+//            Yii::$app->request->get()
+//        );
+//        return $this->jsonApi
+//            ->addBody([
+//                'meta' => [
+//                    'page' => $dataProvider->getPagination()
+//                ],
+//                'data' => $dataProvider->getModels()
+//            ])
+//            ->asArray();
+//    }
+
     public function actionIndex(): array
     {
-        $searchForm = new ProductListSearchForm();
-        $dataProvider = $searchForm->dataProvider(
-            Yii::$app->request->get()
-        );
-        return $this->jsonApi
-            ->addBody([
-                'meta' => [
-                    'page' => $dataProvider->getPagination()
-                ],
-                'data' => $dataProvider->getModels()
-            ])
-            ->asArray();
-    }
+        $settings =
+            AdminPanelEntities::find()
+                ->where(['type' => AdminPanelEntityType::Table])
+                ->andWhere(['user_id' => 1])
+                ->with([
+                    'tableSettings',
+                    'tableSettings.'
+                ])
+                ->all();
 
-    public function actionListSettings()
-    {
-        $settings = PropertyRecord::find()
-            ->select([
-                'id',
-                'name',
-                'relatedId' => 'id',
-            ])
-            ->where([
-                'product_template_id' => ProductTemplateRecord::find()
-                    ->select(['id'])
-                    ->where(['id' => 1])
-            ])
-            ->with([
-                'columnsSettings'
-            ])
-            ->asArray()
-            ->all();
+//        $settings = PropertyRecord::find()
+//            ->select([
+//                'id',
+//                'name',
+//                'relatedId' => 'id',
+//            ])
+//            ->where([
+//                'product_template_id' => ProductTemplateRecord::find()
+//                    ->select(['id'])
+//                    ->where(['id' => 1])
+//            ])
+//            ->with([
+//                'columnsSettings'
+//            ])
+//            ->asArray()
+//            ->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
 

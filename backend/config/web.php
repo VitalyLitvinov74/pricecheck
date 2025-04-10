@@ -60,7 +60,7 @@ $config = [
         ],
         'table-settings' => [
             'class' => TableSettingsModule::class,
-            'controllerNamespace' => 'app\modules\TableSettings\Presentation\Controllers',
+            'controllerNamespace' => 'app\modules\TableSettings\presentation\controllers',
         ]
     ],
     'params' => $params,

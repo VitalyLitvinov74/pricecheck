@@ -26,7 +26,8 @@ class UpsertSettingAction
                 new ColumnSetting(
                     $DTO->value,
                     SettingType::from($DTO->type),
-                    $DTO->propertyId
+                    $DTO->propertyId,
+                    $DTO->entityType
                 )
             );
         }

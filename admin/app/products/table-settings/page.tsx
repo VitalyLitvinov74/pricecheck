@@ -7,7 +7,7 @@ import ProductsTableSettings from "../../../src/pages/products-table-settings/ui
 export default async function Page(){
     metadata.title= "Настройка таблицы"
 
-    const settings = await loadColumns()
+    const columnsSettings = await loadColumns()
     const availableProperties = await loadProperties();
 
     return (

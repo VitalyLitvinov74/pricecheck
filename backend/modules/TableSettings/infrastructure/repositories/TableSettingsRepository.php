@@ -2,6 +2,7 @@
 
 namespace app\modules\TableSettings\infrastructure\repositories;
 
+use app\modules\TableSettings\domain\AdminPanelEntityType;
 use app\modules\TableSettings\domain\Table;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
@@ -24,7 +25,7 @@ class TableSettingsRepository
     {
         return $this->orm
             ->getRepository(Table::class)
-            ->findOne(['user_id' => $userId]);
+            ->findOne(['user_id' => $userId, 'type' => AdminPanelEntityType::Table]);
     }
 
     public function save(Table $productList): void

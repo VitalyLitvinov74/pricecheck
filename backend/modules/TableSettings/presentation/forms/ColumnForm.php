@@ -1,8 +1,7 @@
 <?php
 
-namespace app\modules\TableSettings\Presentation\Forms;
+namespace app\modules\TableSettings\presentation\forms;
 
-use app\forms\ColumnSettingForm;
 use app\modules\TableSettings\application\SettingDTO;
 use yii\base\Model;
 
@@ -38,7 +37,8 @@ class ColumnForm extends Model
             $this->DTOs[] = new SettingDTO(
                 $form->propertyId,
                 $form->type,
-                $form->value
+                $form->value,
+                $form->entityType
             );
         }
     }

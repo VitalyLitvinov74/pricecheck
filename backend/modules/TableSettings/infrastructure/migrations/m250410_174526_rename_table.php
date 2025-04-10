@@ -20,6 +20,7 @@ class m250410_174526_rename_table extends Migration
         $this->renameColumn('admin_panel_tables_settings', 'type', 'column_setting_type');
         $this->renameTable('admin_panel_settings', 'admin_panel_entities');
         $this->renameColumn('admin_panel_tables_settings', 'admin_panel_setting_id', 'admin_panel_entity_id');
+        $this->addColumn('admin_panel_tables_settings', 'business_logic_entity_type', $this->integer()->notNull()->defaultValue(1));
     }
 
     /**
@@ -27,6 +28,7 @@ class m250410_174526_rename_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropColumn('admin_panel_tables_settings', 'business_logic_entity_type');
         $this->renameColumn('admin_panel_tables_settings', 'admin_panel_entity_id', 'admin_panel_setting_id');
         $this->renameTable('admin_panel_entities', 'admin_panel_settings');
         $this->renameColumn('admin_panel_tables_settings', 'column_setting_type', 'type');

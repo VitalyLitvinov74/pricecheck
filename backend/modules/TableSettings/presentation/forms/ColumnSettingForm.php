@@ -1,6 +1,6 @@
 <?php
 
-namespace app\forms;
+namespace app\modules\TableSettings\presentation\forms;
 
 use yii\base\Model;
 
@@ -9,6 +9,7 @@ class ColumnSettingForm extends Model
     public $propertyId;
     public $type;
     public $value;
+    public $entityType;
 
     public function rules(): array
     {
@@ -18,8 +19,8 @@ class ColumnSettingForm extends Model
     public static function subRules(): array
     {
         return [
-            [['propertyId', 'value', 'type'], 'required'],
-            [['type', 'propertyId', 'value'], 'integer'],
+            [['propertyId', 'value', 'type', 'entityType'], 'required'],
+            [['type', 'propertyId', 'value', 'entityType'], 'integer'],
         ];
     }
 
