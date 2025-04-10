@@ -9,7 +9,7 @@ use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
 
-trait ProductsListSchema
+trait TableSettingsSchema
 {
     public function schema(): Schema
     {
@@ -18,7 +18,7 @@ trait ProductsListSchema
             'product_list' => [
                 Schema::ENTITY => Table::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::TABLE => 'admin_panel_settings',
+                Schema::TABLE => 'admin_panel_entities',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
@@ -34,7 +34,7 @@ trait ProductsListSchema
                         Relation::SCHEMA => [
                             Relation::CASCADE => true,
                             Relation::INNER_KEY => 'id',
-                            Relation::OUTER_KEY => 'admin_panel_setting_id',
+                            Relation::OUTER_KEY => 'admin_panel_entity_id',
                             Relation::NULLABLE => false
                         ]
                     ]
@@ -49,14 +49,14 @@ trait ProductsListSchema
                     'id',
                     'columnSettingType' => 'column_setting_type',
                     'value',
-                    'relatedId' => 'related_id',
-                    'admin_panel_setting_id'
+                    'propertyOfBusinessLogicEntityId' => 'property_of_business_logic_entity_id',
+                    'admin_panel_entity_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
                     'columnSettingType' => SettingType::class,
                     'value' => 'int',
-                    'relatedId' => 'int',
+                    'propertyOfBusinessLogicEntityId' => 'int',
                 ]
             ]
         ]);

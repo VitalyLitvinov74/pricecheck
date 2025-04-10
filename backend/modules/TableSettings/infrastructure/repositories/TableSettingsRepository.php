@@ -9,7 +9,7 @@ use Yii;
 
 class TableSettingsRepository
 {
-    use ProductsListSchema;
+    use TableSettingsSchema;
 
     private ORM $orm;
     private EntityManager $em;

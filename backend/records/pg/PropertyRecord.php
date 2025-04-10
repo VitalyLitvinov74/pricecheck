@@ -12,7 +12,7 @@ class PropertyRecord extends ActiveRecord
         return "properties";
     }
 
-    public function getSettings(): ActiveQuery{
-        return $this->hasMany(AdminPanelProductListSettingsRecord::class, ['property_id'=>'id']);
+    public function getColumnsSettings(): ActiveQuery{
+        return $this->hasMany(AdminPanelTableSettingsRecord::class, ['property_of_business_logic_entity_id'=>'id']);
     }
 }

@@ -62,7 +62,7 @@ class DefaultController extends BaseApiController
                     ->where(['id' => 1])
             ])
             ->with([
-                'settings'
+                'columnsSettings'
             ])
             ->asArray()
             ->all();

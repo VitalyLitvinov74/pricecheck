@@ -9,7 +9,7 @@ class ColumnSetting
     public function __construct(
         private int $value,
         private SettingType $columnSettingType,
-        private int $relatedId
+        private int $propertyOfBusinessLogicEntityId
     )
     {
     }
@@ -26,7 +26,7 @@ class ColumnSetting
 
     public function equalsTo(ColumnSetting $setting): bool
     {
-        if ($setting->belongsTo($this->relatedId) && $setting->is($this->columnSettingType)) {
+        if ($setting->belongsTo($this->propertyOfBusinessLogicEntityId) && $setting->is($this->columnSettingType)) {
             return true;
         }
         return false;
@@ -39,7 +39,7 @@ class ColumnSetting
 
     public function belongsTo(int $propertyId): bool
     {
-        return $this->relatedId === $propertyId;
+        return $this->propertyOfBusinessLogicEntityId === $propertyId;
     }
 
     public function has(int $id): bool
