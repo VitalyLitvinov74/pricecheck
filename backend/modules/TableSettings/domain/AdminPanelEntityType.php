@@ -2,7 +2,7 @@
 
 namespace app\modules\TableSettings\domain;
 
-abstract class AdminPanelEntityType
+enum AdminPanelEntityType
 {
     const Table = 1;
 }

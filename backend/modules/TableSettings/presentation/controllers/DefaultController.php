@@ -9,7 +9,7 @@ use app\modules\TableSettings\application\DisattachSettingAction;
 use app\modules\TableSettings\application\UpsertSettingAction;
 use app\modules\TableSettings\domain\AdminPanelEntityType;
 use app\modules\TableSettings\presentation\forms\ColumnForm;
-use app\modules\TableSettings\presentation\records\AdminPanelEntities;
+use app\modules\TableSettings\presentation\records\AdminPanelEntitiesRecord;
 use Yii;
 
 class DefaultController extends BaseApiController
@@ -50,12 +50,12 @@ class DefaultController extends BaseApiController
     public function actionIndex(): array
     {
         $settings =
-            AdminPanelEntities::find()
+            AdminPanelEntitiesRecord::find()
                 ->where(['type' => AdminPanelEntityType::Table])
                 ->andWhere(['user_id' => 1])
                 ->with([
-                    'tableSettings',
-                    'tableSettings.'
+                    'columnsSettings',
+                    'columnsSettings.entity'
                 ])
                 ->all();
 

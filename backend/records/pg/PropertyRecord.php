@@ -13,6 +13,6 @@ class PropertyRecord extends ActiveRecord
     }
 
     public function getColumnsSettings(): ActiveQuery{
-        return $this->hasMany(AdminPanelTableSettingsRecord::class, ['property_of_business_logic_entity_id'=>'id']);
+        return $this->hasMany(AdminPanelColumnsSettingsRecord::class, ['property_of_business_logic_entity_id'=>'id']);
     }
 }

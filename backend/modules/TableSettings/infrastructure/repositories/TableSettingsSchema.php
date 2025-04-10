@@ -43,7 +43,7 @@ trait TableSettingsSchema
             'settings' => [
                 Schema::ENTITY => ColumnSetting::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::TABLE => 'admin_panel_tables_settings',
+                Schema::TABLE => 'admin_panel_columns_settings',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
