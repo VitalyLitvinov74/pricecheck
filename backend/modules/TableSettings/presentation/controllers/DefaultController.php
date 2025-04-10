@@ -7,7 +7,8 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\TableSettings\application\ActualizeProductListSettingsAction;
 use app\modules\TableSettings\application\DisattachSettingAction;
 use app\modules\TableSettings\application\UpsertSettingAction;
-use app\modules\TableSettings\domain\AdminPanelEntityType;
+use app\modules\TableSettings\domain\Models\AdminPanelEntityType;
+use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
 use app\modules\TableSettings\presentation\forms\ColumnForm;
 use app\modules\TableSettings\presentation\records\AdminPanelEntitiesRecord;
 use Yii;
@@ -47,34 +48,17 @@ class DefaultController extends BaseApiController
 //            ->asArray();
 //    }
 
-    public function actionIndex(): array
+    public function actionIndex(int $businessLogicEntityType): array
     {
-        $settings =
+
+        $query =
             AdminPanelEntitiesRecord::find()
                 ->where(['type' => AdminPanelEntityType::Table])
-                ->andWhere(['user_id' => 1])
-                ->with([
-                    'columnsSettings',
-                    'columnsSettings.entity'
-                ])
-                ->all();
-
-//        $settings = PropertyRecord::find()
-//            ->select([
-//                'id',
-//                'name',
-//                'relatedId' => 'id',
-//            ])
-//            ->where([
-//                'product_template_id' => ProductTemplateRecord::find()
-//                    ->select(['id'])
-//                    ->where(['id' => 1])
-//            ])
-//            ->with([
-//                'columnsSettings'
-//            ])
-//            ->asArray()
-//            ->all();
+                ->andWhere(['user_id' => 1]);
+        $with = match ($businessLogicEntityType) {
+                PropertyTypeOfBusinessLogicEntity::ProductProperty->value => ['columnsSettings.productProperty'],
+        };
+        $settings = $query->with($with)->asArray()->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
 

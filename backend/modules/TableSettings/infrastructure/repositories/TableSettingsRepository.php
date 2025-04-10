@@ -2,7 +2,7 @@
 
 namespace app\modules\TableSettings\infrastructure\repositories;
 
-use app\modules\TableSettings\domain\AdminPanelEntityType;
+use app\modules\TableSettings\domain\Models\AdminPanelEntityType;
 use app\modules\TableSettings\domain\Table;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
