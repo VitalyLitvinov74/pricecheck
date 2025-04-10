@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Infrastructure\Repositories;
+namespace app\modules\TableSettings\Infrastructure\Repositories;
 
-use app\modules\ProductTableSettings\Domain\Models\ColumnSetting;
-use app\modules\ProductTableSettings\Domain\Models\SettingType;
-use app\modules\ProductTableSettings\Domain\ProductList;
+use app\modules\TableSettings\Domain\Models\ColumnSetting;
+use app\modules\TableSettings\Domain\Models\SettingType;
+use app\modules\TableSettings\Domain\Table;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
@@ -16,7 +16,7 @@ trait ProductsListSchema
         return new Schema([
 
             'product_list' => [
-                Schema::ENTITY => ProductList::class,
+                Schema::ENTITY => Table::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::TABLE => 'admin_panel_settings',
                 Schema::PRIMARY_KEY => 'id',

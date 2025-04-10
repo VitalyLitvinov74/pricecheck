@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Domain;
+namespace app\modules\TableSettings\Domain;
 
-use app\modules\ProductTableSettings\Domain\Models\ColumnSetting;
+use app\modules\TableSettings\Domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ProductList
+class Table
 {
     private int $id;
 

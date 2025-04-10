@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Application;
+namespace app\modules\TableSettings\Application;
 
 class SettingDTO
 {

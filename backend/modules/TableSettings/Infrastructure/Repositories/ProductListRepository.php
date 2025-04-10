@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Infrastructure\Repositories;
+namespace app\modules\TableSettings\Infrastructure\Repositories;
 
-use app\modules\ProductTableSettings\Domain\ProductList;
+use app\modules\TableSettings\Domain\Table;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;
@@ -20,14 +20,14 @@ class ProductListRepository
         $this->em = new EntityManager($this->orm);
     }
 
-    public function findBy(int $userId): ProductList
+    public function findBy(int $userId): Table
     {
         return $this->orm
-            ->getRepository(ProductList::class)
+            ->getRepository(Table::class)
             ->findOne(['user_id' => $userId]);
     }
 
-    public function save(ProductList $productList): void
+    public function save(Table $productList): void
     {
         try {
             $this->em->persist($productList);

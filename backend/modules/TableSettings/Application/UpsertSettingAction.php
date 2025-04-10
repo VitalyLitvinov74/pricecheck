@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Application;
+namespace app\modules\TableSettings\Application;
 
-use app\modules\ProductTableSettings\Domain\Models\ColumnSetting;
-use app\modules\ProductTableSettings\Domain\Models\SettingType;
-use app\modules\ProductTableSettings\Infrastructure\Repositories\ProductListRepository;
+use app\modules\TableSettings\Domain\Models\ColumnSetting;
+use app\modules\TableSettings\Domain\Models\SettingType;
+use app\modules\TableSettings\Infrastructure\Repositories\ProductListRepository;
 
 class UpsertSettingAction
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\ProductTableSettings\Presentation\Forms;
+namespace app\modules\TableSettings\Presentation\Forms;
 
 use app\forms\ColumnSettingForm;
-use app\modules\ProductTableSettings\Application\SettingDTO;
+use app\modules\TableSettings\Application\SettingDTO;
 use yii\base\Model;
 
 class ColumnForm extends Model

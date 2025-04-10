@@ -1,6 +1,7 @@
 <?php
 
-use app\modules\ProductTableSettings\ProductTableSettingsModule;
+use app\modules\Product\ProductModule;
+use app\modules\TableSettings\TableSettingsModule;
 
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
@@ -54,9 +55,12 @@ $config = [
 
     ],
     'modules' => [
-        'product-table-settings' => [
-            'class' => ProductTableSettingsModule::class,
-            'controllerNamespace' => 'app\modules\ProductTableSettings\Presentation\Controllers',
+        'product' => [
+            'class' => ProductModule::class,
+        ],
+        'table-settings' => [
+            'class' => TableSettingsModule::class,
+            'controllerNamespace' => 'app\modules\TableSettings\Presentation\Controllers',
         ]
     ],
     'params' => $params,
