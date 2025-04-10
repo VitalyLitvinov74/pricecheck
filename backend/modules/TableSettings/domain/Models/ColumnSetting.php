@@ -27,7 +27,8 @@ class ColumnSetting
 
     public function equalsTo(ColumnSetting $setting): bool
     {
-        if ($setting->belongsTo($this->propertyOfBusinessLogicEntityId) && $setting->is($this->columnSettingType)) {
+        if ($setting->belongsTo($this->propertyOfBusinessLogicEntityId)
+            && $setting->is($this->columnSettingType)) {
             return true;
         }
         return false;

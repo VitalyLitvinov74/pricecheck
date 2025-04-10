@@ -50,6 +50,7 @@ trait TableSettingsSchema
                     'id',
                     'columnSettingType' => 'column_setting_type',
                     'value',
+                    'propertyOfBusinessLogicEntityId'=>'property_of_business_logic_entity_id',
                     'propertyTypeOfBusinessLogicEntity' => 'property_type_of_business_logic_entity',
                     'admin_panel_entity_id'
                 ],
@@ -57,6 +58,7 @@ trait TableSettingsSchema
                     'id' => 'int',
                     'columnSettingType' => SettingType::class,
                     'value' => 'int',
+                    'propertyOfBusinessLogicEntityId' => 'int',
                     'propertyTypeOfBusinessLogicEntity' => PropertyTypeOfBusinessLogicEntity::class,
                 ]
             ]
