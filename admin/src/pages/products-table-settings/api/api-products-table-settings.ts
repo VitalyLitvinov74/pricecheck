@@ -4,7 +4,7 @@ export function removeSetting(){
 
 }
 
-export async function attachSettings(column: Column): Promise<Column>{
+export async function upsertSettings(column: Column): Promise<Column>{
     const payload = {
         relatedId: column.relatedId,
         settings: column.settings.map(function (s){
@@ -15,11 +15,11 @@ export async function attachSettings(column: Column): Promise<Column>{
             }
         })
     };
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/product/list/upsert-column-settings`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/product-table-settings/default/upsert-column-settings`;
     const data = await fetch(url, {
         body: JSON.stringify(payload),
         method: "post",
-        mode: "no-cors",
+        // mode: "no-cors",
         headers: {
             'content-type': "application/json"
         },

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\forms;
+namespace app\modules\ProductTableSettings\Presentation\Forms;
 
 use app\forms\ColumnSettingForm;
 use app\modules\ProductTableSettings\Application\SettingDTO;

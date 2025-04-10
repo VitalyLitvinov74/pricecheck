@@ -1,6 +1,5 @@
 <?php
 
-use app\modules\ProductTableSettings\Presentation\Controllers\IndexController;
 use app\modules\ProductTableSettings\ProductTableSettingsModule;
 
 $params = require __DIR__ . '/params.php';
@@ -49,17 +48,15 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+
             ],
         ],
 
     ],
     'modules' => [
-        [
+        'product-table-settings' => [
             'class' => ProductTableSettingsModule::class,
             'controllerNamespace' => 'app\modules\ProductTableSettings\Presentation\Controllers',
-//            'controllerMap' => [
-//                'product-table-settings' => ProductTableSettingsController::class
-//            ]
         ]
     ],
     'params' => $params,

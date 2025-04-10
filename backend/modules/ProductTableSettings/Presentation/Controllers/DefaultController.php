@@ -3,17 +3,17 @@
 namespace app\modules\ProductTableSettings\Presentation\Controllers;
 
 use app\controllers\BaseApiController;
+use app\forms\ProductListSearchForm;
+use app\forms\ProductsTableSettingsForm;
 use app\modules\ProductTableSettings\Application\ActualizeProductListSettingsAction;
 use app\modules\ProductTableSettings\Application\DisattachSettingAction;
 use app\modules\ProductTableSettings\Application\UpsertSettingAction;
-use app\forms\ColumnForm;
-use app\forms\ProductListSearchForm;
-use app\forms\ProductsTableSettingsForm;
+use app\modules\ProductTableSettings\Presentation\Forms\ColumnForm;
 use app\records\pg\ProductTemplateRecord;
 use app\records\pg\PropertyRecord;
 use Yii;
 
-class IndexController extends BaseApiController
+class DefaultController extends BaseApiController
 {
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
@@ -83,7 +83,7 @@ class IndexController extends BaseApiController
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
 
-    public function acitionUpsertColumnSettings(): array
+    public function actionUpsertColumnSettings(): array
     {
         $form = new ColumnForm();
         $form->load(Yii::$app->request->post());

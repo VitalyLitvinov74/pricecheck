@@ -22,7 +22,7 @@ export const loadProduct = async function (id) {
 }
 
 export const loadColumns = async function (): Promise<Column[]> {
-    const url = `${process.env.URL}/product-table-settings/list-settings`;
+    const url = `${process.env.URL}/product-table-settings/default/list-settings`;
     const data = await fetch(url, {
         next: {
             revalidate: 0
