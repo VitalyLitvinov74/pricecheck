@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Column, ColumnSetting, SettingType} from "../../../shared/types";
+import {Column, ColumnSetting, ColumnSettingType} from "../../../shared/types";
 import {CommitButton} from "./buttons/CommitButton";
 import {EditableButton} from "./buttons/EditableButton";
 import {RemoveButton} from "./buttons/RemoveButton";
@@ -10,13 +10,13 @@ export function Row({originalProductColumn}: {
 }) {
 
     const existedColumnNum = originalProductColumn.settings.find(function (s) {
-        return s.type === SettingType.ColumnNumber
+        return s.type === ColumnSettingType.ColumnNumber
     })
 
     if (!existedColumnNum) {
         originalProductColumn.settings.push({
             id: undefined,
-            type: SettingType.ColumnNumber,
+            type: ColumnSettingType.ColumnNumber,
             value: 999,
         })
     }
@@ -63,7 +63,7 @@ export function Row({originalProductColumn}: {
             </td>
             {productColumn.settings
                 .filter(function (setting: ColumnSetting) {
-                    return setting.type === SettingType.ColumnNumber
+                    return setting.type === ColumnSettingType.ColumnNumber
                 })
                 .map(function (setting: ColumnSetting) {
                     if (!isEditing) {

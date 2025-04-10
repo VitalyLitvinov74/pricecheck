@@ -1,15 +1,19 @@
 "use client"
 
-import React, {useState} from "react";
-import {Column, ColumnSetting, ProductProperty, SettingType} from "../../../shared/types";
+import React, {useEffect, useState} from "react";
+import {
+    Column,
+    ProductProperty,
+    PropertyTypeOfEntity,
+    ColumnSettingType,
+} from "../../../shared/types";
 import {Row} from "./Row";
 
-export default function ProductsTableSettings({columns: existedColumns, productProperties}: {
-    columns: Column[],
+export function ProductsTableSettings({columnsSettings: existedColumns, productProperties}: {
+    columnsSettings: ProductColumnsSetting[],
     productProperties: ProductProperty[],
 }) {
     const [productColumns, setProductColumns] = useState(existedColumns)
-
 
     // function removeOnBackend(itemForRemove: TableSetting) {
     //     const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
@@ -122,10 +126,10 @@ export default function ProductsTableSettings({columns: existedColumns, productP
     // }
 
     function types() {
-        const values = [SettingType.IsEnabled, SettingType.ColumnNumber];
-        return values.map(function (type: SettingType) {
+        const values = [ColumnSettingType.IsEnabled, ColumnSettingType.ColumnNumber];
+        return values.map(function (type: ColumnSettingType) {
             switch (type) {
-                case SettingType.ColumnNumber:
+                case ColumnSettingType.ColumnNumber:
                     return "Номер колонки"
             }
         });
@@ -152,7 +156,7 @@ export default function ProductsTableSettings({columns: existedColumns, productP
             settings: [
                 {
                     id: undefined,
-                    type: SettingType.IsEnabled,
+                    type: ColumnSettingType.IsEnabled,
                     value: 1,
                 },
             ],
@@ -189,14 +193,14 @@ export default function ProductsTableSettings({columns: existedColumns, productP
                                     <thead>
                                     <tr>
                                         <th width="5%">Наименование колонки</th>
-                                        {Object.values(SettingType)
+                                        {Object.values(ColumnSettingType)
                                             .filter(function (type) {
-                                                return type === SettingType.ColumnNumber
+                                                return type === ColumnSettingType.ColumnNumber
                                             })
                                             .map(function (type) {
                                                 let word;
                                                 switch (type) {
-                                                    case SettingType.ColumnNumber:
+                                                    case ColumnSettingType.ColumnNumber:
                                                         word = "Номер колонки"
                                                         break;
                                                 }

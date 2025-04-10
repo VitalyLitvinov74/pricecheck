@@ -10,6 +10,7 @@ use app\modules\TableSettings\application\UpsertSettingAction;
 use app\modules\TableSettings\domain\Models\AdminPanelEntityType;
 use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
 use app\modules\TableSettings\presentation\forms\ColumnForm;
+use app\modules\TableSettings\presentation\records\AdminPanelColumnsSettingsRecord;
 use app\modules\TableSettings\presentation\records\AdminPanelEntitiesRecord;
 use Yii;
 
@@ -50,14 +51,19 @@ class DefaultController extends BaseApiController
 
     public function actionIndex(int $propertyTypeOfBusinessLogicEntity): array
     {
-        $query =
+        $subQuery =
             AdminPanelEntitiesRecord::find()
                 ->where(['type' => AdminPanelEntityType::Table])
                 ->andWhere(['user_id' => 1]);
-        $with = match ($propertyTypeOfBusinessLogicEntity) {
-                PropertyTypeOfBusinessLogicEntity::ProductProperty->value => ['columnsSettings.productProperty'],
-        };
-        $settings = $query->with($with)->asArray()->all();
+
+        if($propertyTypeOfBusinessLogicEntity === PropertyTypeOfBusinessLogicEntity::ProductProperty->value){
+            $query = AdminPanelColumnsSettingsRecord::find()
+                ->where(['admin_panel_entity_id' => $subQuery->select(['id'])])
+                ->with(['productProperty']);
+        }
+
+
+        $settings = $query->asArray()->all();
         return $this->jsonApi->addBody($settings)->asArray();
     }
 

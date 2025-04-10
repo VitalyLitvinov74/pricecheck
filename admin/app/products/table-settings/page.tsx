@@ -1,16 +1,15 @@
 
 import {metadata} from "../../layout";
-import {loadProperties, loadColumns} from "../../../src/shared/api/products-api";
-import ProductsTableSettings from "../../../src/pages/products-table-settings/ui/ProductsTableSettings";
+import {ProductsTableSettings} from "../../../src/pages/products-table-settings/ui/ProductsTableSettings";
+import {loadColumnsSettings} from "./api";
+import {PropertyTypeOfEntity} from "../../../src/shared/types";
+
 
 
 export default async function Page(){
     metadata.title= "Настройка таблицы"
-
-    const columnsSettings = await loadColumns()
-    const availableProperties = await loadProperties();
-
+    const columnsSettings = await loadColumnsSettings(PropertyTypeOfEntity.ProductProperty);
     return (
-        <ProductsTableSettings columns={settings} productProperties={availableProperties}/>
+        <ProductsTableSettings columnsSettings={columnsSettings} productProperties={[]}/>
     );
 }

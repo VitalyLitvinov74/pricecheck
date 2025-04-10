@@ -26,7 +26,7 @@ export type ParsingSchema = {
     "parsingSchemaProperties": ParsingSchemaProperty[]
 }
 
-export enum SettingType {
+export enum ColumnSettingType {
     IsEnabled = 2,
     ColumnNumber = 1,
 }
@@ -42,3 +42,28 @@ export type Column = {
     name: string,
     settings: ColumnSetting[],
 }
+
+export enum PropertyTypeOfEntity {
+    ProductProperty = 1
+}
+
+export type AdminPanelElement = {
+    id: bigint,
+    user_id: bigint,
+    type: bigint,
+    columnsSettings?: AdminPanelColumnSetting[]
+}
+
+export type AdminPanelColumnSetting = {
+    id: bigint,
+    column_setting_type: ColumnSettingType,
+    value: any,
+    property_of_business_logic_entity_id: bigint,
+    admin_panel_entity_id: bigint,
+    property_type_of_business_logic_entity: PropertyTypeOfEntity,
+}
+
+export type ProductColumnSetting = AdminPanelColumnSetting & {
+    productProperty: ProductProperty
+}
+
