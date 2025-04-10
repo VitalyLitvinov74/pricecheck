@@ -9,7 +9,7 @@ class ColumnSettingForm extends Model
     public $propertyId;
     public $type;
     public $value;
-    public $entityType;
+    public $propertyTypeOfEntity;
 
     public function rules(): array
     {
@@ -19,8 +19,8 @@ class ColumnSettingForm extends Model
     public static function subRules(): array
     {
         return [
-            [['propertyId', 'value', 'type', 'entityType'], 'required'],
-            [['type', 'propertyId', 'value', 'entityType'], 'integer'],
+            [['propertyId', 'value', 'type', 'propertyTypeOfEntity'], 'required'],
+            [['type', 'propertyId', 'value', 'propertyTypeOfEntity'], 'integer'],
         ];
     }
 

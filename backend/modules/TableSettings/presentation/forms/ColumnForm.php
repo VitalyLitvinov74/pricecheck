@@ -38,7 +38,7 @@ class ColumnForm extends Model
                 $form->propertyId,
                 $form->type,
                 $form->value,
-                $form->entityType
+                $form->propertyTypeOfEntity
             );
         }
     }

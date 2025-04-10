@@ -33,7 +33,8 @@ class ProductsTableSettingsForm extends Model
             $this->settingsDTOs[] = new SettingDTO(
                 $form->propertyId,
                 $form->type,
-                $form->value
+                $form->value,
+                $form->propertyTypeOfEntity
             );
         }
     }

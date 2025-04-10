@@ -10,7 +10,7 @@ class ColumnSetting
         private int $value,
         private SettingType $columnSettingType,
         private int $propertyOfBusinessLogicEntityId,
-        private int $businessLogicEntityType
+        private PropertyTypeOfBusinessLogicEntity $propertyTypeOfBusinessLogicEntity
     )
     {
     }

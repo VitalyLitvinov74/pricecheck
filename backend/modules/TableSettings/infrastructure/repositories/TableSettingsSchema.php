@@ -3,6 +3,7 @@
 namespace app\modules\TableSettings\Infrastructure\repositories;
 
 use app\modules\TableSettings\domain\Models\ColumnSetting;
+use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
 use app\modules\TableSettings\domain\Models\SettingType;
 use app\modules\TableSettings\domain\Table;
 use Cycle\ORM\Mapper\Mapper;
@@ -49,14 +50,14 @@ trait TableSettingsSchema
                     'id',
                     'columnSettingType' => 'column_setting_type',
                     'value',
-                    'propertyOfBusinessLogicEntityId' => 'property_of_business_logic_entity_id',
+                    'propertyTypeOfBusinessLogicEntity' => 'property_type_of_business_logic_entity',
                     'admin_panel_entity_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
                     'columnSettingType' => SettingType::class,
                     'value' => 'int',
-                    'propertyOfBusinessLogicEntityId' => 'int',
+                    'propertyTypeOfBusinessLogicEntity' => PropertyTypeOfBusinessLogicEntity::class,
                 ]
             ]
         ]);

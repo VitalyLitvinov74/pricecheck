@@ -3,6 +3,7 @@
 namespace app\modules\TableSettings\application;
 
 use app\modules\TableSettings\domain\Models\ColumnSetting;
+use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
 use app\modules\TableSettings\domain\Models\SettingType;
 use app\modules\TableSettings\infrastructure\repositories\TableSettingsRepository;
 
@@ -31,7 +32,7 @@ class ActualizeProductListSettingsAction
                 $DTO->value,
                 SettingType::from($DTO->type),
                 $DTO->propertyId,
-                $DTO->entityType
+                PropertyTypeOfBusinessLogicEntity::from($DTO->propertyTypeOfEntity)
             );
             $productsList->upsertSetting($setting);
             $settings[] = $setting;

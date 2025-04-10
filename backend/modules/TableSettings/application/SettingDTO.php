@@ -8,7 +8,7 @@ class SettingDTO
         public int $propertyId,
         public int $type,
         public int $value,
-        public int $entityType
+        public int $propertyTypeOfEntity
     )
     {
     }
