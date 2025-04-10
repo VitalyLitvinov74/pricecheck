@@ -48,14 +48,13 @@ class DefaultController extends BaseApiController
 //            ->asArray();
 //    }
 
-    public function actionIndex(int $businessLogicEntityType): array
+    public function actionIndex(int $propertyTypeOfBusinessLogicEntity): array
     {
-
         $query =
             AdminPanelEntitiesRecord::find()
                 ->where(['type' => AdminPanelEntityType::Table])
                 ->andWhere(['user_id' => 1]);
-        $with = match ($businessLogicEntityType) {
+        $with = match ($propertyTypeOfBusinessLogicEntity) {
                 PropertyTypeOfBusinessLogicEntity::ProductProperty->value => ['columnsSettings.productProperty'],
         };
         $settings = $query->with($with)->asArray()->all();
