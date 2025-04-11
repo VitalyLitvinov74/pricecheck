@@ -55,15 +55,12 @@ export type AdminPanelElement = {
 }
 
 export type AdminPanelColumnSetting = {
-    id: bigint,
+    id: bigint | undefined,
     column_setting_type: ColumnSettingType,
     value: any,
     property_of_business_logic_entity_id: bigint,
-    admin_panel_entity_id: bigint,
+    admin_panel_entity_id: bigint | undefined,
     property_type_of_business_logic_entity: PropertyTypeOfEntity,
-}
-
-export type ProductColumnSetting = AdminPanelColumnSetting & {
-    productProperty: ProductProperty
+    frontend_id?: string
 }
 

@@ -1,6 +1,12 @@
-import {AdminPanelElement, Column, ProductColumnSetting, PropertyTypeOfEntity} from "../../../src/shared/types";
+import {
+    AdminPanelColumnSetting,
+    AdminPanelElement,
+    Column,
+    ProductPropertySetting,
+    PropertyTypeOfEntity
+} from "../../../src/shared/types";
 
-export async function loadColumnsSettings(propertyType: PropertyTypeOfEntity): Promise<ProductColumnSetting[]> {
+export async function loadColumnsSettings(propertyType: PropertyTypeOfEntity): Promise<AdminPanelColumnSetting[]> {
 
     const searchParams = new URLSearchParams({
         propertyTypeOfBusinessLogicEntity: propertyType

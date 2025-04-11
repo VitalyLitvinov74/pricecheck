@@ -58,8 +58,7 @@ class DefaultController extends BaseApiController
 
         if($propertyTypeOfBusinessLogicEntity === PropertyTypeOfBusinessLogicEntity::ProductProperty->value){
             $query = AdminPanelColumnsSettingsRecord::find()
-                ->where(['admin_panel_entity_id' => $subQuery->select(['id'])])
-                ->with(['productProperty']);
+                ->where(['admin_panel_entity_id' => $subQuery->select(['id'])]);
         }
 
 

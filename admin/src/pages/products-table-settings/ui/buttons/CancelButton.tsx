@@ -1,7 +1,7 @@
 import React from "react";
 import {Column} from "../../../../shared/types";
 
-export function RemoveButton({column, isEditing, setCallbackColumn, originalColumn, setIsEditingCallback}: {
+export function CancelButton({column, isEditing, setCallbackColumn, originalColumn, setIsEditingCallback}: {
     column: Column,
     isEditing: boolean,
     setCallbackColumn: (column: Column) => void,
@@ -10,7 +10,7 @@ export function RemoveButton({column, isEditing, setCallbackColumn, originalColu
 }) {
 
     function click() {
-        if(isEditing){
+        if (isEditing) {
             setCallbackColumn(originalColumn)
             setIsEditingCallback(false)
             return;
@@ -20,16 +20,13 @@ export function RemoveButton({column, isEditing, setCallbackColumn, originalColu
     }
 
     return (
-        <button type={"submit"}
-            onClick={click}
-                className="btn btn-danger-rgba"
-        >
-            <i className={
-                isEditing
-                    ? "feather icon-slash"
-                    : "feather icon-trash"}
+        <>{isEditing &&
+            <button type={"submit"}
+                    onClick={click}
+                    className="btn btn-danger-rgba"
             >
-            </i>
-        </button>
+                <i className={"feather icon-slash"}/>
+            </button>
+        }</>
     )
 }

@@ -1,19 +1,14 @@
 "use client"
 
-import React, {useEffect, useState} from "react";
-import {
-    Column,
-    ProductProperty,
-    PropertyTypeOfEntity,
-    ColumnSettingType,
-} from "../../../shared/types";
+import React from "react";
+import {AdminPanelColumnSetting, ColumnSettingType, ProductProperty,} from "../../../shared/types";
 import {Row} from "./Row";
 
-export function ProductsTableSettings({columnsSettings: existedColumns, productProperties}: {
-    columnsSettings: ProductColumnsSetting[],
-    productProperties: ProductProperty[],
+export function ProductsTableSettings({productPropertiesSettings, productProperties}: {
+    productPropertiesSettings: AdminPanelColumnSetting[],
+    productProperties: ProductProperty[]
 }) {
-    const [productColumns, setProductColumns] = useState(existedColumns)
+    // const [productProperties, setProductProperties] = useState(existedColumns)
 
     // function removeOnBackend(itemForRemove: TableSetting) {
     //     const url = `http://api.pricecheck.my:82/properties/dis-attach-setting`;
@@ -125,49 +120,25 @@ export function ProductsTableSettings({columnsSettings: existedColumns, productP
     //     setTableSettings(list);
     // }
 
-    function types() {
-        const values = [ColumnSettingType.IsEnabled, ColumnSettingType.ColumnNumber];
-        return values.map(function (type: ColumnSettingType) {
-            switch (type) {
-                case ColumnSettingType.ColumnNumber:
-                    return "Номер колонки"
-            }
-        });
-    }
-
-    function addNewColumn() {
-        const property = productProperties.find(function (property: ProductProperty) {
-            const column = productColumns.find(function (column) {
-                return column.relatedId == property.id
+    function columnsSettings(): { type: ColumnSettingType, word: string }[] {
+        return Object.values(ColumnSettingType)
+            .filter(function (settingType) {
+                return typeof settingType !== "string"
             })
-            if (column) {
-                return false;
-            }
-            return true;
-        })
-
-        if (!property) {
-            return;
-        }
-
-        const column: Column = {
-            relatedId: property.id,
-            name: property.name,
-            settings: [
-                {
-                    id: undefined,
-                    type: ColumnSettingType.IsEnabled,
-                    value: 1,
-                },
-            ],
-        }
-
-        setProductColumns(function (prev) {
-            return [
-                column,
-                ...prev
-            ]
-        })
+            .map(function (settingType: ColumnSettingType) {
+                switch (settingType) {
+                    case ColumnSettingType.ColumnNumber:
+                        return {
+                            type: ColumnSettingType.ColumnNumber,
+                            word: "Номер колонки"
+                        };
+                    case ColumnSettingType.IsEnabled:
+                        return {
+                            type: ColumnSettingType.IsEnabled,
+                            word: "Включено"
+                        }
+                }
+            })
     }
 
     return (
@@ -176,43 +147,24 @@ export function ProductsTableSettings({columnsSettings: existedColumns, productP
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <div className="card-body">
-
-                            <div className="btn-toolbar">
-                                <div className="btn-group focus-btn-group">
-                                    <button
-                                        onClick={addNewColumn}
-                                        type="button"
-                                        className="btn btn-default">
-                                        <span className="glyphicon glyphicon-screenshot"></span>
-                                        Добавить
-                                    </button>
-                                </div>
-                            </div>
                             <div className="table-responsive">
                                 <table className="table table-borderless table-hover">
                                     <thead>
                                     <tr>
                                         <th width="5%">Наименование колонки</th>
-                                        {Object.values(ColumnSettingType)
-                                            .filter(function (type) {
-                                                return type === ColumnSettingType.ColumnNumber
-                                            })
-                                            .map(function (type) {
-                                                let word;
-                                                switch (type) {
-                                                    case ColumnSettingType.ColumnNumber:
-                                                        word = "Номер колонки"
-                                                        break;
-                                                }
-                                                return <th key={type} width="5%">{word}</th>
-                                            })}
+                                        {columnsSettings().map(function (data) {
+                                            return <th key={data.type} width="5%">{data.word}</th>
+                                        })}
                                         <th width="15%"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {productColumns.map(
-                                        function (productColumn: Column) {
-                                            return <Row originalProductColumn={productColumn}/>
+                                    {productProperties.map(
+                                        function (productProperty: ProductProperty) {
+                                            return (<Row productProperty={productProperty}
+                                                         productPropertiesSettings={productPropertiesSettings}
+                                                         headerColumns={columnsSettings()}
+                                            />)
                                         })
                                     }
                                     </tbody>
