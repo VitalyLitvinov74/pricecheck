@@ -7,16 +7,20 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
-use app\modules\UserSettings\domain\Models\AdminPanelEntityType;
 use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\infrastructure\records\AdminPanelColumnsSettingsRecord;
 use app\modules\UserSettings\infrastructure\records\AdminPanelEntitiesRecord;
+use app\modules\UserSettings\infrastructure\records\ProductPropertyRecord;
+use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
 use app\modules\UserSettings\presentation\forms\ColumnForm;
 use app\records\pg\PropertyRecord;
 use Yii;
 
 class DefaultController extends BaseApiController
 {
+    use DefaultSettingsTrait;
+
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
     private DisattachSettingAction $disAttachSettingAction;
@@ -54,7 +58,7 @@ class DefaultController extends BaseApiController
     {
         $subQuery =
             AdminPanelEntitiesRecord::find()
-                ->where(['type' => AdminPanelEntityType::Table])
+                ->where(['type' => EntityType::Table])
                 ->andWhere(['user_id' => 1]);
 
         if ($propertyTypeOfBusinessLogicEntity === ColumnOf::Product->value) {
@@ -77,6 +81,28 @@ class DefaultController extends BaseApiController
         $columnsList = $query->asArray()->all();
         return $this->jsonApi->addBody($columnsList)->setupCode(200)->asArray();
 
+    }
+
+    public function actionForProductsTable(): array
+    {
+        $properties = ProductPropertyRecord::find()
+            ->select([
+                'id',
+                'name'
+            ])
+            ->with([
+                'userSettings' => function () {
+                    return UserSettingsRecord::find()
+                        ->where(['user_id' => 1]);
+                }
+            ])
+            ->asArray()
+            ->all();
+        return $this->jsonApi
+            ->addBody(
+                $this->addDefaultSettingsToProductProperties($properties)
+            )
+            ->asArray();
     }
 
     public function actionUpdateView(): array

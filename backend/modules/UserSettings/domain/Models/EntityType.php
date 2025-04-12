@@ -2,7 +2,7 @@
 
 namespace app\modules\UserSettings\domain\Models;
 
-enum AdminPanelEntityType
+enum EntityType: int
 {
-    const Table = 1;
+    case ProductProperty = 1;
 }

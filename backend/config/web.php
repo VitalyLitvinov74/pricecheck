@@ -49,7 +49,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
+                [
+                    'pattern' => '/user-settings/<action>',
+                    'route' => '/user-settings/default/<action>',
+                ],
+                //
             ],
         ],
 

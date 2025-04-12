@@ -14,9 +14,10 @@ class m250412_133908_add_table extends Migration
         $this->createTable('user_settings', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull()->defaultValue(1),
-            'type' => $this->integer()->notNull(),
+            'type' => $this->integer()->notNull()->comment('Тип настройки'),
             'value' => $this->string(),
-            'entity_id' => $this->integer()->notNull(),
+            'entity_id' => $this->integer()->notNull()->comment('Указывает к какой сущности относится настройка'),
+            'entity_type' => $this->integer()->notNull()->comment('Указывает к какому типу сущности относится настройка, т.к. в этой таблице хранится все настройки сущностей, а значит ид этих сущностей может пересекаться.'),
         ]);
         $schema = $this->db->schema->getTableSchema('user');
         if (!$schema) {

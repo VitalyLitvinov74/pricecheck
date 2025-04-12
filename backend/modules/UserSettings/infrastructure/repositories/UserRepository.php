@@ -2,7 +2,7 @@
 
 namespace app\modules\UserSettings\infrastructure\repositories;
 
-use app\modules\UserSettings\domain\Models\AdminPanelEntityType;
+use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\User;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
@@ -25,7 +25,7 @@ class UserRepository
     {
         return $this->orm
             ->getRepository(User::class)
-            ->findOne(['user_id' => $userId, 'type' => AdminPanelEntityType::Table]);
+            ->findOne(['user_id' => $userId, 'type' => EntityType::Table]);
     }
 
     public function save(User $productList): void
