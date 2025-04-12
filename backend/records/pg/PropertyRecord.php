@@ -2,7 +2,7 @@
 
 namespace app\records\pg;
 
-use app\modules\adminPanelSettings\presentation\records\AdminPanelColumnsSettingsRecord;
+use app\modules\UserSettings\presentation\records\AdminPanelColumnsSettingsRecord;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\adminPanelSettings\domain;
+namespace app\modules\UserSettings\domain;
 
-use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
+use app\modules\UserSettings\domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class User

@@ -2,8 +2,8 @@
 
 namespace app\forms;
 
-use app\modules\adminPanelSettings\application\SettingDTO;
-use app\modules\adminPanelSettings\presentation\forms\ColumnSettingForm;
+use app\modules\UserSettings\application\SettingDTO;
+use app\modules\UserSettings\presentation\forms\ColumnSettingForm;
 use yii\base\Model;
 
 class ProductsTableSettingsForm extends Model

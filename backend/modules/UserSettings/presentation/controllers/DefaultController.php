@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\adminPanelSettings\presentation\controllers;
+namespace app\modules\UserSettings\presentation\controllers;
 
 use app\controllers\BaseApiController;
 use app\forms\ProductsTableSettingsForm;
-use app\modules\adminPanelSettings\application\ActualizeProductListSettingsAction;
-use app\modules\adminPanelSettings\application\DisattachSettingAction;
-use app\modules\adminPanelSettings\application\UpsertSettingAction;
-use app\modules\adminPanelSettings\domain\Models\AdminPanelEntityType;
-use app\modules\adminPanelSettings\domain\Models\ColumnOf;
-use app\modules\adminPanelSettings\presentation\forms\ColumnForm;
-use app\modules\adminPanelSettings\presentation\records\AdminPanelColumnsSettingsRecord;
-use app\modules\adminPanelSettings\presentation\records\AdminPanelEntitiesRecord;
+use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
+use app\modules\UserSettings\application\DisattachSettingAction;
+use app\modules\UserSettings\application\UpsertSettingAction;
+use app\modules\UserSettings\domain\Models\AdminPanelEntityType;
+use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\presentation\forms\ColumnForm;
+use app\modules\UserSettings\presentation\records\AdminPanelColumnsSettingsRecord;
+use app\modules\UserSettings\presentation\records\AdminPanelEntitiesRecord;
 use app\records\pg\PropertyRecord;
 use Yii;
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace app\modules\adminPanelSettings\application;
+namespace app\modules\UserSettings\application;
 
-use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
-use app\modules\adminPanelSettings\domain\Models\ColumnOf;
-use app\modules\adminPanelSettings\domain\Models\SettingType;
-use app\modules\adminPanelSettings\Infrastructure\repositories\AdminPanelRepository;
+use app\modules\UserSettings\domain\Models\ColumnSetting;
+use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\domain\Models\SettingType;
+use app\modules\UserSettings\Infrastructure\repositories\UserRepository;
 
 class UpsertSettingAction
 {
-    public function __construct(private AdminPanelRepository $repository = new AdminPanelRepository())
+    public function __construct(private UserRepository $repository = new UserRepository())
     {
     }
 

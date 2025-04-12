@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\adminPanelSettings\infrastructure\repositories;
+namespace app\modules\UserSettings\infrastructure\repositories;
 
-use app\modules\adminPanelSettings\domain\Models\AdminPanelEntityType;
-use app\modules\adminPanelSettings\domain\User;
+use app\modules\UserSettings\domain\Models\AdminPanelEntityType;
+use app\modules\UserSettings\domain\User;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;
 
-class AdminPanelRepository
+class UserRepository
 {
-    use AdminPanelSchema;
+    use UserSchema;
 
     private ORM $orm;
     private EntityManager $em;

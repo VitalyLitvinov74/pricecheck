@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\adminPanelSettings\Infrastructure\repositories;
+namespace app\modules\UserSettings\Infrastructure\repositories;
 
-use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
-use app\modules\adminPanelSettings\domain\Models\ColumnOf;
-use app\modules\adminPanelSettings\domain\Models\SettingType;
-use app\modules\adminPanelSettings\domain\User;
+use app\modules\UserSettings\domain\Models\ColumnSetting;
+use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\domain\Models\SettingType;
+use app\modules\UserSettings\domain\User;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
 
-trait AdminPanelSchema
+trait UserSchema
 {
     public function schema(): Schema
     {

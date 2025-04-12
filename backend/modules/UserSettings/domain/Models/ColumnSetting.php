@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\adminPanelSettings\domain\Models;
+namespace app\modules\UserSettings\domain\Models;
 
 class ColumnSetting
 {

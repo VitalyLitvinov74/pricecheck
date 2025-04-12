@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\adminPanelSettings\application;
+namespace app\modules\UserSettings\application;
 
-use app\modules\adminPanelSettings\Infrastructure\repositories\AdminPanelRepository;
+use app\modules\UserSettings\Infrastructure\repositories\UserRepository;
 
 class DisattachSettingAction
 {
     public function __construct(
-        private AdminPanelRepository $repository = new AdminPanelRepository()
+        private UserRepository $repository = new UserRepository()
     )
     {
     }
