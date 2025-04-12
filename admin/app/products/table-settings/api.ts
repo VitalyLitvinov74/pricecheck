@@ -1,10 +1,5 @@
-import {
-    AdminPanelColumnSetting,
-    AdminPanelElement,
-    Column,
-    ProductPropertySetting,
-    PropertyTypeOfEntity
-} from "../../../src/shared/types";
+import {AdminPanelColumnSetting, PropertyTypeOfEntity} from "../../../src/shared/types";
+import {uuid} from "../../../src/shared/helpers";
 
 export async function loadColumnsSettings(propertyType: PropertyTypeOfEntity): Promise<AdminPanelColumnSetting[]> {
 
@@ -17,5 +12,8 @@ export async function loadColumnsSettings(propertyType: PropertyTypeOfEntity): P
             revalidate: 0
         }
     })
-    return await data.json();
+    const columnsSettings: AdminPanelColumnSetting[] = await data.json();
+    return columnsSettings.map(function (columnsSetting: AdminPanelColumnSetting) {
+        return {...columnsSetting, frontend_id: uuid()}
+    });
 }

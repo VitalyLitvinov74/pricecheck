@@ -2,42 +2,29 @@ import React, {useState} from "react";
 import {AdminPanelColumnSetting, ColumnSettingType, ProductProperty, PropertyTypeOfEntity} from "../../../shared/types";
 import {EditableButton} from "./buttons/EditableButton";
 import {uuid} from "../../../shared/helpers";
+import {CancelButton} from "./buttons/CancelButton";
 
 export function Row({
-                        productPropertiesSettings: originalProductPropertiesSettings,
+                        productColumnsSettings,
                         productProperty,
                         headerColumns
                     }: {
-    productPropertiesSettings: AdminPanelColumnSetting[],
+    productColumnsSettings: AdminPanelColumnSetting[],
     productProperty: ProductProperty,
     headerColumns: { type: ColumnSettingType, word: string }[]
 }) {
-    const [productPropertiesSettings, setProductPropertiesSettings] = useState(
-        originalProductPropertiesSettings.filter(
-            function (setting) {
-                return setting.property_of_business_logic_entity_id === productProperty.id
-            }
-        )
-    )
-    // const existedColumnNum = originalProductColumn.settings.find(function (s) {
-    //     return s.type === ColumnSettingType.ColumnNumber
-    // })
-    //
-    // if (!existedColumnNum) {
-    //     originalProductColumn.settings.push({
-    //         id: undefined,
-    //         type: ColumnSettingType.ColumnNumber,
-    //         value: 999,
-    //     })
-    // }
-    // originalProductColumn.settings = originalProductColumn.settings.map(function (setting: ColumnSetting) {
-    //     return {
-    //         ...setting,
-    //         frontendId: uuid()
-    //     }
-    // })
-    //
-    // const [productColumn, setProductColumn] = useState(originalProductColumn)
+   const [fullProductColumnsSettings, setFullProductColumnsSettings] = useState(
+       headerColumns.map(function (headerColumn) {
+           let productColumnSetting = productColumnsSettings.find(function (setting) {
+               return setting.column_setting_type === headerColumn.type
+               && productProperty.id === setting.property_of_business_logic_entity_id
+           })
+           if(!productColumnSetting){
+               return createSetting(productProperty, headerColumn.type)
+           }
+           return productColumnSetting;
+       })
+   )
     const [isEditing, setIsEditing] = useState<Boolean>(false)
 
 
@@ -63,71 +50,66 @@ export function Row({
     }
 
     function changeProductPropertySetting(setting, newValue,) {
-        setProductPropertiesSettings(function (prevState) {
-            console.log(productPropertiesSettings)
+        setFullProductColumnsSettings(function (prevState) {
             return prevState.map(function (existingSetting) {
-                if(existingSetting.frontend_id === setting.frontend_id) {
-
+                if (existingSetting.frontend_id === setting.frontend_id) {
                     setting.value = newValue
                     return setting;
                 }
-                console.log('heelo')
                 return existingSetting;
             });
         })
     }
 
     return (<>
-        <tr key={productProperty.id}>
-            <td className="tabledit-edit-mode">
-                {productProperty.name}
-            </td>
-            {headerColumns.map(function (column) {
-                let needlePropertySetting = productPropertiesSettings.find(
-                    function (setting) {
-                        return setting.column_setting_type === column.type
-                            && productProperty.id === setting.property_of_business_logic_entity_id
-                    })
-                if (!needlePropertySetting) {
-                    needlePropertySetting = createSetting(
-                        productProperty,
-                        column.type,
-                    );
-                }
-                return (<td className="tabledit-edit-mode">
-                    {isEditing &&
-                        <input
-                            type="text"
-                            className={"form-control"}
-                            value={needlePropertySetting.value}
-                            onChange={(e) => changeProductPropertySetting(needlePropertySetting, e.target.value)}
-                        />
-                    }
-                    {!isEditing &&
-                        <>{needlePropertySetting.value}</>
-                    }
-                </td>)
-            })}
-            <td>
-                <div className="button-list">
-                    <EditableButton
-                        isEditing={isEditing}
-                        setIsEditing={setIsEditing}
+        <td className="tabledit-edit-mode">
+            {productProperty.name}
+        </td>
+        {headerColumns.map(function (column) {
+            let needlePropertySetting = fullProductColumnsSettings.find(
+                function (setting) {
+                    return setting.column_setting_type === column.type
+                        && productProperty.id === setting.property_of_business_logic_entity_id
+                })
+            if (!needlePropertySetting) {
+                needlePropertySetting = createSetting(
+                    productProperty,
+                    column.type,
+                );
+            }
+            return (<td key={needlePropertySetting.frontend_id} className="tabledit-edit-mode">
+                {isEditing &&
+                    <input
+                        type="number"
+                        className={"form-control"}
+                        value={needlePropertySetting.value}
+                        onChange={(e) => changeProductPropertySetting(needlePropertySetting, e.target.value)}
                     />
-                    {/*<CommitButton*/}
-                    {/*    column={productColumn}*/}
-                    {/*    rowIsEditing={isEditing}*/}
-                    {/*    setIsEditingCallback={setIsEditing}*/}
-                    {/*/>*/}
-                    {/*<CancelButton*/}
-                    {/*    column={productColumn}*/}
-                    {/*    originalColumn={originalProductColumn}*/}
-                    {/*    isEditing={isEditing}*/}
-                    {/*    setCallbackColumn={setProductColumn}*/}
-                    {/*    setIsEditingCallback={setIsEditing}*/}
-                    {/*/>*/}
-                </div>
-            </td>
-        </tr>
+                }
+                {!isEditing &&
+                    <>{needlePropertySetting.value}</>
+                }
+            </td>)
+        })}
+        <td>
+            <div className="button-list">
+                <EditableButton
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
+                />
+                {/*<CommitButton*/}
+                {/*    column={productColumn}*/}
+                {/*    rowIsEditing={isEditing}*/}
+                {/*    setIsEditingCallback={setIsEditing}*/}
+                {/*/>*/}
+                {/*<CancelButton*/}
+                {/*    column={productColumn}*/}
+                {/*    originalColumn={originalProductColumn}*/}
+                {/*    isEditing={isEditing}*/}
+                {/*    setCallbackColumn={setProductColumn}*/}
+                {/*    setIsEditingCallback={setIsEditing}*/}
+                {/*/>*/}
+            </div>
+        </td>
     </>)
 }

@@ -4,8 +4,8 @@ import React from "react";
 import {AdminPanelColumnSetting, ColumnSettingType, ProductProperty,} from "../../../shared/types";
 import {Row} from "./Row";
 
-export function ProductsTableSettings({productPropertiesSettings, productProperties}: {
-    productPropertiesSettings: AdminPanelColumnSetting[],
+export function ProductsTableSettings({productColumnsSettings, productProperties}: {
+    productColumnsSettings: AdminPanelColumnSetting[],
     productProperties: ProductProperty[]
 }) {
     // const [productProperties, setProductProperties] = useState(existedColumns)
@@ -161,10 +161,12 @@ export function ProductsTableSettings({productPropertiesSettings, productPropert
                                     <tbody>
                                     {productProperties.map(
                                         function (productProperty: ProductProperty) {
-                                            return (<Row productProperty={productProperty}
-                                                         productPropertiesSettings={productPropertiesSettings}
-                                                         headerColumns={columnsSettings()}
-                                            />)
+                                            return (<tr key={productProperty.id}>
+                                                <Row productProperty={productProperty}
+                                                     productColumnsSettings={productColumnsSettings}
+                                                     headerColumns={columnsSettings()}
+                                                />
+                                            </tr>)
                                         })
                                     }
                                     </tbody>
