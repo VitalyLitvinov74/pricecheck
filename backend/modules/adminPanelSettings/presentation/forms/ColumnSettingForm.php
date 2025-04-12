@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\presentation\forms;
+namespace app\modules\adminPanelSettings\presentation\forms;
 
 use yii\base\Model;
 

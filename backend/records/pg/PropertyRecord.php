@@ -2,6 +2,7 @@
 
 namespace app\records\pg;
 
+use app\modules\adminPanelSettings\presentation\records\AdminPanelColumnsSettingsRecord;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -12,7 +13,7 @@ class PropertyRecord extends ActiveRecord
         return "properties";
     }
 
-    public function getColumnsSettings(): ActiveQuery{
+    public function getTableSettings(): ActiveQuery{
         return $this->hasMany(AdminPanelColumnsSettingsRecord::class, ['property_of_business_logic_entity_id'=>'id']);
     }
 }

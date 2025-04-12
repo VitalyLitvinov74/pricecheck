@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\infrastructure\migrations;
+namespace app\modules\adminPanelSettings\infrastructure\migrations;
 
 use yii\db\Migration;
 

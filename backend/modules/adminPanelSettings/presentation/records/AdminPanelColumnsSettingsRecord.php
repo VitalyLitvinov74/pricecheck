@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\presentation\records;
+namespace app\modules\adminPanelSettings\presentation\records;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

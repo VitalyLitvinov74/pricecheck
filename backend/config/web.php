@@ -1,7 +1,7 @@
 <?php
 
 use app\modules\Product\ProductModule;
-use app\modules\TableSettings\TableSettingsModule;
+use app\modules\adminPanelSettings\AdminTableSettingsModule;
 
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
@@ -58,9 +58,9 @@ $config = [
         'product' => [
             'class' => ProductModule::class,
         ],
-        'table-settings' => [
-            'class' => TableSettingsModule::class,
-            'controllerNamespace' => 'app\modules\TableSettings\presentation\controllers',
+        'admin-panel-settings' => [
+            'class' => AdminTableSettingsModule::class,
+            'controllerNamespace' => 'app\modules\adminPanelSettings\presentation\controllers',
         ]
     ],
     'params' => $params,

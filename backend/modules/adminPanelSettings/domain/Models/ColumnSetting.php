@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\domain\Models;
+namespace app\modules\adminPanelSettings\domain\Models;
 
 class ColumnSetting
 {
@@ -10,7 +10,7 @@ class ColumnSetting
         private int $value,
         private SettingType $columnSettingType,
         private int $propertyOfBusinessLogicEntityId,
-        private PropertyTypeOfBusinessLogicEntity $propertyTypeOfBusinessLogicEntity
+        private ColumnOf $propertyTypeOfBusinessLogicEntity
     )
     {
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\domain\Models;
+namespace app\modules\adminPanelSettings\domain\Models;
 
 enum AdminPanelEntityType
 {

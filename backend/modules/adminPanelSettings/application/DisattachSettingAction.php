@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\TableSettings\application;
+namespace app\modules\adminPanelSettings\application;
 
-use app\modules\TableSettings\Infrastructure\repositories\TableSettingsRepository;
+use app\modules\adminPanelSettings\Infrastructure\repositories\TableSettingsRepository;
 
 class DisattachSettingAction
 {

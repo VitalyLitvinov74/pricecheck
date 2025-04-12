@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\TableSettings\application;
+namespace app\modules\adminPanelSettings\application;
 
-use app\modules\TableSettings\domain\Models\ColumnSetting;
-use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
-use app\modules\TableSettings\domain\Models\SettingType;
-use app\modules\TableSettings\Infrastructure\repositories\TableSettingsRepository;
+use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
+use app\modules\adminPanelSettings\domain\Models\ColumnOf;
+use app\modules\adminPanelSettings\domain\Models\SettingType;
+use app\modules\adminPanelSettings\Infrastructure\repositories\TableSettingsRepository;
 
 class UpsertSettingAction
 {
@@ -28,7 +28,7 @@ class UpsertSettingAction
                     $DTO->value,
                     SettingType::from($DTO->type),
                     $DTO->propertyId,
-                    PropertyTypeOfBusinessLogicEntity::from($DTO->propertyTypeOfEntity)
+                    ColumnOf::from($DTO->propertyTypeOfEntity)
                 )
             );
         }

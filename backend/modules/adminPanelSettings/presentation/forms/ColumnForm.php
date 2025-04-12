@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\TableSettings\presentation\forms;
+namespace app\modules\adminPanelSettings\presentation\forms;
 
-use app\modules\TableSettings\application\SettingDTO;
+use app\modules\adminPanelSettings\application\SettingDTO;
 use yii\base\Model;
 
 class ColumnForm extends Model

@@ -5,10 +5,10 @@ namespace app\controllers\product;
 use app\controllers\BaseApiController;
 use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
-use app\modules\TableSettings\application\ActualizeProductListSettingsAction;
-use app\modules\TableSettings\application\DisattachSettingAction;
-use app\modules\TableSettings\application\UpsertSettingAction;
-use app\modules\TableSettings\Presentation\Forms\ColumnForm;
+use app\modules\adminPanelSettings\application\ActualizeProductListSettingsAction;
+use app\modules\adminPanelSettings\application\DisattachSettingAction;
+use app\modules\adminPanelSettings\application\UpsertSettingAction;
+use app\modules\adminPanelSettings\Presentation\Forms\ColumnForm;
 use Yii;
 
 class ListController extends BaseApiController

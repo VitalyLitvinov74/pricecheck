@@ -1,9 +1,4 @@
-export type ColumnSetting = {
-    id: bigint | undefined,
-    type: number,
-    value: number,
-    frontendId?: string
-}
+
 
 export type Property = {
     id: bigint,
@@ -38,9 +33,16 @@ export type ProductProperty = {
 }
 
 export type Column = {
-    relatedId: bigint,
+    id: bigint,
     name: string,
     settings: ColumnSetting[],
+}
+
+export type ColumnSetting = {
+    id: bigint | undefined,
+    type: number,
+    value: number,
+    frontendId?: string
 }
 
 export enum PropertyTypeOfEntity {

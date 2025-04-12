@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\TableSettings\domain;
+namespace app\modules\adminPanelSettings\domain;
 
-use app\modules\TableSettings\domain\Models\ColumnSetting;
+use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Table
+class AdminPanel
 {
     private int $id;
 

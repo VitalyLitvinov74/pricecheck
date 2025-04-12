@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\TableSettings\application;
+namespace app\modules\adminPanelSettings\application;
 
 class SettingDTO
 {

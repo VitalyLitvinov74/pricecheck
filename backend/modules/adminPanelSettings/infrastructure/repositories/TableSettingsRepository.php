@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\TableSettings\infrastructure\repositories;
+namespace app\modules\adminPanelSettings\infrastructure\repositories;
 
-use app\modules\TableSettings\domain\Models\AdminPanelEntityType;
-use app\modules\TableSettings\domain\Table;
+use app\modules\adminPanelSettings\domain\Models\AdminPanelEntityType;
+use app\modules\adminPanelSettings\domain\AdminPanel;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;
@@ -21,14 +21,14 @@ class TableSettingsRepository
         $this->em = new EntityManager($this->orm);
     }
 
-    public function findBy(int $userId): Table
+    public function findBy(int $userId): AdminPanel
     {
         return $this->orm
-            ->getRepository(Table::class)
+            ->getRepository(AdminPanel::class)
             ->findOne(['user_id' => $userId, 'type' => AdminPanelEntityType::Table]);
     }
 
-    public function save(Table $productList): void
+    public function save(AdminPanel $productList): void
     {
         try {
             $this->em->persist($productList);

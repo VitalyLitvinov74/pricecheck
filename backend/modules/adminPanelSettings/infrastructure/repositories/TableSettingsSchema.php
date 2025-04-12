@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\TableSettings\Infrastructure\repositories;
+namespace app\modules\adminPanelSettings\Infrastructure\repositories;
 
-use app\modules\TableSettings\domain\Models\ColumnSetting;
-use app\modules\TableSettings\domain\Models\PropertyTypeOfBusinessLogicEntity;
-use app\modules\TableSettings\domain\Models\SettingType;
-use app\modules\TableSettings\domain\Table;
+use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
+use app\modules\adminPanelSettings\domain\Models\ColumnOf;
+use app\modules\adminPanelSettings\domain\Models\SettingType;
+use app\modules\adminPanelSettings\domain\AdminPanel;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
@@ -17,7 +17,7 @@ trait TableSettingsSchema
         return new Schema([
 
             'product_list' => [
-                Schema::ENTITY => Table::class,
+                Schema::ENTITY => AdminPanel::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::TABLE => 'admin_panel_entities',
                 Schema::PRIMARY_KEY => 'id',
@@ -59,7 +59,7 @@ trait TableSettingsSchema
                     'columnSettingType' => SettingType::class,
                     'value' => 'int',
                     'propertyOfBusinessLogicEntityId' => 'int',
-                    'propertyTypeOfBusinessLogicEntity' => PropertyTypeOfBusinessLogicEntity::class,
+                    'propertyTypeOfBusinessLogicEntity' => ColumnOf::class,
                 ]
             ]
         ]);
