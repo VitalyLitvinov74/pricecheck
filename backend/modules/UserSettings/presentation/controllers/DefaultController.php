@@ -9,9 +9,9 @@ use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
 use app\modules\UserSettings\domain\Models\AdminPanelEntityType;
 use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\infrastructure\records\AdminPanelColumnsSettingsRecord;
+use app\modules\UserSettings\infrastructure\records\AdminPanelEntitiesRecord;
 use app\modules\UserSettings\presentation\forms\ColumnForm;
-use app\modules\UserSettings\presentation\records\AdminPanelColumnsSettingsRecord;
-use app\modules\UserSettings\presentation\records\AdminPanelEntitiesRecord;
 use app\records\pg\PropertyRecord;
 use Yii;
 

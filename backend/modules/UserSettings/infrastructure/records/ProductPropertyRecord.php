@@ -1,8 +1,7 @@
 <?php
 
-namespace app\modules\UserSettings\presentation\records;
+namespace app\modules\UserSettings\infrastructure\records;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 class ProductPropertyRecord extends ActiveRecord
