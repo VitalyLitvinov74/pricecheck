@@ -9,8 +9,7 @@ use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
 use app\modules\UserSettings\domain\Models\ColumnOf;
 use app\modules\UserSettings\domain\Models\EntityType;
-use app\modules\UserSettings\infrastructure\records\AdminPanelColumnsSettingsRecord;
-use app\modules\UserSettings\infrastructure\records\AdminPanelEntitiesRecord;
+use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\infrastructure\records\ProductPropertyRecord;
 use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
 use app\modules\UserSettings\presentation\forms\ColumnForm;
@@ -19,8 +18,6 @@ use Yii;
 
 class DefaultController extends BaseApiController
 {
-    use DefaultSettingsTrait;
-
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
     private DisattachSettingAction $disAttachSettingAction;
@@ -99,10 +96,25 @@ class DefaultController extends BaseApiController
             ->asArray()
             ->all();
         return $this->jsonApi
-            ->addBody(
-                $this->addDefaultSettingsToProductProperties($properties)
-            )
+            ->addBody($properties)
             ->asArray();
+    }
+
+    public function actionDefaultSettings(): array
+    {
+        return $this->jsonApi
+            ->addBody([
+                [
+                    'type' => SettingType::IsEnabled->value,
+                    'value' => 1,
+                    'entity_type' => EntityType::ProductProperty->value
+                ],
+                [
+                    'type' => SettingType::ColumnNumber->value,
+                    'value' => 1,
+                    'entity_type' => EntityType::ProductProperty->value
+                ]
+            ])->asArray();
     }
 
     public function actionUpdateView(): array
