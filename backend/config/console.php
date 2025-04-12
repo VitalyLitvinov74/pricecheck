@@ -14,7 +14,7 @@ $config = [
             'class' => MigrateController::class,
             'migrationNamespaces' => [
                 'app\migrations\elastic',
-                'app\modules\adminPanelSettings\infrastructure\migrations',
+                'app\modules\UserSettings\infrastructure\migrations',
             ],
         ],
     ],

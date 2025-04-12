@@ -13,11 +13,17 @@ class m250412_133908_add_table extends Migration
     {
         $this->createTable('user_settings', [
             'id' => $this->primaryKey(),
-            'user_id'=>$this->integer()->notNull()->defaultValue(1),
+            'user_id' => $this->integer()->notNull()->defaultValue(1),
             'type' => $this->integer()->notNull(),
             'value' => $this->string(),
             'entity_id' => $this->integer()->notNull(),
         ]);
+        $schema = $this->db->schema->getTableSchema('user');
+        if (!$schema) {
+            $this->createTable('user', [
+                'id' => $this->primaryKey(),
+            ]);
+        }
     }
 
     /**

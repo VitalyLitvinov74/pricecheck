@@ -58,9 +58,9 @@ $config = [
         'product' => [
             'class' => ProductModule::class,
         ],
-        'admin-panel-settings' => [
+        'user-settings' => [
             'class' => UserSettingsModule::class,
-            'controllerNamespace' => 'app\modules\adminPanelSettings\presentation\controllers',
+            'controllerNamespace' => 'app\modules\UserSettings\presentation\controllers',
         ]
     ],
     'params' => $params,
