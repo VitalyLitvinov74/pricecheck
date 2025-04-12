@@ -5,7 +5,7 @@ namespace app\modules\adminPanelSettings\domain;
 use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AdminPanel
+class User
 {
     private int $id;
 

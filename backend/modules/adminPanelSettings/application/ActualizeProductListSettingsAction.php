@@ -5,16 +5,16 @@ namespace app\modules\adminPanelSettings\application;
 use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
 use app\modules\adminPanelSettings\domain\Models\ColumnOf;
 use app\modules\adminPanelSettings\domain\Models\SettingType;
-use app\modules\adminPanelSettings\infrastructure\repositories\TableSettingsRepository;
+use app\modules\adminPanelSettings\infrastructure\repositories\AdminPanelRepository;
 
 class ActualizeProductListSettingsAction
 {
 
-    private TableSettingsRepository $repository;
+    private AdminPanelRepository $repository;
 
     public function __construct()
     {
-        $this->repository = new TableSettingsRepository();
+        $this->repository = new AdminPanelRepository();
     }
 
     /**

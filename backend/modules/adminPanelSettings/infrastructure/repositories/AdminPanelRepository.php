@@ -3,14 +3,14 @@
 namespace app\modules\adminPanelSettings\infrastructure\repositories;
 
 use app\modules\adminPanelSettings\domain\Models\AdminPanelEntityType;
-use app\modules\adminPanelSettings\domain\AdminPanel;
+use app\modules\adminPanelSettings\domain\User;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Yii;
 
-class TableSettingsRepository
+class AdminPanelRepository
 {
-    use TableSettingsSchema;
+    use AdminPanelSchema;
 
     private ORM $orm;
     private EntityManager $em;
@@ -21,14 +21,14 @@ class TableSettingsRepository
         $this->em = new EntityManager($this->orm);
     }
 
-    public function findBy(int $userId): AdminPanel
+    public function findBy(int $userId): User
     {
         return $this->orm
-            ->getRepository(AdminPanel::class)
+            ->getRepository(User::class)
             ->findOne(['user_id' => $userId, 'type' => AdminPanelEntityType::Table]);
     }
 
-    public function save(AdminPanel $productList): void
+    public function save(User $productList): void
     {
         try {
             $this->em->persist($productList);

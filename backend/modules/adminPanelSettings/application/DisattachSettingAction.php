@@ -2,12 +2,12 @@
 
 namespace app\modules\adminPanelSettings\application;
 
-use app\modules\adminPanelSettings\Infrastructure\repositories\TableSettingsRepository;
+use app\modules\adminPanelSettings\Infrastructure\repositories\AdminPanelRepository;
 
 class DisattachSettingAction
 {
     public function __construct(
-        private TableSettingsRepository $repository = new TableSettingsRepository()
+        private AdminPanelRepository $repository = new AdminPanelRepository()
     )
     {
     }

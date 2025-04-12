@@ -4,6 +4,6 @@ namespace app\modules\adminPanelSettings;
 
 use yii\base\Module;
 
-class AdminTableSettingsModule extends Module
+class AdminPanelSettingsModule extends Module
 {
 }

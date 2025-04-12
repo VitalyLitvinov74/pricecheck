@@ -5,19 +5,19 @@ namespace app\modules\adminPanelSettings\Infrastructure\repositories;
 use app\modules\adminPanelSettings\domain\Models\ColumnSetting;
 use app\modules\adminPanelSettings\domain\Models\ColumnOf;
 use app\modules\adminPanelSettings\domain\Models\SettingType;
-use app\modules\adminPanelSettings\domain\AdminPanel;
+use app\modules\adminPanelSettings\domain\User;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
 
-trait TableSettingsSchema
+trait AdminPanelSchema
 {
     public function schema(): Schema
     {
         return new Schema([
 
             'product_list' => [
-                Schema::ENTITY => AdminPanel::class,
+                Schema::ENTITY => User::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::TABLE => 'admin_panel_entities',
                 Schema::PRIMARY_KEY => 'id',
