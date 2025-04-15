@@ -1,5 +1,3 @@
-
-
 export type Property = {
     id: bigint,
     name: string,
@@ -29,40 +27,12 @@ export enum ColumnSettingType {
 export type ProductProperty = {
     id: bigint,
     name: string,
-    type: string,
+    type: string
 }
 
-export type Column = {
-    id: bigint,
-    name: string,
-    settings: ColumnSetting[],
-}
-
-export type ColumnSetting = {
-    id: bigint | undefined,
-    type: number,
-    value: number,
+export type UserSetting = {
+    id?: number | undefined
+    type: number
+    value: string
     frontendId?: string
 }
-
-export enum PropertyTypeOfEntity {
-    ProductProperty = 1
-}
-
-export type AdminPanelElement = {
-    id: bigint,
-    user_id: bigint,
-    type: bigint,
-    columnsSettings?: AdminPanelColumnSetting[]
-}
-
-export type AdminPanelColumnSetting = {
-    id: bigint | undefined,
-    column_setting_type: ColumnSettingType,
-    value: any,
-    property_of_business_logic_entity_id: bigint,
-    admin_panel_entity_id: bigint | undefined,
-    property_type_of_business_logic_entity: PropertyTypeOfEntity,
-    frontend_id?: string
-}
-

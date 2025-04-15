@@ -51,33 +51,14 @@ class DefaultController extends BaseApiController
 //            ->asArray();
 //    }
 
-    public function actionIndex(int $propertyTypeOfBusinessLogicEntity): array
+    public function actionIndex(): array
     {
-        $subQuery =
-            AdminPanelEntitiesRecord::find()
-                ->where(['type' => EntityType::Table])
-                ->andWhere(['user_id' => 1]);
 
-        if ($propertyTypeOfBusinessLogicEntity === ColumnOf::Product->value) {
-            $query = AdminPanelColumnsSettingsRecord::find()
-                ->where(['admin_panel_entity_id' => $subQuery->select(['id'])]);
-        }
-
-
-        $settings = $query->asArray()->all();
+        $settings = UserSettingsRecord::find()
+            ->where(['user_id' => 1])
+            ->asArray()
+            ->all();
         return $this->jsonApi->addBody($settings)->asArray();
-    }
-
-    public function actionColumnsList(int $columnsForEntities): array
-    {
-        $query = match ($columnsForEntities) {
-            ColumnOf::Product->value => PropertyRecord::find()
-                ->where(['product_template_id' => 1])
-                ->with(['tableSettings'])
-        };
-        $columnsList = $query->asArray()->all();
-        return $this->jsonApi->addBody($columnsList)->setupCode(200)->asArray();
-
     }
 
     public function actionForProductsTable(): array
@@ -98,23 +79,6 @@ class DefaultController extends BaseApiController
         return $this->jsonApi
             ->addBody($properties)
             ->asArray();
-    }
-
-    public function actionDefaultSettings(): array
-    {
-        return $this->jsonApi
-            ->addBody([
-                [
-                    'type' => SettingType::IsEnabled->value,
-                    'value' => 1,
-                    'entity_type' => EntityType::ProductProperty->value
-                ],
-                [
-                    'type' => SettingType::ColumnNumber->value,
-                    'value' => 1,
-                    'entity_type' => EntityType::ProductProperty->value
-                ]
-            ])->asArray();
     }
 
     public function actionUpdateView(): array
