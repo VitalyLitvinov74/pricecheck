@@ -10,7 +10,6 @@ export default async function Page(){
     const productProperties = await loadProperties();
     return (
         <ProductsTableSettings
-            productColumnsSettings={columnsSettings}
             productProperties={productProperties
         }/>
     );

@@ -1,13 +1,18 @@
 "use client"
 
 import React from "react";
-import {AdminPanelColumnSetting, SettingType, ProductProperty,} from "../../../shared/types";
+import {EntityType, GroupedByPropertySettings, ProductProperty, SettingType, UserSetting,} from "../../../shared/types";
 import {Row} from "./Row";
+import {useUserContext} from "../../../shared/user-context/UserContext";
+import {uuid} from "../../../shared/helpers";
 
-export function ProductsTableSettings({productColumnsSettings, productProperties}: {
-    productColumnsSettings: AdminPanelColumnSetting[],
+export function ProductsTableSettings({productProperties}: {
     productProperties: ProductProperty[]
 }) {
+
+
+
+
     // const [productProperties, setProductProperties] = useState(existedColumns)
 
     // function removeOnBackend(itemForRemove: TableSetting) {
@@ -163,7 +168,6 @@ export function ProductsTableSettings({productColumnsSettings, productProperties
                                         function (productProperty: ProductProperty) {
                                             return (<tr key={productProperty.id}>
                                                 <Row productProperty={productProperty}
-                                                     productColumnsSettings={productColumnsSettings}
                                                      headerColumns={columnsSettings()}
                                                 />
                                             </tr>)

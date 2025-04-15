@@ -1,7 +1,8 @@
-import {Column, ColumnSetting} from "../types";
+import {ProductProperty} from "../types";
+import {uuid} from "../helpers";
 
 
-export async function loadProducts(queryString?:string) {
+export async function loadProducts(queryString?: string) {
     const url = `${process.env.URL}/product/index?${queryString}`;
     const data = await fetch(url, {
         next: {
@@ -21,27 +22,16 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export const loadColumns = async function (): Promise<Column[]> {
-    const url = `${process.env.URL}/table-settings/default/list-settings`;
-    const data = await fetch(url, {
-        next: {
-            revalidate: 0
-        }
-    })
-    console.log(url)
-    return await data.json();
-}
-
-export async function loadProperties(){
-    const url = `${process.env.URL}/properties/list`;
+export async function loadProperties(): Promise<ProductProperty[]> {
+    const url = `${process.env.URL}/product-module/available-properties`;
     const result = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
-    console.log(result)
-    const data = await result.json();
-    console.log(data)
-
-    return data;
+    const data: ProductProperty[] = await result.json();
+    return data.map(function (property) {
+        property.frontendId = uuid()
+        return property
+    });
 }

@@ -1,21 +1,21 @@
 export type Property = {
-    id: bigint,
+    id: number,
     name: string,
     type: string
 }
 
 export type ParsingSchemaProperty = {
-    "id": bigint,
-    "schema_id": bigint,
-    "property_id": bigint,
+    "id": number,
+    "schema_id": number,
+    "property_id": number,
     "external_column_name": string,
     "property": Property
 }
 
 export type ParsingSchema = {
-    "id": bigint,
+    "id": number,
     "name": string,
-    "start_with_row_num": bigint,
+    "start_with_row_num": number,
     "parsingSchemaProperties": ParsingSchemaProperty[]
 }
 
@@ -29,16 +29,18 @@ export enum EntityType {
 }
 
 export type ProductProperty = {
-    id: bigint,
+    id?: number,
     name: string,
-    type: string
+    type: string,
+    frontendId: string
 }
 
 export type UserSetting = {
     id?: number | undefined
     type: number
     value: string
-    frontendId?: string
-    entity_id: number
+    frontendId: string
+    entity_id?: number|undefined
     entity_type: EntityType
+    entityFrontendId: string
 }

@@ -9,6 +9,7 @@ export async function loadUserSettings(): Promise<UserSetting[]> {
     })
     const settings: UserSetting[] = await result.json();
     return settings.map(function(setting){
+        setting.entityFrontendId = uuid()
         setting.frontendId = uuid()
         return setting
     })
