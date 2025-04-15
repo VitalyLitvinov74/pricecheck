@@ -3,6 +3,13 @@ import Link from "next/link";
 import Breadcrumbs from "../src/widgets/breadcrumbs/ui/breadcrumbs";
 import {UserContext} from "../src/shared/user-context/UserContext";
 import {loadUserSettings} from "./api";
+import "../public/assets/plugins/select2/select2.min.css"
+import "../public/assets/plugins/switchery/switchery.min.css"
+import "../public/assets/plugins/dropzone/dist/dropzone.css"
+import "../public/assets/css/bootstrap.min.css"
+import "../public/assets/css/icons.css"
+import "../public/assets/css/flag-icon.min.css"
+import "../public/assets/css/style.css"
 
 export const metadata: Metadata = {};
 
@@ -14,18 +21,8 @@ export default async function RootLayout({children,}: {
 
     return (
         <html lang="ru">
-        <head>
-            <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
-            <link href="/assets/plugins/switchery/switchery.min.css" rel="stylesheet"/>
-            <link href="/assets/plugins/dropzone/dist/dropzone.css" rel="stylesheet"/>
-            <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
-            <link href="/assets/css/icons.css" rel="stylesheet"/>
-            <link href="/assets/css/flag-icon.min.css" rel="stylesheet"/>
-            <link href="/assets/css/style.css" rel="stylesheet"/>
-        </head>
         <UserContext settings={userSettings}>
             <body className="horizontal-layout">
-
             <div id="containerbar" className="container-fluid">
                 <div className="rightbar">
 

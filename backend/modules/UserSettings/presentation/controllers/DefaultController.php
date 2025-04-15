@@ -61,26 +61,6 @@ class DefaultController extends BaseApiController
         return $this->jsonApi->addBody($settings)->asArray();
     }
 
-    public function actionForProductsTable(): array
-    {
-        $properties = ProductPropertyRecord::find()
-            ->select([
-                'id',
-                'name'
-            ])
-            ->with([
-                'userSettings' => function () {
-                    return UserSettingsRecord::find()
-                        ->where(['user_id' => 1]);
-                }
-            ])
-            ->asArray()
-            ->all();
-        return $this->jsonApi
-            ->addBody($properties)
-            ->asArray();
-    }
-
     public function actionUpdateView(): array
     {
         $form = new ProductsTableSettingsForm();

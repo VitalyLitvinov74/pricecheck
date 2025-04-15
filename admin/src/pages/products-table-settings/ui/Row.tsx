@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {AdminPanelColumnSetting, ColumnSettingType, ProductProperty, PropertyTypeOfEntity} from "../../../shared/types";
+import {AdminPanelColumnSetting, SettingType, ProductProperty, PropertyTypeOfEntity} from "../../../shared/types";
 import {EditableButton} from "./buttons/EditableButton";
 import {uuid} from "../../../shared/helpers";
 import {CancelButton} from "./buttons/CancelButton";
@@ -11,7 +11,7 @@ export function Row({
                     }: {
     productColumnsSettings: AdminPanelColumnSetting[],
     productProperty: ProductProperty,
-    headerColumns: { type: ColumnSettingType, word: string }[]
+    headerColumns: { type: SettingType, word: string }[]
 }) {
    const [fullProductColumnsSettings, setFullProductColumnsSettings] = useState(
        headerColumns.map(function (headerColumn) {
@@ -28,13 +28,13 @@ export function Row({
     const [isEditing, setIsEditing] = useState<Boolean>(false)
 
 
-    function createSetting(property: ProductProperty, type: ColumnSettingType): AdminPanelColumnSetting {
+    function createSetting(property: ProductProperty, type: SettingType): AdminPanelColumnSetting {
         let value;
         switch (type) {
-            case ColumnSettingType.IsEnabled:
+            case SettingType.IsEnabled:
                 value = 0;
                 break;
-            case ColumnSettingType.ColumnNumber:
+            case SettingType.ColumnNumber:
                 value = 99;
                 break;
         }

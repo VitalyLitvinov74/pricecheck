@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import {AdminPanelColumnSetting, ColumnSettingType, ProductProperty,} from "../../../shared/types";
+import {AdminPanelColumnSetting, SettingType, ProductProperty,} from "../../../shared/types";
 import {Row} from "./Row";
 
 export function ProductsTableSettings({productColumnsSettings, productProperties}: {
@@ -120,21 +120,21 @@ export function ProductsTableSettings({productColumnsSettings, productProperties
     //     setTableSettings(list);
     // }
 
-    function columnsSettings(): { type: ColumnSettingType, word: string }[] {
-        return Object.values(ColumnSettingType)
+    function columnsSettings(): { type: SettingType, word: string }[] {
+        return Object.values(SettingType)
             .filter(function (settingType) {
                 return typeof settingType !== "string"
             })
-            .map(function (settingType: ColumnSettingType) {
+            .map(function (settingType: SettingType) {
                 switch (settingType) {
-                    case ColumnSettingType.ColumnNumber:
+                    case SettingType.ColumnNumber:
                         return {
-                            type: ColumnSettingType.ColumnNumber,
+                            type: SettingType.ColumnNumber,
                             word: "Номер колонки"
                         };
-                    case ColumnSettingType.IsEnabled:
+                    case SettingType.IsEnabled:
                         return {
-                            type: ColumnSettingType.IsEnabled,
+                            type: SettingType.IsEnabled,
                             word: "Включено"
                         }
                 }

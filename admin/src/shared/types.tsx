@@ -19,9 +19,13 @@ export type ParsingSchema = {
     "parsingSchemaProperties": ParsingSchemaProperty[]
 }
 
-export enum ColumnSettingType {
+export enum SettingType {
     IsEnabled = 2,
     ColumnNumber = 1,
+}
+
+export enum EntityType {
+    ProductProperty = 1
 }
 
 export type ProductProperty = {
@@ -35,4 +39,6 @@ export type UserSetting = {
     type: number
     value: string
     frontendId?: string
+    entity_id: number
+    entity_type: EntityType
 }
