@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {EntityType, ProductProperty, SettingType, UserSetting} from "../../../shared/types";
+import {EntityType,  SettingType, UserSettingPayload} from "../../../shared/types";
 import {EditableButton} from "./buttons/EditableButton";
 import {uuid} from "../../../shared/helpers";
 import {useUserContext} from "../../../shared/user-context/UserContext";
+import {ProductProperty} from "../../../models/ProductProperty";
 
 export function Row({
                         productProperty,
@@ -12,10 +13,10 @@ export function Row({
     headerColumns: { type: SettingType, word: string }[]
 }) {
     const user = useUserContext();
-    const [settings, setSettings] = useState<UserSetting[]>(user.settings)
+    const [settings, setSettings] = useState<UserSettingPayload[]>(user.settings)
 
-    function settingByType(settingType: SettingType): UserSetting {
-        const setting1: UserSetting = {
+    function settingByType(settingType: SettingType): UserSettingPayload {
+        const setting1: UserSettingPayload = {
             entityFrontendId: productProperty.frontendId,
             entity_type: EntityType.ProductProperty,
             frontendId: uuid(),
@@ -23,7 +24,7 @@ export function Row({
             type: SettingType.ColumnNumber,
             value: '99'
         }
-        const setting2: UserSetting = {
+        const setting2: UserSettingPayload = {
             entity_id: productProperty.id,
             entityFrontendId: productProperty.frontendId,
             entity_type: EntityType.ProductProperty,
@@ -49,7 +50,7 @@ export function Row({
 
     const [isEditing, setIsEditing] = useState<Boolean>(false)
 
-    function setSetting(setting: UserSetting, newValue) {
+    function setSetting(setting: UserSettingPayload, newValue) {
         //не работает с дефольными полями
         const newSettings = settings.map(function (existedSetting) {
             if (existedSetting.frontendId === setting.frontendId) {

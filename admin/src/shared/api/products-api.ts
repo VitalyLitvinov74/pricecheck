@@ -1,5 +1,7 @@
-import {ProductProperty} from "../types";
+
 import {uuid} from "../helpers";
+import {ProductProperty} from "../../models/ProductProperty";
+import {ProductPropertyPayload} from "../types";
 
 
 export async function loadProducts(queryString?: string) {
@@ -22,16 +24,12 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export async function loadProperties(): Promise<ProductProperty[]> {
+export async function loadProperties(): Promise<ProductPropertyPayload[]> {
     const url = `${process.env.URL}/product-module/available-properties`;
     const result = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
-    const data: ProductProperty[] = await result.json();
-    return data.map(function (property) {
-        property.frontendId = uuid()
-        return property
-    });
+    return await result.json();
 }

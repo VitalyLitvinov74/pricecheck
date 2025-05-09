@@ -1,11 +1,12 @@
 "use client"
 
 import {createContext, useContext, useState} from "react";
-import {UserSetting} from "../types";
+import {UserSettingPayload} from "../types";
+import {UserSetting} from "../../models/UserSetting";
 
 const context = createContext<{
-    settings: UserSetting[],
-    setSettings: (settings: UserSetting[]) => void
+    settings: UserSettingPayload[],
+    setSettings: (settings: UserSettingPayload[]) => void
 }>({
     settings: [],
     setSettings: () => {

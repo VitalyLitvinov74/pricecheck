@@ -1,17 +1,16 @@
 "use client"
 
 import React from "react";
-import {EntityType, GroupedByPropertySettings, ProductProperty, SettingType, UserSetting,} from "../../../shared/types";
+import {EntityType, ProductPropertyPayload, SettingType, UserSettingPayload,} from "../../../shared/types";
 import {Row} from "./Row";
-import {useUserContext} from "../../../shared/user-context/UserContext";
-import {uuid} from "../../../shared/helpers";
+import {ProductProperty} from "../../../models/ProductProperty";
 
 export function ProductsTableSettings({productProperties}: {
-    productProperties: ProductProperty[]
+    productProperties: ProductPropertyPayload[]
 }) {
-
-
-
+    productProperties = productProperties.map(function (item) {
+        return new ProductProperty(item)
+    })
 
     // const [productProperties, setProductProperties] = useState(existedColumns)
 

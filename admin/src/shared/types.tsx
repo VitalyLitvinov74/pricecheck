@@ -28,14 +28,13 @@ export enum EntityType {
     ProductProperty = 1
 }
 
-export type ProductProperty = {
+export type ProductPropertyPayload = {
     id?: number,
     name: string,
     type: string,
-    frontendId: string
 }
 
-export type UserSetting = {
+export type UserSettingPayload = {
     id?: number | undefined
     type: number
     value: string
