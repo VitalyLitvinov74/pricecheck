@@ -2,19 +2,16 @@
 
 namespace app\modules\UserSettings\application;
 
-use app\modules\UserSettings\domain\Models\Setting;
 use app\modules\UserSettings\domain\Models\ColumnOf;
+use app\modules\UserSettings\domain\Models\Setting;
+use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\infrastructure\repositories\UserRepository;
 
-class ActualizeProductListSettingsAction
+class SettingsService
 {
-
-    private UserRepository $repository;
-
-    public function __construct()
+    public function __construct(private UserRepository $repository = new UserRepository())
     {
-        $this->repository = new UserRepository();
     }
 
     /**
@@ -23,19 +20,17 @@ class ActualizeProductListSettingsAction
      * @return void
      * @throws \Exception
      */
-    public function __invoke(): void
-    {
+    public function upsertUserSettings(int $userId, array $settingsDTOs): void{
         $user = $this->repository->findBy($userId);
-        $settings = [];
         foreach ($settingsDTOs as $DTO){
             $setting = new Setting(
-                $DTO->value,
+                $DTO->intValue,
+                $DTO->stringValue,
                 SettingType::from($DTO->type),
-                $DTO->propertyId,
-                ColumnOf::from($DTO->propertyTypeOfEntity)
+                $DTO->entityId,
+                EntityType::from($DTO->entityType)
             );
             $user->upsertSetting($setting);
-            $settings[] = $setting;
         }
         $this->repository->save($user);
     }

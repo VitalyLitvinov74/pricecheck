@@ -1,14 +1,14 @@
 import React from "react";
-import {Column} from "../../../../shared/types";
-import {upsertSettings} from "../../api/api-products-table-settings";
+import {commitUserSettings} from "../../api/api-products-table-settings";
+import {ProductProperty} from "../../../../models/ProductProperty";
 
-export function CommitButton({column, rowIsEditing, setIsEditingCallback}: {
-    column: Column,
+export function CommitButton({productProperty, rowIsEditing, setIsEditingCallback}: {
+    productProperty: ProductProperty,
     rowIsEditing: boolean,
     setIsEditingCallback: (isEditing: boolean) => void
 }) {
     async function commit() {
-        await upsertSettings(column)
+        await commitUserSettings(productProperty)
         setIsEditingCallback(false)
     }
 

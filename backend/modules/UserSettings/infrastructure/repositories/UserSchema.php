@@ -2,7 +2,7 @@
 
 namespace app\modules\UserSettings\Infrastructure\repositories;
 
-use app\modules\UserSettings\domain\Models\ColumnSetting;
+use app\modules\UserSettings\domain\Models\Setting;
 use app\modules\UserSettings\domain\Models\ColumnOf;
 use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\domain\User;
@@ -42,7 +42,7 @@ trait UserSchema
                 ]
             ],
             'settings' => [
-                Schema::ENTITY => ColumnSetting::class,
+                Schema::ENTITY => Setting::class,
                 Schema::MAPPER => Mapper::class,
                 Schema::TABLE => 'admin_panel_columns_settings',
                 Schema::PRIMARY_KEY => 'id',

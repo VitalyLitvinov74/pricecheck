@@ -1,16 +1,41 @@
 "use client"
 
-import React from "react";
-import {EntityType, ProductPropertyPayload, SettingType, UserSettingPayload,} from "../../../shared/types";
+import React, {useEffect, useState} from "react";
+import {EntityType, ProductPropertyPayload,} from "../../../shared/types";
 import {Row} from "./Row";
 import {ProductProperty} from "../../../models/ProductProperty";
+import {useUserContext} from "../../../shared/user-context/UserContext";
+import {UserSetting} from "../../../models/UserSetting";
+import {func} from "prop-types";
 
-export function ProductsTableSettings({productProperties}: {
-    productProperties: ProductPropertyPayload[]
+export function ProductsTableSettings({productPropertiesPayload}: {
+    productPropertiesPayload: ProductPropertyPayload[]
 }) {
-    productProperties = productProperties.map(function (item) {
-        return new ProductProperty(item)
-    })
+    const userSettings = useUserContext();
+    const [productProperties, setProductProperties] = useState(
+        productPropertiesPayload.map(function (item) {
+            return new ProductProperty({
+                ...item,
+                userSettings: userSettings.findByTypeAndEntityId(EntityType.ProductProperty, item.id)
+            })
+        })
+    )
+
+    useEffect(function(){
+        console.log(productProperties)
+    }, [])
+
+    function setProperty(property: ProductProperty): void {
+        // console.log(property.userSettings())
+        setProductProperties(productProperties
+            .map(function (item) {
+                if (item.frontendId === property.frontendId) {
+                    return property
+                }
+                return item
+            })
+        )
+    }
 
     // const [productProperties, setProductProperties] = useState(existedColumns)
 
@@ -124,25 +149,8 @@ export function ProductsTableSettings({productProperties}: {
     //     setTableSettings(list);
     // }
 
-    function columnsSettings(): { type: SettingType, word: string }[] {
-        return Object.values(SettingType)
-            .filter(function (settingType) {
-                return typeof settingType !== "string"
-            })
-            .map(function (settingType: SettingType) {
-                switch (settingType) {
-                    case SettingType.ColumnNumber:
-                        return {
-                            type: SettingType.ColumnNumber,
-                            word: "Номер колонки"
-                        };
-                    case SettingType.IsEnabled:
-                        return {
-                            type: SettingType.IsEnabled,
-                            word: "Включено"
-                        }
-                }
-            })
+    function settings(): UserSetting[] {
+        return productProperties[0].userSettings()
     }
 
     return (
@@ -156,8 +164,8 @@ export function ProductsTableSettings({productProperties}: {
                                     <thead>
                                     <tr>
                                         <th width="5%">Наименование колонки</th>
-                                        {columnsSettings().map(function (data) {
-                                            return <th key={data.type} width="5%">{data.word}</th>
+                                        {settings().map(function (data) {
+                                            return <th key={data.type} width="5%">{data.label()}</th>
                                         })}
                                         <th width="15%"></th>
                                     </tr>
@@ -165,9 +173,10 @@ export function ProductsTableSettings({productProperties}: {
                                     <tbody>
                                     {productProperties.map(
                                         function (productProperty: ProductProperty) {
-                                            return (<tr key={productProperty.id}>
-                                                <Row productProperty={productProperty}
-                                                     headerColumns={columnsSettings()}
+                                            return (<tr key={productProperty.frontendId}>
+                                                <Row
+                                                    productProperty={productProperty}
+                                                    setProductProperty={setProperty}
                                                 />
                                             </tr>)
                                         })

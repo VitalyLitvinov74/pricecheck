@@ -7,10 +7,12 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
+use app\modules\UserSettings\application\SettingsService;
 use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\Models\SettingType;
+use app\modules\UserSettings\domain\User;
 use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
-use app\modules\UserSettings\presentation\forms\ColumnForm;
+use app\modules\UserSettings\presentation\forms\UserSettingsForm;
 use Yii;
 
 class DefaultController extends BaseApiController
@@ -18,6 +20,7 @@ class DefaultController extends BaseApiController
     private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
     private UpsertSettingAction $upsertSettingsAction;
     private DisattachSettingAction $disAttachSettingAction;
+    private SettingsService $settingsService;
 
     public function init(): void
     {
@@ -25,6 +28,7 @@ class DefaultController extends BaseApiController
         $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
         $this->upsertSettingsAction = new UpsertSettingAction();
         $this->disAttachSettingAction = new DisattachSettingAction();
+        $this->settingsService = new SettingsService();
     }
 
     public function actionUpdate()
@@ -35,6 +39,15 @@ class DefaultController extends BaseApiController
     public function actionIndex(): array
     {
         $settings = UserSettingsRecord::find()
+            ->select([
+                'entityId' => 'entity_id',
+                'entityType' => 'entity_type',
+                'type',
+                'id',
+                'intValue' => 'int_value',
+                'stringValue' => 'string_value',
+                'userId' => 'user_id'
+            ])
             ->where(['user_id' => 1])
             ->asArray()
             ->all();
@@ -61,26 +74,12 @@ class DefaultController extends BaseApiController
             ->asArray();
     }
 
-    public function actionUpdateView(): array
+    public function actionUpsertSettings(): array
     {
-        $form = new ProductsTableSettingsForm();
+        $form = new UserSettingsForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
-            $this->actualizeProductListSettingsAction->__invoke(
-                1,
-                $form->settingsDTOs()
-            );
-            return $this->jsonApi->setupCode(204)->asArray();
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionUpsertColumnSettings(): array
-    {
-        $form = new ColumnForm();
-        $form->load(Yii::$app->request->post());
-        if ($form->validate()) {
-            $this->upsertSettingsAction->__invoke(
+            $this->settingsService->upsertUserSettings(
                 1,
                 $form->settingsDTOs()
             );
@@ -102,20 +101,20 @@ class DefaultController extends BaseApiController
     {
         return [
             [
-                'user_id' => Yii::$app->user->id,
+                'userId' => Yii::$app->user->id,
                 'type' => SettingType::IsEnabled->value,
-                'string_value' => '',
-                'int_value' => 1,
-                'entity_id' => 0,
-                'entity_type' => EntityType::ProductProperty->value
+                'stringValue' => '',
+                'intValue' => 1,
+                'entityId' => null,
+                'entityType' => EntityType::ProductProperty->value
             ],
             [
-                'user_id' => Yii::$app->user->id,
+                'userId' => Yii::$app->user->id,
                 'type' => SettingType::ColumnNumber->value,
-                'string_value' => '',
-                'int_value' => 99,
-                'entity_id' => 0,
-                'entity_type' => EntityType::ProductProperty->value
+                'stringValue' => '',
+                'intValue' => 99,
+                'entityId' => null,
+                'entityType' => EntityType::ProductProperty->value
             ],
         ];
     }

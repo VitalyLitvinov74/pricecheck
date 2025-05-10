@@ -2,7 +2,7 @@
 
 namespace app\modules\UserSettings\application;
 
-use app\modules\UserSettings\domain\Models\ColumnSetting;
+use app\modules\UserSettings\domain\Models\Setting;
 use app\modules\UserSettings\domain\Models\ColumnOf;
 use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\Infrastructure\repositories\UserRepository;
@@ -24,7 +24,7 @@ class UpsertSettingAction
         $productList = $this->repository->findBy($userId);
         foreach ($DTOs as $DTO) {
             $productList->upsertSetting(
-                new ColumnSetting(
+                new Setting(
                     $DTO->value,
                     SettingType::from($DTO->type),
                     $DTO->propertyId,

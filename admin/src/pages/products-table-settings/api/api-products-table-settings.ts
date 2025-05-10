@@ -1,10 +1,11 @@
 import {Column} from "../../../shared/types";
+import {ProductProperty} from "../../../models/ProductProperty";
 
 export function removeSetting(){
 
 }
 
-export async function upsertSettings(column: Column): Promise<Column>{
+export async function commitUserSettings(productProperty: ProductProperty): Promise<void>{
     const payload = {
         relatedId: column.relatedId,
         settings: column.settings.map(function (s){
@@ -15,7 +16,7 @@ export async function upsertSettings(column: Column): Promise<Column>{
             }
         })
     };
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/product-table-settings/default/upsert-column-settings`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/user-settings/upsert`;
     const data = await fetch(url, {
         body: JSON.stringify(payload),
         method: "post",

@@ -8,7 +8,7 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
-use app\modules\UserSettings\Presentation\Forms\ColumnForm;
+use app\modules\UserSettings\Presentation\Forms\UserSettingsForm;
 use Yii;
 
 class ListController extends BaseApiController
@@ -46,23 +46,9 @@ class ListController extends BaseApiController
             ->asArray();
     }
 
-    public function actionUpdateView(): array
-    {
-        $form = new ProductsTableSettingsForm();
-        $form->load(Yii::$app->request->post());
-        if ($form->validate()) {
-            $this->actualizeProductListSettingsAction->__invoke(
-                1,
-                $form->settingsDTOs()
-            );
-            return $this->jsonApi->setupCode(204)->asArray();
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
     public function acitionUpsertColumnSettings(): array
     {
-        $form = new ColumnForm();
+        $form = new UserSettingsForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
             $this->upsertSettingsAction->__invoke(

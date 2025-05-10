@@ -3,7 +3,7 @@
 namespace app\forms;
 
 use app\modules\UserSettings\application\SettingDTO;
-use app\modules\UserSettings\presentation\forms\ColumnSettingForm;
+use app\modules\UserSettings\presentation\forms\SettingForm;
 use yii\base\Model;
 
 class ProductsTableSettingsForm extends Model
@@ -24,7 +24,7 @@ class ProductsTableSettingsForm extends Model
     function validateSettings($attribute, $params)
     {
         foreach ($this->settings as $key => $setting) {
-            $form = new ColumnSettingForm();
+            $form = new SettingForm();
             $form->load($setting);
             if ($form->validate() === false) {
                 $this->addError("settings[$key]", $form->getErrors());

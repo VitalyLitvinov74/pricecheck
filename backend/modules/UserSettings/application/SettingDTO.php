@@ -5,10 +5,12 @@ namespace app\modules\UserSettings\application;
 class SettingDTO
 {
     public function __construct(
-        public int $propertyId,
+        public int $id,
         public int $type,
-        public int $value,
-        public int $propertyTypeOfEntity
+        public int $intValue,
+        public string $stringValue,
+        public int $entityType,
+        public int $entityId
     )
     {
     }
