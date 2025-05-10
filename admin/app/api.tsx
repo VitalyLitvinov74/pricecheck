@@ -7,10 +7,5 @@ export async function loadUserSettings(): Promise<UserSettingPayload[]> {
             revalidate: 0
         }
     })
-    const settings: UserSettingPayload[] = await result.json();
-    return settings.map(function(setting){
-        setting.entityFrontendId = uuid()
-        setting.frontendId = uuid()
-        return setting
-    })
+    return await result.json();
 }

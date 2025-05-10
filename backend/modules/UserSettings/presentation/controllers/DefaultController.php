@@ -7,13 +7,9 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
-use app\modules\UserSettings\domain\Models\ColumnOf;
-use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\Models\SettingType;
-use app\modules\UserSettings\infrastructure\records\ProductPropertyRecord;
 use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
 use app\modules\UserSettings\presentation\forms\ColumnForm;
-use app\records\pg\PropertyRecord;
 use Yii;
 
 class DefaultController extends BaseApiController
@@ -87,5 +83,27 @@ class DefaultController extends BaseApiController
             return $this->jsonApi->setupCode(201)->asArray();
         }
         return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
+    }
+
+    public function actionDefaultSettings()
+    {
+        return $this->jsonApi
+            ->addBody([
+                'data' => [
+                    [
+                        'user_id' => Yii::$app->user->id,
+                        'type' => SettingType::IsEnabled->value,
+                        'string_value' => '',
+                        'int_value' => 1,
+                    ],
+                    [
+                        'user_id' => Yii::$app->user->id,
+                        'type' => SettingType::ColumnNumber->value,
+                        'string_value' => '',
+                        'int_value' => 99,
+                    ],
+                ]
+            ])
+            ->asArray();
     }
 }

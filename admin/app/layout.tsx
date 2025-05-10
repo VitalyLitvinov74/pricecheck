@@ -17,11 +17,11 @@ export const metadata: Metadata = {};
 export default async function RootLayout({children,}: {
     children: React.ReactNode
 }) {
-    const userSettings = await loadUserSettings();
+    const userSettingsPayload = await loadUserSettings();
 
     return (
         <html lang="ru">
-        <UserContext settings={userSettings}>
+        <UserContext settingsPayload={userSettingsPayload}>
             <body className="horizontal-layout">
             <div id="containerbar" className="container-fluid">
                 <div className="rightbar">

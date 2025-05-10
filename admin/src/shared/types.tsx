@@ -32,6 +32,7 @@ export type ProductPropertyPayload = {
     id?: number,
     name: string,
     type: string,
+    userSettingsPayload: UserSettingPayload[]
 }
 
 export type UserSettingPayload = {

@@ -5,25 +5,33 @@ import {UserSettingPayload} from "../types";
 import {UserSetting} from "../../models/UserSetting";
 
 const context = createContext<{
-    settings: UserSettingPayload[],
-    setSettings: (settings: UserSettingPayload[]) => void
+    settingsPayload: UserSettingPayload[],
+    setSettings: (settings: UserSetting[]) => void,
+    settings: UserSetting[],
 }>({
-    settings: [],
+    settingsPayload: [],
     setSettings: () => {
-    }
+    },
+    settings: [],
 });
 
-export function UserContext({children, settings}: {
+export function UserContext({children, settingsPayload}: {
     children: React.ReactNode,
-    settings: UserSetting[]
+    settingsPayload: UserSettingPayload[]
 }) {
-    const [inputtedSettings, setSettings] = useState(settings)
+    const [settings, setSettings] = useState(
+        settingsPayload.map(function (item) {
+            return new UserSetting(item)
+        })
+    )
+
     return (
         <context.Provider
             value={
                 {
-                    settings: inputtedSettings,
-                    setSettings: setSettings
+                    settingsPayload: settingsPayload,
+                    setSettings: setSettings,
+                    settings: settings
                 }
             }
         >

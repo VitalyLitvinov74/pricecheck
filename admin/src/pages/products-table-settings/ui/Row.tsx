@@ -4,6 +4,7 @@ import {EditableButton} from "./buttons/EditableButton";
 import {uuid} from "../../../shared/helpers";
 import {useUserContext} from "../../../shared/user-context/UserContext";
 import {ProductProperty} from "../../../models/ProductProperty";
+import {UserSetting} from "../../../models/UserSetting";
 
 export function Row({
                         productProperty,
@@ -13,7 +14,7 @@ export function Row({
     headerColumns: { type: SettingType, word: string }[]
 }) {
     const user = useUserContext();
-    const [settings, setSettings] = useState<UserSettingPayload[]>(user.settings)
+    const [settings, setSettings] = useState<UserSetting[]>(user.settings)
 
     function settingByType(settingType: SettingType): UserSettingPayload {
         const setting1: UserSettingPayload = {
