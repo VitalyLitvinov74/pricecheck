@@ -7,6 +7,7 @@ use app\forms\ProductsTableSettingsForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;
+use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
 use app\modules\UserSettings\presentation\forms\ColumnForm;
@@ -31,30 +32,33 @@ class DefaultController extends BaseApiController
 
     }
 
-//    public function actionIndex(): array
-//    {
-//        $searchForm = new ProductListSearchForm();
-//        $dataProvider = $searchForm->dataProvider(
-//            Yii::$app->request->get()
-//        );
-//        return $this->jsonApi
-//            ->addBody([
-//                'meta' => [
-//                    'page' => $dataProvider->getPagination()
-//                ],
-//                'data' => $dataProvider->getModels()
-//            ])
-//            ->asArray();
-//    }
-
     public function actionIndex(): array
     {
-
         $settings = UserSettingsRecord::find()
             ->where(['user_id' => 1])
             ->asArray()
             ->all();
-        return $this->jsonApi->addBody($settings)->asArray();
+
+        $defaultSettingsForMerge = [];
+
+        foreach ($this->defaultSettings() as $defaultSetting) {
+            $settingIsUse = false;
+            foreach ($settings as $setting) {
+                if ($defaultSetting['type'] == $setting['type']) {
+                    $settingIsUse = true;
+                    break;
+                }
+            }
+            if (!$settingIsUse) {
+                $defaultSettingsForMerge[] = $defaultSetting;
+            }
+        }
+
+        $settings = array_merge($settings, $defaultSettingsForMerge);
+
+        return $this->jsonApi
+            ->addBody($settings)
+            ->asArray();
     }
 
     public function actionUpdateView(): array
@@ -89,21 +93,30 @@ class DefaultController extends BaseApiController
     {
         return $this->jsonApi
             ->addBody([
-                'data' => [
-                    [
-                        'user_id' => Yii::$app->user->id,
-                        'type' => SettingType::IsEnabled->value,
-                        'string_value' => '',
-                        'int_value' => 1,
-                    ],
-                    [
-                        'user_id' => Yii::$app->user->id,
-                        'type' => SettingType::ColumnNumber->value,
-                        'string_value' => '',
-                        'int_value' => 99,
-                    ],
-                ]
+                'data' => $this->defaultSettings()
             ])
             ->asArray();
+    }
+
+    private function defaultSettings()
+    {
+        return [
+            [
+                'user_id' => Yii::$app->user->id,
+                'type' => SettingType::IsEnabled->value,
+                'string_value' => '',
+                'int_value' => 1,
+                'entity_id' => 0,
+                'entity_type' => EntityType::ProductProperty->value
+            ],
+            [
+                'user_id' => Yii::$app->user->id,
+                'type' => SettingType::ColumnNumber->value,
+                'string_value' => '',
+                'int_value' => 99,
+                'entity_id' => 0,
+                'entity_type' => EntityType::ProductProperty->value
+            ],
+        ];
     }
 }
