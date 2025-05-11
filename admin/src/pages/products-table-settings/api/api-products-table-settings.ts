@@ -15,7 +15,6 @@ export async function commitUserSettings(productProperty: ProductProperty): Prom
     const data = await fetch(url, {
         body: JSON.stringify(payload),
         method: "post",
-        mode: "no-cors",
         headers: {
             'content-type': "application/json"
         },

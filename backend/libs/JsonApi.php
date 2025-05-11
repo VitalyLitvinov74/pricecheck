@@ -40,26 +40,33 @@ class JsonApi
                 $nestedErrors,
             );
         }
+
+        $resultErrors = new ArrayCollection();
+        foreach ($this->errors as $source => $attributeErrors) {
+            foreach ($attributeErrors as $error){
+                $resultErrors->add([
+                    'detail' => $error,
+                    'source' => [
+                        'pointer' => $source
+                    ]
+                ]);
+            }
+        }
+        $this->errors = $resultErrors;
+
         return $this;
     }
 
     /**
-     * @param array $errors
      * @param string $prefix
-     * @return array преобразует многомерный массив в ассоциативный с ошибками.
+     * @param array $errors
+     * @return void преобразует многомерный массив в ассоциативный с ошибками.
      */
     function flattenErrors(string $prefix, array $errors):void
     {
         foreach ($errors as $key => $value) {
             if(is_array($value) && $this->isAssociative($value)){
-                $flatten = $this->flattenErrors($prefix, $value);
-                if($flatten === null){
-                    continue;
-                }
-                $this->errors->set(
-                    $prefix,
-                    $flatten
-                );
+                $this->flattenErrors($prefix, $value);
                 continue;
             }
 
@@ -92,7 +99,6 @@ class JsonApi
         } else {
             $this->setupCode($exception->getCode());
         }
-
         $this->addError($exception->getMessage());
         return $this;
     }
@@ -104,6 +110,7 @@ class JsonApi
         } catch (Exception $exception) {
             Yii::$app->response->setStatusCode(500);
         }
+        $this->code = $code;
         return $this;
     }
 
@@ -115,7 +122,9 @@ class JsonApi
         if ($this->code === 200) {
             $this->setupCode(422);
         }
-        return $this->errors->toArray();
+        return [
+            'errors' => $this->errors->toArray(),
+        ];
     }
 
     public function addBody(array|null $body): self

@@ -17,6 +17,7 @@ class SettingForm extends Model
     public function rules(): array
     {
         return [
+            ['stringValue', 'string', 'skipOnEmpty' => false],
             [['stringValue', 'intValue', 'type', 'entityId', 'entityType'], 'required'],
             [['intValue', 'type', 'entityId', 'entityType', 'id'], 'integer'],
         ];

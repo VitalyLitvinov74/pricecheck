@@ -41,9 +41,6 @@ abstract class BaseApiController extends Controller
         return [
             [
                 'class' => Cors::class,
-                'cors' => [
-                    'Origin' => ['*'],
-                ]
             ]
         ];
     }
