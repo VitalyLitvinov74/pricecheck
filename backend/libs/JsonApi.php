@@ -26,25 +26,28 @@ class JsonApi
     public function addModelErrors(Model $model): self
     {
         $errors = $model->getErrors();
+        $resultErrors = [];
         foreach ($errors as $title => $nestedErrors) {
             $firstKey = array_key_first($nestedErrors);
 
             //Если это обычная не вложенная ошибка
             if(!is_array($nestedErrors[$firstKey])){
-                $this->errors->set($title, $nestedErrors);
+                $resultErrors[$title] = $nestedErrors;
                 continue;
             }
 
-            $this->flattenErrors(
-                $title,
-                $nestedErrors,
+            $resultErrors = array_merge(
+                $resultErrors,
+                $this->flattenErrors(
+                    $title,
+                    $nestedErrors,
+                )
             );
         }
 
-        $resultErrors = new ArrayCollection();
-        foreach ($this->errors as $source => $attributeErrors) {
+        foreach ($resultErrors as $source => $attributeErrors) {
             foreach ($attributeErrors as $error){
-                $resultErrors->add([
+                $this->errors->add([
                     'detail' => $error,
                     'source' => [
                         'pointer' => $source
@@ -52,7 +55,6 @@ class JsonApi
                 ]);
             }
         }
-        $this->errors = $resultErrors;
 
         return $this;
     }
@@ -62,17 +64,22 @@ class JsonApi
      * @param array $errors
      * @return void преобразует многомерный массив в ассоциативный с ошибками.
      */
-    function flattenErrors(string $prefix, array $errors):void
+    function flattenErrors(string $prefix, array $errors): array
     {
+        $result = [];
         foreach ($errors as $key => $value) {
             if(is_array($value) && $this->isAssociative($value)){
-                $this->flattenErrors($prefix, $value);
+                $result = array_merge(
+                    $result,
+                    $this->flattenErrors($prefix, $value)
+                );
                 continue;
             }
 
             $currentKey = $prefix . '/' . $key;
-            $this->errors->set($currentKey, $value);
+            $result[$currentKey] = $value;
         }
+        return $result;
     }
 
     private function isAssociative(array $array): bool

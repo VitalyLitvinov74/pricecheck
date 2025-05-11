@@ -9,10 +9,12 @@ class UserSettingsForm extends Model
 {
     public $settings;
     public $DTOs;
+    public $id;
 
     public function rules(): array
     {
         return [
+            ['id', 'required'],
             ['settings', 'required'],
             ['settings', 'validateSettings']
         ];
