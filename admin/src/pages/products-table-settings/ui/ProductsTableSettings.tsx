@@ -20,10 +20,6 @@ export function ProductsTableSettings({productPropertiesPayload}: {
         })
     )
 
-    useEffect(function(){
-        console.log(productProperties)
-    }, [])
-
     function setProperty(property: ProductProperty): void {
         // console.log(property.userSettings())
         setProductProperties(productProperties
