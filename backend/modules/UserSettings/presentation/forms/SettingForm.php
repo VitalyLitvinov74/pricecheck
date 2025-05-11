@@ -16,11 +16,6 @@ class SettingForm extends Model
 
     public function rules(): array
     {
-        return self::subRules();
-    }
-
-    public static function subRules(): array
-    {
         return [
             [['stringValue', 'intValue', 'type', 'entityId', 'entityType'], 'required'],
             [['intValue', 'type', 'entityId', 'entityType', 'id'], 'integer'],

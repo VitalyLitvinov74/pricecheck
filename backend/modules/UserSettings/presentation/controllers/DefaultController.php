@@ -13,21 +13,16 @@ use app\modules\UserSettings\domain\Models\SettingType;
 use app\modules\UserSettings\domain\User;
 use app\modules\UserSettings\infrastructure\records\UserSettingsRecord;
 use app\modules\UserSettings\presentation\forms\UserSettingsForm;
+use Throwable;
 use Yii;
 
 class DefaultController extends BaseApiController
 {
-    private ActualizeProductListSettingsAction $actualizeProductListSettingsAction;
-    private UpsertSettingAction $upsertSettingsAction;
-    private DisattachSettingAction $disAttachSettingAction;
     private SettingsService $settingsService;
 
     public function init(): void
     {
         parent::init();
-        $this->actualizeProductListSettingsAction = new ActualizeProductListSettingsAction();
-        $this->upsertSettingsAction = new UpsertSettingAction();
-        $this->disAttachSettingAction = new DisattachSettingAction();
         $this->settingsService = new SettingsService();
     }
 
@@ -74,18 +69,30 @@ class DefaultController extends BaseApiController
             ->asArray();
     }
 
-    public function actionUpsertSettings(): array
+    public function actionUpsert(): array
     {
         $form = new UserSettingsForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
-            $this->settingsService->upsertUserSettings(
-                1,
-                $form->settingsDTOs()
-            );
-            return $this->jsonApi->setupCode(201)->asArray();
+            try {
+                $this->settingsService->upsertUserSettings(
+                    1,
+                    $form->settingsDTOs()
+                );
+                return $this->jsonApi
+                    ->setupCode(201)
+                    ->asArray();
+            }catch (Throwable $exception){
+                return $this->jsonApi
+                    ->setupCode(500)
+                    ->addException($exception)
+                    ->asArray();
+            }
         }
-        return $this->jsonApi->setupCode(422)->addModelErrors($form)->asArray();
+        return $this->jsonApi
+            ->setupCode(422)
+            ->addModelErrors($form)
+            ->asArray();
     }
 
     public function actionDefaultSettings()

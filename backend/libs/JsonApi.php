@@ -27,9 +27,50 @@ class JsonApi
     {
         $errors = $model->getErrors();
         foreach ($errors as $title => $nestedErrors) {
-            $this->errors->set($title, $nestedErrors);
+            $firstKey = array_key_first($nestedErrors);
+
+            //Если это обычная не вложенная ошибка
+            if(!is_array($nestedErrors[$firstKey])){
+                $this->errors->set($title, $nestedErrors);
+                continue;
+            }
+
+            $this->flattenErrors(
+                $title,
+                $nestedErrors,
+            );
         }
         return $this;
+    }
+
+    /**
+     * @param array $errors
+     * @param string $prefix
+     * @return array преобразует многомерный массив в ассоциативный с ошибками.
+     */
+    function flattenErrors(string $prefix, array $errors):void
+    {
+        foreach ($errors as $key => $value) {
+            if(is_array($value) && $this->isAssociative($value)){
+                $flatten = $this->flattenErrors($prefix, $value);
+                if($flatten === null){
+                    continue;
+                }
+                $this->errors->set(
+                    $prefix,
+                    $flatten
+                );
+                continue;
+            }
+
+            $currentKey = $prefix . '/' . $key;
+            $this->errors->set($currentKey, $value);
+        }
+    }
+
+    private function isAssociative(array $array): bool
+    {
+        return count(array_filter(array_keys($array), 'is_string')) > 0;
     }
 
     public function addError(string|array $detail, string|null $title = null): self
@@ -71,7 +112,7 @@ class JsonApi
         if ($this->errors->isEmpty()) {
             return $this->fields->toArray();
         }
-        if($this->code === 200){
+        if ($this->code === 200) {
             $this->setupCode(422);
         }
         return $this->errors->toArray();

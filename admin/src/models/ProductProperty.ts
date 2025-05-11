@@ -18,6 +18,7 @@ export class ProductProperty {
         this._userSettings = data.userSettings.map(
             function (item: UserSetting) {
                 item.entityFrontendId = self.frontendId
+                item.entityId = self.id
                 return item
             }
         )

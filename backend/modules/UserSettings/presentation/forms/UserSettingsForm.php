@@ -13,6 +13,7 @@ class UserSettingsForm extends Model
     public function rules(): array
     {
         return [
+            ['settings', 'required'],
             ['settings', 'validateSettings']
         ];
     }
@@ -28,7 +29,7 @@ class UserSettingsForm extends Model
             $form = new SettingForm();
             $form->load($setting);
             if (!$form->validate()) {
-                $this->addError("settings[$key]", $form->getErrors());
+                $this->addError("settings/$key", $form->getErrors());
                 continue;
             }
             $this->DTOs[] = $form->settingDTO();

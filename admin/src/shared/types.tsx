@@ -38,9 +38,10 @@ export type ProductPropertyPayload = {
 export type UserSettingPayload = {
     id?: number | undefined
     type: number
-    value: string
+    stringValue?: string,
+    intValue?: number
     frontendId: string
-    entity_id?: number|undefined
-    entity_type: EntityType
+    entityId?: number|null
+    entityType: EntityType
     entityFrontendId: string
 }

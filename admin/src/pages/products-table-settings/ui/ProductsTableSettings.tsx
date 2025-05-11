@@ -6,7 +6,6 @@ import {Row} from "./Row";
 import {ProductProperty} from "../../../models/ProductProperty";
 import {useUserContext} from "../../../shared/user-context/UserContext";
 import {UserSetting} from "../../../models/UserSetting";
-import {func} from "prop-types";
 
 export function ProductsTableSettings({productPropertiesPayload}: {
     productPropertiesPayload: ProductPropertyPayload[]

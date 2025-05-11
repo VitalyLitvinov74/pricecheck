@@ -1,4 +1,4 @@
-import {EntityType, SettingType} from "../shared/types";
+import {EntityType, SettingType, UserSettingPayload} from "../shared/types";
 import {uuid} from "../shared/helpers";
 
 export class UserSetting {
@@ -44,5 +44,18 @@ export class UserSetting {
             return this.stringValue
         }
         return this.intValue
+    }
+
+    payload(): UserSettingPayload{
+        return {
+            id: this.id,
+            type: this.type,
+            stringValue: this.stringValue,
+            intValue: this.intValue,
+            frontendId: this.frontendId,
+            entityId: this.entityId,
+            entityType: this.entityType,
+            entityFrontendId: this.entityFrontendId,
+        }
     }
 }
