@@ -25,13 +25,15 @@ class UserRepository
     {
         return $this->orm
             ->getRepository(User::class)
-            ->findOne(['id' => $userId]);
+            ->select()
+            ->where('id', $userId)
+            ->fetchOne();
     }
 
-    public function save(User $productList): void
+    public function save(User $user): void
     {
         try {
-            $this->em->persist($productList);
+            $this->em->persist($user);
             $this->em->run();
         } catch (\Exception $exception) {
             throw $exception;

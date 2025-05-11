@@ -12,7 +12,7 @@ class User
     /** @var ArrayCollection<int, Setting> */
     private ArrayCollection $settings;
 
-    public function __construct(private int $userId)
+    private function __construct()
     {
 
     }

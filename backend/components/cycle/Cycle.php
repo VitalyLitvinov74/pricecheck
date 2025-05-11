@@ -33,7 +33,7 @@ class Cycle extends Component
     {
         return new ORM(
             $this->factory,
-            $schema
+            $schema,
         );
     }
 
