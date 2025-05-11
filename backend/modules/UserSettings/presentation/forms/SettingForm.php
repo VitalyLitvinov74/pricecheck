@@ -17,9 +17,17 @@ class SettingForm extends Model
     public function rules(): array
     {
         return [
-            ['stringValue', 'string', 'skipOnEmpty' => false],
-            [['stringValue', 'intValue', 'type', 'entityId', 'entityType'], 'required'],
+            [
+                ['stringValue', 'intValue'],
+                'required',
+                'skipOnEmpty' => false,
+                'isEmpty' => function ($value) {
+                    return is_null($value); // Считаем пустым только null
+                }
+            ],
+            [[ 'type', 'entityId', 'entityType'], 'required'],
             [['intValue', 'type', 'entityId', 'entityType', 'id'], 'integer'],
+//            ['stringValue', 'string'],
         ];
     }
 

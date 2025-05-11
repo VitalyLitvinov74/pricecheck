@@ -25,7 +25,7 @@ class UserRepository
     {
         return $this->orm
             ->getRepository(User::class)
-            ->findOne(['user_id' => $userId, 'type' => EntityType::Table]);
+            ->findOne(['id' => $userId]);
     }
 
     public function save(User $productList): void
