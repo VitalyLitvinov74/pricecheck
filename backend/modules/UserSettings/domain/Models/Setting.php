@@ -29,7 +29,10 @@ class Setting
 
     public function equalsTo(Setting $setting): bool
     {
-        if ($setting->is($this->type)) {
+        if (
+            $setting->is($this->type)
+            && $setting->belongsTo($this->entityId, $this->entityType)
+        ) {
             return true;
         }
         return false;
@@ -43,5 +46,10 @@ class Setting
     public function has(int $id): bool
     {
         return $this->id === $id;
+    }
+
+    public function belongsTo(int $entityId, EntityType $entityType): bool
+    {
+        return $this->entityId === $entityId && $this->entityType === $entityType;
     }
 }
