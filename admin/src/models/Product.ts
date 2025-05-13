@@ -38,10 +38,14 @@ export class Product {
         }
     }
 
-    attributeByProperty(property: ProductProperty): ProductAttribute | undefined {
-        return this._attributes
+    attributeByProperty(property: ProductProperty): ProductAttribute  {
+        const attr = this._attributes
             .find(function(attribute){
                 return attribute.basedOn(property)
             })
+        if(attr){
+            return attr;
+        }
+        return new ProductAttribute({});
     }
 }

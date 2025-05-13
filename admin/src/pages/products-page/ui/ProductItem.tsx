@@ -15,7 +15,10 @@ export function ProductItem({product, sortedProperties}: {
         {sortedProperties
             .map(function (property) {
                 const attribute = product.attributeByProperty(property);
-                return <AttributeCell attribute={attribute}/>
+                return <AttributeCell
+                    key={attribute.id()}
+                    attribute={attribute}
+                />
             })}
         <td>
             <div className="button-list">

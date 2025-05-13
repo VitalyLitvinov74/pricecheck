@@ -1,5 +1,6 @@
 import {ProductAttributePayload} from "../shared/types";
 import {ProductProperty} from "./ProductProperty";
+import {uuid} from "../shared/helpers";
 
 export class ProductAttribute {
     constructor(payload: ProductAttributePayload) {
@@ -15,5 +16,9 @@ export class ProductAttribute {
 
     value(): string{
         return '';
+    }
+
+    id(): string|number{
+        return uuid()
     }
 }

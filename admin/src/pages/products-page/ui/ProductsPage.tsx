@@ -94,7 +94,8 @@ export default function ProductsPage({productsPayload, generalPropertiesPayload}
                                                     key={product.id()}
                                                     product={product}
                                                     sortedProperties={properties}
-                                                />)
+                                                />
+                                            )
                                         })}
                                         </tbody>
                                     </table>
