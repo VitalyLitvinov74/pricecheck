@@ -24,8 +24,13 @@ class DefaultController extends BaseApiController
     public function actionIndex()
     {
         $searchForm = new ProductListSearchForm();
-        return $searchForm
-            ->dataProvider(Yii::$app->request->get())
-            ->getModels();
+        return $this->jsonApi
+            ->setupCode(200)
+            ->addBody(
+                $searchForm
+                    ->dataProvider(Yii::$app->request->get())
+                    ->getModels()
+            )
+            ->asArray();
     }
 }

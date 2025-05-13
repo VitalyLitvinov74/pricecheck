@@ -7,11 +7,11 @@ export default async function Products({ searchParams}) {
     metadata.title = "Список товаров"
 
     const search = new URLSearchParams(searchParams);
-    // const products = await loadProducts(search.toString());
+    const products = await loadProducts(search.toString());
     const generalPropertiesPayload = await  loadGeneralProperties()
 
     return (
-        <ProductsPage products={[]}
+        <ProductsPage productsPayload={products}
                       generalPropertiesPayload={generalPropertiesPayload}
         />
     );

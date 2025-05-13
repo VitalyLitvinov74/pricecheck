@@ -20,6 +20,12 @@ class ProductQuery extends ActiveQuery
         ]);
     }
 
+    /**
+     * @param string $fieldName
+     * @param array $values
+     * @return $this|self - реализует кастомную сортировку по заданному полю ($fieldName) в строго указанном порядке ($values)
+     * Это полезно, т.к. при получении результатов из elasticsearch нет гарантиии сохранения верного порядока сортировки
+     */
     public function strictOrderBy(string $fieldName, array $values): self
     {
         if (empty($values)) {

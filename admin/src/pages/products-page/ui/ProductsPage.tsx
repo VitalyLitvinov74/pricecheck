@@ -1,16 +1,16 @@
 "use client"
 
 import Toolbar from "./toolbar";
-import Link from "next/link";
 import React, {useState} from "react";
-import {ButtonRemove} from "./ButtonRemove";
 import {useUserContext} from "../../../shared/user-context/UserContext";
-import {EntityType, ProductPropertyPayload, SettingType} from "../../../shared/types";
+import {EntityType, ProductPayload, ProductPropertyPayload, SettingType} from "../../../shared/types";
 import {ProductProperty} from "../../../models/ProductProperty";
 import {UserSetting} from "../../../models/UserSetting";
+import {Product} from "../../../models/Product";
+import {ProductItem} from "./ProductItem";
 
-export default function ProductsPage({products, generalPropertiesPayload}: {
-    products: any[],
+export default function ProductsPage({productsPayload, generalPropertiesPayload}: {
+    productsPayload: ProductPayload[],
     generalPropertiesPayload: ProductPropertyPayload[],
 }) {
     const user = useUserContext();
@@ -54,20 +54,13 @@ export default function ProductsPage({products, generalPropertiesPayload}: {
             })
     );
 
-    function renderAttributeColumn(product, propertyId) {
 
-        const attribute = product.productAttributes.find(function (attribute) {
-            return attribute.property_id == propertyId;
-        });
-        if (attribute) {
-            return (
-                <td>
-                    {attribute.value}
-                </td>
-            );
-        }
-        return (<td> - </td>);
-    }
+    const [products, setProducts] = useState(
+            productsPayload.map(function (item) {
+                return new Product(item)
+            })
+        )
+    ;
 
     return (
         <>
@@ -95,33 +88,20 @@ export default function ProductsPage({products, generalPropertiesPayload}: {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {/*{products.map(function (product) {*/}
-                                        {/*    return (*/}
-                                        {/*        <tr key={product.id}>*/}
-                                        {/*            <td scope="row">#{product.id}</td>*/}
-                                        {/*            {tableSettings.map(function (setting) {*/}
-                                        {/*                return renderAttributeColumn(product, setting.property_id)*/}
-                                        {/*            })}*/}
-                                        {/*            <td>*/}
-                                        {/*                <div className="button-list">*/}
-                                        {/*                    <Link className="btn btn-success-rgba"*/}
-                                        {/*                          href={`/products/update/${product.id}`}*/}
-                                        {/*                    >*/}
-                                        {/*                        <i className="feather icon-edit-2"></i>*/}
-                                        {/*                    </Link>*/}
-                                        {/*                    <ButtonRemove product={product}/>*/}
-                                        {/*                </div>*/}
-                                        {/*            </td>*/}
-                                        {/*        </tr>*/}
-                                        {/*    )*/}
-                                        {/*})}*/}
+                                        {products.map(function (product) {
+                                            return (
+                                                <ProductItem
+                                                    key={product.id()}
+                                                    product={product}
+                                                    sortedProperties={properties}
+                                                />)
+                                        })}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>

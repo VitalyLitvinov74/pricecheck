@@ -1,15 +1,9 @@
-export type Property = {
-    id: number,
-    name: string,
-    type: string
-}
-
 export type ParsingSchemaProperty = {
     "id": number,
     "schema_id": number,
     "property_id": number,
     "external_column_name": string,
-    "property": Property
+    "property": ProductPropertyPayload
 }
 
 export type ParsingSchema = {
@@ -44,4 +38,14 @@ export type UserSettingPayload = {
     entityId?: number|null
     entityType: EntityType
     entityFrontendId: string
+}
+
+export type ProductAttributePayload = {
+
+}
+
+export type ProductPayload = {
+    id: number,
+    createdAt: string,
+    productAttributes: ProductAttributePayload[]
 }

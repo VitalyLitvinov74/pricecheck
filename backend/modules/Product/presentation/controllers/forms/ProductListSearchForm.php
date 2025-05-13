@@ -29,6 +29,10 @@ class ProductListSearchForm extends Model
     {
         $this->load($searchData);
         $query = ProductRecord::find()
+            ->select([
+                'id',
+                'createdAt' => 'created_at',
+            ])
             ->with([
                 'productAttributes'
             ])
