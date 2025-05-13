@@ -1,6 +1,4 @@
-import Link from "next/link";
-import {ButtonRemove} from "./ButtonRemove";
-import React from "react";
+import {Fragment} from "react";
 import {Product} from "../../../models/Product";
 import {ProductProperty} from "../../../models/ProductProperty";
 import {AttributeCell} from "./AttributeCell";
@@ -15,10 +13,11 @@ export function ProductItem({product, sortedProperties}: {
         {sortedProperties
             .map(function (property) {
                 const attribute = product.attributeByProperty(property);
-                return <AttributeCell
-                    key={attribute.id()}
-                    attribute={attribute}
-                />
+                return (<Fragment key={attribute.id()}>
+                    <AttributeCell
+                        attribute={attribute}
+                    />
+                </Fragment>)
             })}
         <td>
             <div className="button-list">

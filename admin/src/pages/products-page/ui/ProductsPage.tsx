@@ -1,7 +1,7 @@
 "use client"
 
 import Toolbar from "./toolbar";
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import {useUserContext} from "../../../shared/user-context/UserContext";
 import {EntityType, ProductPayload, ProductPropertyPayload, SettingType} from "../../../shared/types";
 import {ProductProperty} from "../../../models/ProductProperty";
@@ -81,7 +81,9 @@ export default function ProductsPage({productsPayload, generalPropertiesPayload}
                                             <th>ID</th>
                                             {properties.map(function (property) {
                                                 return (
-                                                    <th>{property.name}</th>
+                                                    <th key={property.id}>
+                                                        {property.name}
+                                                    </th>
                                                 );
                                             })}
                                             <th>Действия</th>
@@ -90,11 +92,12 @@ export default function ProductsPage({productsPayload, generalPropertiesPayload}
                                         <tbody>
                                         {products.map(function (product) {
                                             return (
-                                                <ProductItem
-                                                    key={product.id()}
-                                                    product={product}
-                                                    sortedProperties={properties}
-                                                />
+                                                <Fragment key={product.id()}>
+                                                    <ProductItem
+                                                        product={product}
+                                                        sortedProperties={properties}
+                                                    />
+                                                </Fragment>
                                             )
                                         })}
                                         </tbody>
