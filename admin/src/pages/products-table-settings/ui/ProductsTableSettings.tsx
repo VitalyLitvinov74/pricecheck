@@ -15,7 +15,7 @@ export function ProductsTableSettings({productPropertiesPayload}: {
         productPropertiesPayload.map(function (item) {
             return new ProductProperty({
                 ...item,
-                userSettings: userSettings.findByTypeAndEntityId(
+                userSettings: userSettings.findSettingsByTypeAndEntityId(
                     EntityType.ProductProperty,
                     item.id
                 )

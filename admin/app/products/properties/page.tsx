@@ -2,14 +2,14 @@ import {availableTypes} from "../../../src/shared/product-properties";
 import {metadata} from "../../layout";
 import React, {useState} from "react";
 import PropertiesTable from "./properties-table";
-import {loadProperties} from "../../../src/shared/api/products-api";
+import {loadGeneralProperties} from "../../../src/shared/api/products-api";
 
 export default async function ProductProperties() {
 
     metadata.title = "Свойства товаров"
     // console.log(metadata)
 
-    const properties = await loadProperties();
+    const properties = await loadGeneralProperties();
 
     let types = [];
     await availableTypes().then(

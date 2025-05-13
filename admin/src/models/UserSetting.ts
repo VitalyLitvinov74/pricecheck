@@ -58,4 +58,8 @@ export class UserSetting {
             entityFrontendId: this.entityFrontendId,
         }
     }
+
+    is(type: SettingType): boolean {
+        return this.type === type;
+    }
 }

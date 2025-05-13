@@ -9,7 +9,7 @@ use Yii;
 
 class DefaultController extends BaseApiController
 {
-    public function actionProperties(): array
+    public function actionGeneralProperties(): array
     {
         return $this->jsonApi
             ->addBody(

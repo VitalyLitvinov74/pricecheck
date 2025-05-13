@@ -1,11 +1,11 @@
 import {metadata} from "../../../layout";
 
 import Form from "../../../../src/pages/product-update/ui/form";
-import {loadProduct, loadProperties} from "../../../../src/shared/api/products-api";
+import {loadProduct, loadGeneralProperties} from "../../../../src/shared/api/products-api";
 
 export default async function Page({params}: { id: string }){
     metadata.title= "Обновить"
-    const properties = await loadProperties();
+    const properties = await loadGeneralProperties();
 
     const product = await loadProduct(params.id);
 

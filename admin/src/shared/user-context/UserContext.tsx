@@ -5,9 +5,9 @@ import {EntityType, UserSettingPayload} from "../types";
 import {UserSetting} from "../../models/UserSetting";
 
 const context = createContext<{
-    findByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[],
+    findSettingsByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[],
 }>({
-    findByTypeAndEntityId: () => [],
+    findSettingsByTypeAndEntityId: () => [],
 });
 
 export function UserContext({children, settingsPayload, defaultSettingsPayload}: {
@@ -56,7 +56,7 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
         <context.Provider
             value={
                 {
-                    findByTypeAndEntityId: findByTypeAndEntityId
+                    findSettingsByTypeAndEntityId: findByTypeAndEntityId
                 }
             }
         >

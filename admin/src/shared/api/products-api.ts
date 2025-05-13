@@ -25,8 +25,8 @@ export const loadProduct = async function (id) {
     return data.json();
 }
 
-export async function loadProperties(): Promise<ProductPropertyPayload[]> {
-    const url = `${process.env.URL}/product-module/available-properties`;
+export async function loadGeneralProperties(): Promise<ProductPropertyPayload[]> {
+    const url = `${process.env.URL}/product/general-properties`;
     const result = await fetch(url, {
         next: {
             revalidate: 0
