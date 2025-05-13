@@ -3,9 +3,11 @@
 namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
+use app\modules\Product\infrastructure\records\ProductRecord;
 use app\modules\Product\infrastructure\records\PropertyRecord;
 use app\modules\Product\presentation\controllers\forms\ProductListSearchForm;
 use Yii;
+use yii\db\ActiveQuery;
 
 class DefaultController extends BaseApiController
 {
@@ -32,5 +34,24 @@ class DefaultController extends BaseApiController
                     ->getModels()
             )
             ->asArray();
+    }
+
+    public function actionView(int $id)
+    {
+        return ProductRecord::find()
+            ->with([
+                'productAttributes' => function (ActiveQuery $query) {
+                    $query->select([
+                        'id',
+                        'name' => 'property_name',
+                        'propertyId' => 'property_id',
+                        'value',
+                        'product_id'
+                    ]);
+                }
+            ])
+            ->where(['id' => $id])
+            ->asArray()
+            ->one();
     }
 }

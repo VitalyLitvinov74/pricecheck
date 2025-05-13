@@ -17,12 +17,13 @@ export async function loadProducts(queryString?: string) {
 
 export const loadProduct = async function (id) {
     const url = `${process.env.URL}/product/${id}`;
-    const data = await fetch(url, {
+    const response = await fetch(url, {
         next: {
-            revalidate: 0
+            revalidate: 1
         }
     })
-    return data.json();
+    const result = await response.json()
+    return result.data;
 }
 
 export async function loadGeneralProperties(): Promise<ProductPropertyPayload[]> {

@@ -54,9 +54,15 @@ $config = [
                     'route' => '/user-settings/default/<action>',
                 ],
                 [
+                    'pattern' => '/product/<id:\d+>',
+                    'route' => '/product/default/view',
+                ],
+                [
                     'pattern' => '/product/<action>',
                     'route' => '/product/default/<action>',
                 ],
+
+
             ],
         ],
 

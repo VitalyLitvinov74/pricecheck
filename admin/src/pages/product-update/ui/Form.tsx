@@ -1,19 +1,22 @@
 "use client"
 import Select from "react-select";
-import React, {useState} from "react";
-import {v4 as uuidv4} from "uuid";
+import {useState} from "react";
 import {useRouter} from "next/navigation";
 import revalidateProductList from "../../../../app/actions/RevalidateProductList";
+import {ProductPayload, ProductPropertyPayload} from "../../../shared/types";
 
 export function Form({
-                                 properties,
-                                 productData = {productAttributes: []},
-                                action = 'create'
+                         propertiesPayload,
+                         productPayload,
+                         action = 'create'
+                     }:{
+    propertiesPayload: ProductPropertyPayload[],
+    productPayload: ProductPayload[],
 }) {
 
-    console.log(productData)
+    console.log(productPayload)
 
-    const [attributes, changeAttributes] = useState(productData.productAttributes)
+    const [attributes, changeAttributes] = useState(productPayload.productAttributes)
     const [addButtonDisabled, disableAddButton] = useState(false)
 
     console.log(attributes)
@@ -29,7 +32,7 @@ export function Form({
 
     function optionsFor(attribute = null) {
         let options: any;
-        options = properties
+        options = propertiesPayload
             .filter(function (property) {
                 let needShow = true
                 attributes.forEach(function (createdAttribute) {
@@ -150,7 +153,7 @@ export function Form({
 
     function dataForBackend() {
         return {
-            id: productData.id,
+            id: productPayload.id,
             productAttributes: attributes.map(function (attribute) {
                 return {
                     id: attribute.id,

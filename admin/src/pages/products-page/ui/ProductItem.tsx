@@ -24,7 +24,7 @@ export function ProductItem({product, sortedProperties}: {
         <td>
             <div className="button-list">
                 <Link className="btn btn-success-rgba"
-                      href={`/products/update/${product.id}`}
+                      href={`/products/update/${product.id()}`}
                 >
                     <i className="feather icon-edit-2"></i>
                 </Link>
