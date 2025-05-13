@@ -7,12 +7,9 @@ use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\ProductForm;
-use app\forms\ProductListSearchForm;
 use app\forms\ProductsTableSettingsForm;
 use app\forms\Scenarious;
-use app\records\pg\ProductsRecords;
-use app\records\pg\ProductTemplateRecord;
-use app\records\pg\PropertyRecord;
+use app\records\pg\ProductRecord;
 use Throwable;
 use Yii;
 use yii\db\ActiveQuery;
@@ -40,17 +37,9 @@ class ProductController extends BaseApiController
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
 
-    public function actionIndex(): array
-    {
-        $searchForm = new ProductListSearchForm();
-        return $searchForm
-            ->dataProvider(Yii::$app->request->get())
-            ->getModels();
-    }
-
     public function actionView(int $id): array
     {
-        return ProductsRecords::find()
+        return ProductRecord::find()
             ->with([
                 'productAttributes' => function (ActiveQuery $query) {
                     $query->select([
@@ -116,27 +105,6 @@ class ProductController extends BaseApiController
             }
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionListSettings(): array
-    {
-        $settings = PropertyRecord::find()
-            ->select([
-                'id',
-                'name',
-                'relatedId' => 'id',
-            ])
-            ->where([
-                'product_template_id' => ProductTemplateRecord::find()
-                    ->select(['id'])
-                    ->where(['id' => 1])
-            ])
-            ->with([
-                'settings'
-            ])
-            ->asArray()
-            ->all();
-        return $this->jsonApi->addBody($settings)->asArray();
     }
 
     public function actionCreateSettings(): array

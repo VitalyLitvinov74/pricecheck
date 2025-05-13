@@ -3,8 +3,7 @@
 namespace app\controllers\product;
 
 use app\controllers\BaseApiController;
-use app\forms\ProductListSearchForm;
-use app\forms\ProductsTableSettingsForm;
+use app\modules\Product\presentation\controllers\forms\ProductListSearchForm;
 use app\modules\UserSettings\application\ActualizeProductListSettingsAction;
 use app\modules\UserSettings\application\DisattachSettingAction;
 use app\modules\UserSettings\application\UpsertSettingAction;

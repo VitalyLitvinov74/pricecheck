@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * @property ProductAttributesRecord $productAttributes
  */
-class ProductsRecords extends ActiveRecord
+class ProductRecord extends ActiveRecord
 {
     public static function tableName(): string
     {

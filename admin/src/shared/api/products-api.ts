@@ -6,12 +6,13 @@ import {ProductPropertyPayload} from "../types";
 
 export async function loadProducts(queryString?: string) {
     const url = `${process.env.URL}/product/index?${queryString}`;
-    const data = await fetch(url, {
+    const response = await fetch(url, {
         next: {
             revalidate: 0
         }
     })
-    return await data.json();
+    const result = await response.json();
+    return result.data;
 }
 
 export const loadProduct = async function (id) {

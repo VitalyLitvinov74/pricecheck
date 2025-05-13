@@ -54,15 +54,15 @@ $config = [
                     'route' => '/user-settings/default/<action>',
                 ],
                 [
-                    'pattern' => '/product-module/<action>',
-                    'route' => '/product-module/default/<action>',
+                    'pattern' => '/product/<action>',
+                    'route' => '/product/default/<action>',
                 ],
             ],
         ],
 
     ],
     'modules' => [
-        'product-module' => [
+        'product' => [
             'class' => ProductModule::class,
             'controllerNamespace' => 'app\modules\Product\presentation\controllers',
         ],

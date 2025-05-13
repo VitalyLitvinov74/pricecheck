@@ -1,9 +1,9 @@
 <?php
 
-namespace app\forms;
+namespace app\modules\Product\presentation\controllers\forms;
 
 use app\records\elastic\ProductIndex;
-use app\records\pg\ProductsRecords;
+use app\records\pg\ProductRecord;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
@@ -28,7 +28,7 @@ class ProductListSearchForm extends Model
     public function dataProvider(array $searchData): DataProviderInterface
     {
         $this->load($searchData);
-        $query = ProductsRecords::find()
+        $query = ProductRecord::find()
             ->with([
                 'productAttributes'
             ])

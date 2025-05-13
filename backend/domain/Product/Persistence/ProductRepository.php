@@ -14,7 +14,7 @@ use app\libs\LibsException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
 use app\records\pg\ProductAttributesRecord;
-use app\records\pg\ProductsRecords;
+use app\records\pg\ProductRecord;
 use app\records\pg\PropertyRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 use Throwable;
@@ -49,7 +49,7 @@ class ProductRepository
 
     public function find(int $id): Product
     {
-        $data = ProductsRecords::find()
+        $data = ProductRecord::find()
             ->where(['id' => $id])
             ->forProductDomain()
             ->asArray()
@@ -95,10 +95,10 @@ class ProductRepository
     {
         foreach ($productsSnapshots as $snapshot) {
             $this->upsertBuilder
-                ->useActiveRecord(ProductsRecords::class)
+                ->useActiveRecord(ProductRecord::class)
                 ->upsertOneRecord(['id' => $snapshot->id]);
             if ($snapshot->id === null) {
-                $snapshot->id = ProductsRecords::getDb()->getLastInsertID();
+                $snapshot->id = ProductRecord::getDb()->getLastInsertID();
             }
         }
         $this->saveAttributes($productsSnapshots);
@@ -202,7 +202,7 @@ class ProductRepository
 
     public function remove(int $id): void
     {
-        ProductsRecords::deleteAll(['id' => $id]);
+        ProductRecord::deleteAll(['id' => $id]);
     }
 
     /**
@@ -218,7 +218,7 @@ class ProductRepository
 
     public function findAll(): ArrayCollection
     {
-        $records = ProductsRecords::find()
+        $records = ProductRecord::find()
             ->with([
                 'productAttributes',
                 'productAttributes.property'
