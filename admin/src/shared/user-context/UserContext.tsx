@@ -5,24 +5,24 @@ import {EntityType, UserSettingPayload} from "../types";
 import {UserSetting} from "../../models/UserSetting";
 
 const context = createContext<{
-    settingsPayload: UserSettingPayload[],
-    setSettings: (settings: UserSetting[]) => void,
-    settings: UserSetting[],
-    findByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[]
+    findByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[],
 }>({
-    settingsPayload: [],
-    setSettings: () => {
-    },
-    settings: [],
-    findByTypeAndEntityId: () => []
+    findByTypeAndEntityId: () => [],
 });
 
-export function UserContext({children, settingsPayload}: {
+export function UserContext({children, settingsPayload, defaultSettingsPayload}: {
     children: React.ReactNode,
-    settingsPayload: UserSettingPayload[]
+    settingsPayload: UserSettingPayload[],
+    defaultSettingsPayload: UserSettingPayload[],
 }) {
     const [settings, setSettings] = useState(
         settingsPayload.map(function (item) {
+            return new UserSetting(item)
+        })
+    )
+
+    const [defaultSettings, setDefaultSettings] = useState(
+        defaultSettingsPayload.map(function (item) {
             return new UserSetting(item)
         })
     )
@@ -32,11 +32,14 @@ export function UserContext({children, settingsPayload}: {
             return item.entityType === entityType && item.entityId === entityId
         })
 
-        //дальше нужно добавить девофлтовые значения
-        const defaultSettings = settings.filter(function (item) {
-            return item.entityType === entityType && item.isDefault()
-        })
+        return hydrateDefaultSettings(filteredSettings)
+    }
 
+    /**
+     * Насыщаяет настройки дейфолтными настройками если отсутствует ключеваое свойство.
+     * @param filteredSettings
+     */
+    function hydrateDefaultSettings(filteredSettings: UserSetting[]): UserSetting[] {
         defaultSettings.forEach(function (item) {
             const filteredSetting = filteredSettings.find(function (item2) {
                 return item2.type === item.type
@@ -53,9 +56,6 @@ export function UserContext({children, settingsPayload}: {
         <context.Provider
             value={
                 {
-                    settingsPayload: settingsPayload,
-                    setSettings: setSettings,
-                    settings: settings,
                     findByTypeAndEntityId: findByTypeAndEntityId
                 }
             }

@@ -21,7 +21,10 @@ export default async function RootLayout({children,}: {
 
     return (
         <html lang="ru">
-        <UserContext settingsPayload={userSettingsPayload}>
+        <UserContext
+            settingsPayload={userSettingsPayload.settings}
+            defaultSettingsPayload={userSettingsPayload.defaultSettings}
+        >
             <body className="horizontal-layout">
             <div id="containerbar" className="container-fluid">
                 <div className="rightbar">

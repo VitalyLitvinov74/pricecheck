@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {EntityType, ProductPropertyPayload,} from "../../../shared/types";
 import {Row} from "./Row";
 import {ProductProperty} from "../../../models/ProductProperty";
@@ -15,7 +15,10 @@ export function ProductsTableSettings({productPropertiesPayload}: {
         productPropertiesPayload.map(function (item) {
             return new ProductProperty({
                 ...item,
-                userSettings: userSettings.findByTypeAndEntityId(EntityType.ProductProperty, item.id)
+                userSettings: userSettings.findByTypeAndEntityId(
+                    EntityType.ProductProperty,
+                    item.id
+                )
             })
         })
     )

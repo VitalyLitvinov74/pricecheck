@@ -47,25 +47,11 @@ class DefaultController extends BaseApiController
             ->asArray()
             ->all();
 
-        $defaultSettingsForMerge = [];
-
-        foreach ($this->defaultSettings() as $defaultSetting) {
-            $settingIsUse = false;
-            foreach ($settings as $setting) {
-                if ($defaultSetting['type'] == $setting['type']) {
-                    $settingIsUse = true;
-                    break;
-                }
-            }
-            if (!$settingIsUse) {
-                $defaultSettingsForMerge[] = $defaultSetting;
-            }
-        }
-
-        $settings = array_merge($settings, $defaultSettingsForMerge);
-
         return $this->jsonApi
-            ->addBody($settings)
+            ->addBody([
+                'settings' => $settings,
+                'defaultSettings' => $this->defaultSettings()
+            ])
             ->asArray();
     }
 
@@ -95,7 +81,7 @@ class DefaultController extends BaseApiController
             ->asArray();
     }
 
-    public function actionDefaultSettings()
+    public function actionDefault()
     {
         return $this->jsonApi
             ->addBody([
@@ -104,7 +90,7 @@ class DefaultController extends BaseApiController
             ->asArray();
     }
 
-    private function defaultSettings()
+    private function defaultSettings(): array
     {
         return [
             [

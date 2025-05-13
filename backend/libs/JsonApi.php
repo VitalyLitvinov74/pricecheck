@@ -124,7 +124,9 @@ class JsonApi
     public function asArray(): array
     {
         if ($this->errors->isEmpty()) {
-            return $this->fields->toArray();
+            return [
+                'data' => $this->fields->toArray()
+            ];
         }
         if ($this->code === 200) {
             $this->setupCode(422);

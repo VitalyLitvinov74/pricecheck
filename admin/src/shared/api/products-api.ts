@@ -31,5 +31,6 @@ export async function loadProperties(): Promise<ProductPropertyPayload[]> {
             revalidate: 0
         }
     })
-    return await result.json();
+    const data = await result.json();
+    return data.data;
 }

@@ -1,6 +1,5 @@
 import {uuid} from "../shared/helpers";
 import {UserSetting} from "./UserSetting";
-import {ProductPropertyPayload} from "../shared/types";
 
 export class ProductProperty {
     id?: number;
