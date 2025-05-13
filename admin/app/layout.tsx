@@ -283,24 +283,39 @@ export default async function RootLayout({children,}: {
                             <nav className="horizontal-nav mobile-navbar fixed-navbar">
                                 <div className="collapse navbar-collapse active" id="navbar-menu">
                                     <ul className="horizontal-menu in">
-                                        <li className="dropdown">
+                                        <li className="dropdown active" suppressHydrationWarning={true}>
                                             <a className="dropdown-toggle" data-toggle="dropdown"><img
                                                 src="/assets/images/svg-icon/basic.svg" className="img-fluid"
                                                 alt="apps"/><span>Товары</span></a>
-                                            <ul className="dropdown-menu animated">
-                                                <li>
-                                                    <Link href="/products">Список товаров</Link>
+                                            <ul className="dropdown-menu animated in">
+                                                <li suppressHydrationWarning={true}>
+                                                    <Link
+                                                        href="/products"
+                                                        suppressHydrationWarning={true}
+                                                    >
+                                                        Список товаров
+                                                    </Link>
                                                 </li>
-                                                <li>
-                                                    <Link href="/products/properties">
+                                                <li suppressHydrationWarning={true}>
+                                                    <Link
+                                                        href="/products/properties"
+                                                        suppressHydrationWarning={true}
+                                                    >
                                                         Свойства
                                                     </Link>
                                                 </li>
-                                                <li>
-                                                    <Link href="/products/import">Импорт</Link>
+                                                <li suppressHydrationWarning={true}>
+                                                    <Link
+                                                        href="/products/import"
+                                                        suppressHydrationWarning={true}
+                                                    >
+                                                        Импорт
+                                                    </Link>
                                                 </li>
-                                                <li>
-                                                    <Link href="/products/parsing-schemas">Схемы парсинга</Link>
+                                                <li suppressHydrationWarning={true}>
+                                                    <Link suppressHydrationWarning={true}
+                                                          href="/products/parsing-schemas">Схемы парсинга
+                                                    </Link>
                                                 </li>
                                             </ul>
                                         </li>

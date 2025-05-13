@@ -15,7 +15,7 @@ export class ProductAttribute {
     }
 
     value(): string{
-        return '';
+        return '-';
     }
 
     id(): string|number{
