@@ -1,12 +1,12 @@
 <?php
 
-namespace app\forms;
+namespace app\modules\Product\presentation\controllers\forms;
 
 use app\forms\ProductAttributeForm;
 use app\forms\Scenarious;
-use app\libs\NestedForm;
+use yii\base\Model;
 
-class ProductForm extends NestedForm
+class ProductForm extends Model
 {
     /** @var ProductAttributeForm[] */
     public $productAttributes;

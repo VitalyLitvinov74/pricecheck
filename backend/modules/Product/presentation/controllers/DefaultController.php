@@ -3,8 +3,10 @@
 namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
+use app\forms\Scenarious;
 use app\modules\Product\infrastructure\records\ProductRecord;
 use app\modules\Product\infrastructure\records\PropertyRecord;
+use app\modules\Product\presentation\controllers\forms\ProductForm;
 use app\modules\Product\presentation\controllers\forms\ProductListSearchForm;
 use Yii;
 use yii\db\ActiveQuery;
@@ -53,5 +55,18 @@ class DefaultController extends BaseApiController
             ->where(['id' => $id])
             ->asArray()
             ->one();
+    }
+
+    public function actionCreate()
+    {
+        $form = new ProductForm([
+            'scenario' => Scenarious::CreateProduct
+        ]);
+        $form->load(Yii::$app->request->post(), '');
+        if ($form->validate()) {
+            $this->service->createProduct($form->productAttributes);
+            return $this->jsonApi->setupCode(204)->asArray();
+        }
+        return $this->jsonApi->addModelErrors($form)->asArray();
     }
 }

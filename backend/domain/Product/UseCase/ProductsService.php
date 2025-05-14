@@ -8,7 +8,7 @@ use app\domain\Product\Persistence\ProductRepository;
 use app\domain\Product\Product;
 use app\exceptions\BaseException;
 use app\forms\ProductAttributeForm;
-use app\forms\ProductForm;
+use app\modules\Product\presentation\controllers\forms\ProductForm;
 use Throwable;
 use yii\db\Exception;
 use yii\web\UploadedFile;

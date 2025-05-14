@@ -2,17 +2,13 @@
 
 namespace app\controllers;
 
-use app\application\Product\Property\AttachSettingsToProperty;
 use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
-use app\forms\ProductForm;
-use app\forms\ProductsTableSettingsForm;
 use app\forms\Scenarious;
-use app\records\pg\ProductRecord;
+use app\modules\Product\presentation\controllers\forms\ProductForm;
 use Throwable;
 use Yii;
-use yii\db\ActiveQuery;
 
 class ProductController extends BaseApiController
 {
@@ -35,25 +31,6 @@ class ProductController extends BaseApiController
             return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionView(int $id): array
-    {
-        return ProductRecord::find()
-            ->with([
-                'productAttributes' => function (ActiveQuery $query) {
-                    $query->select([
-                        'id',
-                        'name' => 'property_name',
-                        'propertyId' => 'property_id',
-                        'value',
-                        'product_id'
-                    ]);
-                }
-            ])
-            ->where(['id' => $id])
-            ->asArray()
-            ->one();
     }
 
     public function actionUpdate(): array
@@ -103,19 +80,6 @@ class ProductController extends BaseApiController
             } catch (Throwable $throwable) {
                 return $this->jsonApi->addException($throwable)->asArray();
             }
-        }
-        return $this->jsonApi->addModelErrors($form)->asArray();
-    }
-
-    public function actionCreateSettings(): array
-    {
-        $form = new ProductsTableSettingsForm();
-        $form->load(Yii::$app->request->post());
-        if ($form->validate()) {
-            $action = new AttachSettingsToProperty();
-            $action->__invoke(94, []);
-//            $this->service->createSetting($form);
-            return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
     }
