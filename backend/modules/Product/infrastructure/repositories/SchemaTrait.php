@@ -16,7 +16,7 @@ trait SchemaTrait
             'product' => [
                 Schema::ENTITY => Product::class,
                 Schema::MAPPER => Mapper::class,
-                Schema::TABLE => 'product',
+                Schema::TABLE => 'products',
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
@@ -26,10 +26,16 @@ trait SchemaTrait
                 ],
                 Schema::RELATIONS => [
                     'attributes' => [
-                        Relation::TYPE => Relation::HAS_MANY,
                         Relation::TARGET => 'attribute',
-                        Relation::INNER_KEY => 'id',
-                        Relation::OUTER_KEY => 'product_id',
+                        Relation::LOAD => Relation::LOAD_EAGER,
+                        Relation::TYPE => Relation::HAS_MANY,
+                        Relation::SCHEMA => [
+                            Relation::INNER_KEY => 'id',
+                            Relation::OUTER_KEY => 'product_id',
+                            Relation::CASCADE => true,
+                            Relation::NULLABLE => false
+                        ],
+
                     ]
                 ]
             ],
