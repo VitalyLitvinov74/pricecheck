@@ -1,27 +1,30 @@
 <?php
 
-namespace app\modules\Product\presentation\controllers\forms;
+namespace app\modules\Product\presentation\forms;
 
-use app\forms\ProductAttributeForm;
 use app\forms\Scenarious;
 use app\modules\Product\application\DTOs\AttributeDTO;
 use yii\base\Model;
 
 class ProductForm extends Model
 {
-    /** @var ProductAttributeForm[] */
     public $productAttributes;
     public $id;
+
+    /**
+     * @var AttributeDTO[]
+     */
     private array $attributeDTOs;
 
     public function rules(): array
     {
         return [
             [['productAttributes', 'id'], 'required'],
-            ['productAttributes','validateProductAttributes'],
+            ['productAttributes', 'validateProductAttributes'],
             ['id', 'integer']
         ];
     }
+
     public function scenarios(): array
     {
         return [
@@ -33,20 +36,22 @@ class ProductForm extends Model
 
     public function validateProductAttributes()
     {
-        if($this->productAttributes === []){
-            $this->addError();
-        }
-    }
-
-
-    protected function nestedFormsMap(): array
-    {
-        return [
-            'productAttributes' => [
-                'class' => ProductAttributeForm::class,
+        foreach ($this->productAttributes as $key => $attribute) {
+            $form = new ProductAttributeForm([
                 'scenario' => $this->scenario
-            ]
-        ];
+            ]);
+            $form->load($attribute);
+            if (!$form->validate()) {
+                $this->addError("productAttributes/$key", $form->getErrors());
+                continue;
+            }
+            $this->attributeDTOs[] = new AttributeDTO(
+                $form->propertyDTO()->id,
+                $form->propertyDTO()->name,
+                $form->value,
+                $form->id
+            );
+        }
     }
 
     public function formName(): string
@@ -59,6 +64,6 @@ class ProductForm extends Model
      */
     public function attributeDTOs(): array
     {
-
+        return $this->attributeDTOs();
     }
 }

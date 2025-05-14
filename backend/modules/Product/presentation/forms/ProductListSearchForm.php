@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\presentation\controllers\forms;
+namespace app\modules\Product\presentation\forms;
 
 use app\records\elastic\ProductIndex;
 use app\records\pg\ProductRecord;

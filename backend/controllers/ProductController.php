@@ -6,7 +6,7 @@ use app\domain\Product\SubDomains\Property\Models\PropertySettingType;
 use app\domain\Product\UseCase\ProductsService;
 use app\forms\CreateProductsViaDocumentForm;
 use app\forms\Scenarious;
-use app\modules\Product\presentation\controllers\forms\ProductForm;
+use app\modules\Product\presentation\forms\ProductForm;
 use Throwable;
 use Yii;
 

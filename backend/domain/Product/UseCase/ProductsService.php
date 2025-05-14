@@ -4,11 +4,11 @@ namespace app\domain\Product\UseCase;
 
 use app\domain\Product\Persistence\ProductRepository;
 use app\exceptions\BaseException;
-use app\forms\ProductAttributeForm;
 use app\modules\Product\domain\Models\Attribute;
 use app\modules\Product\domain\Product;
 use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
-use app\modules\Product\presentation\controllers\forms\ProductForm;
+use app\modules\Product\presentation\forms\ProductAttributeForm;
+use app\modules\Product\presentation\forms\ProductForm;
 use Throwable;
 use yii\db\Exception;
 use yii\web\UploadedFile;

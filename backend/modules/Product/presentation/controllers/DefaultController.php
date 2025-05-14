@@ -7,8 +7,8 @@ use app\forms\Scenarious;
 use app\modules\Product\application\ProductService;
 use app\modules\Product\infrastructure\records\ProductRecord;
 use app\modules\Product\infrastructure\records\PropertyRecord;
-use app\modules\Product\presentation\controllers\forms\ProductForm;
-use app\modules\Product\presentation\controllers\forms\ProductListSearchForm;
+use app\modules\Product\presentation\forms\ProductForm;
+use app\modules\Product\presentation\forms\ProductListSearchForm;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -65,7 +65,9 @@ class DefaultController extends BaseApiController
         ]);
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {
-            $service->create($form->productAttributes);
+            $service->create(
+                $form->attributeDTOs()
+            );
             return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();
