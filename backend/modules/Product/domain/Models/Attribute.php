@@ -25,11 +25,11 @@ class Attribute
 
     public function compareWith(Attribute $attribute): bool
     {
-        return $attribute->belongsTo($this->propertyId) || $attribute->hasId($this->id);
+        return $attribute->belongsTo($this->propertyId);
     }
 
-    public function hasId(int $id): bool
-    {
-        return $this->id === $id;
-    }
+//    public function hasId(int $id): bool
+//    {
+//        return $this->id === $id;
+//    }
 }

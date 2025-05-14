@@ -56,7 +56,7 @@ class ProductAttributeForm extends Model
     public function validateProperty()
     {
         $form = new ProductPropertyForm([
-//            'scenario' => $this->scenario
+            'scenario' => $this->scenario
         ]);
         $form->load($this->property);
         if(!$form->validate()){

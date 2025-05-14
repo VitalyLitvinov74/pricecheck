@@ -23,23 +23,25 @@ class Product
      */
     public function fill(array $attributes): void
     {
+        foreach ($attributes as $attribute) {
+            $existedSameAttribute = $this->attributes->findFirst(
+                function ($key, Attribute $existedAttribute) use ($attribute) {
+                    return $attribute->compareWith($existedAttribute);
+                }
+            );
+            if ($existedSameAttribute !== null) {
 
+                $this->attributes->removeElement($existedSameAttribute);
+                $this->attributes->add($attribute);
+                return;
+            }
+            $this->attributes->add($attribute);
+        }
     }
 
     public function attachWith(Attribute $attribute): void
     {
-        $existedSameAttribute = $this->attributes->findFirst(
-            function ($key, Attribute $existedAttribute) use ($attribute) {
-                return $attribute->compareWith($existedAttribute);
-            }
-        );
-        if ($existedSameAttribute !== null) {
 
-            $this->attributes->removeElement($existedSameAttribute);
-            $this->attributes->add($attribute);
-            return;
-        }
-        $this->attributes->add($attribute);
     }
 
     public function has(Attribute $attribute): bool

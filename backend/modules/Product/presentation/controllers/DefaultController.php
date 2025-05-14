@@ -61,7 +61,7 @@ class DefaultController extends BaseApiController
     public function actionCreate(ProductService $service)
     {
         $form = new ProductForm([
-//            'scenario' => Scenarious::CreateProduct
+            'scenario' => Scenarious::CreateProduct
         ]);
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {

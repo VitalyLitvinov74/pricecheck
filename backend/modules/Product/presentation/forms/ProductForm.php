@@ -65,6 +65,6 @@ class ProductForm extends Model
      */
     public function attributeDTOs(): array
     {
-        return $this->attributeDTOs();
+        return $this->attributeDTOs;
     }
 }
