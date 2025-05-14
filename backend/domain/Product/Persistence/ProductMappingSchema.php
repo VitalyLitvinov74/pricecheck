@@ -2,13 +2,12 @@
 
 namespace app\domain\Product\Persistence;
 
-use app\domain\Product\Models\Attribute;
-use app\domain\Product\Models\Property;
-use app\domain\Product\Product;
+use app\modules\Product\domain\Models\Attribute;
+use app\modules\Product\domain\Models\Property;
+use app\modules\Product\domain\Product;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;
-use Cycle\ORM\SchemaInterface;
 
 trait ProductMappingSchema
 {

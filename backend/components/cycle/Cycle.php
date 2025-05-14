@@ -3,21 +3,19 @@
 namespace app\components\cycle;
 
 use Cycle\Database\Config\DatabaseConfig;
-use Cycle\Database\Config\Postgres\TcpConnectionConfig;
+use Cycle\Database\Config\Postgres\DsnConnectionConfig;
 use Cycle\Database\Config\PostgresDriverConfig;
 use Cycle\Database\DatabaseManager;
 use Cycle\ORM\Collection\DoctrineCollectionFactory;
 use Cycle\ORM\Factory;
 use Cycle\ORM\ORM;
 use Cycle\ORM\Schema;
+use Yii;
 use yii\base\Component;
 
 class Cycle extends Component
 {
     private $factory;
-    public $dsn;
-    public $username;
-    public $password;
     public $options;
 
     public function init()
@@ -46,13 +44,11 @@ class Cycle extends Component
                     'default' => ['connection' => 'postgres']
                 ],
                 'connections' => [
-                    'postgres'  => new PostgresDriverConfig(
-                        new TcpConnectionConfig(
-                            'pricecheck',
-                            'postgres',
-                            5432,
-                            $this->username,
-                            $this->password
+                    'postgres' => new PostgresDriverConfig(
+                        new DsnConnectionConfig(
+                            Yii::$app->db->dsn,
+                            Yii::$app->db->username,
+                            Yii::$app->db->password,
                         )
                     )
                 ]

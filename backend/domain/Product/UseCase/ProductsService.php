@@ -2,12 +2,12 @@
 
 namespace app\domain\Product\UseCase;
 
-use app\domain\Product\Models\Attribute;
-use app\domain\Product\Persistence\ElasticProductRepository;
 use app\domain\Product\Persistence\ProductRepository;
-use app\domain\Product\Product;
 use app\exceptions\BaseException;
 use app\forms\ProductAttributeForm;
+use app\modules\Product\domain\Models\Attribute;
+use app\modules\Product\domain\Product;
+use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
 use app\modules\Product\presentation\controllers\forms\ProductForm;
 use Throwable;
 use yii\db\Exception;
@@ -17,7 +17,7 @@ class ProductsService
 {
     public function __construct(
         private ProductRepository $productRepository = new ProductRepository(),
-        private ElasticProductRepository $elasticProductRepository = new ElasticProductRepository()
+        private ProductElasticRepository $elasticProductRepository = new ProductElasticRepository()
     )
     {
     }

@@ -5,11 +5,12 @@ use app\modules\UserSettings\UserSettingsModule;
 
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
-
+$di = require __DIR__ . '/di.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'container' => $di,
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

@@ -4,6 +4,7 @@ namespace app\modules\Product\presentation\controllers\forms;
 
 use app\forms\ProductAttributeForm;
 use app\forms\Scenarious;
+use app\modules\Product\application\DTOs\AttributeDTO;
 use yii\base\Model;
 
 class ProductForm extends Model
@@ -11,11 +12,13 @@ class ProductForm extends Model
     /** @var ProductAttributeForm[] */
     public $productAttributes;
     public $id;
+    private array $attributeDTOs;
 
     public function rules(): array
     {
         return [
             [['productAttributes', 'id'], 'required'],
+            ['productAttributes','validateProductAttributes'],
             ['id', 'integer']
         ];
     }
@@ -27,6 +30,14 @@ class ProductForm extends Model
             Scenarious::UpdateProduct => ['id', 'productAttributes']
         ];
     }
+
+    public function validateProductAttributes()
+    {
+        if($this->productAttributes === []){
+            $this->addError();
+        }
+    }
+
 
     protected function nestedFormsMap(): array
     {
@@ -41,5 +52,13 @@ class ProductForm extends Model
     public function formName(): string
     {
         return '';
+    }
+
+    /**
+     * @return AttributeDTO[]
+     */
+    public function attributeDTOs(): array
+    {
+
     }
 }

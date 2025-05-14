@@ -4,6 +4,7 @@ namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
 use app\forms\Scenarious;
+use app\modules\Product\application\ProductService;
 use app\modules\Product\infrastructure\records\ProductRecord;
 use app\modules\Product\infrastructure\records\PropertyRecord;
 use app\modules\Product\presentation\controllers\forms\ProductForm;
@@ -57,14 +58,14 @@ class DefaultController extends BaseApiController
             ->one();
     }
 
-    public function actionCreate()
+    public function actionCreate(ProductService $service)
     {
         $form = new ProductForm([
             'scenario' => Scenarious::CreateProduct
         ]);
         $form->load(Yii::$app->request->post(), '');
         if ($form->validate()) {
-            $this->service->createProduct($form->productAttributes);
+            $service->create($form->productAttributes);
             return $this->jsonApi->setupCode(204)->asArray();
         }
         return $this->jsonApi->addModelErrors($form)->asArray();

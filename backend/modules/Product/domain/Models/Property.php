@@ -1,6 +1,6 @@
 <?php
 
-namespace app\domain\Product\Models;
+namespace app\modules\Product\domain\Models;
 
 use app\domain\Product\Persistence\Snapshots\PropertySnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;

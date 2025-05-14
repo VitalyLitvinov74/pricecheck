@@ -2,14 +2,14 @@
 
 namespace app\application\Product;
 
-use app\domain\Product\Persistence\ElasticProductRepository;
 use app\domain\Product\Persistence\ProductRepository;
+use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
 
 class ReindexProductsAction
 {
     public function __construct(
         private ProductRepository $productRepository = new ProductRepository(),
-        private ElasticProductRepository $elasticProductRepository = new ElasticProductRepository()
+        private ProductElasticRepository $elasticProductRepository = new ProductElasticRepository()
     )
     {
 

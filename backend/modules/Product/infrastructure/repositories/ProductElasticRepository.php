@@ -1,15 +1,15 @@
 <?php
 
-namespace app\domain\Product\Persistence;
+namespace app\modules\Product\infrastructure\repositories;
 
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
-use app\domain\Product\Product;
 use app\libs\ObjectMapper\ObjectMapper;
+use app\modules\Product\domain\Product;
 use app\records\elastic\ProductIndex;
 use Doctrine\Common\Collections\ArrayCollection;
 use Yii;
 
-class ElasticProductRepository
+class ProductElasticRepository
 {
     public function __construct(private ObjectMapper $objectMapper = new ObjectMapper())
     {
