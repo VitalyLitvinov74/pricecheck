@@ -5,6 +5,7 @@ namespace app\modules\Product\presentation\forms;
 
 use app\forms\Scenarious;
 use yii\base\Model;
+use function PHPUnit\Framework\containsEqual;
 
 class ProductAttributeForm extends Model
 {
@@ -13,6 +14,7 @@ class ProductAttributeForm extends Model
     /**
      * @var ProductPropertyForm
      */
+    public $propertyForm;
     public $property;
 
     public function rules(): array
@@ -28,7 +30,8 @@ class ProductAttributeForm extends Model
                 'skipOnEmpty' => false,
                 'strict' => true,
                 'skipOnError' => false
-            ]
+            ],
+            ['property', 'validateProperty']
         ];
     }
 
@@ -49,8 +52,16 @@ class ProductAttributeForm extends Model
         return '';
     }
 
-    public function propertyDTO():
+    public function validateProperty()
     {
-
+        $form = new ProductPropertyForm([
+//            'scenario' => $this->scenario
+        ]);
+        $form->load($this->property);
+        if(!$form->validate()){
+            $this->addError('property', $form->getErrors());
+            return;
+        }
+        $this->propertyForm = $form;
     }
 }

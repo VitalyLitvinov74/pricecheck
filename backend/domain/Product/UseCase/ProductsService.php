@@ -32,7 +32,7 @@ class ProductsService
         $product = new Product();
         foreach ($productAttributes as $attribute) {
             try {
-                $property = $this->productRepository->findPropertyById($attribute->property->id);
+                $property = $this->productRepository->findPropertyById($attribute->propertyForm->id);
                 $product->attachWith(
                     new Attribute(
                         $property,

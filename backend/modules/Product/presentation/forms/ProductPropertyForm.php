@@ -24,7 +24,7 @@ class ProductPropertyForm extends Model
     {
         return [
             Scenarious::Default => ['name', 'type'],
-            Scenarious::CreateProduct => ['id'],
+            Scenarious::CreateProduct => ['id', 'name'],
             Scenarious::CreateParsingSchema => ['id'],
             Scenarious::UpdateParsingSchema => ['id'],
             Scenarious::RemoveProperty => ['id'],

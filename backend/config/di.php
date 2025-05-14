@@ -5,7 +5,9 @@ use app\modules\Product\application\ProductService;
 use app\modules\Product\infrastructure\repositories\ProductPgRepository;
 
 return [
-    ProductService::class => ProductService::class,
-    ProductPgRepository::class => ProductPgRepository::class,
-    Cycle::class => Cycle::class
+    'singletons'=>[
+        ProductService::class => ProductService::class,
+        ProductPgRepository::class => ProductPgRepository::class,
+        Cycle::class => Cycle::class
+    ]
 ];
