@@ -28,6 +28,7 @@ class ProductForm extends Model
     public function scenarios(): array
     {
         return [
+            Scenarious::Default => ['productAttributes', 'id'],
             Scenarious::CreateProduct => ['productAttributes'],
             Scenarious::RemoveProduct => ['id'],
             Scenarious::UpdateProduct => ['id', 'productAttributes']

@@ -38,6 +38,7 @@ class ProductAttributeForm extends Model
     public function scenarios(): array
     {
         return [
+            Scenarious::Default => ['value', 'property', 'id'],
             Scenarious::CreateProduct => [
                 'value', 'property'
             ],

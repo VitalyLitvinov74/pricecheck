@@ -31,7 +31,7 @@ class JsonApi
             $firstKey = array_key_first($nestedErrors);
 
             //Если это обычная не вложенная ошибка
-            if(!is_array($nestedErrors[$firstKey])){
+            if (!is_array($nestedErrors[$firstKey])) {
                 $resultErrors[$title] = $nestedErrors;
                 continue;
             }
@@ -46,7 +46,7 @@ class JsonApi
         }
 
         foreach ($resultErrors as $source => $attributeErrors) {
-            foreach ($attributeErrors as $error){
+            foreach ($attributeErrors as $error) {
                 $this->errors->add([
                     'detail' => $error,
                     'source' => [
@@ -62,22 +62,33 @@ class JsonApi
     /**
      * @param string $prefix
      * @param array $errors
-     * @return void преобразует многомерный массив в ассоциативный с ошибками.
+     * @return array преобразует многомерный массив в ассоциативный с ошибками.
      */
     function flattenErrors(string $prefix, array $errors): array
     {
         $result = [];
-        foreach ($errors as $key => $value) {
-            if(is_array($value) && $this->isAssociative($value)){
+        foreach ($errors as $key => $error) {
+            if (is_array($error) && $this->isNestedArray($error)) {
+                //если массив ассоциативный то это набор вложенных ошибок на каждый атрибут
+                if ($this->isAssociative($error)) {
+                    $result = array_merge(
+                        $result,
+                        $this->flattenErrors($prefix, $error)
+                    );
+                    continue;
+                }
+
+                //а это уже рассматриваем каждую ошибку в атрибуте
                 $result = array_merge(
                     $result,
-                    $this->flattenErrors($prefix, $value)
+                    $this->flattenErrors($prefix . '/' . $key, $error)
                 );
                 continue;
             }
 
+            //обычную ошибку - строку, добавляем в результирующий набор
             $currentKey = $prefix . '/' . $key;
-            $result[$currentKey] = $value;
+            $result[$currentKey] = $error;
         }
         return $result;
     }
@@ -151,5 +162,10 @@ class JsonApi
     {
         $this->fields->set($key, $value);
         return $this;
+    }
+
+    private function isNestedArray(array $value): bool
+    {
+        return count(array_filter($value, 'is_array')) > 0;
     }
 }
