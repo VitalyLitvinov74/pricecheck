@@ -2,7 +2,6 @@
 
 namespace app\modules\UserSettings\application;
 
-use app\modules\UserSettings\domain\Models\ColumnOf;
 use app\modules\UserSettings\domain\Models\Setting;
 use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\Models\SettingType;
@@ -10,7 +9,7 @@ use app\modules\UserSettings\infrastructure\repositories\UserRepository;
 
 class SettingsService
 {
-    public function __construct(private UserRepository $repository = new UserRepository())
+    public function __construct(private UserRepository $repository)
     {
     }
 

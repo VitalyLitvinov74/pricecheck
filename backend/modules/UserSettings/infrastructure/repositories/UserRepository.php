@@ -2,6 +2,7 @@
 
 namespace app\modules\UserSettings\infrastructure\repositories;
 
+use app\components\cycle\Cycle;
 use app\modules\UserSettings\domain\Models\EntityType;
 use app\modules\UserSettings\domain\User;
 use Cycle\ORM\EntityManager;
@@ -15,9 +16,9 @@ class UserRepository
     private ORM $orm;
     private EntityManager $em;
 
-    public function __construct()
+    public function __construct(Cycle $cycle)
     {
-        $this->orm = Yii::$app->cycle->orm($this->schema());
+        $this->orm = $cycle->orm($this->schema());
         $this->em = new EntityManager($this->orm);
     }
 

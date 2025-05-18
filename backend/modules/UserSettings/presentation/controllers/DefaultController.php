@@ -18,19 +18,6 @@ use Yii;
 
 class DefaultController extends BaseApiController
 {
-    private SettingsService $settingsService;
-
-    public function init(): void
-    {
-        parent::init();
-        $this->settingsService = new SettingsService();
-    }
-
-    public function actionUpdate()
-    {
-
-    }
-
     public function actionIndex(): array
     {
         $settings = UserSettingsRecord::find()
@@ -55,13 +42,13 @@ class DefaultController extends BaseApiController
             ->asArray();
     }
 
-    public function actionUpsert(): array
+    public function actionUpsert(SettingsService $settingService): array
     {
         $form = new UserSettingsForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
             try {
-                $this->settingsService->upsertUserSettings(
+                $settingService->upsertUserSettings(
                     1,
                     $form->settingsDTOs()
                 );
