@@ -35,17 +35,21 @@ export type UserSettingPayload = {
     stringValue?: string,
     intValue?: number
     frontendId: string
-    entityId?: number|null
+    entityId?: number | null
     entityType: EntityType
     entityFrontendId: string
 }
 
 export type ProductAttributePayload = {
-
+    id?: number
+    propertyId: number
+    propertyName: string
+    value: string
+    productId?: number
 }
 
 export type ProductPayload = {
-    id: number,
-    createdAt: string,
+    id?: number,
+    createdAt?: string,
     productAttributes: ProductAttributePayload[]
 }

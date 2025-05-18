@@ -4,6 +4,7 @@ import {ProductProperty} from "../../../models/ProductProperty";
 import {AttributeCell} from "./AttributeCell";
 import Link from "next/link";
 import {ButtonRemove} from "./ButtonRemove";
+import {ProductAttribute} from "../../../models/ProductAttribute";
 
 export function ProductItem({product, sortedProperties}: {
     product: Product,
@@ -14,7 +15,10 @@ export function ProductItem({product, sortedProperties}: {
         <td scope="row">#{product.id()}</td>
         {sortedProperties
             .map(function (property) {
-                const attribute = product.attributeByProperty(property);
+                let attribute = product.attributeByProperty(property);
+                if(!attribute){
+                   attribute = new ProductAttribute({})
+                }
                 return (<Fragment key={attribute.id()}>
                     <AttributeCell
                         attribute={attribute}

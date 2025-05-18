@@ -1,6 +1,7 @@
 import {metadata} from "../../../layout";
 import {loadProduct, loadGeneralProperties} from "../../../../src/shared/api/products-api";
-import {Form} from "../../../../src/pages/product-update/ui/Form";
+import {Form} from "../../../../src/pages/product-create/ui/Form";
+import {ProductContext} from "../../../../src/shared/product-page-context/ProductContext";
 
 
 export default async function Page({params}: { id: string }){
@@ -14,8 +15,8 @@ export default async function Page({params}: { id: string }){
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <Form
-                            productData={productPayload}
                             propertiesPayload={properties}
+                            productPayload={productPayload}
                         />
                     </div>
                 </div>

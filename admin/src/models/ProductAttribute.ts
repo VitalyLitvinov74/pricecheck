@@ -3,7 +3,15 @@ import {ProductProperty} from "./ProductProperty";
 import {uuid} from "../shared/helpers";
 
 export class ProductAttribute {
-    constructor(payload: ProductAttributePayload) {
+    _value: string
+    _property: ProductProperty
+    constructor(value: string, property: ProductProperty) {
+        this._value = value
+        this._property = property
+    }
+
+    changeValue(value: string) {
+        this._value = value
     }
 
     payload(): ProductAttributePayload {
@@ -11,7 +19,7 @@ export class ProductAttribute {
     }
 
     basedOn(property: ProductProperty): boolean {
-        return true;
+        return this._property.equalsTo(property);
     }
 
     value(): string{

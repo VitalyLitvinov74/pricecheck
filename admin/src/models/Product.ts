@@ -38,7 +38,7 @@ export class Product {
         }
     }
 
-    attributeByProperty(property: ProductProperty): ProductAttribute  {
+    attributeByProperty(property: ProductProperty): ProductAttribute|undefined  {
         const attr = this._attributes
             .find(function(attribute){
                 return attribute.basedOn(property)
@@ -46,6 +46,17 @@ export class Product {
         if(attr){
             return attr;
         }
-        return new ProductAttribute({});
+        return undefined
+    }
+
+    hasProperty(property: ProductProperty): boolean {
+        return this._attributes
+            .some(function(attribute){
+                return attribute.basedOn(property)
+            })
+    }
+
+    addAttribute(attribute: ProductAttribute): void {
+
     }
 }

@@ -1,16 +1,23 @@
 import {metadata} from "../../layout";
-import Form from "../../../src/pages/product-update/ui/Form";
-import {loadProperties} from "../../../src/shared/product-properties";
+import {loadGeneralProperties} from "../../../src/shared/api/products-api";
+import {Form} from "../../../src/pages/product-create/ui/Form";
+import {ProductPayload} from "../../../src/shared/types";
+import {ProductContext} from "../../../src/shared/product-page-context/ProductContext";
 
-export default async function newProduct(){
-    metadata.title= "Создать товар"
-    const properties = await loadProperties();
+export default async function newProduct() {
+    metadata.title = "Создать товар"
+    const propertiesPayload = await loadGeneralProperties();
+    const productPayload: ProductPayload = {productAttributes: []};
     return (
         <div className="contentbar">
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card m-b-30">
-                        <Form properties={properties}/>
+                        <ProductContext productPayload={productPayload}>
+                            <Form
+                                propertiesPayload={propertiesPayload}
+                            />
+                        </ProductContext>
                     </div>
                 </div>
 

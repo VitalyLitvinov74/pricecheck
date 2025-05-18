@@ -1,6 +1,5 @@
 import {uuid} from "../shared/helpers";
 import {UserSetting} from "./UserSetting";
-import {ProductPropertyPayload} from "../shared/types";
 
 export class ProductProperty {
     id?: number;
@@ -15,7 +14,7 @@ export class ProductProperty {
         this.type = data.type;
         this.frontendId = data.frontendId ? data.frontendId : uuid();
         const self = this;
-        this._userSettings = data.userSettings.map(
+        this._userSettings = data.userSettings?.map(
             function (item: UserSetting) {
                 item.entityFrontendId = self.frontendId
                 item.entityId = self.id
@@ -32,5 +31,17 @@ export class ProductProperty {
 
     hasFronedId(frontendId: string): boolean {
         return this.frontendId === frontendId;
+    }
+
+    equalsTo(property: ProductProperty): boolean {
+        return property.hasFronedId(this.frontendId) || property.hasType(this.type) && this.hasId(this.id);
+    }
+
+    private hasType(type: string): boolean {
+        return this.type === type
+    }
+
+    private hasId(id: any): boolean {
+        return this.id === id || this.frontendId === id
     }
 }
