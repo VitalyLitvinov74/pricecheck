@@ -4,9 +4,15 @@ namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
 use app\forms\Scenarious;
+use app\modules\Product\application\DocumentsParseService;
 use app\modules\Product\application\ProductService;
+use app\modules\Product\domain\ParceDocument\Persistance\MappingSchemasRepository;
 use app\modules\Product\infrastructure\records\ProductRecord;
 use app\modules\Product\infrastructure\records\PropertyRecord;
+use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
+use app\modules\Product\infrastructure\repositories\ProductFileRepository;
+use app\modules\Product\infrastructure\repositories\ProductPgRepository;
+use app\modules\Product\presentation\forms\DocumentForm;
 use app\modules\Product\presentation\forms\ProductForm;
 use app\modules\Product\presentation\forms\ProductListSearchForm;
 use Yii;
@@ -14,6 +20,19 @@ use yii\db\ActiveQuery;
 
 class DefaultController extends BaseApiController
 {
+    private ProductService $productService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->productService = new ProductService(
+            new ProductPgRepository(
+                Yii::$app->cycle
+            ),
+            new ProductElasticRepository()
+        );
+    }
+
     public function actionGeneralProperties(): array
     {
         return $this->jsonApi

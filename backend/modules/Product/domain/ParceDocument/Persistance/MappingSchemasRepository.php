@@ -9,7 +9,7 @@ use yii\db\ActiveQuery;
 
 class MappingSchemasRepository
 {
-    public function __construct(private ObjectMapper $objectMapper = new ObjectMapper())
+    public function __construct()
     {
     }
 

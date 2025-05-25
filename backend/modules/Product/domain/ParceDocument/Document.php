@@ -19,7 +19,7 @@ class Document
 
     public function __construct(
         private string $path,
-        private string $passedName
+        private string|null $passedName
     ) {
         $this->version = time();
         $this->productCards = new ArrayCollection();

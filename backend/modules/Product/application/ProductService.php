@@ -14,8 +14,7 @@ class ProductService
 {
     public function __construct(
         private ProductPgRepository $pgRepository,
-        private ProductElasticRepository $elasticRepository,
-        private ProductFileRepository $fileRepository
+        private ProductElasticRepository $elasticRepository
     )
     {
     }
@@ -44,7 +43,7 @@ class ProductService
         return $productId;
     }
 
-    public function createAllFromDocument(){
+    public function createFromDocument(){
 
     }
 
