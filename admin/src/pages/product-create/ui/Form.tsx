@@ -90,7 +90,7 @@ export function Form({propertiesPayload, productPayload, formAction, attributesP
                             attributes={attributes}
                             product={productPayload}
                         />
-                        <SaveProductButton/>
+                        <SaveProductButton attributes={attributes} formAction={formAction}/>
                         {/*<button type="button" className="btn btn-secondary-rgba mr-2"><i*/}
                         {/*    className="feather icon-share-2 mr-2"></i> Сохранить шаблон*/}
                         {/*</button>*/}

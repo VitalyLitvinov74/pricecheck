@@ -20,7 +20,7 @@ class ProductForm extends Model
     {
         return [
             [['attributes', 'id'], 'required'],
-            ['attributes', 'validateAttributes'],
+            ['attributes', 'validateAttributes', 'skipOnEmpty' => false],
             ['id', 'integer']
         ];
     }

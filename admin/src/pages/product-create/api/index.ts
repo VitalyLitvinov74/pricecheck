@@ -18,5 +18,6 @@ export async function createProduct(attributes: Attribute[]) {
             'content-type': "application/json"
         }
     })
-    return await data.json();
+    if(data.status === 204) return;
+    if(data.status > 400) throw new Error('Что то не так');
 }
