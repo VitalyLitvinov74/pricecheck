@@ -1,14 +1,24 @@
 import React from "react";
-import {commitUserSettings} from "../../api/api-products-table-settings";
+import {Property} from "csstype";
+import {useUserContext} from "../../../../shared/user-context/UserContext";
+import {EntityType} from "../../../../shared/types";
 
-export function CommitButton({productProperty, rowIsEditing, setIsEditingCallback}: {
-    productProperty: Property,
+export function CommitButton({property, rowIsEditing, setIsEditingCallback}: {
+    property: Property,
     rowIsEditing: boolean,
     setIsEditingCallback: (isEditing: boolean) => void
 }) {
-    async function commit() {
-        await commitUserSettings(productProperty)
-        setIsEditingCallback(false)
+    const user = useUserContext();
+
+    function commit() {
+        try {
+            user.commitSettings(
+                user.settingsBy(EntityType.Property, property.id)
+            )
+            setIsEditingCallback(false)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (<>

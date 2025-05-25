@@ -1,19 +1,24 @@
-import {PropertyLibrary} from "../../../models/PropertyLibrary";
-import {UserSetting} from "../../../models/UserSetting";
+import {UserSetting} from "../../../shared/types";
 
-export function removeSetting(){
+export function removeSetting() {
 
 }
 
-export async function commitUserSettings(productProperty: PropertyLibrary): Promise<void>{
-    const payload = {
-        settings: productProperty.userSettings().map(function (s: UserSetting){
-            return s.payload()
-        })
-    };
+export async function commitUserSettings(settings: UserSetting[]): Promise<void> {
+    const payload = settings.map(function (setting: UserSetting) {
+        return {
+            type: setting.type,
+            stringValue: setting.string_value,
+            intValue: setting.int_value,
+            entityId: setting.entity_id,
+            entityType: setting.entity_type,
+        }
+    })
     const url = `${process.env.NEXT_PUBLIC_BASE_URL}/user-settings/upsert`;
     const data = await fetch(url, {
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+            settings: payload
+        }),
         method: "post",
         headers: {
             'content-type': "application/json"

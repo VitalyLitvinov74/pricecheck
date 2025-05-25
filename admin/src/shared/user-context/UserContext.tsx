@@ -3,12 +3,14 @@
 import {createContext, useContext, useState} from "react";
 import {EntityType, SettingType, UserSetting} from "../types";
 import {uniqNumber} from "../helpers";
+import {commitUserSettings} from "../../pages/products-table-settings/api/api-products-table-settings";
 
 const context = createContext<{
     settingsBy: (EntityType: EntityType, entityId: number) => UserSetting[],
     findSettingsByType: (settingType: SettingType) => UserSetting[],
     settingLabelByType: (settingType: SettingType) => string,
-    setSetting: (setting: UserSetting) => void
+    setSetting: (setting: UserSetting) => void,
+    commitSettings: (settings: UserSetting[]) => void
 }>({} as any);
 
 export function UserContext({children, settingsPayload, defaultSettingsPayload}: {
@@ -38,18 +40,36 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
         inputtedSettings: UserSetting[],
         defaultSettings: UserSetting[]
     ): UserSetting[] {
-        defaultSettings.forEach(function (item) {
-            const filteredSettings = inputtedSettings.find(function (item2) {
-                return item2.type === item.type
-            });
-            console.log(filteredSettings)
-            if (!filteredSettings) {
-                item.id = uniqNumber()
-                inputtedSettings.push(item)
+        const result: UserSetting[] = [];
+        const map = new Map<number, UserSetting[]>();
+        inputtedSettings.forEach(function (userSetting) {
+            const userSettings = map.get(userSetting.entity_id);
+            if (userSettings) {
+                userSettings.push(userSetting)
+                map.set(userSetting.entity_id, userSettings);
+            } else {
+                map.set(userSetting.entity_id, [userSetting]);
             }
         })
 
-        return inputtedSettings;
+        defaultSettings.forEach(function (item1: UserSetting) {
+            map.forEach(function (items2: UserSetting[], key: number) {
+                const filteredSettings = items2.find(function (item2) {
+                    return item2.type === item1.type
+                });
+                if (!filteredSettings) {
+                    item1.id = uniqNumber()
+                    result.push({
+                        ...item1,
+                        ...{
+                            entity_id: key
+                        }
+                    })
+                }
+            })
+        })
+
+        return [...inputtedSettings, ...result];
     }
 
     function settingLabelByType(settingType: SettingType) {
@@ -72,6 +92,10 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
         })
     }
 
+    async function commitSettings(settings: UserSetting[]): void{
+        const result = await commitUserSettings(settings);
+    }
+
     return (
         <context.Provider
             value={
@@ -83,7 +107,8 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
                         })
                     },
                     settingLabelByType: settingLabelByType,
-                    setSetting
+                    setSetting,
+                    commitSettings
                 }
             }
         >

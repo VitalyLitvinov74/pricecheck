@@ -4,6 +4,7 @@ import {useTableSettingsPageContext} from "./ProductsTableSettings";
 import {useUserContext} from "../../../shared/user-context/UserContext";
 import {EntityType, Property, SettingType, UserSetting} from "../../../shared/types";
 import {uuid} from "../../../shared/helpers";
+import {CommitButton} from "./buttons/CommitButton";
 
 export function Row({property}: { property: Property }) {
     const [isEditing, setIsEditing] = useState<Boolean>(false)
@@ -54,11 +55,11 @@ export function Row({property}: { property: Property }) {
                     isEditing={isEditing}
                     setIsEditing={setIsEditing}
                 />
-                {/*<CommitButton*/}
-                {/*    productProperty={property}*/}
-                {/*    rowIsEditing={isEditing}*/}
-                {/*    setIsEditingCallback={setIsEditing}*/}
-                {/*/>*/}
+                <CommitButton
+                    property={property}
+                    rowIsEditing={isEditing}
+                    setIsEditingCallback={setIsEditing}
+                />
                 {/*<CancelButton*/}
                 {/*    column={productColumn}*/}
                 {/*    originalColumn={originalProductColumn}*/}
