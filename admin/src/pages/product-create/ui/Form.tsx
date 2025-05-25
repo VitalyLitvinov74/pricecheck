@@ -1,39 +1,33 @@
 "use client"
-import {useState} from "react";
-import {ProductPropertyPayload} from "../../../shared/types";
+import {createContext, Fragment, useContext, useState} from "react";
+import {Attribute, FormAction, Option, Product, Property} from "../../../shared/types";
 import {AddAttributeButton} from "./buttons/AddAttributeButton";
 import {AttributeInput} from "./AttributeInput";
-import {PropertyLibrary} from "../../../models/PropertyLibrary";
+import {SaveProductButton} from "./buttons/SaveProductButton";
 
-export function Form({propertiesPayload}: {
-    propertiesPayload: ProductPropertyPayload[],
+const Context = createContext<{
+    addAttribute: (attribute: Attribute) => void
+    buildOptionsByAttribute: (attribute: Attribute) => Option[],
+    changeAttribute: (attribute: Attribute) => void,
+    removeAttribute: (attribute: Attribute) => void
+}>({} as any)
+
+export function Form({propertiesPayload, productPayload, formAction, attributesPayload}: {
+    propertiesPayload: Property[],
+    productPayload: Product,
+    attributesPayload: Attribute[],
+    formAction: FormAction
 }) {
-    const [properties, setProperties] = useState<PropertyLibrary[]>(
-        propertiesPayload.map(
-            function (payload: ProductPropertyPayload) {
-                return new PropertyLibrary(payload)
-            }
-        )
-    )
-    const [attributes, changeAttributes] = useState([])
-    const [addButtonDisabled, disableAddButton] = useState(false)
+    const [properties, setProperties] = useState<Property[]>(propertiesPayload)
+    const [attributes, setAttributes] = useState(attributesPayload)
 
-    function defaultAttribute() {
-        return {
-            id: uuidv4(),
-            name: optionsFor()[0].label,
-            propertyId: optionsFor()[0].value,
-            value: null
-        }
-    }
-
-    function optionsFor(attribute = null) {
+    function optionsFor(attribute: Attribute): Option[] {
         let options: any;
         options = propertiesPayload
             .filter(function (property) {
                 let needShow = true
                 attributes.forEach(function (createdAttribute) {
-                    if (createdAttribute.propertyId === property.id) {
+                    if (createdAttribute.property_id === property.id) {
                         needShow = false
                     }
                 })
@@ -47,54 +41,75 @@ export function Form({propertiesPayload}: {
             });
         if (attribute !== null) {
             options = [{
-                value: attribute.propertyId,
-                label: attribute.name
+                value: attribute.property_id,
+                label: attribute.property_name
             }, ...options]
         }
         return options;
     }
 
-    function attributeChangedOn(attribute, option = null, attributeValue = null) {
-        const newAttributes = attributes.slice()
-        newAttributes.forEach(function (newAttribute) {
-            if (attribute.propertyId === newAttribute.propertyId) {
-                if (option) {
-                    newAttribute.name = option.label
-                    newAttribute.propertyId = option.value
+    function changeAttribute(attribute: Attribute): void {
+        setAttributes(function (prevState) {
+            return prevState.map(function (item) {
+                if (item.id === attribute.id) {
+                    return attribute
                 }
-                if (attributeValue !== null) {
-                    if (attributeValue === '') {
-                        newAttribute.value = null
-                        return;
-                    }
-                    newAttribute.value = attributeValue
-                }
-            }
+                return item
+            })
         })
-        changeAttributes(newAttributes)
-        console.log(newAttributes)
     }
 
+    function addAttribute(attribute) {
+        setAttributes(function (prevState) {
+            return [...prevState, attribute]
+        })
+    }
+
+    function removeAttribute(attribute): void{
+        setAttributes(function (prevState) {
+            return prevState.filter(function (item) {
+                return item.id !== attribute.id
+            })
+        })
+    }
+
+    // console.log(attributes)
+
     return (
-        <div className="card-body">
-            <div className="row mt-2">
-                <div className="col-md-9">
-                    <AddAttributeButton properties={properties}/>
-                    {/*<SaveProductButton/>*/}
-                    {/*<button type="button" className="btn btn-secondary-rgba mr-2"><i*/}
-                    {/*    className="feather icon-share-2 mr-2"></i> Сохранить шаблон*/}
-                    {/*</button>*/}
+        <Context.Provider value={{
+            addAttribute: addAttribute,
+            buildOptionsByAttribute: optionsFor,
+            changeAttribute: changeAttribute,
+            removeAttribute: removeAttribute
+        }}>
+            <div className="card-body">
+                <div className="row mt-2">
+                    <div className="col-md-9">
+                        <AddAttributeButton
+                            properties={properties}
+                            attributes={attributes}
+                            product={productPayload}
+                        />
+                        <SaveProductButton/>
+                        {/*<button type="button" className="btn btn-secondary-rgba mr-2"><i*/}
+                        {/*    className="feather icon-share-2 mr-2"></i> Сохранить шаблон*/}
+                        {/*</button>*/}
+                    </div>
+                </div>
+                <div className="row ">
+                    <div className="col-md-12">
+                        {attributes.map(
+                            function (attribute) {
+                                return <Fragment key={attribute.id}>
+                                    <AttributeInput attribute={attribute}/>
+                                </Fragment>
+                            }
+                        )}
+                    </div>
                 </div>
             </div>
-            <div className="row ">
-                <div className="col-md-12">
-                    {attributes.map(
-                        function (attribute) {
-                            return <AttributeInput attribute={attribute}/>
-                        }
-                    )}
-                </div>
-            </div>
-        </div>
+        </Context.Provider>
     );
 }
+
+export const useProductFormContext = () => useContext(Context)

@@ -1,32 +1,55 @@
-import {useProductContext} from "../../../../shared/product-page-context/ProductContext";
-import {PropertyLibrary} from "../../../../models/PropertyLibrary";
-import {ProductAttribute} from "../../../../models/ProductAttribute";
+import {Attribute, Product, Property} from "../../../../shared/types";
+import {useProductFormContext} from "../Form";
+import {uniqNumber} from "../../../../shared/helpers";
+import {useEffect, useState} from "react";
 
-export function AddAttributeButton({properties}: {
-    properties: PropertyLibrary[]
+export function AddAttributeButton({properties, attributes, product}: {
+    properties: Property[],
+    attributes: Attribute[],
+    product: Product
 }) {
-    const isDisabled = false;
-    const context = useProductContext()
-    const product = context.product;
+    const form = useProductFormContext()
+    const [isDisabled, setIsDisabled] = useState(false)
+
+    useEffect(function(){
+        const length = properties.filter(function(property){
+            return !attributes.find(function(attribute){
+                return attribute.property_id === property.id
+            })
+        }).length;
+        setIsDisabled(length === 0)
+    }, [attributes])
+    function defaultAttributeFor(property: Property): Attribute {
+        return {
+            id: uniqNumber(),
+            product_id: product.id,
+            property_id: property.id,
+            property_name: property.name,
+            value: ""
+        }
+    }
 
     function add() {
-        const property = properties.find(function (property: PropertyLibrary) {
-            const attribute = product.attributeByProperty(property);
-            if (!attribute) {
-                return true;
+        const property = properties.find(
+            function (property: Property) {
+                const attribute = attributes.find(function(item){
+                    return item.property_id === property.id
+                })
+                if (!attribute) {
+                    return true;
+                }
+                return false;
             }
-            return false;
-        })
+        )
 
+        //если на все свойства назанчены атрибуты
         if (property === undefined) {
             return;
         }
 
-        product.addAttribute(
-            new ProductAttribute("", property)
+        form.addAttribute(
+            defaultAttributeFor(property)
         )
-
-        context.setProduct(product);
     }
 
     return (<>

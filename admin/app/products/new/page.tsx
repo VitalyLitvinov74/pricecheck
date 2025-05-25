@@ -1,23 +1,24 @@
 import {metadata} from "../../layout";
 import {loadGeneralProperties} from "../../../src/shared/api/products-api";
 import {Form} from "../../../src/pages/product-create/ui/Form";
-import {ProductPayload} from "../../../src/shared/types";
-import {ProductContext} from "../../../src/shared/product-page-context/ProductContext";
+import {FormAction, Product} from "../../../src/shared/types";
+import {getCurrentDateTime, uniqNumber} from "../../../src/shared/helpers";
 
 export default async function newProduct() {
     metadata.title = "Создать товар"
-    const propertiesPayload = await loadGeneralProperties();
-    const productPayload: ProductPayload = {productAttributes: []};
+    const properties = await loadGeneralProperties();
+    const product: Product = {created_at: getCurrentDateTime(), id: uniqNumber()};
     return (
         <div className="contentbar">
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card m-b-30">
-                        <ProductContext productPayload={productPayload}>
-                            <Form
-                                propertiesPayload={propertiesPayload}
-                            />
-                        </ProductContext>
+                        <Form
+                            attributesPayload={[]}
+                            propertiesPayload={properties}
+                            productPayload={product}
+                            formAction={FormAction.Create}
+                        />
                     </div>
                 </div>
 

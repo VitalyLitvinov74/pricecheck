@@ -59,3 +59,13 @@ export type Attribute = {
     value: string
     product_id: number
 }
+
+export enum FormAction {
+    Update = 1,
+    Create = 2
+}
+
+export type Option = {
+    label: string,
+    value: any
+}
