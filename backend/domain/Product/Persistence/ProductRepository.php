@@ -2,17 +2,17 @@
 
 namespace app\domain\Product\Persistence;
 
-use app\domain\ParseDocument\Models\ProductCard;
-use app\domain\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
-use app\domain\ParseDocument\UseCases\DocumentsParseService;
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\exceptions\BaseException;
 use app\libs\LibsException;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\libs\UpsertBuilder;
-use app\modules\Product\domain\Models\Attribute;
-use app\modules\Product\domain\Models\Property;
-use app\modules\Product\domain\Product;
+use app\modules\Product\domain\ParceDocument\ParseDocument\Models\ProductCard;
+use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
+use app\modules\Product\domain\ParceDocument\ParseDocument\UseCases\DocumentsParseService;
+use app\modules\Product\domain\Product\Models\Attribute;
+use app\modules\Product\domain\Product\Models\Property;
+use app\modules\Product\domain\Product\Product;
 use app\records\pg\ProductAttributesRecord;
 use app\records\pg\ProductRecord;
 use app\records\pg\PropertyRecord;

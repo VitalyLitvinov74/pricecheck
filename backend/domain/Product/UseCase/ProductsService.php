@@ -4,8 +4,8 @@ namespace app\domain\Product\UseCase;
 
 use app\domain\Product\Persistence\ProductRepository;
 use app\exceptions\BaseException;
-use app\modules\Product\domain\Models\Attribute;
-use app\modules\Product\domain\Product;
+use app\modules\Product\domain\Product\Models\Attribute;
+use app\modules\Product\domain\Product\Product;
 use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
 use app\modules\Product\presentation\forms\AttributeForm;
 use app\modules\Product\presentation\forms\ProductForm;

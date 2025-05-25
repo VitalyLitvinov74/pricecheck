@@ -2,11 +2,11 @@
 
 namespace app\modules\Product\infrastructure\repositories;
 
-use app\domain\ParseDocument\Models\ProductCard;
-use app\domain\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
-use app\domain\ParseDocument\UseCases\DocumentsParseService;
-use app\modules\Product\domain\Models\Attribute;
-use app\modules\Product\domain\Product;
+use app\modules\Product\domain\ParceDocument\ParseDocument\Models\ProductCard;
+use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
+use app\modules\Product\domain\ParceDocument\ParseDocument\UseCases\DocumentsParseService;
+use app\modules\Product\domain\Product\Models\Attribute;
+use app\modules\Product\domain\Product\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductFileRepository

@@ -2,8 +2,8 @@
 
 namespace app\modules\Product\infrastructure\repositories;
 
-use app\modules\Product\domain\Models\Attribute;
-use app\modules\Product\domain\Product;
+use app\modules\Product\domain\Product\Models\Attribute;
+use app\modules\Product\domain\Product\Product;
 use Cycle\ORM\Mapper\Mapper;
 use Cycle\ORM\Relation;
 use Cycle\ORM\Schema;

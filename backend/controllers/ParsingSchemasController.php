@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\domain\ParsingSchema\UseCases\ParsingSchemaService;
 use app\forms\ParsingSchemaForm;
 use app\forms\Scenarious;
+use app\modules\Product\application\ParsingSchemaService;
 use app\records\pg\ParsingSchemaRecord;
 use Throwable;
 use Yii;

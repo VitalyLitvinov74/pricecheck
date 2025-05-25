@@ -1,0 +1,14 @@
+<?php
+
+namespace app\modules\Product\domain\ParsingSchema\Persistence\Snapshots;
+
+readonly class RelationshipPairSnapshot
+{
+    public function __construct(
+        public int|null $id,
+        public int $propertyId,
+        public string $externalColumnName
+    )
+    {
+    }
+}

@@ -3,7 +3,7 @@
 namespace app\modules\Product\infrastructure\repositories;
 
 use app\components\cycle\Cycle;
-use app\modules\Product\domain\Product;
+use app\modules\Product\domain\Product\Product;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 
