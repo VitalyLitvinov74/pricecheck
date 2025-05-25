@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\ParseDocument;
+namespace app\modules\Product\domain\ParceDocument;
 
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Models\MappingSchema;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Models\ProductCard;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Models\XlsxFile;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
+use app\modules\Product\domain\ParceDocument\Models\MappingSchema;
+use app\modules\Product\domain\ParceDocument\Models\ProductCard;
+use app\modules\Product\domain\ParceDocument\Models\XlsxFile;
+use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel (mapWith: DocumentSnapshot::class)]

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\ParseDocument\Models;
+namespace app\modules\Product\domain\ParceDocument\Models;
 
 use app\domain\ParseDocument\Persistance\Snapshots\MappingSchemaSnapshot;
 use app\libs\ObjectMapper\Attributes\DomainModel;

@@ -2,9 +2,9 @@
 
 namespace app\modules\Product\infrastructure\repositories;
 
-use app\modules\Product\domain\ParceDocument\ParseDocument\Models\ProductCard;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\DocumentSnapshot;
-use app\modules\Product\domain\ParceDocument\ParseDocument\UseCases\DocumentsParseService;
+use app\modules\Product\domain\ParceDocument\Models\ProductCard;
+use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
+use app\modules\Product\domain\ParceDocument\UseCases\DocumentsParseService;
 use app\modules\Product\domain\Product\Models\Attribute;
 use app\modules\Product\domain\Product\Product;
 use Doctrine\Common\Collections\ArrayCollection;

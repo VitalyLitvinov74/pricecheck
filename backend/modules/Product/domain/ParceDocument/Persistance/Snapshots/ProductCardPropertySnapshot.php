@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots;
+namespace app\modules\Product\domain\ParceDocument\Persistance\Snapshots;
 
 class ProductCardPropertySnapshot
 {

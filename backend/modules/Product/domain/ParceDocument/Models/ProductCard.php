@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\ParseDocument\Models;
+namespace app\modules\Product\domain\ParceDocument\Models;
 
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\ProductCardSnapshot;
+use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\ProductCardSnapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[DomainModel (mapWith: ProductCardSnapshot::class)]

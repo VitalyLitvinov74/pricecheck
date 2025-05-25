@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\ParseDocument\Models;
+namespace app\modules\Product\domain\ParceDocument\Models;
 
 use app\libs\ObjectMapper\Attributes\DomainModel;
 use app\libs\ObjectMapper\Attributes\Property;
-use app\modules\Product\domain\ParceDocument\ParseDocument\Persistance\Snapshots\ProductCardPropertySnapshot;
+use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\ProductCardPropertySnapshot;
 
 #[DomainModel (mapWith: ProductCardPropertySnapshot::class)]
 class CardProperty
