@@ -72,20 +72,20 @@ class DefaultController extends BaseApiController
     {
         return [
             [
-                'userId' => Yii::$app->user->id,
+                'user_id' => Yii::$app->user->id,
                 'type' => SettingType::IsEnabled->value,
-                'stringValue' => '',
-                'intValue' => 1,
-                'entityId' => null,
-                'entityType' => EntityType::ProductProperty->value
+                'string_value' => '',
+                'int_value' => 1,
+                'entity_id' => null,
+                'entity_type' => EntityType::ProductProperty->value
             ],
             [
-                'userId' => Yii::$app->user->id,
+                'user_id' => Yii::$app->user->id,
                 'type' => SettingType::ColumnNumber->value,
-                'stringValue' => '',
-                'intValue' => 99,
-                'entityId' => null,
-                'entityType' => EntityType::ProductProperty->value
+                'string_value' => '',
+                'int_value' => 99,
+                'entity_id' => null,
+                'entity_type' => EntityType::ProductProperty->value
             ],
         ];
     }
