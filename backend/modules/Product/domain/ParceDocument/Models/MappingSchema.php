@@ -8,21 +8,13 @@ use app\libs\ObjectMapper\Attributes\HasManyModels;
 use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[DomainModel]
 class MappingSchema
 {
-    #[Prop(
-        defaultMapWith: 'start_with_row_num',
-    )]
     private int $startWithRowNum;
 
     /**
      * @var ArrayCollection<int, MappingPair>
      */
-    #[HasManyModels(
-        nestedType: MappingPair::class,
-        defaultMapWith: 'parsingSchemaProperties',
-    )]
     private ArrayCollection $mappingPairs;
 
     private function __construct()

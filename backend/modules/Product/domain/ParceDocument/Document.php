@@ -2,28 +2,19 @@
 
 namespace app\modules\Product\domain\ParceDocument;
 
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\Property;
+
 use app\modules\Product\domain\ParceDocument\Models\MappingSchema;
 use app\modules\Product\domain\ParceDocument\Models\ProductCard;
 use app\modules\Product\domain\ParceDocument\Models\XlsxFile;
-use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[DomainModel (mapWith: DocumentSnapshot::class)]
 class Document
 {
-    #[Property(mapWithObjectKey: 'version')] /** @see DocumentSnapshot::$version */
     private int $version;
 
     /**
      * @var ArrayCollection<int, ProductCard>
      */
-    #[HasManyModels(
-        nestedType: ProductCard::class,
-        mapWithObjectKey: 'productsCardsSnapshots' /** @see DocumentSnapshot::$productsCardsSnapshots */
-    )]
     private ArrayCollection $productCards;
 
     public function __construct(

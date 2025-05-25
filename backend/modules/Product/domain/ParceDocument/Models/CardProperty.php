@@ -10,9 +10,7 @@ use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\ProductCardPr
 class CardProperty
 {
     public function __construct(
-        #[Property(defaultMapWith: 'id')]
         private string $id,
-        #[Property(defaultMapWith: 'value')]
         private mixed $value
     ) {}
 }

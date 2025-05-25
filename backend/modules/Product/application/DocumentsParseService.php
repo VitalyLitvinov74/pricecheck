@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\UseCases;
+namespace app\modules\Product\application;
 
 use app\domain\Product\UseCase\ProductsService;
 use app\modules\Product\domain\ParceDocument\Document;
@@ -11,8 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 class DocumentsParseService
 {
     public function __construct(
-        private MappingSchemasRepository $mappingSchemasRepository = new MappingSchemasRepository(),
-        private ProductsService $productsService = new ProductsService()
+        private MappingSchemasRepository $mappingSchemasRepository,
+        private ProductsService $productsService,
     ) { }
 
     /**
