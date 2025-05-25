@@ -2,24 +2,21 @@
 
 namespace app\modules\Product\application;
 
-use app\domain\Product\UseCase\ProductsService;
 use app\modules\Product\domain\ParceDocument\Document;
-use app\modules\Product\domain\ParceDocument\Models\ProductCard;
 use app\modules\Product\domain\ParceDocument\Persistance\MappingSchemasRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class DocumentsParseService
 {
     public function __construct(
         private MappingSchemasRepository $mappingSchemasRepository,
-        private ProductsService $productsService,
+        private ProductService $productsService,
     ) { }
 
     /**
      * @param string $filePath
      * @param string $passedName
      * @param string $parsingSchemaId
-     * @return ArrayCollection<int, ProductCard>
+     * @return Document
      */
     public function parse(string $filePath, string $passedName, string $parsingSchemaId): Document
     {

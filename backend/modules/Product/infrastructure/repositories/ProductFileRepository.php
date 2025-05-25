@@ -3,6 +3,7 @@
 namespace app\modules\Product\infrastructure\repositories;
 
 use app\modules\Product\application\DocumentsParseService;
+use app\modules\Product\domain\ParceDocument\Document;
 use app\modules\Product\domain\ParceDocument\Models\ProductCard;
 use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
 use app\modules\Product\domain\Product\Models\Attribute;
@@ -11,6 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductFileRepository
 {
+    public function __construct(private DocumentsParseService $parseService)
+    {
+    }
+
     /**
      * @param string $documentPath
      * @param string $passedName
@@ -19,9 +24,8 @@ class ProductFileRepository
      */
     public function loadFromDocument(string $documentPath, string $passedName, string $parsingSchemaId): ArrayCollection
     {
-        $parseService = new DocumentsParseService();
-        /** @var ProductCard[] $result */
-        $result = $parseService->parse($documentPath, $passedName, $parsingSchemaId);
+        /** @var Document[] $result */
+        $result = $this->parseService->parse($documentPath, $passedName, $parsingSchemaId);
         $products = new ArrayCollection();
         $documentSnapshot = $this->objectMapper->map($result, DocumentSnapshot::class);
         foreach ($documentSnapshot->productsCardsSnapshots as $productCardSnapshot) {

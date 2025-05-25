@@ -3,7 +3,6 @@
 namespace app\domain\ProductTemplate;
 
 use app\domain\ProductTemplate\Models\Property;
-use app\domain\ProductTemplate\Models\PropertyId;
 use app\domain\ProductTemplate\Models\ValueType;
 use Doctrine\Common\Collections\ArrayCollection;
 
