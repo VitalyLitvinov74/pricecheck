@@ -48,7 +48,8 @@ trait SchemaTrait
                     'id',
                     'propertyId' => 'property_id',
                     'propertyName' => 'property_name',
-                    'value'
+                    'value',
+                    'product_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',

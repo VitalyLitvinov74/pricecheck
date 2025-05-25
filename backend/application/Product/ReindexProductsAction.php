@@ -17,7 +17,7 @@ class ReindexProductsAction
 
     public function __invoke(): void
     {
-        $this->elasticProductRepository->saveAll(
+        $this->elasticProductRepository->revalidateOf(
             $this->productRepository->findAll()
         );
     }

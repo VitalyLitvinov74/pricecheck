@@ -44,7 +44,7 @@ class ProductsService
             }
         }
         $this->productRepository->save($product);
-        $this->elasticProductRepository->save($product);
+        $this->elasticProductRepository->revalidate($product);
     }
 
     /**
@@ -60,7 +60,7 @@ class ProductsService
         $filename = $file->baseName . '.' . $file->extension;
         $products = $this->productRepository->loadFromDocument($file->tempName, $filename, $parsingSchemaId);
         $this->productRepository->saveAll($products);
-        $this->elasticProductRepository->saveAll($products);
+        $this->elasticProductRepository->revalidateOf($products);
     }
 
     public function remove($id): void
@@ -90,7 +90,7 @@ class ProductsService
             );
         }
         $this->productRepository->save($product);
-        $this->elasticProductRepository->save($product);
+        $this->elasticProductRepository->revalidate($product);
     }
 
     public function reindexProductsInElastic()

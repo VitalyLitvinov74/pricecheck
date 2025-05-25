@@ -3,45 +3,45 @@
 namespace app\modules\Product\infrastructure\repositories;
 
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
-use app\libs\ObjectMapper\ObjectMapper;
-use app\modules\Product\domain\Product;
+use app\modules\Product\infrastructure\records\ProductAttributeRecord;
 use app\records\elastic\ProductIndex;
-use Doctrine\Common\Collections\ArrayCollection;
 use Yii;
 
 class ProductElasticRepository
 {
-    public function __construct(private ObjectMapper $objectMapper = new ObjectMapper())
+    public function __construct()
     {
     }
 
-    public function save(Product $product): void
+    public function revalidate(int $productId): void
     {
-        $this->saveAll(new ArrayCollection([$product]));
+        $this->revalidateOf([$productId]);
     }
 
     /**
-     * @param ArrayCollection<int, Product> $products
+     * @param int[] $productIds
      * @return void
      */
-    public function saveAll(ArrayCollection $products): void
+    public function revalidateOf(array $productIds): void
     {
+        $attributes = ProductAttributeRecord::find()
+            ->select([
+                'id',
+                'product_id',
+                'property_id',
+                'attribute_value' => 'value',
+            ])
+            ->where(['product_id' => $productIds])
+            ->asArray()
+            ->all();
         $elasticData = [];
-        foreach ($products as $product) {
-            $snapshot = $this->objectMapper->map($product, ProductSnapshot::class);
-            foreach ($snapshot->attributesSnapshots as $attributeSnapshot) {
-                $elasticData[] =
-                    [
-                        'create' => [
-                            '_index' => ProductIndex::index(),
-                        ]
-                    ];
-                $elasticData[] = [
-                    'property_id' => $attributeSnapshot->propertySnapshot->id,
-                    'product_id' => $snapshot->id,
-                    'attribute_value' => $attributeSnapshot->value,
-                ];
-            }
+        foreach ($attributes as $attribute) {
+            $elasticData[] = [
+                'create' => [
+                    '_index' => ProductIndex::index(),
+                ]
+            ];
+            $elasticData[] = $attribute;
         }
         Yii::$app->elasticsearch
             ->createBulkCommand([
