@@ -4,18 +4,15 @@ namespace app\modules\Product\presentation\forms;
 
 
 use app\forms\Scenarious;
+use app\modules\Product\infrastructure\records\PropertyRecord;
 use yii\base\Model;
-use function PHPUnit\Framework\containsEqual;
 
-class ProductAttributeForm extends Model
+class AttributeForm extends Model
 {
     public $value;
     public $id;
-    /**
-     * @var ProductPropertyForm
-     */
-    public $propertyForm;
-    public $property;
+    public $propertyId;
+    public $propertyName;
 
     public function rules(): array
     {
@@ -23,7 +20,7 @@ class ProductAttributeForm extends Model
             [
                 [
                     'value',
-                    'property',
+                    'property_id',
                     'id'
                 ],
                 'required',
@@ -31,16 +28,18 @@ class ProductAttributeForm extends Model
                 'strict' => true,
                 'skipOnError' => false
             ],
-            ['property', 'validateProperty']
+            [['id', 'propertyId'], 'integer'],
+            ['propertyName', 'string', 'strict' => true],
+            ['propertyId', 'exist', 'targetClass' => PropertyRecord::class, 'targetAttribute' => 'id']
         ];
     }
 
     public function scenarios(): array
     {
         return [
-            Scenarious::Default => ['value', 'property', 'id'],
+            Scenarious::Default => ['value', 'propertyId', 'id'],
             Scenarious::CreateProduct => [
-                'value', 'property'
+                'value', 'propertyId', 'propertyName'
             ],
             Scenarious::UpdateProduct => [
                 'id', 'value', 'property'
@@ -51,18 +50,5 @@ class ProductAttributeForm extends Model
     public function formName(): string
     {
         return '';
-    }
-
-    public function validateProperty()
-    {
-        $form = new ProductPropertyForm([
-            'scenario' => $this->scenario
-        ]);
-        $form->load($this->property);
-        if(!$form->validate()){
-            $this->addError('property', $form->getErrors());
-            return;
-        }
-        $this->propertyForm = $form;
     }
 }

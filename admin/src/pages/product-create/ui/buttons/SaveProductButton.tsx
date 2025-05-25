@@ -1,22 +1,32 @@
 import revalidateProductList from "../../../../../app/actions/RevalidateProductList";
+import {Attribute, FormAction} from "../../../../shared/types";
+import {createProduct} from "../../api";
 
-export function SaveProductButton(){
-    function save(){
-        let status = 204;
-        const url = `http://api.pricecheck.my:82/product/create}`;
-        await fetch(url, {
-            body: JSON.stringify(dataForBackend()),
-            headers: {
-                'content-type': "application/json"
-            },
-            method: "post",
-        }).then(function (result) {
-            status = result.status;
-        })
-        if (status === 204) {
-            await revalidateProductList()
-            router.push("/products")
+export function SaveProductButton({formAction, attributes}: {
+    formAction: FormAction,
+    attributes: Attribute[]
+}){
+
+
+    async function save(){
+        if(formAction === FormAction.Create){
+            await createProduct(attributes)
         }
+        // let status = 204;
+        //
+        // await fetch(url, {
+        //     body: JSON.stringify(dataForBackend()),
+        //     headers: {
+        //         'content-type': "application/json"
+        //     },
+        //     method: "post",
+        // }).then(function (result) {
+        //     status = result.status;
+        // })
+        // if (status === 204) {
+        //     await revalidateProductList()
+        //     router.push("/products")
+        // }
     }
     return (<>
         <button

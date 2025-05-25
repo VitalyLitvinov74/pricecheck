@@ -7,7 +7,7 @@ use app\exceptions\BaseException;
 use app\modules\Product\domain\Models\Attribute;
 use app\modules\Product\domain\Product;
 use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
-use app\modules\Product\presentation\forms\ProductAttributeForm;
+use app\modules\Product\presentation\forms\AttributeForm;
 use app\modules\Product\presentation\forms\ProductForm;
 use Throwable;
 use yii\db\Exception;
@@ -23,7 +23,7 @@ class ProductsService
     }
 
     /**
-     * @param ProductAttributeForm[] $productAttributes
+     * @param AttributeForm[] $productAttributes
      * @throws Exception
      * @throws Throwable
      */

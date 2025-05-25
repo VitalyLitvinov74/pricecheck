@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class ProductForm extends Model
 {
-    public $productAttributes;
+    public $attributes;
     public $id;
 
     /**
@@ -19,8 +19,8 @@ class ProductForm extends Model
     public function rules(): array
     {
         return [
-            [['productAttributes', 'id'], 'required'],
-            ['productAttributes', 'validateProductAttributes'],
+            [['attributes', 'id'], 'required'],
+            ['attributes', 'validateAttributes'],
             ['id', 'integer']
         ];
     }
@@ -28,27 +28,27 @@ class ProductForm extends Model
     public function scenarios(): array
     {
         return [
-            Scenarious::Default => ['productAttributes', 'id'],
-            Scenarious::CreateProduct => ['productAttributes'],
+            Scenarious::Default => ['attributes', 'id'],
+            Scenarious::CreateProduct => ['attributes'],
             Scenarious::RemoveProduct => ['id'],
-            Scenarious::UpdateProduct => ['id', 'productAttributes']
+            Scenarious::UpdateProduct => ['id', 'attributes']
         ];
     }
 
-    public function validateProductAttributes()
+    public function validateAttributes()
     {
-        foreach ($this->productAttributes as $key => $attribute) {
-            $form = new ProductAttributeForm([
+        foreach ($this->attributes as $key => $attribute) {
+            $form = new AttributeForm([
                 'scenario' => $this->scenario
             ]);
             $form->load($attribute);
             if (!$form->validate()) {
-                $this->addError("productAttributes/$key", $form->getErrors());
+                $this->addError("attributes/$key", $form->getErrors());
                 continue;
             }
             $this->attributeDTOs[] = new AttributeDTO(
-                $form->propertyForm->id,
-                $form->propertyForm->name,
+                $form->propertyId,
+                $form->propertyName,
                 $form->value,
                 $form->id
             );
