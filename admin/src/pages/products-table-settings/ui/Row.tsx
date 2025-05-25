@@ -22,21 +22,24 @@ export function Row({property}: { property: Property }) {
         {user
             .settingsBy(EntityType.Property, property.id)
             .sort(function (userSetting1, userSetting2) {
-                const aPriority = priorityMap.get(userSetting1.type) ?? Infinity; // Неизвестные типы в конец
+                const aPriority = priorityMap.get(userSetting1.type) ?? Infinity;
                 const bPriority = priorityMap.get(userSetting2.type) ?? Infinity;
 
                 return aPriority - bPriority;
             })
             .map(function (setting: UserSetting) {
+                const id = `${setting.id} - ${property.id}`;
                 return (
-                    <td key={uuid()} className="tabledit-edit-mode">
+                    <td key={id} className="tabledit-edit-mode">
                         {isEditing &&
                             <input
                                 type="number"
                                 className={"form-control"}
                                 value={setting.int_value}
-                                // onChange={(e) => setSetting(setting, e.target.value)}
-                                // onFocus={()=>{setSetting(setting, '')}}
+                                onChange={(e) => user.setSetting({
+                                    ...setting,
+                                    int_value: Number(e.target.value)
+                                })}
                             />
                         }
                         {!isEditing &&

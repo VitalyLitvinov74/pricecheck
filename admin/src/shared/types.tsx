@@ -29,7 +29,7 @@ export type UserSetting = {
     string_value: string
     int_value: number
     entity_id: number
-    entity_type: EntityType
+    entity_type: EntityType,
 }
 
 

@@ -4,6 +4,10 @@ export const uuid = function () {
     );
 }
 
+export const uniqNumber = function (): number {
+    return Date.now() +  Math.floor(Math.random() * 100000);
+}
+
 export const action = {
     Create: 'create',
     Update: 'update'

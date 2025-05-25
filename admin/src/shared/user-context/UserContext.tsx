@@ -2,49 +2,54 @@
 
 import {createContext, useContext, useState} from "react";
 import {EntityType, SettingType, UserSetting} from "../types";
+import {uniqNumber} from "../helpers";
 
 const context = createContext<{
     settingsBy: (EntityType: EntityType, entityId: number) => UserSetting[],
     findSettingsByType: (settingType: SettingType) => UserSetting[],
-    settingLabelByType: (settingType: SettingType) => string
-}>({
-    settingsBy: () => [],
-    findSettingsByType: () => [],
-    settingLabelByType: () => ""
-});
+    settingLabelByType: (settingType: SettingType) => string,
+    setSetting: (setting: UserSetting) => void
+}>({} as any);
 
 export function UserContext({children, settingsPayload, defaultSettingsPayload}: {
     children: React.ReactNode,
     settingsPayload: UserSetting[],
     defaultSettingsPayload: UserSetting[],
 }) {
-    const [settings, setSettings] = useState(settingsPayload)
-
-    const [defaultSettings, setDefaultSettings] = useState(defaultSettingsPayload)
+    const [settings, setSettings] = useState(
+        hydrateDefaultSettings(
+            settingsPayload,
+            defaultSettingsPayload
+        )
+    )
 
     function findByTypeAndEntityId(entityType: EntityType, entityId: number): UserSetting[] {
-        const filteredSettings = settings.filter(function (item) {
+        return settings.filter(function (item) {
             return item.entity_type === entityType && item.entity_id === entityId
         })
-
-        return hydrateDefaultSettings(filteredSettings)
     }
 
     /**
      * Насыщаяет настройки дейфолтными настройками если отсутствует ключеваое свойство.
-     * @param filteredSettings
+     * @param inputtedSettings
+     * @param defaultSettings
      */
-    function hydrateDefaultSettings(filteredSettings: UserSetting[]): UserSetting[] {
+    function hydrateDefaultSettings(
+        inputtedSettings: UserSetting[],
+        defaultSettings: UserSetting[]
+    ): UserSetting[] {
         defaultSettings.forEach(function (item) {
-            const filteredSetting = filteredSettings.find(function (item2) {
+            const filteredSettings = inputtedSettings.find(function (item2) {
                 return item2.type === item.type
             });
-            if (!filteredSetting) {
-                filteredSettings.push(item)
+            console.log(filteredSettings)
+            if (!filteredSettings) {
+                item.id = uniqNumber()
+                inputtedSettings.push(item)
             }
         })
 
-        return filteredSettings;
+        return inputtedSettings;
     }
 
     function settingLabelByType(settingType: SettingType) {
@@ -54,6 +59,17 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
             case SettingType.IsEnabled:
                 return "Включено"
         }
+    }
+
+    function setSetting(setting: UserSetting) {
+        setSettings(function (prevState) {
+            return prevState.map(function (item) {
+                if (item.type === setting.type && item.entity_id === setting.entity_id) {
+                    return setting
+                }
+                return item
+            })
+        })
     }
 
     return (
@@ -66,7 +82,8 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
                             return item.type === settingType
                         })
                     },
-                    settingLabelByType: settingLabelByType
+                    settingLabelByType: settingLabelByType,
+                    setSetting
                 }
             }
         >
