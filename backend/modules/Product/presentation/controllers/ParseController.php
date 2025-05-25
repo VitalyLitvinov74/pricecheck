@@ -22,6 +22,7 @@ class ParseController extends BaseApiController
         $form = new DocumentForm();
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
+            //https://github.com/mikemadisonweb/yii2-rabbitmq/blob/master/README.md?ysclid=mb3ujowj3g293955264
             $this->parsingService->parse($form->parsingSchemaId, $form->fileForParse);
             return $this->jsonApi
                 ->setupCode(204)
