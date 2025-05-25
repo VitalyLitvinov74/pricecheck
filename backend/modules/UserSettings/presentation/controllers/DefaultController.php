@@ -21,15 +21,6 @@ class DefaultController extends BaseApiController
     public function actionIndex(): array
     {
         $settings = UserSettingsRecord::find()
-            ->select([
-                'entityId' => 'entity_id',
-                'entityType' => 'entity_type',
-                'type',
-                'id',
-                'intValue' => 'int_value',
-                'stringValue' => 'string_value',
-                'userId' => 'user_id'
-            ])
             ->where(['user_id' => 1])
             ->asArray()
             ->all();

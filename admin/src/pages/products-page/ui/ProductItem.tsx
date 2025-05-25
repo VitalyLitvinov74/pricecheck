@@ -1,7 +1,6 @@
 import {Fragment} from "react";
 import {AttributeCell} from "./AttributeCell";
 import Link from "next/link";
-import {ButtonRemove} from "./ButtonRemove";
 import {useProductsPageContext} from "./ProductsPage";
 import {Attribute, Property} from "../../../shared/types";
 import {uuid} from "../../../shared/helpers";
@@ -12,7 +11,7 @@ export function ProductItem({productId}: {
     const productPage = useProductsPageContext();
     const product = productPage.getProductById(productId);
 
-    function attributeByProperty(prperty: Property): Attribute {
+    function attributeByProperty(prperty: Property): Attribute | undefined {
         return product?.attributes.find(function (attribute: Attribute) {
             return attribute.property_id === prperty.id
         })

@@ -1,34 +1,30 @@
 "use client"
 
 import {createContext, useContext, useState} from "react";
-import {EntityType, UserSettingPayload} from "../types";
+import {EntityType, SettingType, UserSetting} from "../types";
 
 const context = createContext<{
-    findSettingsByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[],
+    settingsBy: (EntityType: EntityType, entityId: number) => UserSetting[],
+    findSettingsByType: (settingType: SettingType) => UserSetting[],
+    settingLabelByType: (settingType: SettingType) => string
 }>({
-    findSettingsByTypeAndEntityId: () => [],
+    settingsBy: () => [],
+    findSettingsByType: () => [],
+    settingLabelByType: () => ""
 });
 
 export function UserContext({children, settingsPayload, defaultSettingsPayload}: {
     children: React.ReactNode,
-    settingsPayload: UserSettingPayload[],
-    defaultSettingsPayload: UserSettingPayload[],
+    settingsPayload: UserSetting[],
+    defaultSettingsPayload: UserSetting[],
 }) {
-    const [settings, setSettings] = useState(
-        settingsPayload.map(function (item) {
-            return new UserSetting(item)
-        })
-    )
+    const [settings, setSettings] = useState(settingsPayload)
 
-    const [defaultSettings, setDefaultSettings] = useState(
-        defaultSettingsPayload.map(function (item) {
-            return new UserSetting(item)
-        })
-    )
+    const [defaultSettings, setDefaultSettings] = useState(defaultSettingsPayload)
 
     function findByTypeAndEntityId(entityType: EntityType, entityId: number): UserSetting[] {
         const filteredSettings = settings.filter(function (item) {
-            return item.entityType === entityType && item.entityId === entityId
+            return item.entity_type === entityType && item.entity_id === entityId
         })
 
         return hydrateDefaultSettings(filteredSettings)
@@ -51,11 +47,26 @@ export function UserContext({children, settingsPayload, defaultSettingsPayload}:
         return filteredSettings;
     }
 
+    function settingLabelByType(settingType: SettingType) {
+        switch (settingType) {
+            case SettingType.ColumnNumber:
+                return "Номер колонки"
+            case SettingType.IsEnabled:
+                return "Включено"
+        }
+    }
+
     return (
         <context.Provider
             value={
                 {
-                    findSettingsByTypeAndEntityId: findByTypeAndEntityId
+                    settingsBy: findByTypeAndEntityId,
+                    findSettingsByType: function (settingType: SettingType) {
+                        return settings.filter(function (item) {
+                            return item.type === settingType
+                        })
+                    },
+                    settingLabelByType: settingLabelByType
                 }
             }
         >

@@ -1,9 +1,8 @@
 import React from "react";
 import {commitUserSettings} from "../../api/api-products-table-settings";
-import {PropertyLibrary} from "../../../../models/PropertyLibrary";
 
 export function CommitButton({productProperty, rowIsEditing, setIsEditingCallback}: {
-    productProperty: PropertyLibrary,
+    productProperty: Property,
     rowIsEditing: boolean,
     setIsEditingCallback: (isEditing: boolean) => void
 }) {

@@ -1,70 +1,59 @@
 "use client"
 
 import Toolbar from "./toolbar";
-import React, {createContext, Fragment, useContext, useState} from "react";
+import React, {createContext, Fragment, useContext} from "react";
 import {useUserContext} from "../../../shared/user-context/UserContext";
-import {Attribute, EntityType, Product, Property, SettingType} from "../../../shared/types";
+import {Attribute, EntityType, Product, Property, SettingType, UserSetting} from "../../../shared/types";
 import {ProductItem} from "./ProductItem";
-import {ProductLibrary} from "../../../models/ProductLibrary";
-import {PropertyLibrary} from "../../../models/PropertyLibrary";
-import {UserSetting} from "../../../models/UserSetting";
 
 const Context = createContext<{
-    getProductById: (id: number) => Product & {attributes: Attribute[]},
+    getProductById: (id: number) => Product & { attributes: Attribute[] },
     getHeaderSortedAvailableProperties: () => Property[],
-}>({
-    getProductById: function (id: number): Product & {attributes: Attribute[], properties: Property[]} {
-        return {} as Product & {attributes: Attribute[], properties: Property[]}
-    },
-
-    getHeaderSortedAvailableProperties: function (): Property[] {
-        return []
-    }
-});
+}>({} as any);
 
 export function ProductsPage({products, properties}: {
-    products: (Product & {productAttributes: Attribute[]})[],
+    products: (Product & { productAttributes: Attribute[] })[],
     properties: Property[],
 }) {
     const user = useUserContext();
     console.log(user);
 
-    function productById(id: number): Product & {attributes: Attribute[]}{
+    function productById(id: number): Product & { attributes: Attribute[] } {
         const product = products.find(function (product) {
             return product.id === id
         })
-        if(product){
+        if (product) {
             return {
                 ...product,
                 attributes: product.productAttributes
-            } as Product & {attributes: Attribute[]}
+            } as Product & { attributes: Attribute[] }
         }
-        return {} as Product & {attributes: Attribute[]}
+        return {} as Product & { attributes: Attribute[] }
     }
 
-    function getHeaderSortedAvailableProperties(): Property[]{
+    function getHeaderSortedAvailableProperties(): Property[] {
         return properties
             .filter(function (property) {
                 //отображаем только включенные свойства
                 return user
-                    .findSettingsByTypeAndEntityId(EntityType.Property, property.id)
+                    .settingsBy(EntityType.Property, property.id)
                     .length != 0
             })
             .sort(function (item1, item2) {
                 //сортировка по номеру колонки
                 const firstColumnNum =
                     user
-                        .findSettingsByTypeAndEntityId(EntityType.Property, item1.id)
+                        .settingsBy(EntityType.Property, item1.id)
                         .find(function (setting: UserSetting) {
-                            return setting.is(SettingType.ColumnNumber)
+                            return setting.type === SettingType.ColumnNumber
                         })
-                        ?.value
+                        ?.int_value
                 const secondColumnNum =
-                    user.findSettingsByTypeAndEntityId(EntityType.Property, item2.id)
+                    user.settingsBy(EntityType.Property, item2.id)
                         .find(function (setting: UserSetting) {
-                            return setting.is(SettingType.ColumnNumber)
+                            return setting.type === SettingType.ColumnNumber
                         })
-                        ?.value
+                        ?.int_value
                 return firstColumnNum - secondColumnNum;
             })
     }

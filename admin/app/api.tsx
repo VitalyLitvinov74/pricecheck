@@ -1,9 +1,8 @@
-import {UserSettingPayload} from "../src/shared/types";
-import {uuid} from "../src/shared/helpers";
+import {UserSetting} from "../src/shared/types";
 
 export async function loadUserSettings(): Promise<{
-    settings: UserSettingPayload[],
-    defaultSettings: UserSettingPayload[]
+    settings: UserSetting[],
+    defaultSettings: UserSetting[]
 }> {
     const result = await fetch(`${process.env.URL}/user-settings`, {
         next: {
