@@ -37,7 +37,9 @@ export function ProductsPage({products, properties}: {
                 //отображаем только включенные свойства
                 return user
                     .settingsBy(EntityType.Property, property.id)
-                    .length != 0
+                    .filter(function (setting: UserSetting) {
+                        return setting.type === SettingType.IsEnabled && setting.int_value == 1
+                    }).length != 0
             })
             .sort(function (item1, item2) {
                 //сортировка по номеру колонки
@@ -79,7 +81,7 @@ export function ProductsPage({products, properties}: {
                                             <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                {properties.map(function (property) {
+                                                {getHeaderSortedAvailableProperties().map(function (property) {
                                                     return (
                                                         <th key={property.id}>
                                                             {property.name}
