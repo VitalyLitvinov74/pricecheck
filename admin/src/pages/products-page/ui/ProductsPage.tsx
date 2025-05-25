@@ -1,113 +1,126 @@
 "use client"
 
 import Toolbar from "./toolbar";
-import React, {Fragment, useState} from "react";
+import React, {createContext, Fragment, useContext, useState} from "react";
 import {useUserContext} from "../../../shared/user-context/UserContext";
-import {EntityType, ProductPayload, ProductPropertyPayload, SettingType} from "../../../shared/types";
-import {ProductProperty} from "../../../models/ProductProperty";
-import {UserSetting} from "../../../models/UserSetting";
-import {Product} from "../../../models/Product";
+import {Attribute, EntityType, Product, Property, SettingType} from "../../../shared/types";
 import {ProductItem} from "./ProductItem";
+import {ProductLibrary} from "../../../models/ProductLibrary";
+import {PropertyLibrary} from "../../../models/PropertyLibrary";
+import {UserSetting} from "../../../models/UserSetting";
 
-export default function ProductsPage({productsPayload, generalPropertiesPayload}: {
-    productsPayload: ProductPayload[],
-    generalPropertiesPayload: ProductPropertyPayload[],
+const Context = createContext<{
+    getProductById: (id: number) => Product & {attributes: Attribute[]},
+    getHeaderSortedAvailableProperties: () => Property[],
+}>({
+    getProductById: function (id: number): Product & {attributes: Attribute[], properties: Property[]} {
+        return {} as Product & {attributes: Attribute[], properties: Property[]}
+    },
+
+    getHeaderSortedAvailableProperties: function (): Property[] {
+        return []
+    }
+});
+
+export function ProductsPage({products, properties}: {
+    products: (Product & {productAttributes: Attribute[]})[],
+    properties: Property[],
 }) {
     const user = useUserContext();
-    const [properties, setProperties] = useState(
-        generalPropertiesPayload
-            .map(function (item) {
-                return new ProductProperty(
-                    {
-                        ...item,
-                        userSettings: user.findSettingsByTypeAndEntityId(
-                            EntityType.ProductProperty,
-                            item.id
-                        )
-                    }
-                )
-            })
+    console.log(user);
+
+    function productById(id: number): Product & {attributes: Attribute[]}{
+        const product = products.find(function (product) {
+            return product.id === id
+        })
+        if(product){
+            return {
+                ...product,
+                attributes: product.productAttributes
+            } as Product & {attributes: Attribute[]}
+        }
+        return {} as Product & {attributes: Attribute[]}
+    }
+
+    function getHeaderSortedAvailableProperties(): Property[]{
+        return properties
             .filter(function (property) {
                 //отображаем только включенные свойства
-                const isEnabled = property
-                    .userSettings()
-                    .find(function (setting: UserSetting) {
-                        return setting.is(SettingType.IsEnabled) && setting.value() == 1
-                    })
-                return isEnabled !== undefined
+                return user
+                    .findSettingsByTypeAndEntityId(EntityType.Property, property.id)
+                    .length != 0
             })
             .sort(function (item1, item2) {
                 //сортировка по номеру колонки
-                const firstColumnNum = item1
-                    .userSettings()
-                    .find(function (setting: UserSetting) {
-                        return setting.is(SettingType.ColumnNumber)
-                    })
-                    ?.value()
-                const secondColumnNum = item2
-                    .userSettings()
-                    .find(function (setting: UserSetting) {
-                        return setting.is(SettingType.ColumnNumber)
-                    })
-                    ?.value()
+                const firstColumnNum =
+                    user
+                        .findSettingsByTypeAndEntityId(EntityType.Property, item1.id)
+                        .find(function (setting: UserSetting) {
+                            return setting.is(SettingType.ColumnNumber)
+                        })
+                        ?.value
+                const secondColumnNum =
+                    user.findSettingsByTypeAndEntityId(EntityType.Property, item2.id)
+                        .find(function (setting: UserSetting) {
+                            return setting.is(SettingType.ColumnNumber)
+                        })
+                        ?.value
                 return firstColumnNum - secondColumnNum;
             })
-    );
-
-
-    const [products, setProducts] = useState(
-            productsPayload.map(function (item) {
-                return new Product(item)
-            })
-        )
-    ;
+    }
 
     return (
         <>
-            <div className="contentbar">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="card m-b-30">
-                            <div className="card-body">
+            <Context.Provider value={{
+                getHeaderSortedAvailableProperties: getHeaderSortedAvailableProperties,
+                getProductById: productById,
+            }}>
+                <div className="contentbar">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="card m-b-30">
+                                <div className="card-body">
 
-                                <Toolbar/>
-                                <div className={"col-lg-12 mt-4 mb-4"}>
-                                    {/*<ProductSearchWidget/>*/}
-                                </div>
-                                <div className="table-responsive">
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            {properties.map(function (property) {
+                                    <Toolbar/>
+                                    <div className={"col-lg-12 mt-4 mb-4"}>
+                                        {/*<ProductSearchWidget/>*/}
+                                    </div>
+                                    <div className="table-responsive">
+                                        <table className="table table-borderless">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                {properties.map(function (property) {
+                                                    return (
+                                                        <th key={property.id}>
+                                                            {property.name}
+                                                        </th>
+                                                    );
+                                                })}
+                                                <th>Действия</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {products.map(function (product) {
                                                 return (
-                                                    <th key={property.id}>
-                                                        {property.name}
-                                                    </th>
-                                                );
+                                                    <Fragment key={product.id}>
+                                                        <ProductItem
+                                                            productId={product.id}
+                                                        />
+                                                    </Fragment>
+                                                )
                                             })}
-                                            <th>Действия</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {products.map(function (product) {
-                                            return (
-                                                <Fragment key={product.id()}>
-                                                    <ProductItem
-                                                        product={product}
-                                                        sortedProperties={properties}
-                                                    />
-                                                </Fragment>
-                                            )
-                                        })}
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Context.Provider>
         </>
     )
 }
+
+export const useProductsPageContext = () => useContext(Context)

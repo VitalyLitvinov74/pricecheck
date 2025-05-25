@@ -19,37 +19,43 @@ export enum SettingType {
 }
 
 export enum EntityType {
-    ProductProperty = 1
+    Property = 1
 }
 
-export type ProductPropertyPayload = {
-    id?: number,
-    name: string,
-    type: string,
-    userSettingsPayload: UserSettingPayload[]
+export type UserSetting = {
+    id: number
+    user_id: number
+    type: SettingType
+    string_value: string
+    int_value: number
+    entity_id: number
+    entity_type: EntityType
 }
 
-export type UserSettingPayload = {
-    id?: number | undefined
-    type: number
-    stringValue?: string,
-    intValue?: number
-    frontendId: string
-    entityId?: number | null
-    entityType: EntityType
-    entityFrontendId: string
+
+
+export type Property = {
+    id: number
+    name: string
+    type: PropertyType
+    product_template_id: number
 }
 
-export type ProductAttributePayload = {
-    id?: number
-    propertyId: number
-    propertyName: string
+export enum PropertyType {
+    String = 'string',
+    Int = 'int',
+    Decimal = 'decimal'
+}
+
+export type Product = {
+    id: number
+    created_at: string
+}
+
+export type Attribute = {
+    id: number
+    property_id: number
+    property_name: string
     value: string
-    productId?: number
-}
-
-export type ProductPayload = {
-    id?: number,
-    createdAt?: string,
-    productAttributes: ProductAttributePayload[]
+    product_id: number
 }

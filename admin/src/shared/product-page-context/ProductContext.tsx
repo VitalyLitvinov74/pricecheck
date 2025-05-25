@@ -1,18 +1,18 @@
 "use client"
 import {createContext, useContext, useState} from "react";
-import {Product} from "../../models/Product";
+import {ProductLibrary} from "../../models/ProductLibrary";
 import {ProductPayload} from "../types";
 
 const PageContext = createContext<{
-    product: Product,
-    setProduct: (product: Product) => void
+    product: ProductLibrary,
+    setProduct: (product: ProductLibrary) => void
 }>();
 
 export function ProductContext({children, productPayload}: {
     children: React.ReactNode,
     productPayload: ProductPayload
 }) {
-    const [product, setProduct] = useState(new Product(productPayload));
+    const [product, setProduct] = useState(new ProductLibrary(productPayload));
 
     return (<>
         <PageContext.Provider value={{

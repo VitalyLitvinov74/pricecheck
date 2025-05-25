@@ -3,15 +3,15 @@ import {useState} from "react";
 import {ProductPropertyPayload} from "../../../shared/types";
 import {AddAttributeButton} from "./buttons/AddAttributeButton";
 import {AttributeInput} from "./AttributeInput";
-import {ProductProperty} from "../../../models/ProductProperty";
+import {PropertyLibrary} from "../../../models/PropertyLibrary";
 
 export function Form({propertiesPayload}: {
     propertiesPayload: ProductPropertyPayload[],
 }) {
-    const [properties, setProperties] = useState<ProductProperty[]>(
+    const [properties, setProperties] = useState<PropertyLibrary[]>(
         propertiesPayload.map(
             function (payload: ProductPropertyPayload) {
-                return new ProductProperty(payload)
+                return new PropertyLibrary(payload)
             }
         )
     )

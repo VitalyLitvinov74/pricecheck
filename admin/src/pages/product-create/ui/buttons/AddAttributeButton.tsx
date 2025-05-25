@@ -1,16 +1,16 @@
 import {useProductContext} from "../../../../shared/product-page-context/ProductContext";
-import {ProductProperty} from "../../../../models/ProductProperty";
+import {PropertyLibrary} from "../../../../models/PropertyLibrary";
 import {ProductAttribute} from "../../../../models/ProductAttribute";
 
 export function AddAttributeButton({properties}: {
-    properties: ProductProperty[]
+    properties: PropertyLibrary[]
 }) {
     const isDisabled = false;
     const context = useProductContext()
     const product = context.product;
 
     function add() {
-        const property = properties.find(function (property: ProductProperty) {
+        const property = properties.find(function (property: PropertyLibrary) {
             const attribute = product.attributeByProperty(property);
             if (!attribute) {
                 return true;

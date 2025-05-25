@@ -3,7 +3,7 @@
 import React, {useState} from "react";
 import {EntityType, ProductPropertyPayload,} from "../../../shared/types";
 import {Row} from "./Row";
-import {ProductProperty} from "../../../models/ProductProperty";
+import {PropertyLibrary} from "../../../models/PropertyLibrary";
 import {useUserContext} from "../../../shared/user-context/UserContext";
 import {UserSetting} from "../../../models/UserSetting";
 
@@ -13,17 +13,17 @@ export function ProductsTableSettings({productPropertiesPayload}: {
     const userSettings = useUserContext();
     const [productProperties, setProductProperties] = useState(
         productPropertiesPayload.map(function (item) {
-            return new ProductProperty({
+            return new PropertyLibrary({
                 ...item,
                 userSettings: userSettings.findSettingsByTypeAndEntityId(
-                    EntityType.ProductProperty,
+                    EntityType.Property,
                     item.id
                 )
             })
         })
     )
 
-    function setProperty(property: ProductProperty): void {
+    function setProperty(property: PropertyLibrary): void {
         // console.log(property.userSettings())
         setProductProperties(productProperties
             .map(function (item) {
@@ -170,7 +170,7 @@ export function ProductsTableSettings({productPropertiesPayload}: {
                                     </thead>
                                     <tbody>
                                     {productProperties.map(
-                                        function (productProperty: ProductProperty) {
+                                        function (productProperty: PropertyLibrary) {
                                             return (<tr key={productProperty.frontendId}>
                                                 <Row
                                                     productProperty={productProperty}

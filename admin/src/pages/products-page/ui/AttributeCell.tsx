@@ -1,13 +1,13 @@
 import React from "react";
-import {ProductAttribute} from "../../../models/ProductAttribute";
+import {Attribute} from "../../../shared/types";
 
 export function AttributeCell({attribute}: {
-    attribute: ProductAttribute|undefined
+    attribute: Attribute
 }) {
     if (attribute) {
         return (
             <td>
-                {attribute.value()}
+                {attribute.value}
             </td>
         );
     }

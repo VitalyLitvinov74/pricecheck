@@ -2,7 +2,6 @@
 
 import {createContext, useContext, useState} from "react";
 import {EntityType, UserSettingPayload} from "../types";
-import {UserSetting} from "../../models/UserSetting";
 
 const context = createContext<{
     findSettingsByTypeAndEntityId: (EntityType: EntityType, entityId: number) => UserSetting[],

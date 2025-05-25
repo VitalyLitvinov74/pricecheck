@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {EditableButton} from "./buttons/EditableButton";
-import {ProductProperty} from "../../../models/ProductProperty";
+import {PropertyLibrary} from "../../../models/PropertyLibrary";
 import {UserSetting} from "../../../models/UserSetting";
 import {CommitButton} from "./buttons/CommitButton";
 
@@ -8,8 +8,8 @@ export function Row({
                         productProperty,
                         setProductProperty
                     }: {
-    productProperty: ProductProperty,
-    setProductProperty: (productProperty: ProductProperty) => void
+    productProperty: PropertyLibrary,
+    setProductProperty: (productProperty: PropertyLibrary) => void
 }) {
     const [isEditing, setIsEditing] = useState<Boolean>(false)
 
@@ -19,7 +19,7 @@ export function Row({
             intValue: newValue
         });
         setProductProperty(
-            new ProductProperty({
+            new PropertyLibrary({
                 ...productProperty,
                 userSettings: productProperty.userSettings().map(function (item) {
                     if (item.frontendId === newSetting.frontendId) {

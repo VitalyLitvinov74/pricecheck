@@ -1,25 +1,36 @@
 import {Fragment} from "react";
-import {Product} from "../../../models/Product";
-import {ProductProperty} from "../../../models/ProductProperty";
 import {AttributeCell} from "./AttributeCell";
 import Link from "next/link";
 import {ButtonRemove} from "./ButtonRemove";
-import {ProductAttribute} from "../../../models/ProductAttribute";
+import {useProductsPageContext} from "./ProductsPage";
+import {Attribute, Property} from "../../../shared/types";
+import {uuid} from "../../../shared/helpers";
 
-export function ProductItem({product, sortedProperties}: {
-    product: Product,
-    sortedProperties: ProductProperty[]
+export function ProductItem({productId}: {
+    productId: number,
 }) {
+    const productPage = useProductsPageContext();
+    const product = productPage.getProductById(productId);
+
+    function attributeByProperty(prperty: Property): Attribute {
+        return product?.attributes.find(function (attribute: Attribute) {
+            return attribute.property_id === prperty.id
+        })
+    }
+
 
     return (<tr>
-        <td scope="row">#{product.id()}</td>
-        {sortedProperties
+        <td scope="row">#{product?.id}</td>
+        {productPage
+            .getHeaderSortedAvailableProperties()
             .map(function (property) {
-                let attribute = product.attributeByProperty(property);
-                if(!attribute){
-                   attribute = new ProductAttribute({})
+                let attribute = attributeByProperty(property);
+                if (!attribute) {
+                    return (<Fragment key={uuid()}>
+                        <td> -</td>
+                    </Fragment>)
                 }
-                return (<Fragment key={attribute.id()}>
+                return (<Fragment key={attribute.id}>
                     <AttributeCell
                         attribute={attribute}
                     />
@@ -28,11 +39,11 @@ export function ProductItem({product, sortedProperties}: {
         <td>
             <div className="button-list">
                 <Link className="btn btn-success-rgba"
-                      href={`/products/update/${product.id()}`}
+                      href={`/products/update/${productId}`}
                 >
                     <i className="feather icon-edit-2"></i>
                 </Link>
-                <ButtonRemove product={product}/>
+                {/*<ButtonRemove product={product}/>*/}
             </div>
         </td>
     </tr>)

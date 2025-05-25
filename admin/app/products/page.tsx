@@ -1,6 +1,7 @@
 import {metadata} from "../layout";
 import {loadProducts, loadGeneralProperties} from "../../src/shared/api/products-api";
-import ProductsPage from "../../src/pages/products-page/ui/ProductsPage";
+import {ProductsPage} from "../../src/pages/products-page/ui/ProductsPage";
+
 
 
 export default async function Products({ searchParams}) {
@@ -11,8 +12,8 @@ export default async function Products({ searchParams}) {
     const generalPropertiesPayload = await  loadGeneralProperties()
 
     return (
-        <ProductsPage productsPayload={products}
-                      generalPropertiesPayload={generalPropertiesPayload}
+        <ProductsPage products={products}
+                      properties={generalPropertiesPayload}
         />
     );
 }

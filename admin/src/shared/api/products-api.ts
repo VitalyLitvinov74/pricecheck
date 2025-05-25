@@ -1,10 +1,12 @@
 
 import {uuid} from "../helpers";
-import {ProductProperty} from "../../models/ProductProperty";
-import {ProductPropertyPayload} from "../types";
+import {PropertyLibrary} from "../../models/PropertyLibrary";
+import {Attribute, Product, ProductPropertyPayload, Property} from "../types";
 
 
-export async function loadProducts(queryString?: string) {
+export async function loadProducts(queryString?: string): Promise<
+    (Product & {productAttributes: Attribute[]})[]
+> {
     const url = `${process.env.URL}/product/index?${queryString}`;
     const response = await fetch(url, {
         next: {
@@ -26,7 +28,7 @@ export const loadProduct = async function (id) {
     return result.data;
 }
 
-export async function loadGeneralProperties(): Promise<ProductPropertyPayload[]> {
+export async function loadGeneralProperties(): Promise<Property[]> {
     const url = `${process.env.URL}/product/general-properties`;
     const result = await fetch(url, {
         next: {

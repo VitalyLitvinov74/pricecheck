@@ -1,11 +1,11 @@
-import {ProductProperty} from "../../../models/ProductProperty";
+import {PropertyLibrary} from "../../../models/PropertyLibrary";
 import {UserSetting} from "../../../models/UserSetting";
 
 export function removeSetting(){
 
 }
 
-export async function commitUserSettings(productProperty: ProductProperty): Promise<void>{
+export async function commitUserSettings(productProperty: PropertyLibrary): Promise<void>{
     const payload = {
         settings: productProperty.userSettings().map(function (s: UserSetting){
             return s.payload()
