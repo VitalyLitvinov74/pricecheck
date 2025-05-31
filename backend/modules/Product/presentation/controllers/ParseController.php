@@ -3,13 +3,13 @@
 namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
-use app\modules\Product\application\Parsing\DocumentsParseService;
+use app\modules\Product\application\Parsing\ParsingService;
 use app\modules\Product\presentation\forms\DocumentForm;
 use Yii;
 
 class ParseController extends BaseApiController
 {
-    private DocumentsParseService $parsingService;
+    private ParsingService $parsingService;
 
     public function __construct($id, $module, $config = [])
     {

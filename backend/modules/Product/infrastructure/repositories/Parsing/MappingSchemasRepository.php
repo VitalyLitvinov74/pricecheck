@@ -1,8 +1,7 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\Persistance;
+namespace app\modules\Product\infrastructure\repositories\Parsing;
 
-use app\libs\ObjectMapper\ObjectMapper;
 use app\modules\Product\domain\ParceDocument\Models\MappingSchema;
 use app\records\pg\ParsingSchemaRecord;
 use yii\db\ActiveQuery;

@@ -4,7 +4,7 @@ namespace app\modules\Product\application\ParsingSchema;
 use app\forms\RelationPairForm;
 use app\modules\Product\domain\ParsingSchema\Models\RelationshipPair;
 use app\modules\Product\domain\ParsingSchema\ParsingSchema;
-use app\modules\Product\domain\ParsingSchema\Persistence\ParsingSchemaRepository;
+use app\modules\Product\infrastructure\repositories\PrasingSchema\ParsingSchemaRepository;
 
 class ParsingSchemaService
 {

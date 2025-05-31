@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\domain\ParsingSchema\Persistence;
+namespace app\modules\Product\infrastructure\repositories\PrasingSchema;
 
 use app\collections\ParsingSchemas;
 use app\collections\ProductPropertyCollection;

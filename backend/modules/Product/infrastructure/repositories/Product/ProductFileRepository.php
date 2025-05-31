@@ -2,7 +2,7 @@
 
 namespace app\modules\Product\infrastructure\repositories\Product;
 
-use app\modules\Product\application\Parsing\DocumentsParseService;
+use app\modules\Product\application\Parsing\ParsingService;
 use app\modules\Product\domain\ParceDocument\Document;
 use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
 use app\modules\Product\domain\Product\Models\Attribute;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductFileRepository
 {
-    public function __construct(private DocumentsParseService $parseService = new DocumentsParseService())
+    public function __construct(private ParsingService $parseService = new ParsingService())
     {
     }
 
