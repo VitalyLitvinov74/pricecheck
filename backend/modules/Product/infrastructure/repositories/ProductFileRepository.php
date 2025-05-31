@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductFileRepository
 {
-    public function __construct(private DocumentsParseService $parseService)
+    public function __construct(private DocumentsParseService $parseService = new DocumentsParseService())
     {
     }
 

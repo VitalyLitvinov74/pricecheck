@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\application\events;
+namespace app\modules\ParseDocuments\application\events;
 
 class ProductParsedEvent
 {

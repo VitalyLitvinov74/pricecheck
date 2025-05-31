@@ -9,7 +9,7 @@ use app\modules\Product\domain\ParceDocument\Persistance\MappingSchemasRepositor
 class DocumentsParseService
 {
     public function __construct(
-        private MappingSchemasRepository $mappingSchemasRepository,
+        private MappingSchemasRepository $mappingSchemasRepository = new MappingSchemasRepository(),
     )
     {
     }
@@ -24,6 +24,7 @@ class DocumentsParseService
     {
         $document = new Document($filePath, $passedName);
         $mappingSchema = $this->mappingSchemasRepository->findBy($parsingSchemaId);
-        return $document->parseUse($mappingSchema)->toArray();
+        $cards = $document->parseUse($mappingSchema)->toArray();
+
     }
 }
