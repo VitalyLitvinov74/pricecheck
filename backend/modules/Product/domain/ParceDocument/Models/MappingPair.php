@@ -3,8 +3,6 @@
 namespace app\modules\Product\domain\ParceDocument\Models;
 
 use app\domain\Type;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\Property;
 
 class MappingPair
 {

@@ -2,10 +2,6 @@
 
 namespace app\modules\Product\domain\ParceDocument\Models;
 
-use app\domain\ParseDocument\Persistance\Snapshots\MappingSchemaSnapshot;
-use app\libs\ObjectMapper\Attributes\DomainModel;
-use app\libs\ObjectMapper\Attributes\HasManyModels;
-use app\libs\ObjectMapper\Attributes\Property as Prop;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class MappingSchema
