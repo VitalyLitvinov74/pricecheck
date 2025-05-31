@@ -3,7 +3,7 @@
 namespace app\application\Product;
 
 use app\domain\Product\Persistence\ProductRepository;
-use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
+use app\modules\Product\infrastructure\repositories\Product\ProductElasticRepository;
 
 class ReindexProductsAction
 {

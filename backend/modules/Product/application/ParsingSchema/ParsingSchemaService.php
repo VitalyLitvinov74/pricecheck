@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\application;
+namespace app\modules\Product\application\ParsingSchema;
 use app\forms\RelationPairForm;
 use app\modules\Product\domain\ParsingSchema\Models\RelationshipPair;
 use app\modules\Product\domain\ParsingSchema\ParsingSchema;

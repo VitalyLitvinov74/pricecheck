@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\infrastructure\repositories;
+namespace app\modules\Product\infrastructure\repositories\Product;
 
 use app\domain\Product\Persistence\Snapshots\ProductSnapshot;
 use app\modules\Product\infrastructure\records\ProductAttributeRecord;

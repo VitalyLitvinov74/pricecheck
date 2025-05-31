@@ -1,10 +1,9 @@
 <?php
 
-namespace app\modules\Product\infrastructure\repositories;
+namespace app\modules\Product\infrastructure\repositories\Product;
 
-use app\modules\Product\application\DocumentsParseService;
+use app\modules\Product\application\Parsing\DocumentsParseService;
 use app\modules\Product\domain\ParceDocument\Document;
-use app\modules\Product\domain\ParceDocument\Models\ProductCard;
 use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
 use app\modules\Product\domain\Product\Models\Attribute;
 use app\modules\Product\domain\Product\Product;

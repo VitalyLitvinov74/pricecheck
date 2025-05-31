@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\infrastructure\repositories;
+namespace app\modules\Product\infrastructure\repositories\Product;
 
 use app\modules\Product\domain\Product\Models\Attribute;
 use app\modules\Product\domain\Product\Product;

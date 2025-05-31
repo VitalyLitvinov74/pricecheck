@@ -3,7 +3,7 @@
 namespace app\modules\Product\presentation\controllers;
 
 use app\controllers\BaseApiController;
-use app\modules\Product\application\DocumentsParseService;
+use app\modules\Product\application\Parsing\DocumentsParseService;
 use app\modules\Product\presentation\forms\DocumentForm;
 use Yii;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\infrastructure\repositories;
+namespace app\modules\Product\infrastructure\repositories\Product;
 
 use app\components\cycle\Cycle;
 use app\modules\Product\domain\Product\Product;

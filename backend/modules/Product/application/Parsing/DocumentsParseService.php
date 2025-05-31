@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\application;
+namespace app\modules\Product\application\Parsing;
 
 use app\modules\Product\domain\ParceDocument\Document;
 use app\modules\Product\domain\ParceDocument\Models\ProductCard;

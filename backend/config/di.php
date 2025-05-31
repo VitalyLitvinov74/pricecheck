@@ -1,10 +1,8 @@
 <?php
 
 use app\components\cycle\Cycle;
-use app\modules\Product\application\DocumentsParseService;
-use app\modules\Product\application\ProductService;
-use app\modules\Product\domain\ParceDocument\Persistance\MappingSchemasRepository;
-use app\modules\Product\infrastructure\repositories\ProductPgRepository;
+use app\modules\Product\application\Product\ProductService;
+use app\modules\Product\infrastructure\repositories\Product\ProductPgRepository;
 use app\modules\UserSettings\application\SettingsService;
 use app\modules\UserSettings\infrastructure\repositories\UserRepository;
 

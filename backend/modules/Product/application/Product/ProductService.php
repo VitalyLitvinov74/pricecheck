@@ -1,14 +1,13 @@
 <?php
 
-namespace app\modules\Product\application;
+namespace app\modules\Product\application\Product;
 
 
 use app\modules\Product\application\DTOs\AttributeDTO;
 use app\modules\Product\domain\Product\Models\Attribute;
 use app\modules\Product\domain\Product\Product;
-use app\modules\Product\infrastructure\repositories\ProductElasticRepository;
-use app\modules\Product\infrastructure\repositories\ProductFileRepository;
-use app\modules\Product\infrastructure\repositories\ProductPgRepository;
+use app\modules\Product\infrastructure\repositories\Product\ProductElasticRepository;
+use app\modules\Product\infrastructure\repositories\Product\ProductPgRepository;
 
 class ProductService
 {
