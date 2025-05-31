@@ -2,6 +2,9 @@
 
 use app\components\cycle\Cycle;
 use app\components\cycle\CycleComponent;
+use mikemadisonweb\rabbitmq\Configuration;
+use yii\elasticsearch\Connection;
+use yii\web\User;
 
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.
@@ -23,10 +26,11 @@ class Yii {
 }
 
 /**
- * @property yii\rbac\DbManager $authManager 
- * @property \yii\web\User|__WebUser $user
+ * @property yii\rbac\DbManager $authManager
+ * @property User|__WebUser $user
  * @property Cycle $cycle
- * @property \yii\elasticsearch\Connection $elasticsearch
+ * @property Configuration rabbitmq
+ * @property Connection $elasticsearch
  */
 class __Application {
 }
