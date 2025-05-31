@@ -2,10 +2,10 @@
 
 namespace app\modules\Product\domain\Parsing\Models;
 
-class CardProperty
+class CartAttribute
 {
     public function __construct(
-        private int $id,
+        private int $propertyId,
         private mixed $value
     ) {}
 }

@@ -2,6 +2,7 @@
 
 namespace app\modules\Product\infrastructure\repositories\Parsing;
 
+use app\domain\Type;
 use app\modules\Product\domain\Parsing\Models\MappingPair;
 use app\modules\Product\domain\Parsing\Models\MappingSchema;
 use app\modules\Product\domain\Parsing\Models\Property;
@@ -53,6 +54,7 @@ trait MappingSchemaTrait
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
+                    'externalName' => 'string',
                 ],
                 Schema::RELATIONS => [
                     'property' => [
@@ -67,7 +69,18 @@ trait MappingSchemaTrait
                 ]
             ],
             'property' => [
-                Schema::ENTITY => Property::class
+                Schema::ENTITY => Property::class,
+                Schema::MAPPER => Mapper::class,
+                Schema::TABLE => 'properties',
+                Schema::PRIMARY_KEY => 'id',
+                Schema::COLUMNS => [
+                    'id',
+                    'type' => 'type_id',
+                ],
+                Schema::TYPECAST => [
+                    'id' => 'int',
+                    'type' => Type::class,
+                ],
             ]
         ]);
     }

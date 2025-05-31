@@ -8,18 +8,18 @@ class ProductCard
 {
     /**
      * @param string $parsingVersion
-     * @param ArrayCollection<int, CardProperty> $properties
+     * @param ArrayCollection<int, CartAttribute> $attributes
      */
     public function __construct(
         private string $parsingVersion,
-        private ArrayCollection $properties = new ArrayCollection())
+        private ArrayCollection $attributes = new ArrayCollection())
     {
     }
 
-    public function addProperty(string $id, mixed $value): void
+    public function addAttribute(string $propertyId, mixed $value): void
     {
-        $this->properties->add(
-            new CardProperty($id, $value)
+        $this->attributes->add(
+            new CartAttribute($propertyId, $value)
         );
     }
 }

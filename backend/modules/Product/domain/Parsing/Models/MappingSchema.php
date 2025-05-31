@@ -34,7 +34,7 @@ class MappingSchema
                     continue;
                 }
                 $properties->add(
-                    new CardProperty(
+                    new CartAttribute(
                         $schemaPair->propertyId(),
                         $cell->valueBy(
                             $schemaPair->type()

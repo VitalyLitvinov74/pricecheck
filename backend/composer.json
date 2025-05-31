@@ -24,7 +24,8 @@
         "ext-pgsql": "*",
         "cycle/orm": "^2.9",
         "yiisoft/yii2-elasticsearch": "~2.1.0",
-        "mikemadisonweb/yii2-rabbitmq": "^2.5"
+        "mikemadisonweb/yii2-rabbitmq": "^2.5",
+        "symfony/serializer": "^7.3"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

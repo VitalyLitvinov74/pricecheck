@@ -2,38 +2,28 @@
 
 namespace app\modules\Product\infrastructure\repositories\Parsing;
 
+use app\components\cycle\Cycle;
 use app\modules\Product\domain\Parsing\Models\MappingSchema;
-use app\records\pg\ParsingSchemaRecord;
-use yii\db\ActiveQuery;
+use Cycle\ORM\EntityManager;
+use Cycle\ORM\ORM;
 
 class MappingSchemasRepository
 {
-    public function __construct()
+    use MappingSchemaTrait;
+
+    private ORM $ORM;
+    private EntityManager $entityManager;
+
+    public function __construct(private Cycle $cycle)
     {
+        $this->ORM = $this->cycle->orm($this->schema());
+        $this->entityManager = new EntityManager($this->ORM);
     }
 
     public function findBy(string $parsingSchemaId): MappingSchema
     {
-        $data = ParsingSchemaRecord::find()
-            ->where(['id'=>$parsingSchemaId])
-            ->with([
-                'parsingSchemaProperties'=>function(ActiveQuery $query){
-                    $query
-                        ->alias('psp')
-                        ->select([
-                            'psp.external_column_name',
-                            'psp.property_id',
-                            'psp.id',
-                            'psp.schema_id',
-                            'type'=>'p.type'
-                        ])
-                        ->leftJoin('properties p', 'p.id = psp.property_id');
-                }
-            ])
-            ->asArray()
-            ->one();
-        return $this->objectMapper->map($data, MappingSchema::class);
+        return $this->ORM
+            ->getRepository(MappingSchema::class)
+            ->findOne(['id', $parsingSchemaId]);
     }
-
-    public function mapProductsToArrays(){}
 }
