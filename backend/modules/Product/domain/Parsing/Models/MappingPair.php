@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\Models;
+namespace app\modules\Product\domain\Parsing\Models;
 
 use app\domain\Type;
 
 class MappingPair
 {
     private string $externalName;
-    private int $propertyId;
-    private Type $type;
+
+    private Property $property;
 
     private function __construct() { }
 
@@ -21,7 +21,7 @@ class MappingPair
 
     public function propertyId(): string
     {
-        return strtolower($this->propertyId);
+        return strtolower($this->property->id());
     }
 
     public function convertCell()
@@ -31,6 +31,6 @@ class MappingPair
 
     public function type(): Type
     {
-        return $this->type;
+        return $this->property->type();
     }
 }

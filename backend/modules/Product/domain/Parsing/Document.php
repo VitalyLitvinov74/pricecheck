@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument;
+namespace app\modules\Product\domain\Parsing;
 
 
-use app\modules\Product\domain\ParceDocument\Models\MappingSchema;
-use app\modules\Product\domain\ParceDocument\Models\ProductCard;
-use app\modules\Product\domain\ParceDocument\Models\XlsxFile;
+use app\modules\Product\domain\Parsing\Models\MappingSchema;
+use app\modules\Product\domain\Parsing\Models\ProductCard;
+use app\modules\Product\domain\Parsing\Models\XlsxFile;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Document

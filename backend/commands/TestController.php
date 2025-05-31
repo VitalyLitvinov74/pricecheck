@@ -7,7 +7,7 @@
 
 namespace app\commands;
 
-use app\modules\Product\domain\ParceDocument\Document;
+use app\modules\Product\domain\Parsing\Document;
 use Yii;
 use yii\console\Controller;
 

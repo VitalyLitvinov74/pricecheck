@@ -2,8 +2,8 @@
 
 namespace app\modules\Product\application\Parsing;
 
-use app\modules\Product\domain\ParceDocument\Document;
-use app\modules\Product\domain\ParceDocument\Models\ProductCard;
+use app\modules\Product\domain\Parsing\Document;
+use app\modules\Product\domain\Parsing\Models\ProductCard;
 use app\modules\Product\infrastructure\repositories\Parsing\MappingSchemasRepository;
 
 class ParsingService

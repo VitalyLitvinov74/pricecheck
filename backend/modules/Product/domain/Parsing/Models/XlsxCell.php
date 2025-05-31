@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Product\domain\ParceDocument\Models;
+namespace app\modules\Product\domain\Parsing\Models;
 
 use app\domain\Type;
 

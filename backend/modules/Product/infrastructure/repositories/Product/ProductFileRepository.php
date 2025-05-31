@@ -3,8 +3,8 @@
 namespace app\modules\Product\infrastructure\repositories\Product;
 
 use app\modules\Product\application\Parsing\ParsingService;
-use app\modules\Product\domain\ParceDocument\Document;
-use app\modules\Product\domain\ParceDocument\Persistance\Snapshots\DocumentSnapshot;
+use app\modules\Product\domain\Parsing\Document;
+use app\modules\Product\domain\Parsing\Persistance\Snapshots\DocumentSnapshot;
 use app\modules\Product\domain\Product\Models\Attribute;
 use app\modules\Product\domain\Product\Product;
 use Doctrine\Common\Collections\ArrayCollection;

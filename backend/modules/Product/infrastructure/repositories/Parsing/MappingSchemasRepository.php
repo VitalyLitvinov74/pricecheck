@@ -2,7 +2,7 @@
 
 namespace app\modules\Product\infrastructure\repositories\Parsing;
 
-use app\modules\Product\domain\ParceDocument\Models\MappingSchema;
+use app\modules\Product\domain\Parsing\Models\MappingSchema;
 use app\records\pg\ParsingSchemaRecord;
 use yii\db\ActiveQuery;
 
