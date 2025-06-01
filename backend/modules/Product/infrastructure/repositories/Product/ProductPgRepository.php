@@ -6,6 +6,7 @@ use app\components\cycle\Cycle;
 use app\modules\Product\domain\Product\Product;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
+use Yii;
 
 class ProductPgRepository
 {
@@ -14,9 +15,9 @@ class ProductPgRepository
     private EntityManager $em;
     private ORM $ORM;
 
-    public function __construct(private Cycle $cycle)
+    public function __construct()
     {
-        $this->ORM = $this->cycle->orm($this->schema());
+        $this->ORM = Yii::$app->cycle->orm($this->schema());
         $this->em = new EntityManager($this->ORM);
     }
 

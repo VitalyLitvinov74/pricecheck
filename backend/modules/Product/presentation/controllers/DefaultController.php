@@ -21,12 +21,7 @@ class DefaultController extends BaseApiController
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
-        $this->productService = new ProductService(
-            new ProductPgRepository(
-                Yii::$app->cycle
-            ),
-            new ProductElasticRepository()
-        );
+        $this->productService = new ProductService();
     }
 
     public function actionGeneralProperties(): array

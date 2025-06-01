@@ -10,7 +10,7 @@ use yii\base\Component;
 class EventBus extends Component implements ConsumerInterface
 {
     private $eventsHandlers = [
-        EventName::PRODUCT_PARSED => [
+        EventName::ProductParsedFromFile => [
 
         ]
     ];

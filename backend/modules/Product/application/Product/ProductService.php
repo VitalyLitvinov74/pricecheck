@@ -12,8 +12,8 @@ use app\modules\Product\infrastructure\repositories\Product\ProductPgRepository;
 class ProductService
 {
     public function __construct(
-        private ProductPgRepository $pgRepository,
-        private ProductElasticRepository $elasticRepository
+        private ProductPgRepository $pgRepository = new ProductPgRepository(),
+        private ProductElasticRepository $elasticRepository = new ProductElasticRepository()
     )
     {
     }

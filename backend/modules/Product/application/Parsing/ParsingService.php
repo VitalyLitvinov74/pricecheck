@@ -3,7 +3,7 @@
 namespace app\modules\Product\application\Parsing;
 
 use app\components\eventBus\EventBus;
-use app\components\eventBus\Events;
+use app\components\eventBus\EventName;
 use app\libs\ObjectMapper\ObjectMapper;
 use app\modules\Product\application\Parsing\Events\ProductParsedEvent;
 use app\modules\Product\domain\Parsing\Document;
@@ -50,7 +50,7 @@ class ParsingService
         foreach ($cards as $card) {
             $data = $this->serializer->normalize($card);
             $this->eventBus->publishEvent(
-                Events::ProductParsedFromFile,
+                EventName::ProductParsedFromFile,
                 $data
             );
         }
