@@ -10,11 +10,10 @@ use Yii;
 class ParseController extends BaseApiController
 {
     private ParsingService $parsingService;
-
-    public function __construct($id, $module, $config = [])
+    public function init()
     {
-        parent::__construct($id, $module, $config);
-
+        parent::init();
+        $this->parsingService = new ParsingService();
     }
 
     public function actionInit(): array
@@ -23,7 +22,7 @@ class ParseController extends BaseApiController
         $form->load(Yii::$app->request->post());
         if ($form->validate()) {
             $this->parsingService->parse(
-                $form->fileForParse,
+                $form->fileForParse->tempName,
                 $form->parsingSchemaId
             );
             return $this->jsonApi

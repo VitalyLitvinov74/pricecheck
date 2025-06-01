@@ -2,7 +2,7 @@
 
 namespace app\components\eventBus;
 
-abstract class Event
+abstract class Events
 {
     const ProductParsedFromFile = 'product.parsed.from.file';
 }

@@ -49,21 +49,26 @@ trait MappingSchemaTrait
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
+                    'propertyId' => 'property_id',
                     'property_id',
-                    'externalName' => 'external_field_name',
+                    'externalName' => 'external_column_name',
+                    'schema_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
                     'externalName' => 'string',
+                    'propertyId' => 'int',
                 ],
                 Schema::RELATIONS => [
                     'property' => [
                         Relation::TARGET => 'property',
                         Relation::LOAD => Relation::LOAD_EAGER,
-                        Relation::TYPE => Relation::BELONGS_TO,
+                        Relation::TYPE => Relation::HAS_ONE,
                         Relation::SCHEMA => [
                             Relation::INNER_KEY => 'property_id',
                             Relation::OUTER_KEY => 'id',
+                            Relation::CASCADE => true,
+                            Relation::NULLABLE => false
                         ]
                     ]
                 ]
@@ -75,7 +80,7 @@ trait MappingSchemaTrait
                 Schema::PRIMARY_KEY => 'id',
                 Schema::COLUMNS => [
                     'id',
-                    'type' => 'type_id',
+                    'type'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',

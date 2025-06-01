@@ -6,6 +6,7 @@ use app\components\cycle\Cycle;
 use app\modules\Product\domain\Parsing\Models\MappingSchema;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
+use Yii;
 
 class MappingSchemasRepository
 {
@@ -14,9 +15,9 @@ class MappingSchemasRepository
     private ORM $ORM;
     private EntityManager $entityManager;
 
-    public function __construct(private Cycle $cycle)
+    public function __construct()
     {
-        $this->ORM = $this->cycle->orm($this->schema());
+        $this->ORM = Yii::$app->cycle->orm($this->schema());
         $this->entityManager = new EntityManager($this->ORM);
     }
 
@@ -24,6 +25,13 @@ class MappingSchemasRepository
     {
         return $this->ORM
             ->getRepository(MappingSchema::class)
-            ->findOne(['id', $parsingSchemaId]);
+            ->select()
+            ->where('id','=', $parsingSchemaId)
+            ->fetchOne();
+    }
+
+    public function ORM(): ORM
+    {
+        return $this->ORM;
     }
 }

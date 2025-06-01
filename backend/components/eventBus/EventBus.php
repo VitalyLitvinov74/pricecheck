@@ -33,10 +33,10 @@ class EventBus extends Component implements ConsumerInterface
         }
     }
 
-    public function publishEvent(Event $event): void
+    public function publishEvent(string $eventName, array $data): void
     {
         $producer = Yii::$app->rabbitmq->getProducer('events-producer');
-        $producer->publish($data, 'all-events', "router.$eventName");
+        $producer->publish($data, 'all-events', "events.$eventName");
     }
 
     public function handleEvent():void
