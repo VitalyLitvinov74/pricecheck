@@ -47,14 +47,12 @@ trait SchemaTrait
                 Schema::COLUMNS => [
                     'id',
                     'propertyId' => 'property_id',
-                    'propertyName' => 'property_name',
                     'value',
                     'product_id'
                 ],
                 Schema::TYPECAST => [
                     'id' => 'int',
                     'propertyId' => 'int',
-                    'propertyName' => 'string',
                     'value' => 'string',
                 ],
             ],

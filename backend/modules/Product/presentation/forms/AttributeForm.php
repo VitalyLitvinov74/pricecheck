@@ -12,7 +12,6 @@ class AttributeForm extends Model
     public $value;
     public $id;
     public $propertyId;
-    public $propertyName;
 
     public function rules(): array
     {
@@ -29,7 +28,6 @@ class AttributeForm extends Model
                 'skipOnError' => false
             ],
             [['id', 'propertyId'], 'integer'],
-            ['propertyName', 'string', 'strict' => true],
             ['propertyId', 'exist', 'targetClass' => PropertyRecord::class, 'targetAttribute' => 'id']
         ];
     }
@@ -39,7 +37,7 @@ class AttributeForm extends Model
         return [
             Scenarious::Default => ['value', 'propertyId', 'id'],
             Scenarious::CreateProduct => [
-                'value', 'propertyId', 'propertyName'
+                'value', 'propertyId'
             ],
             Scenarious::UpdateProduct => [
                 'id', 'value', 'property'

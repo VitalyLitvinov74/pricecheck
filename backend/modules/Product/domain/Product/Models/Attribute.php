@@ -11,7 +11,6 @@ class Attribute
 
     public function __construct(
         private int $propertyId,
-        private string $propertyName,
         private string $value
     )
     {

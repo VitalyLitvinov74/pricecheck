@@ -15,6 +15,7 @@ $config = [
             'migrationNamespaces' => [
                 'app\migrations\elastic',
                 'app\modules\UserSettings\infrastructure\migrations',
+                'app\modules\Product\infrastructure\migrations',
             ],
         ],
     ],

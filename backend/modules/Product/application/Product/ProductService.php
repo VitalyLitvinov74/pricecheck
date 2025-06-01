@@ -30,7 +30,6 @@ class ProductService
                 function (AttributeDTO $attributeDTO) {
                     return new Attribute(
                         $attributeDTO->propertyId,
-                        $attributeDTO->propertyName,
                         $attributeDTO->value
                     );
                 },

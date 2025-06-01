@@ -48,7 +48,6 @@ class ProductForm extends Model
             }
             $this->attributeDTOs[] = new AttributeDTO(
                 $form->propertyId,
-                $form->propertyName,
                 $form->value,
                 $form->id
             );

@@ -30,25 +30,6 @@ class ProductParsedHandler
             'scenario' => Scenarious::CreateProduct
         ]);
 
-        $propertiesIds = ArrayHelper::getColumn($data['attributes'], 'propertyId');
-        $properties = PropertyRecord::find()
-            ->where(['id' => $propertiesIds])
-            ->asArray()
-            ->all();
-
-        $attributes = [];
-        foreach ($data['attributes'] as $attribute){
-            foreach ($properties as $property){
-                if($property['id'] === $attribute['propertyId']){
-                    $attribute['propertyName'] = $property['name'];
-                    break;
-                }
-            }
-            $attributes[] = $attribute;
-        }
-
-        $data['attributes'] = $attributes;
-
         //Если и должен быть какой то парсинг то только тут.
         $form->load($data);
         if ($form->validate()) {
