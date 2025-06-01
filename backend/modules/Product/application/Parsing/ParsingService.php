@@ -30,9 +30,9 @@ class ParsingService
      * @param string $parsingSchemaId
      * @return void
      */
-    public function parse(string $filePath, string $passedName, string $parsingSchemaId): void
+    public function parse(string $filePath, string $parsingSchemaId): void
     {
-        $document = new Document($filePath, $passedName);
+        $document = new Document($filePath);
         $mappingSchema = $this->mappingSchemasRepository->findBy($parsingSchemaId);
         $cards = $document->parseUse($mappingSchema)->toArray();
 

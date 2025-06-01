@@ -70,7 +70,8 @@ return [
         ],
         'consumers' => [
             [
-                'name' => null,
+                'name' => 'consumer-of-events',
+                'connection' => 'rabbitmq-connection',
                 // Every consumer should define one or more callbacks for corresponding queues
                 'callbacks' => [
                     // queue name => callback class name
@@ -79,4 +80,7 @@ return [
             ],
         ],
     ],
+    'cycle' => [
+        'class' => Cycle::class,
+    ]
 ];

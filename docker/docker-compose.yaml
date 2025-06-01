@@ -4,11 +4,8 @@ services:
     ports:
       - '${PORT}:80'
     volumes:
-      - './reverse_proxy/vhosts:/etc/nginx/vhost.d'
-      - './reverse_proxy/config:/etc/nginx/conf.d'
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - './reverse_proxy/certs:/etc/nginx/certs'
-      - './reverse_proxy/html:/usr/share/nginx/html'
+      - "./reverse_proxy/config/my_custom_proxy_settings.conf:/etc/nginx/conf.d/my_custom_proxy_settings.conf"
     networks:
       - pricecheck
 
