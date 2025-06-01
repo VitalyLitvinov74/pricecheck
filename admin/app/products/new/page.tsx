@@ -14,7 +14,6 @@ export default async function newProduct() {
                 <div className="col-lg-12">
                     <div className="card m-b-30">
                         <Form
-
                             attributesPayload={[]}
                             propertiesPayload={properties}
                             productPayload={product}
