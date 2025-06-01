@@ -55,7 +55,6 @@ export type Product = {
 export type Attribute = {
     id: number
     property_id: number
-    property_name: string
     value: string
     product_id: number
 }

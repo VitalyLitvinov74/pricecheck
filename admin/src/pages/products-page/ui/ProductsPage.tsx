@@ -16,7 +16,6 @@ export function ProductsPage({products, properties}: {
     properties: Property[],
 }) {
     const user = useUserContext();
-    console.log(user);
 
     function productById(id: number): Product & { attributes: Attribute[] } {
         const product = products.find(function (product) {

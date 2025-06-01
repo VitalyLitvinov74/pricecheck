@@ -1,25 +1,26 @@
-import {Attribute, Option} from "../../../shared/types";
+import {Attribute, Option, Property} from "../../../shared/types";
 import {useProductFormContext} from "./Form";
 import Select from "react-select";
 
-export function AttributeInput({attribute}: {
-    attribute: Attribute
+export function AttributeInput({attribute, property}: {
+    attribute: Attribute,
+    property: Property | undefined
 }) {
     const form = useProductFormContext();
 
-    function changeValue(event: Event) {
+    function changeValue(event) {
         form.changeAttribute({...attribute, value: event.target.value.toString()})
     }
 
     function changeProperty(option: Option){
-        form.changeAttribute({...attribute, property_id: option.value, property_name: option.label})
+        form.changeAttribute({...attribute, property_id: option.value})
     }
 
     return (<>
         <div key={attribute.id}>
             <div className="row mt-4">
                 <div className="col-md-6">
-                    <label htmlFor={attribute.id.toString()}>{attribute.property_name}</label>
+                    <label htmlFor={attribute.id.toString()}>{property?.name}</label>
 
                     {/*<div className="invalid-feedback">*/}
                     {/*    Please provide a valid city.*/}

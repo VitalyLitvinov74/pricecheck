@@ -42,7 +42,7 @@ export function Form({propertiesPayload, productPayload, formAction, attributesP
         if (attribute !== null) {
             options = [{
                 value: attribute.property_id,
-                label: attribute.property_name
+                label: findPropertyById(attribute.property_id)?.name
             }, ...options]
         }
         return options;
@@ -65,11 +65,17 @@ export function Form({propertiesPayload, productPayload, formAction, attributesP
         })
     }
 
-    function removeAttribute(attribute): void{
+    function removeAttribute(attribute): void {
         setAttributes(function (prevState) {
             return prevState.filter(function (item) {
                 return item.id !== attribute.id
             })
+        })
+    }
+
+    function findPropertyById(id: number): Property | undefined {
+        return properties.find(function (property) {
+            return property.id === id
         })
     }
 
@@ -101,7 +107,12 @@ export function Form({propertiesPayload, productPayload, formAction, attributesP
                         {attributes.map(
                             function (attribute) {
                                 return <Fragment key={attribute.id}>
-                                    <AttributeInput attribute={attribute}/>
+                                    <AttributeInput
+                                        attribute={attribute}
+                                        property={
+                                            findPropertyById(attribute.property_id)
+                                        }
+                                    />
                                 </Fragment>
                             }
                         )}

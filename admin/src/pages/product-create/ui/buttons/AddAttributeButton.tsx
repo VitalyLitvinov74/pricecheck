@@ -24,7 +24,6 @@ export function AddAttributeButton({properties, attributes, product}: {
             id: uniqNumber(),
             product_id: product.id,
             property_id: property.id,
-            property_name: property.name,
             value: ""
         }
     }
