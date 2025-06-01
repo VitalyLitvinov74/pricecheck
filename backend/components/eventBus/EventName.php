@@ -8,9 +8,10 @@ abstract class EventName
      * @var array{
      *      parsingVersion: string,
      *       attributes: array{
-     *           id: int,
+     *           propertyId: int,
      *           value: string,
      *       }
+     *     }
      */
     const ProductParsedFromFile = 'product.parsed.from.file';
 }

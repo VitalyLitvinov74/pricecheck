@@ -43,7 +43,7 @@ class AttributeForm extends Model
             ],
             Scenarious::UpdateProduct => [
                 'id', 'value', 'property'
-            ]
+            ],
         ];
     }
 

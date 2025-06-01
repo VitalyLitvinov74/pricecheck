@@ -45,7 +45,7 @@ class ParsingService
 
         $document = new Document($filePath);
         $mappingSchema = $this->mappingSchemasRepository->findBy($parsingSchemaId);
-        $cards = $document->parseUse($mappingSchema)->toArray();
+        $cards = $document->parseUse($mappingSchema);
 
         foreach ($cards as $card) {
             $data = $this->serializer->normalize($card);
