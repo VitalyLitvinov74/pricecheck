@@ -41,7 +41,7 @@ return [
         'exchanges' => [
             [
                 'name' => 'all-events',
-                'type' => 'direct'
+                'type' => 'topic'
                 // Refer to Defaults section for all possible options
             ],
         ],
@@ -54,7 +54,7 @@ return [
             [
                 'queue' => 'events',
                 'exchange' => 'all-events',
-                'routing_keys' => ['YOUR_ROUTING_KEY'],
+                'routing_keys' => ['events.#'],
             ],
         ],
         'producers' => [
@@ -70,9 +70,7 @@ return [
             [
                 'name' => 'consumer-of-events',
                 'connection' => 'rabbitmq-connection',
-                // Every consumer should define one or more callbacks for corresponding queues
                 'callbacks' => [
-                    // queue name => callback class name
                     'events' => EventBus::class,
                 ],
             ],
