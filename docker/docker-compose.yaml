@@ -130,6 +130,7 @@ services:
     image: rabbitmq:3-management-alpine
     ports:
       - "15672:15672"
+      - "5672:5672"
     hostname: pricecheck-rabitmq
     environment:
       RABBITMQ_DEFAULT_USER: rmuser
